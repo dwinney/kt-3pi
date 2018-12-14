@@ -1,6 +1,7 @@
-\documentclass[aps,prd,amsmath,amssymb,superscriptaddress,onecolumn,
+\documentclass[10pt, aps,prd,amsmath,amssymb,superscriptaddress,onecolumn,
 nofootinbib,showpacs,preprintnumbers]{revtex4-1}
 
+\bibliographystyle{apsrev4-1.bst}
 \usepackage{hyperref,color,subfigure}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -14,11 +15,10 @@ nofootinbib,showpacs,preprintnumbers]{revtex4-1}
 \usepackage{mathtools}
 \usepackage{xcolor}
 
-\begin{document}
-
 \newcommand{\mand}{\qquad \text{ and } \qquad}
 \newcommand{\Disc}{\text{Disc }}
 
+\begin{document}
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
@@ -26,12 +26,62 @@ nofootinbib,showpacs,preprintnumbers]{revtex4-1}
 \large \textbf{Axial-Vector Meson, \, \(I^G J^{PC} = 1^-1^{++}\)}
 \end{center}
 
-Here we look at the axial vector decay into three pions \(A \to 3\pi\) in the Khuri-Treiman formalism. Greek indices indicate spacetime components and Latin indices represent isospin projections. In the decay physical region of an axial-vector meson :
+Here we look at the axial vector decay into three pions \(A \to 3\pi\) in the Khuri-Treiman formalism. Greek indices indicate spacetime components and Latin indices represent isospin projections.
+In the decay physical region of an axial-vector meson :
 %%
   \begin{equation}
-    A^d(p_A, \lambda) \rightarrow \pi_1^a(p_1) \pi_2^b(p_2) \pi^c_3(p_3).
+    \label{eq:decay-channel}
+    A^d(p_A, \lambda) \rightarrow \pi_1^a(p_1) \pi_2^b(p_2) \pi^c_3(p_3)^2.
   \end{equation}
-More on the isospin decomposition to come. It won't really matter for our purposes and isospin definite amplitudes can be reconstructed after unitarity is imposed.... We just assume the isospin dependence can be entirely factored out.
+We will define invariant Mandelstam variables
+%%
+  \begin{align}
+    s = (p_A - p_3)^2 = (p_1 + p_2)^2 \qquad \text{ and } \qquad t = (p_A - p_1)^2 = (p_3 + p).
+  \end{align}
+%%
+By crossing symmetry, we can relate eq.~\ref{eq:decay-channel} to the \(2\to2\) scattering channel by analytic continuation. The scattering amplitude will in general depend on the isospin projection of all four particles and the helicity of the axial vector meson.
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################
+\section{Isospin Decomposition}
+Because all the particles are isovectors, the isospin decomposition is identical to that of \(\pi\pi\to\pi\pi\), as in \cite{Albaladejo2018}:
+%%
+  \begin{equation}
+    \label{eq:scalar-decomp}
+    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(p_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \, \mathcal{A}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \, \mathcal{A}_\lambda(t,s,u) + \delta_{ad}\delta_{bc} \, \mathcal{A}_\lambda(u,t,s)
+  \end{equation}
+%%
+where the scalar amplitude \(A_\lambda(s,t,u)\) is the scalar helicity amplitude that depends only on kinematic variables and the helicity of the vector meson.
+
+We can build isospin-definite scattering amplitudes by linear combinations of the \(s,t \text{ or } u\) channel such that
+%%
+	\begin{equation}\label{eq:iso-decomp}
+	  \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(p_3)A^d(p_A)} = P^{(0)}_{abcd} \; A^{(0)}(s,t,u) + P^{(1)}_{abcd}  \; A^{(1)}(s,t,u) +  P^{(2)}_{abcd} \; A^{(2)}(s,t,u)
+	\end{equation}
+%%
+with
+%%
+	\begin{equation} \label{eq:projectors}
+	P^{(0)}_{abcd} = \frac{1}{3}\delta_{ab}\delta_{cd},  \quad P^{(1)}_{abcd} = \frac{1}{2}(\delta_{ac}\delta_{bd}-\delta_{ad}\delta_{bc}),  \quad \textrm{and} \quad   P^{(2)}_{abcd} = \frac{1}{2}
+	(\delta_{ac}\delta_{bd} + \delta_{ad}\delta_{bc}) - \frac{1}{3} \delta_{ab}\delta_{cd}.
+	\end{equation}
+%%
+Combining eq.~\ref{eq:iso-decomp} and \ref{eq:projectors} and comparing to eq.~\ref{eq:scalar-decomp}, we get
+%%
+    \begin{align} \label{eq:matrix}
+      \begin{bmatrix}
+      \mathcal{A}_\lambda^{(0)}(s,t,u) \\ \mathcal{A}_\lambda^{(1)} (s,t,u) \\ \mathcal{A}_\lambda^{(2)}(s,t,u)
+      \end{bmatrix}
+    =
+      \begin{bmatrix*}[r]
+        3 & 1 & 1 \\ 	0 & 1 & -1 \\ 0 & 1 & 1
+      \end{bmatrix*}
+      \begin{bmatrix}
+      \mathcal{A}_\lambda(s,t,u) \\ \mathcal{A}_\lambda(t,s,u) \\ \mathcal{A}_\lambda(u,t,s)
+      \end{bmatrix}.
+    \end{align}
+%%
+ Each of these amplitudes will still depend on the helicity, giving us matrix equations that become unwieldy very fast. Additionally, we wish to compare to the ``freed-isobar" partial-wave analysis results from COMPASS \cite{COMPASS-Swave,Krinner:2017vch}, which extracts partial waves with an exclusive \(\pi^-\pi^-\pi^+\) final state. Therefore analysis (i.e. unitarity in section~\ref{sec:unitarity}) of will be done on the total helicity amplitudes and definite-isospin amplitudes can be constructed via eq.~\ref{eq:matrix}.
 %########################################################################################################
 %#########################################################################################################
 %########################################################################################################
@@ -43,12 +93,9 @@ Following \cite{Mikhasenko:2017rkh} We start by writing the matrix element as a 
     \mathcal{A}_\lambda = \sum_{J= 0}^\infty (2J +1) d_{\lambda0}^J(\theta_s) \; a_\lambda^J(s).
   \end{equation}
 %%
-The angular dependence of the decay is described by Wigner-\(d\) functions of the \(s\)-channel scattering angle, \(\theta_s\), if we choose the \(x-z\) plane as the scattering plane (i.e. \(\varphi_s = 0 \) ). We also define invariant variables:
+The angular dependence of the decay is described by Wigner-\(d\) functions of the \(s\)-channel scattering angle, \(\theta_s\), if we choose the \(x-z\) plane as the scattering plane (i.e. \(\varphi_s = 0 \) ).
 %%
-  \begin{align}
-    s = (p_A - p_3)^2 = (p_1 + p_2)^2 \qquad \text{ and } \qquad t = (p_A - p_1)^2 = (p_3 + p).
-  \end{align}
-%%
+\subsection{Kinematic Singularities}
 We wish to factor out all kinematic singularities in \(s\) and \(\theta_s\) from the helicity partial wave and rotational function respectively. First we define the kinematic-free \(d\)-function, denoted with a hat, such that:
 %%
   \begin{equation}
@@ -68,7 +115,7 @@ Here
     \label{eq:momenta}
     q(s) = \frac{\lambda^{1/2}(m_\pi^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_\pi^{1/2}}{2\sqrt{s}} \qquad \text{ and } \qquad k(s) = \frac{\lambda^{1/2}(m_A^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_A^{1/2}}{2\sqrt{s}} ,
   \end{equation}
-with \(\lambda(x,y,z) = x^2 + y^2 + z^2 - 2 (xy + yz + zx)\) is the K\"{a}ll\'{e}n function, are the magnitudes of  the relative momentum between outgoing pions and the incoming pion's momentum respectively. The \((kq)^{J-\lambda}\) term is included to cancel out singularities in \(s\) from the \(d\)-function at threshold and pseudothreshold (see eq. 6.2.9 in \cite{Collins}).
+with \(\lambda(x,y,z) = x^2 + y^2 + z^2 - 2 (xy + yz + zx)\) is the K\"{a}ll\'{e}n function, are the magnitudes of  the relative momentum between outgoing pions and the incoming pion's momentum respectively. The \((kq)^{J-\lambda}\) term is included to cancel out singularities in \(s\) from the \(d\)-function at threshold and pseudo-threshold (see eq. 6.2.9 in \cite{Collins}).
 
 The other kinematic factor, \(K_{\lambda0}\) arise  because near threshold \(\hat{a}_\lambda^J(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(J\) and \(L\) between helicity amplitudes and \(LS\) amplitudes. Near threshold:
 %%
@@ -109,7 +156,7 @@ The sums here have been restricted to only even waves by imposing Bose symmetry,
 We recall that \(\hat{d}_{\lambda 0}(\theta_s)\) and \(\hat{a}_\lambda^J(s)\) are free of any kinematic singularities and the analytic structure therefore is solely dynamical.
 %#########################################################################################################
 %#########################################################################################################
-\subsection{Unitarity}
+\subsection{Khuri-Treiman Equations} \label{sec:unitarity}
 We now make model assumptions to evaluate the helicity amplitudes. First we use the isobar approximation to truncate the infinite sum in eq.~\ref{eq:model-helicity}. To recover some of the high-energy singularity structure we add ``isobar helicity amplitudes" in the cross channel. Note we still need to treat the \(J=0\) term differently.
 %
   \begin{align}
@@ -118,13 +165,13 @@ We now make model assumptions to evaluate the helicity amplitudes. First we use 
     &+\sum_{J=0}^\infty (2J+1) \; \bigg[(k(t)q(t))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta) \, a^J_{\lambda t}(t) + (k(u)q(u))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta_u) \, a^J_{\lambda}(u) \bigg]
   \end{align}
 %
-Now we wish to impose the KT formalism and impose elastic unitarity on each channel. To do this we assume a two pion intermediate state and integrate over the allowed phase space. Unitarity imposes a condition on the discontinuity along the \(s\)-channel cut opening at \(s_{\text{th}} = 4m_\pi^2\) to \(\infty\). Note the condition is on the discontinuity and not simply the imaginary part as in elastic scattering. The discontinuity is not purely imaginary in \(1 \to 3\) processes because of the analytic continuation from the decay channel to the scattering channel.
-%
+Now we wish to impose the KT formalism and impose elastic unitarity on each channel. To do this we assume a two pion intermediate state and integrate over the allowed phase space. Unitarity imposes a condition on the discontinuity along the \(s\)-channel cut opening at \(s_{\text{th}} = 4m_\pi^2\) to \(\infty\). Note the condition is on the discontinuity and not simply the imaginary part as the discontinuity is not purely imaginary in \(1 \to 3\) processes. This is because of the analytic continuation needed to relate the decay channel to the scattering channel.
+%%
   \begin{align}
     \label{eq:unitarity}
     \Disc \mathcal{A}_\lambda(p_A \bar{p}_3 \to p_1 p_2 ) = \int
   \end{align}
-%
+%%
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
@@ -208,7 +255,6 @@ terms in the brackets in eq.~\ref{eq:matching_F} must vanish at these points.
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
-\bibliographystyle{apsrev4-1}
 \bibliography{KT-a1.bib}
 %#########################################################################################################
 %########################################################################################################

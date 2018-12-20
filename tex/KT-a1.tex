@@ -3,17 +3,11 @@ nofootinbib,showpacs,preprintnumbers]{revtex4-1}
 
 \bibliographystyle{apsrev4-1.bst}
 \usepackage{hyperref,color,subfigure}
-\usepackage{amsmath}
-\usepackage{amssymb}
+\usepackage{amsmath,amssymb,physics,mathtools}
 \usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage{dcolumn}
-\usepackage{bm}
-\usepackage{physics}
+\usepackage{lmodern,bm}
+\usepackage{graphicx,dcolumn,tikz,xcolor,xfrac}
 \usepackage{cleveref}
-\usepackage{tikz}
-\usepackage{mathtools}
-\usepackage{xcolor}
 
 \newcommand{\mand}{\qquad \text{ and } \qquad}
 \newcommand{\Disc}{\text{Disc }}
@@ -48,7 +42,7 @@ Because all the particles are isovectors, the isospin decomposition is identical
 %%
   \begin{equation}
     \label{eq:scalar-decomp}
-    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(p_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \, \mathcal{A}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \, \mathcal{A}_\lambda(t,s,u) + \delta_{ad}\delta_{bc} \, \mathcal{A}_\lambda(u,t,s)
+    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \, \mathcal{A}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \, \mathcal{A}_\lambda(t,s,u) + \delta_{ad}\delta_{bc} \, \mathcal{A}_\lambda(u,t,s)
   \end{equation}
 %%
 where the scalar amplitude \(A_\lambda(s,t,u)\) is the scalar helicity amplitude that depends only on kinematic variables and the helicity of the vector meson.
@@ -86,11 +80,11 @@ Combining eq.~\ref{eq:iso-decomp} and \ref{eq:projectors} and comparing to eq.~\
 %#########################################################################################################
 %########################################################################################################
 \section{Helicity Amplitudes}
-Following \cite{Mikhasenko:2017rkh} We start by writing the matrix element as a sum over helicity amplitudes (see eq. 10-5 in~\cite{perl}) by considering the scattering channel \(A(p_A, \lambda) \pi_3(\bar{p}_3) \to  \pi_1(p_1)\pi_2(p_2)\):
+Following \cite{Mikhasenko:2017rkh} We start by writing the matrix element as a sum over helicity amplitudes (see eq. 10-5 in~\cite{perl}) by considering the scattering channel \(A(p_A, \lambda) \pi_3(\overline{p}_3) \to  \pi_1(p_1)\pi_2(p_2)\):
 %%
   \begin{equation}
     \label{eq:helicity}
-    \mathcal{A}_\lambda = \sum_{J= 0}^\infty (2J +1) d_{\lambda0}^J(\theta_s) \; a_\lambda^J(s).
+    \mathcal{A}_\lambda = \sum_{J= 0}^\infty \, (2J +1) \; e^{i\lambda\varphi} \, d_{\lambda0}^J(\theta_s) \; a_\lambda^J(s).
   \end{equation}
 %%
 The angular dependence of the decay is described by Wigner-\(d\) functions of the \(s\)-channel scattering angle, \(\theta_s\), if we choose the \(x-z\) plane as the scattering plane (i.e. \(\varphi_s = 0 \) ).
@@ -100,10 +94,12 @@ We wish to factor out all kinematic singularities in \(s\) and \(\theta_s\) from
 %%
   \begin{equation}
       \label{eq:halfangle}
-      d^J_{\lambda 0} = \hat{d}^J_{\lambda 0} \; \xi_{\lambda 0}(z_s) \quad \text{ where } \quad \xi_{\lambda 0}(z_s) = \bigg( \sqrt{ 1- z_s^2} \bigg)^{|\lambda|}
+      d^J_{\lambda 0}(\theta_s) = \hat{d}^J_{\lambda 0}(\theta_s) \; \xi_{\lambda 0}(z_s) \quad \text{ where } \quad \xi_{\lambda 0}(z_s) = \bigg( \sqrt{ 1- z_s^2} \bigg)^{|\lambda|} \quad \text{ and } \quad \hat{d}^J_{\lambda 0}(\theta_s) = \frac{d^\lambda}{d \, z_s^\lambda} (P_J(z_s))
   \end{equation}
 %%
-where \(\xi_{\lambda 0}\) are the ``half-angle factors" (see eq. 4.4.12 in \cite{Collins}). We similarly factor out singularities in \(s\) by defining:
+where \(\xi_{\lambda 0}\) are the ``half-angle factors" (see eq. 4.4.12 in \cite{Collins}).
+
+We similarly factor out singularities in \(s\) by defining:
 %%
   \begin{equation}
     \label{eq:kinematicfreepartialwave}
@@ -161,15 +157,105 @@ We now make model assumptions to evaluate the helicity amplitudes. First we use 
 %
   \begin{align}
     \label{eq:isobar}
-    \frac{\mathcal{A}_\lambda}{ \xi_{\lambda0}(z_s) \, K_{\lambda 0}(s)} =& \; \sum_{J=0}^\infty (2J+1) \; (k(s)q(s))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta_s) \, a^J_{\lambda}(s) \nonumber  \\
-    &+\sum_{J=0}^\infty (2J+1) \; \bigg[(k(t)q(t))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta) \, a^J_{\lambda t}(t) + (k(u)q(u))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta_u) \, a^J_{\lambda}(u) \bigg]
+    \frac{\mathcal{A}_\lambda}{ s^{\lambda/2} \, \xi_{\lambda0}(z_s) \, K_{\lambda 0}(s)} =& \; \sum_{J=0}^\infty (2J+1) \; (k(s)q(s))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta_s) \, \hat{a}^J_{\lambda}(s) \nonumber  \\
+    &+\sum_{J=0}^\infty (2J+1) \; \bigg[(k(t)q(t))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta_t) \, \hat{a}^J_{\lambda}(t) + (k(u)q(u))^{J-\lambda} \, \hat{d}_{\lambda0}^J(\theta_u) \, \hat{a}^J_{\lambda}(u) \bigg]
   \end{align}
 %
-Now we wish to impose the KT formalism and impose elastic unitarity on each channel. To do this we assume a two pion intermediate state and integrate over the allowed phase space. Unitarity imposes a condition on the discontinuity along the \(s\)-channel cut opening at \(s_{\text{th}} = 4m_\pi^2\) to \(\infty\). Note the condition is on the discontinuity and not simply the imaginary part as the discontinuity is not purely imaginary in \(1 \to 3\) processes. This is because of the analytic continuation needed to relate the decay channel to the scattering channel.
+Now we wish to impose the KT formalism and impose elastic unitarity on each channel. To do this we assume a two pion intermediate state and integrate over the allowed phase space.
+%%
+  \begin{equation}
+    A^d(p_A) \pi^c(\overline{p}_3) \rightarrow \pi^{a^\prime}(q_1)\pi^{b^\prime}(q_2) \to \pi^a(p_1) \pi^b(p_2)
+  \end{equation}
+%%
+ Unitarity imposes a condition on the discontinuity along the \(s\)-channel cut opening at \(s_{\text{th}} = 4m_\pi^2\) to \(\infty\). Note the condition is on the discontinuity and not simply the imaginary part as the discontinuity is not purely imaginary in \(1 \to 3\) processes. This is because of the analytic continuation needed to relate the decay channel to the scattering channel.
+
+The starting point for out KT equations is the unitarity relation for the helicity amplitude
 %%
   \begin{align}
     \label{eq:unitarity}
-    \Disc \mathcal{A}_\lambda(p_A \bar{p}_3 \to p_1 p_2 ) = \int
+    \Disc \mathcal{A}_\lambda(p_A \overline{p}_3 \to p_1 p_2 ) =&\; \frac{\rho(s)}{64 \pi^2} \int d\Omega_s^\prime  \; \tau^*(q_1q_2 \to p_1p_2) \times \mathcal{A}_\lambda(p_A \overline{p}_{3} \to q_1 q_2 ) \nonumber \\
+%%
+    =& \; \frac{\rho(s)}{64 \pi^2} \int d\Omega_s^\prime  \; \tau^*(s,z_s^{\prime\prime}) \times \mathcal{A}_\lambda(s,z_s^{\prime})
+  \end{align}
+%%
+where \(\tau\) is the elastic \(\pi\pi\) scatting amplitude, and the integration is over the angles \(\theta^\prime\) and \(\varphi^\prime\) of the intermediate state momenta. This intermediate frame is related to the initial \(A\pi\) scattering frame (determined by \(\theta\) and \(\varphi = 0\)) by an angle, \(\theta^{\prime\prime}\), given by (see eq. 6.71 in \cite{MS})
+%%
+  \begin{equation}
+    \cos \theta^{\prime\prime} = \cos \theta \cos \theta^\prime + \cos \varphi^\prime \sin\theta \sin \theta^\prime.
+  \end{equation}
+%%
+
+For the elastic pion scattering amplitude we use the standard partial wave decomposition, using \( z_s^{\prime\prime} = \cos \theta_s^{\prime\prime}\),
+%%
+  \begin{align}
+    \label{eq:elastic-pion}
+    \tau^*(s, z_s^{\prime\prime}) =& \; 32 \, \pi \; I^{aba^\prime b^\prime}_{\pi\pi} \sum_{\ell=0  }^\infty \; (2\ell+1) \, P_{\ell}(z_s^{\prime\prime}) \; t_\ell^*(s) \nonumber \\
+%%
+    =& \; 128 \, \pi^2 \; I_{\pi\pi}^{aba^\prime b^\prime} \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell} Y^m_\ell(\theta_s,0) \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \; t_\ell^*(s)
+  \end{align}
+%%
+where \(I_{\pi\pi}\) is an isospin factor that depends on the the isospin projections of the intermediate and final state pions.
+
+First we evaluate the left-hand side of eq.~\ref{eq:unitarity}. Because we assume our kinematic-singularity-free isobar functions, \(\hat{a}_\lambda^J(s)\), only have a right-hand cut associated with unitarity the discontinuity comes only from the \(s\)-channel isobar:
+%%
+  \begin{equation}
+    \label{eq:discontinuity}
+    \Disc \mathcal{A}_\lambda = s^{\lambda/2}\, K_{\lambda 0}(s) \; \sum_{J^\prime} \; (2 J^\prime +1) \; (k(s)q(s))^{J^\prime-\lambda}  \; \xi_{\lambda 0}(z_s)
+    \; \hat{d}^{J^\prime}_{\lambda 0}(\theta_s) \; \Disc \hat{a}_\lambda^{J^\prime}(s).
+  \end{equation}
+%%
+Taking the \(J\)-th partial wave projection we get
+%%
+  \begin{equation}
+    \label{eq:pw-disc}
+    \frac{1}{2} \int_{-1}^1 dz_s \; P^\lambda_{J}(z_s) \; \Disc \mathcal{A}_\lambda =
+    \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \, (2J+1) \, (k(s)q(s))^{J-\lambda} \; \sqrt{\frac{(J+\lambda)!}{(J-
+    \lambda)!}} \bigg] \times \Disc \hat{a}^J_\lambda(s).
+  \end{equation}
+%%
+
+Next we move on to the homogeneous direct channel contribution of the right-hand side of eq.~\ref{eq:unitarity}. Combining eqs.~\ref{eq:isobar} and \ref{eq:elastic-pion} (note we have to be careful about the kinematic singularities we removed from the \(d\)-function in eq.~\ref{eq:halfangle} and \(\varphi^\prime_s \not= 0\) in eq.~\ref{eq:helicity}), the \(s\)-channel part of the integrand in eq.~\ref{eq:unitarity} is given by:
+%%
+  \begin{align}
+      \label{eq:direct-channel-angle}
+     \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi_s^\prime) \times \xi_{\lambda0}(z_s^\prime) \, \hat{d}_{\lambda0}^{J^\prime}(\theta_s^\prime) \, e^{i\lambda \varphi_s^\prime} =&
+     \; \sqrt{\frac{4\pi}{2J^\prime+1}} \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi_s^\prime) \;  Y^\lambda_{J^\prime}(\theta_s^\prime, \varphi_s^\prime) \nonumber \\
+%%
+    =& \;  \sqrt{\frac{4\pi}{2J^\prime+1}} \;  \delta_{m\lambda} \; \delta_{\ell J^\prime}.
+  \end{align}
+%%
+The entire direct-channel contribution then is
+%%
+  \begin{align}
+    2 \; \sum_{J^\prime} \sqrt{\frac{4\pi}{2J^\prime+1}} \, {Y^\lambda_{J^\prime}}(\theta_s,0)& \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J^\prime +1) \; (k(s)q(s))^{J^\prime - \lambda}
+    \bigg[\rho(s) \; t^*_J(s) \; \hat{a}^\lambda_J(s) \bigg ] \nonumber \\
+    =& \;  2\;  \sum_J \sqrt{\frac{(J-\lambda)!}{(J+\lambda)!}} \; P^\lambda_J(z_s) \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J^\prime +1) \; (k(s)q(s))^{J^\prime - \lambda}
+    \bigg[\rho(s) \; t^*_{J^\prime}(s) \; \hat{a}^\lambda_{J^\prime}(s) \bigg ],
+  \end{align}
+%%
+and again taking the \(J\)-th partial wave as in eq.~\ref{eq:pw-disc}, we get the direct-channel contribution:
+%%
+  \begin{equation}
+    \label{eq:pw-direct}
+   \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J+1) \; (k(s)q(s))^{J - \lambda} \;   \sqrt{\frac{(J+\lambda)!}{(J- \lambda)!}} \bigg] \times \rho(s) \; t^*_J(s) \; \hat{a}^\lambda_J(s).
+  \end{equation}
+%%
+
+Finally, in the cross-channels we have the inhomogeneous part of the dispersion relation. The angular integral cannot be done analytically:
+%%
+  \begin{align}
+    \label{eq:cross-channel-angle}
+    I_{\ell \, J^\prime }^{m \, \lambda} = \int d\Omega_s^\prime \;   (k(t^\prime)q(t^\prime))^{J^\prime-\lambda} \;  {Y^m_\ell}^*(\theta_s^\prime, \varphi_s^\prime) \;
+   \xi_{\lambda 0}(z_s^\prime) \, \hat{d}_{\lambda 0}^{J^\prime}(z_t^\prime) \, e^{i\lambda \varphi_t^\prime} \; \hat{a}^{J^\prime}_\lambda(t^\prime)
+  \end{align}
+%%
+where \(t^\prime = t^\prime(s,z_s^\prime)\) and \(z_t^\prime = z_t^\prime(s,z_s^\prime)\). Instead we take the \(J\)-th partial wave right away:
+%%
+  \begin{align}
+    \sum_{\ell, m} \int dz_s \; P^\lambda_J \; Y^m_\ell(\theta_s,0) \; \times& \; \rho(s) \; t_\ell^*(s) \;
+    \bigg[\sum_{J^\prime} \; s^{\lambda/2} \; K_{\lambda 0}(s) \, (2J^\prime +1) \; I_{J^\prime \ell}^{\lambda m}\bigg]
+    \nonumber \\
+    =& \; \sqrt{\frac{1}{\pi (2J+1)} \frac{(J+\lambda)!}{(J-\lambda)!}} \; \rho(s) \; t_J^*(s) \; \bigg[\sum_{J^\prime} \; s^{\lambda/2} \; K_{\lambda 0}(s) \, (2J^\prime +1) \; I_{J \, J^\prime}^{\lambda \, \lambda}\bigg]
   \end{align}
 %%
 %#########################################################################################################
@@ -238,7 +324,7 @@ Comparing eq.~\ref{eq:covariant_zero} with eq.~\ref{eq:helicity} and using eqs.~
 %%
   \begin{equation}
     \label{eq:matching_G}
-    G(s,t,u) =  \; \lambda_A^{1/2}  \, \lambda_\pi^{1/2}  \, s \sum_{J \text{ even}}^\infty (2J+1) \, (k(s)q(s))^{J+1} \,\hat{d}^J_{10}(\theta_s) \, \hat{a}^J_+(s)
+    G(s,t,u) =  \; \lambda_A^{1/2}  \, \lambda_\pi^{1/2}  \, s \sum_{J \text{ even}}^\infty (2J+1) \, (k(s)q(s))^{J-1} \,\hat{d}^J_{10}(\theta_s) \, \hat{a}^J_+(s)
   \end{equation}
 %%
 Matching the other helicity amplitude and using eq.~\ref{eq:matching_G},

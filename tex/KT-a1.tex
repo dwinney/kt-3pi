@@ -87,7 +87,7 @@ Following \cite{Mikhasenko:2017rkh} We start by writing the matrix element as a 
     \mathcal{A}_\lambda = \sum_{J= 0}^\infty \, (2J +1) \; e^{i\lambda\varphi} \, d_{\lambda0}^J(\theta_s) \; a_\lambda^J(s).
   \end{equation}
 %%
-The angular dependence of the decay is described by Wigner-\(d\) functions of the \(s\)-channel scattering angle, \(\theta_s\), if we choose the \(x-z\) plane as the scattering plane (i.e. \(\varphi_s = 0 \) ).
+The angular dependence of the decay is described by Wigner-\(d\) functions of the \(s\)-channel scattering angle, \(\theta_s\), if we choose the \(x-z\) plane as the scattering plane (i.e. \(\varphi = 0 \) ).
 %%
 \subsection{Kinematic Singularities}
 We wish to factor out all kinematic singularities in \(s\) and \(\theta_s\) from the helicity partial wave and rotational function respectively. First we define the kinematic-free \(d\)-function, denoted with a hat, such that:
@@ -191,7 +191,7 @@ For the elastic pion scattering amplitude we use the standard partial wave decom
     \label{eq:elastic-pion}
     \tau^*(s, z_s^{\prime\prime}) =& \; 32 \, \pi \; I^{aba^\prime b^\prime}_{\pi\pi} \sum_{\ell=0  }^\infty \; (2\ell+1) \, P_{\ell}(z_s^{\prime\prime}) \; t_\ell^*(s) \nonumber \\
 %%
-    =& \; 128 \, \pi^2 \; I_{\pi\pi}^{aba^\prime b^\prime} \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell} Y^m_\ell(\theta_s,0) \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \; t_\ell^*(s)
+    =& \; 128 \, \pi^2 \; I_{\pi\pi}^{aba^\prime b^\prime} \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell} (2\ell +1 ) Y^m_\ell(\theta_s,0) \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \; t_\ell^*(s)
   \end{align}
 %%
 where \(I_{\pi\pi}\) is an isospin factor that depends on the the isospin projections of the intermediate and final state pions.
@@ -209,8 +209,8 @@ Taking the \(J\)-th partial wave projection we get
   \begin{equation}
     \label{eq:pw-disc}
     \frac{1}{2} \int_{-1}^1 dz_s \; P^\lambda_{J}(z_s) \; \Disc \mathcal{A}_\lambda =
-    \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \, (2J+1) \, (k(s)q(s))^{J-\lambda} \; \sqrt{\frac{(J+\lambda)!}{(J-
-    \lambda)!}} \bigg] \times \Disc \hat{a}^J_\lambda(s).
+    \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \, (k(s)q(s))^{J-\lambda} \; \frac{(J+\lambda)!}{(J-
+    \lambda)!} \bigg] \times \Disc \hat{a}^J_\lambda(s).
   \end{equation}
 %%
 
@@ -218,18 +218,18 @@ Next we move on to the homogeneous direct channel contribution of the right-hand
 %%
   \begin{align}
       \label{eq:direct-channel-angle}
-     \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi_s^\prime) \times \xi_{\lambda0}(z_s^\prime) \, \hat{d}_{\lambda0}^{J^\prime}(\theta_s^\prime) \, e^{i\lambda \varphi_s^\prime} =&
-     \; \sqrt{\frac{4\pi}{2J^\prime+1}} \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi_s^\prime) \;  Y^\lambda_{J^\prime}(\theta_s^\prime, \varphi_s^\prime) \nonumber \\
+     \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \times \xi_{\lambda0}(z_s^\prime) \, \hat{d}_{\lambda0}^{J^\prime}(\theta_s^\prime) \, e^{i\lambda \varphi^\prime} =&
+     \; \sqrt{\frac{4\pi}{2J^\prime+1}\frac{(J^\prime+\lambda)!}{(J^\prime-\lambda)!}} \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \;  Y^\lambda_{J^\prime}(\theta_s^\prime, \varphi^\prime) \nonumber \\
 %%
-    =& \;  \sqrt{\frac{4\pi}{2J^\prime+1}} \;  \delta_{m\lambda} \; \delta_{\ell J^\prime}.
+    =& \;  \sqrt{\frac{4\pi}{2J^\prime+1}\frac{(J^\prime+\lambda)!}{(J^\prime-\lambda)!}} \;  \delta_{m\lambda} \; \delta_{\ell J^\prime}.
   \end{align}
 %%
 The entire direct-channel contribution then is
 %%
   \begin{align}
-    2 \; \sum_{J^\prime} \sqrt{\frac{4\pi}{2J^\prime+1}} \, {Y^\lambda_{J^\prime}}(\theta_s,0)& \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J^\prime +1) \; (k(s)q(s))^{J^\prime - \lambda}
+    2 \; \sum_{J^\prime} \sqrt{\frac{4\pi}{2J^\prime+1}\frac{(J^\prime+\lambda)!}{(J^\prime-\lambda)!}}& \, {Y^\lambda_{J^\prime}}(\theta_s,0) \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J^\prime +1) \; (k(s)q(s))^{J^\prime - \lambda}
     \bigg[\rho(s) \; t^*_J(s) \; \hat{a}^\lambda_J(s) \bigg ] \nonumber \\
-    =& \;  2\;  \sum_J \sqrt{\frac{(J-\lambda)!}{(J+\lambda)!}} \; P^\lambda_J(z_s) \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J^\prime +1) \; (k(s)q(s))^{J^\prime - \lambda}
+    =& \;  2\;  \sum_J \; P^\lambda_J(z_s) \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J^\prime +1) \; (k(s)q(s))^{J^\prime - \lambda}
     \bigg[\rho(s) \; t^*_{J^\prime}(s) \; \hat{a}^\lambda_{J^\prime}(s) \bigg ],
   \end{align}
 %%
@@ -237,27 +237,53 @@ and again taking the \(J\)-th partial wave as in eq.~\ref{eq:pw-disc}, we get th
 %%
   \begin{equation}
     \label{eq:pw-direct}
-   \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \; (2J+1) \; (k(s)q(s))^{J - \lambda} \;   \sqrt{\frac{(J+\lambda)!}{(J- \lambda)!}} \bigg] \times \rho(s) \; t^*_J(s) \; \hat{a}^\lambda_J(s).
+   \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \; (k(s)q(s))^{J - \lambda} \; \frac{(J+\lambda)!}{(J- \lambda)!} \bigg] \times \rho(s) \; t^*_J(s) \; \hat{a}_\lambda^J(s).
   \end{equation}
 %%
 
 Finally, in the cross-channels we have the inhomogeneous part of the dispersion relation. The angular integral cannot be done analytically:
 %%
   \begin{align}
-    \label{eq:cross-channel-angle}
-    I_{\ell \, J^\prime }^{m \, \lambda} = \int d\Omega_s^\prime \;   (k(t^\prime)q(t^\prime))^{J^\prime-\lambda} \;  {Y^m_\ell}^*(\theta_s^\prime, \varphi_s^\prime) \;
-   \xi_{\lambda 0}(z_s^\prime) \, \hat{d}_{\lambda 0}^{J^\prime}(z_t^\prime) \, e^{i\lambda \varphi_t^\prime} \; \hat{a}^{J^\prime}_\lambda(t^\prime)
+    \label{eq:cross-1}
+  \sum_{J^\prime} (2J^\prime+1) \;&\int d\Omega_s^\prime \;   (k(t^\prime)q(t^\prime))^{J^\prime-\lambda} \;  {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \;
+   \xi_{\lambda 0}(z_s^\prime) \, \hat{d}_{\lambda 0}^{J^\prime}(z_t^\prime) \, e^{i\lambda \varphi^\prime} \; \hat{a}^{J^\prime}_\lambda(t^\prime) \nonumber \\
+%%
+  &= \sum_{J^\prime} \; (2J^\prime +1) \sqrt{\frac{2\ell+1}{4\pi}\frac{(\ell-\lambda)!}{(\ell+\lambda)!}} \;
+  \int dz_s^\prime \; P^\lambda_\ell(z_s^\prime) \, \xi_{\lambda 0}(z_s^\prime)
+  \times (k(t^\prime)q(t^\prime))^{J^\prime-\lambda} \; \hat{d}^{J^\prime}_{\lambda0}(z_t^\prime) \; \hat{a}^{J^\prime}_{\lambda}(t^\prime)
   \end{align}
 %%
-where \(t^\prime = t^\prime(s,z_s^\prime)\) and \(z_t^\prime = z_t^\prime(s,z_s^\prime)\). Instead we take the \(J\)-th partial wave right away:
+where \(t^\prime = t^\prime(s,z_s^\prime)\) and \(z_t^\prime = z_t^\prime(s,z_s^\prime)\). So we take the \(J\)-th partial wave right away. Considering only the prefactors in front of the angular integral of eq.~\ref{eq:cross-1} in eq.~\ref{eq:unitarity}
 %%
   \begin{align}
-    \sum_{\ell, m} \int dz_s \; P^\lambda_J \; Y^m_\ell(\theta_s,0) \; \times& \; \rho(s) \; t_\ell^*(s) \;
-    \bigg[\sum_{J^\prime} \; s^{\lambda/2} \; K_{\lambda 0}(s) \, (2J^\prime +1) \; I_{J^\prime \ell}^{\lambda m}\bigg]
-    \nonumber \\
-    =& \; \sqrt{\frac{1}{\pi (2J+1)} \frac{(J+\lambda)!}{(J-\lambda)!}} \; \rho(s) \; t_J^*(s) \; \bigg[\sum_{J^\prime} \; s^{\lambda/2} \; K_{\lambda 0}(s) \, (2J^\prime +1) \; I_{J \, J^\prime}^{\lambda \, \lambda}\bigg]
+    \label{eq:cross-2}
+     (2\ell+1) \; s^{\lambda/2} \; K_{\lambda 0}(s)  \; \sum_{\ell, m} \bigg [ \int dz_s &\; P^\lambda_J(z_s) \; Y^m_\ell(\theta_s,0) \bigg] \; \times \; \rho(s) \; t_\ell^*(s) \nonumber \\
+    %%
+  =& \; (2J+1) \; \sqrt{\frac{4\pi}{2J+1} \frac{(J+\lambda)!}{(J-\lambda)!}} \;  s^{\lambda/2} \; K_{\lambda 0}(s)  \;\rho(s) \; t_J^*(s) \; \delta_{\lambda m} \; \delta_{J \ell}.
   \end{align}
 %%
+Combining eqs.~\ref{eq:cross-1} and \ref{eq:cross-2}, we get the inhomogeneous contribution:
+%%
+  \begin{align}
+    \label{eq:pw-cross}
+     (2J+1) \; s^{\lambda/2} \; K_{\lambda 0}(s) \times \rho(s) \; t^*_{J}(s) \;
+     \bigg[ \sum_{J^\prime} \, (2J^\prime+1)
+     \int dz_s^\prime \; P^\lambda_J(z_s^\prime) \; \xi_{\lambda 0}(z_s^\prime)
+     \times (k(t^\prime)q(t^\prime))^{J^\prime-\lambda} \; \hat{d}^{J^\prime}_{\lambda0}(z_t^\prime) \; \hat{a}^{J^\prime}_{\lambda}(t^\prime) \bigg]
+  \end{align}
+%%
+
+Thus combining eqs.~\ref{eq:pw-disc},~\ref{eq:pw-direct}, and~\ref{eq:pw-cross} we arrive at the KT equations for the kinematic singularity-free helicity amplitudes (removing the prime on the integrated angle because its the only one):
+%%
+  \begin{align}
+    \label{eq:helicity-kt}
+    \Disc \hat{a}^J_\lambda(s) = \rho(s) \; t^*_{J} \; \bigg[ \; \hat{a}^J_\lambda(s) \;+ \; & (2J+1) \, \frac{(J-\lambda)!}{(J+\lambda)!} \nonumber \\
+    & \times \sum_{J^\prime} \, (2J^\prime+1)
+    \int dz_s \; \frac{P^\lambda_J(z_s) \; \xi_{\lambda 0}(z_s)}{(k(s)q(s))^{J-\lambda}}
+    \times (k(t)q(t))^{J^\prime-\lambda} \; \hat{d}^{J^\prime}_{\lambda0}(z_t) \; \hat{a}^{J^\prime}_{\lambda}(t) \bigg]
+  \end{align}
+%%
+where we recall here, \(\xi_{\lambda 0}(z)\) and \(\hat{d}_{\lambda 0}^J(z)\) are given by eq.~\ref{eq:halfangle}. We note also that since the kinematic factors \(K_{\lambda 0}(s)\) canceled out, eq.~\ref{eq:helicity-kt} is general for any \(\lambda\) and or \(J\) (we do not need to treat \(\lambda=0, J=0\) differently).
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
@@ -336,7 +362,7 @@ Matching the other helicity amplitude and using eq.~\ref{eq:matching_G},
   - \lambda_\pi \, \lambda_A^{1/2} \; (s + m_A^2 - m_\pi^2)\,  z_s \; \hat{d}^J_{10}(\theta_s) \; \hat{a}^J_+(s) \bigg]
   \end{align}
 %%
-Here we recall that \(\hat{a}^J_+\) and \(\hat{a}^J_0\) vanish for odd values of \(J\). We also note that the prefactor in front of \(\hat{a}^J_+(s)\) still has a \(\sqrt{s}\)-type branch cut because \(E_A \propto s^{-1/2}\) and \(z_s \propto s\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_A^{-1}\) term in front of the sum for \(J\geq 1\) poses a problem as it adds two poles at \(s = (m_A^2 \pm m_\pi^2)\). This means our helicity amplitudes are not completely independent of each other as the
+Here we recall that \(\hat{a}^J_+\) and \(\hat{a}^J_0\) vanish for odd values of \(J\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_A^{-1}\) term in front of the sum for \(J\geq 1\) poses a problem as it adds two poles at \(s = (m_A^2 \pm m_\pi^2)\). This means our helicity amplitudes are not completely independent of each other as the
 terms in the brackets in eq.~\ref{eq:matching_F} must vanish at these points.
 %#########################################################################################################
 %#########################################################################################################

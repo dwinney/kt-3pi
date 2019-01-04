@@ -42,11 +42,19 @@ By crossing symmetry, we can relate eq.~\ref{eq:decay-channel} to the \(2\to2\) 
 Because all the particles are isovectors, the isospin decomposition is identical to that of \(\pi\pi\to\pi\pi\), as in \cite{Albaladejo2018}:
 %%
   \begin{equation}
-    \label{eq:scalar-decomp}
-    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}_\lambda(t,s,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}_\lambda(u,t,s)
+    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^c_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^b_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^a_\lambda(s,t,u)
   \end{equation}
 %%
-here however the scalar amplitude \(A_\lambda(s,t,u)\) depends on kinematic variables and additionally the helicity of the vector meson. We note that we have two scalar amplitudes here corresponding to the two unique helicity projections of the axial vector (see section~\ref{sec:kin-singularities}).
+here however the scalar amplitudes \(A^c_\lambda(s,t,u)\) depends on kinematic variables and additionally the helicity of the vector meson and the isospin projection of the pion in the initial state.
+
+Because the different initial state pion projections should be related by crossing, we can relate all three scalar amplitudes in eq.~\ref{eq:scalar-decomp} to a single amplitude, \(\mathcal{A}_\lambda(s,t,u) \equiv \mathcal{A}_\lambda^c(s,t,u)\) by permutations of Mandelstam variables,
+%%
+\begin{equation}
+  \label{eq:scalar-decomp}
+  \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}_\lambda(t,s,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}_\lambda(u,t,s).
+\end{equation}
+%%
+We note that we thus only have two independent scalar amplitudes corresponding to the two unique helicity projections of the axial vector (see section~\ref{sec:kin-singularities}).
 
 We can build isospin-definite scattering amplitudes by linear combinations of the \(s,t \text{ or } u\) channel such that
 %%
@@ -109,7 +117,7 @@ We similarly factor out singularities in \(s\) by defining:
 %%
   \begin{equation}
     \label{eq:kinematicfreepartialwave}
-    a^j_\lambda(s) = s^{\lambda/2} \, (p(s)q(s))^{j - |\lambda|} \, K_{\lambda 0} \; \hat{a}^j_\lambda(s).
+    a^j_\lambda(s) = s^{\lambda/2} \, (p(s)q(s))^{j - |\lambda|} \, K^j_{\lambda 0} \; \hat{a}^j_\lambda(s).
   \end{equation}
 %%
 Here
@@ -119,7 +127,7 @@ Here
   \end{equation}
 with \(\lambda(x,y,z) = x^2 + y^2 + z^2 - 2 (xy + yz + zx)\) is the K\"{a}ll\'{e}n function, are the magnitudes of  the relative momentum between outgoing pions and the incoming pion's momentum respectively. The \((kq)^{j-\lambda}\) term is included to cancel out singularities in \(s\) from the \(d\)-function at threshold and pseudo-threshold (see eq. 6.2.9 in \cite{Collins}).
 
-The other kinematic factor, \(K_{\lambda0}\) arise  because near threshold \(\hat{a}_\lambda^j(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(j\) and \(L\) between helicity amplitudes and \(LS\) amplitudes. Near threshold:
+The other kinematic factor, \(K^j_{\lambda0}\) arise  because near threshold \(\hat{a}_\lambda^j(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(j\) and \(L\) between helicity amplitudes and \(LS\) amplitudes. Near threshold:
 %%
   \begin{gather}
     a^j_\lambda(s) \sim k^{L_i}(s) \, q^{L_f}(s) \times (k(s)q(s))^{j- |\lambda|}
@@ -133,13 +141,13 @@ where \(L_i\) and \(L_f\) are the minimum angular momentum of the initial and fi
       L_i = 1, L_f = 0 &\qquad  \text{ for } \lambda = 0, \;  j  \geq 1 \nonumber
   \end{align}
 %%
-We note that we must treat the \(J=0\) term in eq.~\ref{eq:kinematicfreepartialwave} differently, since it has a different lowest orbital angular momentum possible than \(J\geq 1\). The explicit form for \(K_{\lambda0}\) is given by Table 6.1 in \cite{Collins}:
+We note that we must treat the \(J=0\) term in eq.~\ref{eq:kinematicfreepartialwave} differently, since it has a different lowest orbital angular momentum possible than \(J\geq 1\). The explicit form for \(K^j_{\lambda0}\) is given by Table 6.1 in \cite{Collins}:
 %%
   \begin{align}
     \label{eq:k-factor}
-    K_{00}(s) =& \;  ( 2\sqrt{s} \, k(s))/m_A \qquad \; \, \text{  for } j=0 \nonumber \\
-    K_{00 }(s) =& \; m_A \, ( 2\sqrt{s} \, k(s))^{-1} \qquad \text{for } j\geq 1\\ \nonumber
-    K_{10}(s) =& \; 4 \sqrt{2} \,  s^{3/2} \, k(s) \, q^2(s)  \quad \text{ for} j\geq 0
+    K^j_{00}(s) =& \;  ( 2\sqrt{s} \, k(s))/m_A \qquad \; \, \text{  for } j=0 \nonumber \\
+    K^j_{00 }(s) =& \; m_A \, ( 2\sqrt{s} \, k(s))^{-1} \qquad \text{for } j\geq 1\\ \nonumber
+    K^j_{10}(s) =& \; 4 \sqrt{2} \,  s^{3/2} \, k(s) \, q^2(s)  \quad \text{ for } j\geq 0
   \end{align}
 %%
 which is consistent with eq.~\ref{eq:lilf}.
@@ -149,7 +157,7 @@ We must also incorporate the \(s^{\lambda/2}\) behavior that ensures the Regge p
 The final form for our completely factorized amplitudes in terms of kinematic-singularity-free helicity amplitudes is
 %%
   \begin{equation}
-    \mathcal{A}_\lambda(s,z_s) = s^{\lambda/2} \, \xi_{\lambda0}(z_s) \; K_{\lambda0}(s) \; \sum_{j=0}^\infty (2j+1) \, (k(s)q(s))^{j-\lambda} \; \hat{d}^j_{\lambda0}(\theta_s) \; \hat{a}^j_\lambda(s)
+    \mathcal{A}_\lambda(s,z_s) = s^{\lambda/2} \, \xi_{\lambda0}(z_s) \;  \sum_{j=0}^\infty (2j+1) \, (k(s)q(s))^{j-\lambda} \; \hat{d}^j_{\lambda0}(\theta_s) \; K^j_{\lambda0}(s) \; \hat{a}^j_\lambda(s)
   \end{equation}
 %%
 with care to treat the \(\lambda =0, \;  j=0\) case as discussed above in eq.~\ref{eq:lilf}.
@@ -209,9 +217,13 @@ We now make model assumptions to evaluate the helicity amplitudes. First we use 
 %
   \begin{align}
     \label{eq:isobar}
-    \frac{\mathcal{A}_\lambda(s,z_s)}{ s^{\lambda/2} \, \xi_{\lambda0}(z_s) \, K_{\lambda 0}(s)} =& \; \sum_{j=0}^{j_\text{max}} (2j+1) \; (k(s)q(s))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_s) \, \hat{a}^j_{\lambda}(s)
+    \mathcal{A}_\lambda(s,z_s) =& \;  s^{\lambda/2} \, \xi_{\lambda0}(z_s) \,
+     \sum_{j \text{ even}}^{j_\text{max}} (2j+1) \; (k(s)q(s))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_s) \, K^j_{\lambda0}(s) \;\hat{a}^j_{\lambda}(s)
      \nonumber  \\
-    &+\sum_{j=0}^\jmax (2j+1) \; \bigg[(k(t)q(t))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_t) \, \hat{a}^j_{\lambda}(t) + (k(u)q(u))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_u) \, \hat{a}^j_{\lambda}(u) \bigg]
+    &+  t^{\lambda/2} \, \xi_{\lambda0}(z_t) \,
+     \sum_{j \text{ even}}^\jmax (2j+1) \; (k(t)q(t))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_t) \, K^j_{\lambda0}(t) \;\hat{a}^j_{\lambda}(t) \\
+    &+  u^{\lambda/2} \, \xi_{\lambda0}(z_u) \,
+     \sum_{j \text{ even}}^\jmax (2j+1) \;(k(u)q(u))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_u) \, K^j_{\lambda0}(u) \; \hat{a}^j_{\lambda}(u) \nonumber
   \end{align}
 %
 Now we wish to impose the KT formalism and impose elastic unitarity on each channel. To do this we assume a two pion intermediate state and integrate over the allowed phase space.
@@ -253,8 +265,8 @@ First we evaluate the left-hand side of eq.~\ref{eq:unitarity}. Because we assum
 %%
   \begin{equation}
     \label{eq:discontinuity}
-    \Disc \mathcal{A}_\lambda = s^{\lambda/2}\, K_{\lambda 0}(s) \; \sum_{j^\prime=0}^\jpmax \; (2 j^\prime +1) \; (k(s)q(s))^{j^\prime-\lambda}  \; \xi_{\lambda 0}(z_s)
-    \; \hat{d}^{j^\prime}_{\lambda 0}(\theta_s) \; \Disc \hat{a}_\lambda^{j^\prime}(s).
+    \Disc \mathcal{A}_\lambda = s^{\lambda/2}\, \sum_{j^\prime=0}^\jpmax \; (2 j^\prime +1) \; (k(s)q(s))^{j^\prime-\lambda}  \; \xi_{\lambda 0}(z_s)
+    \; \hat{d}^{j^\prime}_{\lambda 0}(\theta_s) \; K^{j^\prime}_{\lambda0}(s) \; \Disc \hat{a}_\lambda^{j^\prime}(s).
   \end{equation}
 %%
 Taking the \(j\)-th partial wave projection we get
@@ -262,7 +274,7 @@ Taking the \(j\)-th partial wave projection we get
   \begin{equation}
     \label{eq:pw-disc}
     \frac{1}{2} \int_{-1}^1 dz_s \; P^\lambda_{j}(z_s) \; \Disc \mathcal{A}_\lambda =
-    \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \, (k(s)q(s))^{j-\lambda} \; \frac{(j+\lambda)!}{(j-
+    \bigg[ s^{\lambda/2} \, K^j_{\lambda 0}(s) \, (k(s)q(s))^{j-\lambda} \; \frac{(j+\lambda)!}{(j-
     \lambda)!} \bigg] \times \Disc \hat{a}^j_\lambda(s).
   \end{equation}
 %%
@@ -280,9 +292,9 @@ Next we move on to the homogeneous direct channel contribution of the right-hand
 The entire direct-channel contribution then is
 %%
   \begin{align}
-    2 \; \sum_{j^\prime=0}^\jpmax \sqrt{\frac{4\pi}{2j^\prime+1}\frac{(j^\prime+\lambda)!}{(j^\prime-\lambda)!}}& \, {Y^\lambda_{j^\prime}}(\theta_s,0) \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2j^\prime +1) \; (k(s)q(s))^{j^\prime - \lambda}
+    2 \; \sum_{j^\prime=0}^\jpmax \sqrt{\frac{4\pi}{2j^\prime+1}\frac{(j^\prime+\lambda)!}{(j^\prime-\lambda)!}}& \, {Y^\lambda_{j^\prime}}(\theta_s,0) \; s^{\lambda/2} \,  K^{j^\prime}_{\lambda0}(s) \; (2j^\prime +1) \; (k(s)q(s))^{j^\prime - \lambda}
     \bigg[\rho(s) \; t^*_j(s) \; \hat{a}^\lambda_j(s) \bigg ] \nonumber \\
-    =& \;  2\;  \sum_{j^\prime=0}^\jpmax \; P^\lambda_j(z_s) \; s^{\lambda/2} \, K_{\lambda 0}(s) \; (2j^\prime +1) \; (k(s)q(s))^{j^\prime - \lambda}
+    =& \;  2\;  \sum_{j^\prime=0}^\jpmax \; P^\lambda_j(z_s) \; s^{\lambda/2} \, K^{j^\prime}_{\lambda0}(s)  \; (2j^\prime +1) \; (k(s)q(s))^{j^\prime - \lambda}
     \bigg[\rho(s) \; t^*_{j^\prime}(s) \; \hat{a}^\lambda_{j^\prime}(s) \bigg ],
   \end{align}
 %%
@@ -290,7 +302,7 @@ and again taking the \(j\)-th partial wave as in eq.~\ref{eq:pw-disc}, we get th
 %%
   \begin{equation}
     \label{eq:pw-direct}
-   \bigg[ s^{\lambda/2} \, K_{\lambda 0}(s) \; (k(s)q(s))^{j - \lambda} \; \frac{(j+\lambda)!}{(j- \lambda)!} \bigg] \times \rho(s) \; t^*_j(s) \; \hat{a}_\lambda^j(s).
+   \bigg[ s^{\lambda/2} \, K^j_{\lambda 0}(s) \; (k(s)q(s))^{j - \lambda} \; \frac{(j+\lambda)!}{(j- \lambda)!} \bigg] \times \rho(s) \; t^*_j(s) \; \hat{a}_\lambda^j(s).
   \end{equation}
 %%
 
@@ -298,47 +310,51 @@ Finally, in the cross-channels we have the inhomogeneous part of the dispersion 
 %%
   \begin{align}
     \label{eq:cross-1}
-  \sum_{j^\prime} (2j^\prime+1) \;&\int d\Omega_s^\prime \;   (k(t^\prime)q(t^\prime))^{j^\prime-\lambda} \;  {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \;
-   \xi_{\lambda 0}(z_s^\prime) \, \hat{d}_{\lambda 0}^{j^\prime}(z_t^\prime) \, e^{i\lambda \varphi^\prime} \; \hat{a}^{j^\prime}_\lambda(t^\prime) \nonumber \\
+  \sum_{j^\prime} &(2j^\prime+1) \;\int d\Omega_s^\prime \;   (k(t^\prime)q(t^\prime))^{j^\prime-\lambda} \;  {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \;
+    \xi_{\lambda 0}(z_t^\prime) \, \hat{d}_{\lambda 0}^{j^\prime}(z_t^\prime) \, e^{i\lambda \varphi^\prime} \; {t^\prime}^{\lambda/2} \;  K^{j^\prime}_{\lambda0}(t^\prime) \; \hat{a}^{j^\prime}_\lambda(t^\prime) \nonumber \\
 %%
   &= \sum_{j^\prime} \; (2j^\prime +1) \sqrt{\frac{2\ell+1}{4\pi}\frac{(\ell-\lambda)!}{(\ell+\lambda)!}} \;
-  \int dz_s^\prime \; P^\lambda_\ell(z_s^\prime) \, \xi_{\lambda 0}(z_s^\prime)
-  \times (k(t^\prime)q(t^\prime))^{j^\prime-\lambda} \; \hat{d}^{j^\prime}_{\lambda0}(z_t^\prime) \; \hat{a}^{j^\prime}_{\lambda}(t^\prime)
+  \int dz_s^\prime \; P^\lambda_\ell(z_s^\prime) \,
+  \times (k(t^\prime)q(t^\prime))^{j^\prime-\lambda} \;  \xi_{\lambda 0}(z_t^\prime) \; \hat{d}^{j^\prime}_{\lambda0}(z_t^\prime)
+  \; {t^\prime}^{\lambda/2} \; K^{j^\prime}_{\lambda0}(t^\prime) \;\hat{a}^{j^\prime}_{\lambda}(t^\prime)
   \end{align}
 %%
 where \(t^\prime = t^\prime(s,z_s^\prime)\) and \(z_t^\prime = z_t^\prime(s,z_s^\prime)\). So we take the \(j\)-th partial wave right away. Considering only the prefactors in front of the angular integral of eq.~\ref{eq:cross-1} in eq.~\ref{eq:unitarity}
 %%
   \begin{align}
     \label{eq:cross-2}
-     (2\ell+1) \; s^{\lambda/2} \; K_{\lambda 0}(s)  \; \sum_{\ell, m} \bigg [ \int \frac{dz_s}{2} &\; P^\lambda_j(z_s) \; Y^m_\ell(\theta_s,0) \bigg] \; \times \; \rho(s) \; t_\ell^*(s) \nonumber \\
+     (2\ell+1)  \; \sum_{\ell, m} \bigg [ \int \frac{dz_s}{2} &\; P^\lambda_j(z_s) \; Y^m_\ell(\theta_s,0) \bigg] \; \times \; \rho(s) \; t_\ell^*(s)
     %%
-  =& \; \frac{(2j+1)}{2} \; \sqrt{\frac{4\pi}{2j+1} \frac{(j+\lambda)!}{(j-\lambda)!}} \;  s^{\lambda/2} \; K_{\lambda 0}(s)  \;\rho(s) \; t_j^*(s) \; \delta_{\lambda m} \; \delta_{j \ell}.
+  = \; \frac{(2j+1)}{2} \; \sqrt{\frac{4\pi}{2j+1} \frac{(j+\lambda)!}{(j-\lambda)!}} \;\rho(s) \; t_j^*(s) \; \delta_{\lambda m} \; \delta_{j \ell}.
   \end{align}
 %%
 Combining eqs.~\ref{eq:cross-1} and \ref{eq:cross-2}, we get the inhomogeneous contribution:
 %%
   \begin{align}
     \label{eq:pw-cross}
-     2 \, (2j+1) \; s^{\lambda/2} \; K_{\lambda 0}(s) \times \rho(s) \; t^*_{j}(s) \;
-     \bigg[ \sum_{j^\prime=0}^\jpmax \, (2j^\prime+1)
-     \int \frac{dz_s^\prime}{2} \; P^\lambda_j(z_s^\prime) \; \xi_{\lambda 0}(z_s^\prime)
-     \times (k(t^\prime)q(t^\prime))^{j^\prime-\lambda} \; \hat{d}^{j^\prime}_{\lambda0}(z_t^\prime) \; \hat{a}^{j^\prime}_{\lambda}(t^\prime) \bigg]
+     2 \, (2j+1) \;\rho(s) \;  t^*_{j}(s) \;
+      \bigg[ \sum_{j^\prime=0}^\jpmax \, (2j^\prime+1)
+     \int \frac{dz_s^\prime}{2} \; P^\lambda_j(z_s^\prime) \;
+     \times (k(t^\prime)q(t^\prime))^{j^\prime-\lambda}
+      \; \xi_{\lambda 0}(z_t^\prime) \; \hat{d}^{j^\prime}_{\lambda0}(z_t^\prime)
+       \; {t^\prime}^{\lambda/2} \; K^{j^\prime}_{\lambda0}(t^\prime) \; \hat{a}^{j^\prime}_{\lambda}(t^\prime) \bigg]
   \end{align}
 %%
 
 Thus combining eqs.~\ref{eq:pw-disc},~\ref{eq:pw-direct}, and~\ref{eq:pw-cross} we arrive at the KT equations for the kinematic singularity-free helicity amplitudes (removing the prime on the integrated angle because its the only one):
 %%
   \begin{align}
-    \label{eq:helicity-kt}
-    \Disc \hat{a}^j_\lambda(s) = \rho(s) \; t^*_{j}(s) \; \bigg[ \; \hat{a}^j_\lambda(s) \;+ \; & 2\, (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \nonumber \\
+    \Disc \hat{a}^j_\lambda(s) = \rho(s) \; t^*_{j}(s) \; & \bigg[ \; \hat{a}^j_\lambda(s) \;+ \;  2\, (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \nonumber \\
     & \times \; \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
-    \int \frac{dz_s}{2} \; \frac{P^\lambda_j(z_s) \; \xi_{\lambda 0}(z_s)}{(k(s)q(s))^{j-\lambda}}
+    \int \frac{dz_s}{2} \; \frac{{t^\prime}^{\lambda/2}
+    \; K^{j^\prime}_{\lambda0}(t^\prime)}{s^{\lambda/2} \; K^j_{\lambda0}(s)}
+    \frac{P^\lambda_j(z_s) \; \xi_{\lambda 0}(z_t^\prime)}{(k(s)q(s))^{j-\lambda}}
     \times (k(t)q(t))^{j^\prime-\lambda} \; \hat{d}^{j^\prime}_{\lambda0}(z_t) \; \hat{a}^{j^\prime}_{\lambda}(t) \bigg]
   \end{align}
 %%
-where we recall here, \(\xi_{\lambda 0}(z)\) and \(\hat{d}_{\lambda 0}^j(z)\) are given by eq.~\ref{eq:halfangle}. We note also that since the kinematic factors \(K_{\lambda 0}(s)\) canceled out, eq.~\ref{eq:helicity-kt} is general for any \(\lambda\) and \(j\) (we do not need to treat \(\lambda=0, \, j=0\) differently).
+where we recall here, \(\xi_{\lambda 0}(z)\) and \(\hat{d}_{\lambda 0}^j(z)\) are given by eq.~\ref{eq:halfangle}.
 
-We can rewrite eq.~\ref{eq:helicity-kt} in terms of derivatives of Legendre polynomials and the Lorentz-invariant Kibble function, \(\phi\), by defining (with \(\lambda \geq 0\)):
+We can rewrite eq.~\ref{eq:helicity-kt} in terms of derivatives of Legendre polynomials and the Lorentz-covariant Kibble function, \(\phi\), by defining (with \(\lambda \geq 0\)):
 %%
     \begin{equation}
     \tilde{P}_{j}^\lambda(s) = (k(s)q(s))^{j-\lambda} \, \frac{d^\lambda}{{dz_s}^\lambda} (P_j(z_s))
@@ -346,15 +362,23 @@ We can rewrite eq.~\ref{eq:helicity-kt} in terms of derivatives of Legendre poly
     \phi = (2 \sqrt{s} \; \sqrt{1-z_s^2} \;k(s)q(s))^2.
   \end{equation}
 %%
-Then we have for the unitarity relation for the \(J\)-th helicity amplitude of a particle with helicity \(\lambda\),
+Then we write the KT equation for the \(j\)-th partial wave of a particle with helicity \(\lambda\) as:
+%%
+\begin{align}
+  \label{eq:helicity-kt}
+  \Disc \hat{a}^j_\lambda(s) = \rho(s) \; t^*_{j}(s) \, \bigg[ \; \hat{a}^j_\lambda(s) + (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
+  \int dz_s\; R^{jj^\prime}_{\lambda0}(s,z_s) \;
+  \bigg(  \frac{\phi}{4 \, s}\bigg)^\lambda \frac{\tilde{P}^\lambda_j(s) \, \tilde{P}_{j^\prime}^\lambda(t)}{(k(s)q(s))^{2j}} \;  \; \hat{a}^{j^\prime}_\lambda(t)\bigg]
+\end{align}
+%%
+where we've defined the ratio of kinetic factors
 %%
   \begin{equation}
-    \label{eq:final-kt-total}
-    \Disc \hat{a}^j_\lambda(s) = \rho(s) \; t^*_{j}(s) \; \bigg[ \; \hat{a}^j_\lambda(s) + 2 \, (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \;  \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
-    \int \frac{dz_s}{2} \, \bigg(\frac{\phi}{4 \, s}\bigg)^\lambda \frac{\tilde{P}^\lambda_j(s) \, \tilde{P}_{j^\prime}^\lambda(t)}{(k(s)q(s))^{2j}} \;  \; \hat{a}^{j^\prime}_\lambda(t) \bigg]
-    \,.
+    R^{jj^\prime}_{\lambda0}(s,z_s) = \frac{{t}^{\lambda/2}
+    \; K^{j^\prime}_{\lambda0}(t) \; \xi_{\lambda0}(z_t)}{s^{\lambda/2} \; K^j_{\lambda0}(s) \;\xi_{\lambda0}(z_s)},
   \end{equation}
 %%
+with \(t = t(s,z_s)\) and \(z_t = z_t(s,z_s)\). We note that if the decaying particles has natural parity, i.e. \(P = (-1)^J\) such as the \(\phi/\omega\), then the kinematic factors are directly related to the Kibble function and are invariant between frames. Then we have \(R^{jj}_{\lambda0}(s,z_s) = 1\) and we recover eq. 18 in \cite{Danilkin:2014cra} for \(j=1\). We must also take care to remember that the kinematic functions \(K^j_{\lambda0}(x)\) may have different dependences near threshold for \(j < J\).
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
@@ -395,7 +419,7 @@ where now our helicity amplitudes, \(a^{Ij}_{\lambda}(s) \equiv P^{(I)}_{abcd} \
  %%
     \begin{equation}
       \label{eq:model-iso-helicity}
-      \mathcal{A}^{(I)}_\lambda(s,z_s) = s^{\lambda/2} \, \xi_{\lambda0}(z_s) \, K_{\lambda0}(s) \; \sum_{j=0}^\infty (k(s)q(s))^{j-\lambda} \; \hat{d}^j_{\lambda0}(\theta_s) \; \hat{a}^{Ij}_{\lambda}(s)
+      \mathcal{A}^{(I)}_\lambda(s,z_s) = s^{\lambda/2} \, \xi_{\lambda0}(z_s) \, \sum_{j=0}^\infty (k(s)q(s))^{j-\lambda} \; \hat{d}^j_{\lambda0}(\theta_s) \;  K^j_{\lambda0}(s) \; \hat{a}^{Ij}_{\lambda}(s)
       \; ,
     \end{equation}
  %%
@@ -417,8 +441,8 @@ Thus, the KT equation for isospin-definite isobars now reads:
 %%
   \begin{equation}
     \label{eq:final-kt-isospin}
-    \Disc \hat{a}^{Ij}_{\lambda}(s) = \rho(s) \; {t^I_{j}}^*(s) \; \bigg[ \; \hat{a}^{Ij}_{\lambda}(s) + 2 \, (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \;  \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
-    \int \frac{dz_s}{2} \, \bigg(\frac{\phi}{4 \, s}\bigg)^\lambda \frac{\tilde{P}^\lambda_j(s) \, \tilde{P}_{j^\prime}^\lambda(t)}{(k(s)q(s))^{2j}} \;  \; \hat{a}^{Ij^\prime}_{\lambda}(t) \bigg]
+    \Disc \hat{a}^{Ij}_{\lambda}(s) = \rho(s) \; {t^I_{j}}^*(s) \, \bigg[ \; \hat{a}^{Ij}_{\lambda}(s) +  (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \;  \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
+    \int dz_s \, R^{jj^\prime}_{\lambda0}(s,z_s) \bigg(\frac{\phi}{4 \, s}\bigg)^\lambda \frac{\tilde{P}^\lambda_j(s) \, \tilde{P}_{j^\prime}^\lambda(t)}{(k(s)q(s))^{2j}} \, \hat{a}^{Ij^\prime}_{\lambda}(t) \bigg]
     \,.
   \end{equation}
 %%
@@ -467,6 +491,8 @@ and solve using the KT equation, eq.~\ref{eq:final-kt-isospin}.
 %#########################################################################################################
 %#########################################################################################################
 \section{Scalar Amplitudes / Form Factors}
+
+{\color{red} CAUTION: This section hasn't been double checked yet!!}
 
 In this section we relate the helicity amplitudes of the previous section to the form factors of the axial vector meson. Writing amplitudes in terms of covariant structures is in general more process dependent and obtaining equations for the discontinuities is more challenging.
 

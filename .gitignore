@@ -8,3 +8,4 @@
 *.bbl
 tex/KT-a1Notes.bib
 *.synctex.gz
+*.F

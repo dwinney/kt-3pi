@@ -34,7 +34,7 @@ In the decay physical region of an axial-vector meson :
 We will define invariant Mandelstam variables
 %%
   \begin{align}
-    s = (p_A - p_3)^2 = (p_1 + p_2)^2 \qquad \text{ and } \qquad t = (p_A - p_1)^2 = (p_3 + p).
+    s = (p_A - p_3)^2 = (p_1 + p_2)^2 \qquad \text{ and } \qquad t = (p_A - p_1)^2 = (p_2 + p_3).
   \end{align}
 %%
 By crossing symmetry, we can relate eq.~\ref{eq:decay-channel} to the \(2\to2\) scattering channel by analytic continuation. The scattering amplitude will in general depend on the isospin projection of all four particles and the helicity of the axial vector meson.
@@ -42,7 +42,7 @@ By crossing symmetry, we can relate eq.~\ref{eq:decay-channel} to the \(2\to2\) 
 Because all the particles are isovectors, the isospin decomposition is identical to that of \(\pi\pi\to\pi\pi\), as in \cite{Albaladejo2018}:
 %%
   \begin{equation}
-    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^c_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^b_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^a_\lambda(s,t,u)
+    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^c_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^a_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^b_\lambda(s,t,u)
   \end{equation}
 %%
 here however the scalar amplitudes \(A^c_\lambda(s,t,u)\) depends on kinematic variables and additionally the helicity of the vector meson and the isospin projection of the pion in the initial state.
@@ -226,15 +226,21 @@ We now make model assumptions to evaluate the helicity amplitudes. First we use 
      \sum_{j \text{ even}}^\jmax (2j+1) \;(k(u)q(u))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_u) \, K^j_{\lambda0}(u) \; \hat{a}^j_{\lambda}(u) \nonumber
   \end{align}
 %
-Now we wish to impose the KT formalism and impose elastic unitarity on each channel. To do this we assume a two pion intermediate state and integrate over the allowed phase space.
+Now we wish to impose the KT formalism and impose elastic unitarity on each channel. The discontinuity is
 %%
   \begin{equation}
-    A(p_A) \pi(\overline{p}_3) \rightarrow \pi(q_1)\pi(q_2) \to \pi(p_1) \pi(p_2)
+      \Disc \mathcal{A}_\lambda(s,z_s) = \frac{1}{2i} \bigg[ \mathcal{A}_\lambda(s + i\epsilon, z_s) - \mathcal{A}_\lambda(s-i\epsilon,z_s) \bigg],
+  \end{equation}
+%%
+which we compute by assuming the reaction proceeds through a two pion intermediate state and integrating over the allowed two-body phase space, i.e.
+%%
+  \begin{equation}
+    A(p_A) \pi(\overline{p}_3) \rightarrow \pi(q_1)\pi(q_2) \to \pi(p_1) \pi(p_2).
   \end{equation}
 %%
  Unitarity imposes a condition on the discontinuity along the \(s\)-channel cut opening at \(s_{\text{th}} = 4m_\pi^2\) to \(\infty\). Note the condition is on the discontinuity and not simply the imaginary part as the discontinuity is not purely imaginary in \(1 \to 3\) processes. This is because of the analytic continuation needed to relate the decay channel to the scattering channel.
 
-The starting point for out KT equations is the unitarity relation for the helicity amplitude (we will assume exact isospin symmetry for now)
+The starting point for out KT equations is the unitarity relation for the helicity amplitude as in \cite{Danilkin:2014cra} (we will assume exact isospin symmetry for now)
 %%
   \begin{align}
     \label{eq:unitarity}
@@ -243,14 +249,14 @@ The starting point for out KT equations is the unitarity relation for the helici
     =& \; \frac{\rho(s)}{64 \pi^2} \int d\Omega_s^\prime  \; \tau^*(s,z_s^{\prime\prime}) \times \mathcal{A}_\lambda(s,z_s^{\prime})
   \end{align}
 %%
-where \(\tau\) is the elastic \(\pi\pi\) scatting amplitude, and the integration is over the angles \(\theta^\prime\) and \(\varphi^\prime\) of the intermediate state momenta. This intermediate frame is related to the initial \(A\pi\) scattering frame (determined by \(\theta\) and \(\varphi = 0\)) by an angle, \(\theta^{\prime\prime}\), given by (see eq. 6.71 in \cite{MS})
+where \(\tau\) is the elastic \(\pi\pi\) scatting amplitude, \(\rho(s) = \sqrt{1 - 4m_\pi^2/s}\) is the two body intermediate phase space, and the integration is over the angles \(\theta^\prime\) and \(\varphi^\prime\) of the intermediate state momenta. This intermediate frame is related to the initial \(A\pi\) scattering frame (determined by \(\theta\) and \(\varphi = 0\)) by an angle, \(\theta^{\prime\prime}\), given by (see eq. 6.71 in \cite{MS})
 %%
   \begin{equation}
     \cos \theta^{\prime\prime} = \cos \theta \cos \theta^\prime + \cos \varphi^\prime \sin\theta \sin \theta^\prime.
   \end{equation}
 %%
 
-For the elastic pion scattering amplitude we use the standard partial wave decomposition, using \( z_s^{\prime\prime} = \cos \theta_s^{\prime\prime}\),
+For the elastic pion scattering amplitude we use the standard partial wave decomposition (see eq. 16 in \cite{Danilkin:2014cra}), using \( z_s^{\prime\prime} = \cos \theta_s^{\prime\prime}\),
 %%
   \begin{align}
     \label{eq:elastic-pion}
@@ -346,9 +352,9 @@ Thus combining eqs.~\ref{eq:pw-disc},~\ref{eq:pw-direct}, and~\ref{eq:pw-cross} 
   \begin{align}
     \Disc \hat{a}^j_\lambda(s) = \rho(s) \; t^*_{j}(s) \; & \bigg[ \; \hat{a}^j_\lambda(s) \;+ \;  2\, (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \nonumber \\
     & \times \; \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
-    \int \frac{dz_s}{2} \; \frac{{t^\prime}^{\lambda/2}
-    \; K^{j^\prime}_{\lambda0}(t^\prime)}{s^{\lambda/2} \; K^j_{\lambda0}(s)}
-    \frac{P^\lambda_j(z_s) \; \xi_{\lambda 0}(z_t^\prime)}{(k(s)q(s))^{j-\lambda}}
+    \int \frac{dz_s}{2} \; \frac{{t}^{\lambda/2}
+    \; K^{j^\prime}_{\lambda0}(t)}{s^{\lambda/2} \; K^j_{\lambda0}(s)}
+    \frac{P^\lambda_j(z_s) \; \xi_{\lambda 0}(z_t)}{(k(s)q(s))^{j-\lambda}}
     \times (k(t)q(t))^{j^\prime-\lambda} \; \hat{d}^{j^\prime}_{\lambda0}(z_t) \; \hat{a}^{j^\prime}_{\lambda}(t) \bigg]
   \end{align}
 %%

@@ -42,7 +42,7 @@ By crossing symmetry, we can relate eq.~\ref{eq:decay-channel} to the \(2\to2\) 
 Because all the particles are isovectors, the isospin decomposition is identical to that of \(\pi\pi\to\pi\pi\), as in \cite{Albaladejo2018}:
 %%
   \begin{equation}
-    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^c_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^a_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^b_\lambda(s,t,u)
+    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^c_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^a_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^b_\lambda(s,t,u)
   \end{equation}
 %%
 here however the scalar amplitudes \(A^c_\lambda(s,t,u)\) depends on kinematic variables and additionally the helicity of the vector meson and the isospin projection of the pion in the initial state.
@@ -51,7 +51,7 @@ Because the different initial state pion projections should be related by crossi
 %%
 \begin{equation}
   \label{eq:scalar-decomp}
-  \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}_\lambda(t,s,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}_\lambda(u,t,s).
+  \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}_\lambda(s,t,u) + \delta_{ad}\delta_{cb} \; \mathcal{A}_\lambda(t,s,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}_\lambda(u,t,s).
 \end{equation}
 %%
 We note that we thus only have two independent scalar amplitudes corresponding to the two unique helicity projections of the axial vector (see section~\ref{sec:kin-singularities}).
@@ -437,10 +437,10 @@ and all the previous derivation of sections~\ref{sec:kin-singularities} and \ref
     t^*_\ell(s) \rightarrow {t^I_{\ell}}^*(s) \; .
   \end{equation}
 %%
-Here \(t^I_{\ell}(s)\) is the \(\pi\pi\) scattering amplitude of definite isospin to be used in eq.~\ref{eq:elastic-pion}. Since we assume isospin is conserved as in eq.~\ref{eq:iso-decomp}, the two pion intermediate state must also have the same isospin as the initial and final states. These are usually given in terms of phase shifts, \(\delta(s)\), and inelasticities, \(\eta(s)\):
+Here \(t^I_{\ell}(s)\) is the \(\pi\pi\) scattering amplitude of definite isospin to be used in eq.~\ref{eq:elastic-pion}. Since we assume isospin is conserved as in eq.~\ref{eq:iso-decomp}, the two pion intermediate state must also have the same isospin as the initial and final states. These are usually given in terms of phase shifts, \(\delta(s)\), and inelasticities, \(\eta(s)\) as in \cite{Albaladejo2018}:
 %%
   \begin{equation}
-    t^{I}_{\ell}(s) = \frac{\eta^I_\ell(s) \; e^{2i \delta^I_\ell(s)} -1}{2i \; \sigma(s)} \,.
+    t^{I}_{\ell}(s) = \frac{\eta^I_\ell(s) \; e^{2i \delta^I_\ell(s)} -1}{2i \; \rho(s)} \,.
   \end{equation}
 %%
 Thus, the KT equation for isospin-definite isobars now reads:
@@ -498,7 +498,10 @@ and solve using the KT equation, eq.~\ref{eq:final-kt-isospin}.
 %#########################################################################################################
 \section{Scalar Amplitudes / Form Factors}
 
-{\color{red} CAUTION: This section hasn't been double checked yet!!}
+\begin{center}
+  {\color{red} CAUTION: This section hasn't been double checked yet!!}
+\end{center}
+
 
 In this section we relate the helicity amplitudes of the previous section to the form factors of the axial vector meson. Writing amplitudes in terms of covariant structures is in general more process dependent and obtaining equations for the discontinuities is more challenging.
 

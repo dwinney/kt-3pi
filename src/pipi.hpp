@@ -21,7 +21,7 @@
 class amplitude
 {
 protected:
-int qn_J, qn_C, qn_P, qn_I, qn_H;     // quantum numbers
+int qn_J, qn_C, qn_P, qn_I, qn_H;     // set to 600 for error-checking
 
 public:
 void setJPC(int j, int p, int c)
@@ -52,6 +52,7 @@ static const double sthPi, sthK, sthEta; // particle thresholds
 
 pipi();
 pipi(int i);
+void print_I();
 
 double conformal(double s, double s0);
 double elastic_mom( double s, double sth);

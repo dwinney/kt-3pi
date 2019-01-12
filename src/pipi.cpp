@@ -46,6 +46,12 @@ pipi::pipi(int i)
         qn_I = i;
 }
 
+//
+void pipi::print_I()
+{
+        std::cout << " Isospin = " << qn_I << std::endl;
+};
+
 //Returns conformal variable given Mandelstam s and branching point s0.
 double pipi::conformal(double s, double s0)
 {

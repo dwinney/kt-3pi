@@ -12,11 +12,27 @@
 
 #include "pipi.hpp"
 
-class Omnes : pipi
+class omnes : public pipi
 {
 
-double extrap_phase(int l, int iso, double s);
+protected:
+int wave;
 
+private:
+static const double Lambda_phase = 1.3;
+static const double hD = 0.0001;
+
+public:
+omnes() : pipi()
+{
+
+};
+omnes(int i, int j) : pipi(i)
+{
+        wave = j;
+};
+
+double extrap_phase(double s);
 
 };
 #endif

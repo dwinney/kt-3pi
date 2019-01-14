@@ -27,6 +27,7 @@ void omnes::set_eps(int sig, double e)
 void omnes::set_N_omnes(int i)
 {
         N_omnes = i;
+        std::cout << " Number of integration points set to " << N_omnes << "...\n";
 };
 
 // Smoothly extrapolated Phase-shift shift matched at Lambda_phase^2
@@ -45,11 +46,6 @@ double omnes::extrap_phase(double s)
         case 2: {nJ = 2.; break;}
         };
 
-        der = phase_shift(wave, LamSq + hD) - phase_shift(wave, LamSq - hD);
-        der /= 2.*hD;
-
-        a = 3. * pow(nJ*M_PI - match_pnt,2) / (2. * LamSq * der);
-        b = 1. + 3. * (nJ*M_PI - match_pnt) / (2. * LamSq * der);
 
         if  (s <= LamSq)
         {
@@ -57,6 +53,10 @@ double omnes::extrap_phase(double s)
         }
         else
         {
+                der = phase_shift(wave, LamSq + hD) - phase_shift(wave, LamSq - hD);
+                der /= 2.*hD;
+                a = 3. * pow(nJ*M_PI - match_pnt,2) / (2. * LamSq * der);
+                b = 1. + 3. * (nJ*M_PI - match_pnt) / (2. * LamSq * der);
                 result = nJ*M_PI - a / (b + pow(s/LamSq, 1.5));
         }
 
@@ -66,7 +66,6 @@ double omnes::extrap_phase(double s)
 double omnes::kernel(double s, double sp)
 {
         double result;
-
         if ((sign == 0) || (s <= sthPi) || (s > LamSq))
         {
                 result = extrap_phase(sp) / (sp * (sp - s));
@@ -81,11 +80,11 @@ std::complex<double> omnes::eval(double s)
 {
         if (WG_GENERATED == false)
         {
-                double weights[N_omnes], abscissas[N_omnes];
-                gauleg(sthPi, LamSq, abscissas, weights, N_omnes);
-                std::cout << " Generating Gaussian-Legendre Quandrature weight for Omnes function... " << "\n";
+                double weights[N_omnes + 1], abscissas[N_omnes + 1];
+                gauleg(s0, LamSq, abscissas, weights, N_omnes + 1);
+                std::cout << " Generating Gaussian-Legendre Quandrature weights and abscissas... \n ";
 
-                for (int i = 0; i < N_omnes; i++)
+                for (int i = 1; i < N_omnes + 1; i++)
                 {
                         wgt.push_back(weights[i]);
                         abs.push_back(abscissas[i]);
@@ -96,7 +95,7 @@ std::complex<double> omnes::eval(double s)
 
         std::complex<double> result;
         double sum = 0.;
-        double alpha = extrap_phase(s) / M_PI;
+        std::complex<double> alpha = extrap_phase(s) / M_PI;
 
         for (int i = 0; i < N_omnes; i++)
         {
@@ -105,18 +104,17 @@ std::complex<double> omnes::eval(double s)
 
         if (sign == 0)
         {
-                std::cout << "working \n";
-                result = exp( (s/M_PI) * sum / pow(LamSq - s - xi*double(sign)*eps, alpha));
+                result = exp((s/M_PI) * sum) / pow(LamSq - s, alpha);
         }
         else
         {
-                std::cout << "not working \n";
-                result = 0;
+                result = pow(s0, alpha) * pow(std::abs(LamSq * (s - sthPi)), -alpha);
+                result *= exp( (s/ M_PI) * sum);
+                result *= exp(xi * double(sign) * extrap_phase(s));
+                if (std::abs(s - LamSq) < 0.001)
+                {
+                        result *= pow(std::abs(LamSq - s), alpha - (extrap_phase(LamSq) / M_PI));
+                }
         }
         return result;
-};
-
-void omnes::print_wgt()
-{
-        std::cout << wgt.size() << "\n";
 };

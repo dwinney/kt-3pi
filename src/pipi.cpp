@@ -10,6 +10,7 @@
 
 #include "pipi.hpp"
 
+//-----------------------------------------------------------------------------
 const double pipi::conv = (M_PI / 180.);
 
 //Masses
@@ -29,6 +30,7 @@ const double pipi::sthEta = 4.*mEta*mEta;
 const std::complex<double> pipi::xr(1., 0.);
 const std::complex<double> pipi::xi(0., 1.);
 
+//-----------------------------------------------------------------------------
 //Constructor
 pipi::pipi()
 {
@@ -46,12 +48,13 @@ pipi::pipi(int i)
         qn_I = i;
 }
 
-//
+//-----------------------------------------------------------------------------
 void pipi::print_I()
 {
         std::cout << " Isospin = " << qn_I << std::endl;
 };
 
+//-----------------------------------------------------------------------------
 //Returns conformal variable given Mandelstam s and branching point s0.
 double pipi::conformal(double s, double s0)
 {
@@ -59,13 +62,13 @@ double pipi::conformal(double s, double s0)
         double denominator = sqrt(s) + sqrt(s0 - s);
         return numerator/denominator;
 }
-
+//-----------------------------------------------------------------------------
 // Elastic momentum above threshold sth, as a function of s.
 double pipi::elastic_mom( double s, double sth)
 {
         return sqrt(s - sth) / 2.;
 }
-
+//-----------------------------------------------------------------------------
 // Produces the Phase-shift for given Partial Wave as function of s.
 // Based on parameterizations from CFD Set:
 // R. Garcia-Martin, R. Kaminski, J. R. Palaez, J. Ruiz de Elvira, F. J. Yndurain
@@ -356,7 +359,7 @@ double pipi::phase_shift(int l, double s)
 
         }
 }
-
+//-----------------------------------------------------------------------------
 // Produces the Inelasticity for given Partial Wave as a function of s.
 // Based on CFD parameterizations from:
 // R. Garcia-Martin, R. Kaminski, J. R. Palaez, J. Ruiz de Elvira, F. J. Yndurain
@@ -493,8 +496,7 @@ double pipi::inelasticity(int l, double s)
         }
 }
 
-
-
+//-----------------------------------------------------------------------------
 std::complex<double> pipi::GKPRY_partial_wave(int l, double s)
 {
         double delta, eta, k;
@@ -509,7 +511,7 @@ std::complex<double> pipi::GKPRY_partial_wave(int l, double s)
 
         return amp;
 }
-
+//-----------------------------------------------------------------------------
 //Produces Isospin-definite Amplitude
 std::complex<double> pipi::GKPRY_iso_amp(double s, double z)
 {
@@ -541,8 +543,7 @@ std::complex<double> pipi::GKPRY_iso_amp(double s, double z)
         amp *= 32. * M_PI;
         return amp;
 }
-
-
+//-----------------------------------------------------------------------------
 // Legendre Polynomials P_l(x) (up to l = 5)
 double pipi::legendre(int l, double x)
 {

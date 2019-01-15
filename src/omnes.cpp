@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "omnes.hpp"
-
+//-----------------------------------------------------------------------------
 // Set the i epsilon persription for the integration kernal in Omnes function
 // Default is + 1e-9
 void omnes::set_eps(int sig, double e)
@@ -22,14 +22,14 @@ void omnes::set_eps(int sig, double e)
         }
         eps = e;
 };
-
+//-----------------------------------------------------------------------------
 // Set number of Gaussian Quandrature points in evaluating Omnes function
 void omnes::set_N_omnes(int i)
 {
         N_omnes = i;
         std::cout << " Number of integration points set to " << N_omnes << "...\n";
 };
-
+//-----------------------------------------------------------------------------
 // Smoothly extrapolated Phase-shift shift matched at Lambda_phase^2
 // Based off Danilkin et al, phi -> 3pi analysis
 // http://cgl.soic.indiana.edu/jpac/w3pi.php
@@ -62,7 +62,7 @@ double omnes::extrap_phase(double s)
 
         return result;
 };
-
+//-----------------------------------------------------------------------------
 double omnes::kernel(double s, double sp)
 {
         double result;
@@ -75,7 +75,7 @@ double omnes::kernel(double s, double sp)
                 result = (extrap_phase(sp) - extrap_phase(s)) / (sp * (sp - s));
         }
 };
-
+//-----------------------------------------------------------------------------
 std::complex<double> omnes::eval(double s)
 {
         if (WG_GENERATED == false)
@@ -118,3 +118,4 @@ std::complex<double> omnes::eval(double s)
         }
         return result;
 };
+//-----------------------------------------------------------------------------

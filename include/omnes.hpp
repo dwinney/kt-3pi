@@ -1,4 +1,4 @@
-// Functions for Omnes function procedures to solve unitarity integral equations.
+// Functions for Omnes function procedures.
 //
 // Dependencies: pipi, aux_math
 //
@@ -12,6 +12,7 @@
 
 #include "pipi.hpp"
 #include "aux_math.hpp"
+
 //-----------------------------------------------------------------------------
 class omnes : public pipi
 //-----------------------------------------------------------------------------

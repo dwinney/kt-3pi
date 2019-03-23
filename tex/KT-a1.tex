@@ -11,8 +11,14 @@ nofootinbib,showpacs,preprintnumbers]{revtex4-1}
 
 \newcommand{\mand}{\qquad \text{ and } \qquad}
 \newcommand{\jmax}{{j_\text{max}}}
+\newcommand{\lmax}{{\ell_\text{max}}}
+\newcommand{\lpmax}{{l^\prime_\text{max}}}
 \newcommand{\jpmax}{{j^\prime_\text{max}}}
+\newcommand{\Ip}{{I^\prime}}
+\newcommand{\jp}{{j^\prime}}
 \newcommand{\Disc}{\text{Disc }}
+\newcommand{\emp}{{m^\prime}}
+\newcommand{\lamp}{{\lambda^\prime}}
 
 \renewcommand*{\arraystretch}{1.5}
 
@@ -23,7 +29,6 @@ nofootinbib,showpacs,preprintnumbers]{revtex4-1}
 \begin{center}
 \large \textbf{Axial-Vector Meson, \, \(I^G J^{PC} = 1^-1^{++}\)}
 \end{center}
-
 Here we look at the axial vector decay into three pions \(A \to 3\pi\) in the Khuri-Treiman formalism. Greek indices indicate spacetime components and Latin indices represent isospin projections.
 In the decay physical region of an axial-vector meson :
 %%
@@ -31,32 +36,32 @@ In the decay physical region of an axial-vector meson :
     \label{eq:decay-channel}
     A^d(p_A, \lambda) \rightarrow \pi_1^a(p_1)\;  \pi_2^b(p_2) \; \pi^c_3(p_3).
   \end{equation}
-We will define invariant Mandelstam variables
+We define the usual invariant, Mandelstam variables
 %%
   \begin{align}
-    s = (p_A - p_3)^2 = (p_1 + p_2)^2 \qquad \text{ and } \qquad t = (p_A - p_1)^2 = (p_2 + p_3).
+    s = (p_A - p_3)^2,  \qquad \qquad t = (p_A - p_1)^2,  \qquad  \qquad u = (p_A-p_2)^2.
   \end{align}
 %%
-By crossing symmetry, we can relate eq.~\ref{eq:decay-channel} to the \(2\to2\) scattering channel by analytic continuation. The scattering amplitude will in general depend on the isospin projection of all four particles and the helicity of the axial vector meson.
+Using crossing symmetry, we can relate \cref{eq:decay-channel} in the physical decay region to the \(2\to2\) scattering channel by analytic continuing the energy variables. The scattering amplitude will in general depend on the isospin projection of all four particles and the helicity of the axial vector meson.
 
 Because all the particles are isovectors, the isospin decomposition is identical to that of \(\pi\pi\to\pi\pi\), as in \cite{Albaladejo2018}:
 %%
   \begin{equation}
-    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^c_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^a_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^b_\lambda(s,t,u)
+    \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^{c}_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^{a}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^{b}_\lambda(s,t,u)
   \end{equation}
 %%
 here however the scalar amplitudes \(A^c_\lambda(s,t,u)\) depends on kinematic variables and additionally the helicity of the vector meson and the isospin projection of the pion in the initial state.
 
-Because the different initial state pion projections should be related by crossing, we can relate all three scalar amplitudes in eq.~\ref{eq:scalar-decomp} to a single amplitude, \(\mathcal{A}_\lambda(s,t,u) \equiv \mathcal{A}_\lambda^c(s,t,u)\) by permutations of Mandelstam variables,
+Because the different initial state pion projections should be related by crossing, we can relate all three scalar amplitudes in \cref{eq:scalar-decomp} to a single amplitude, \(\mathcal{A}_\lambda(s,t,u) \equiv \mathcal{A}_\lambda^{c}(s,t,u)\) by permutations of Mandelstam variables,
 %%
 \begin{equation}
   \label{eq:scalar-decomp}
   \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}_\lambda(s,t,u) + \delta_{ad}\delta_{cb} \; \mathcal{A}_\lambda(t,s,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}_\lambda(u,t,s).
 \end{equation}
 %%
-We note that we thus only have two independent scalar amplitudes corresponding to the two unique helicity projections of the axial vector (see section~\ref{sec:kin-singularities}).
+We note that we thus only have two independent scalar amplitudes corresponding to the two unique helicity projections of the axial vector (see \cref{sec:kin-singularities}).
 
-We can build isospin-definite scattering amplitudes by linear combinations of the \(s,t \text{ or } u\) channel such that
+We can build isospin-definite scattering amplitudes by linear combinations of the \(s, \; t \text{ or } u\) channel such that
 %%
 	\begin{equation}\label{eq:iso-decomp}
 	  \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(p_3)A^d(p_A)} = P^{(0)}_{abcd} \; A_\lambda^{(0)}(s,t,u) + P^{(1)}_{abcd}  \; A_\lambda^{(1)}(s,t,u) +  P^{(2)}_{abcd} \; A_\lambda^{(2)}(s,t,u)
@@ -69,7 +74,7 @@ with projectors,
 	(\delta_{ac}\delta_{bd} + \delta_{ad}\delta_{bc}) - \frac{1}{3} \delta_{ab}\delta_{cd}.
 	\end{equation}
 %%
-Combining eq.~\ref{eq:iso-decomp} and \ref{eq:projectors} and comparing to eq.~\ref{eq:scalar-decomp}, we get
+Combining\cref{eq:iso-decomp,eq:projectors} and comparing to \cref{eq:scalar-decomp}, we get
 %%
     \begin{align} \label{eq:matrix}
       \begin{bmatrix}
@@ -89,11 +94,11 @@ Combining eq.~\ref{eq:iso-decomp} and \ref{eq:projectors} and comparing to eq.~\
 %#########################################################################################################
 %########################################################################################################
 \section{Helicity Amplitudes}
-Following \cite{Mikhasenko:2017rkh} We start by writing the matrix element as a sum over helicity amplitudes (see eq. 10-5 in~\cite{perl}) by considering the scattering channel \(A(p_A, \lambda) \pi_3(\overline{p}_3) \to  \pi_1(p_1)\pi_2(p_2)\):
+Following \cite{Mikhasenko:2017rkh} We start by writing the matrix element as a sum over \(s\)-channel helicity amplitudes (see eq. 10-5 in~\cite{perl}) by considering the scattering channel \(A(p_A, \lambda) \pi_3(\overline{p}_3) \to  \pi_1(p_1)\pi_2(p_2)\):
 %%
   \begin{equation}
     \label{eq:helicity}
-    \mathcal{A}_\lambda(s,z_s) = \sum_{j= 0}^\infty \, (2j +1) \; e^{i\lambda\varphi} \, d_{\lambda0}^j(\theta_s) \; a_\lambda^j(s).
+    \mathcal{A}_\lambda(s,z_s) = \sum_{j= |\lambda|}^\infty \, (2j +1) \; e^{i\lambda\varphi} \, d_{\lambda0}^j(\theta_s) \; a_{j \lambda}(s).
   \end{equation}
 %%
 The angular dependence of the decay is described by Wigner-\(d\) functions of the \(s\)-channel scattering angle, \(\theta_s\), if we choose the \(x-z\) plane as the scattering plane (i.e. \(\varphi = 0 \) ).
@@ -117,78 +122,106 @@ We similarly factor out singularities in \(s\) by defining:
 %%
   \begin{equation}
     \label{eq:kinematicfreepartialwave}
-    a^j_\lambda(s) = s^{\lambda/2} \, (p(s)q(s))^{j - |\lambda|} \, K^j_{\lambda 0} \; \hat{a}^j_\lambda(s).
+    a^{(s)}_{j\lambda}(s) = s^{\lambda/2} \, (p(s)q(s))^{j - |\lambda|} \, K^j_{\lambda 0} \; \hat{a}_{j\lambda}(s).
   \end{equation}
 %%
 Here
   \begin{equation}
     \label{eq:momenta}
-    q(s) = \frac{\lambda^{1/2}(m_\pi^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_\pi^{1/2}}{2\sqrt{s}} \qquad \text{ and } \qquad k(s) = \frac{\lambda^{1/2}(m_A^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_A^{1/2}}{2\sqrt{s}} ,
+    q(s) = \frac{\lambda^{1/2}(m_\pi^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_\pi^{1/2}}{2\sqrt{s}} \qquad \text{ and } \qquad k(s) = \frac{\lambda^{1/2}(M^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_M^{1/2}}{2\sqrt{s}} ,
   \end{equation}
-with \(\lambda(x,y,z) = x^2 + y^2 + z^2 - 2 (xy + yz + zx)\) is the K\"{a}ll\'{e}n function, are the magnitudes of  the relative momentum between outgoing pions and the incoming pion's momentum respectively. The \((kq)^{j-\lambda}\) term is included to cancel out singularities in \(s\) from the \(d\)-function at threshold and pseudo-threshold (see eq. 6.2.9 in \cite{Collins}).
+with \(\lambda(x,y,z) = x^2 + y^2 + z^2 - 2 (xy + yz + zx)\) is the K\"{a}ll\'{e}n function, are the magnitudes of  the relative momentum between outgoing pions and the incoming pion's momentum respectively. \(M\) is the mass of the decaying particle. The \((kq)^{j-\lambda}\) term is included to cancel out singularities in \(s\) from the \(d\)-function at threshold and pseudo-threshold (see eq. 6.2.9 in \cite{Collins}).
 
-The other kinematic factor, \(K^j_{\lambda0}\) arise  because near threshold \(\hat{a}_\lambda^j(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(j\) and \(L\) between helicity amplitudes and \(LS\) amplitudes. Near threshold:
+The other kinematic factor, \(K^j_{\lambda0}\) arise  because near threshold \(\hat{a}_{j\lambda}(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(j\) and \(L\) between helicity amplitudes and \(LS\) amplitudes (see discussions in \cite{Jackson1968,Franklin1966}). Near threshold:
 %%
   \begin{gather}
-    a^j_\lambda(s) \sim k^{L_i}(s) \, q^{L_f}(s) \times (k(s)q(s))^{j- |\lambda|}
+    a_{j\lambda}(s) \sim k^{L_i}(s) \, q^{L_f}(s) \times (k(s)q(s))^{j- |\lambda|}
   \end{gather}
 %%
 where \(L_i\) and \(L_f\) are the minimum angular momentum of the initial and final states for the given helicity. We have:
 %%
   \begin{align}
-      L_i = 1 , L_f = 2& \qquad  \text{ for } \lambda = 1, \; j \geq 0 \nonumber \\
-      L_i = -1, L_f = 0 &\qquad  \text{ for } \lambda = 0, \; j = 0  \label{eq:lilf} \\
-      L_i = 1, L_f = 0 &\qquad  \text{ for } \lambda = 0, \;  j  \geq 1 \nonumber
+      L_i = -1, L_f = 0 &\qquad  \text{ for } \lambda = 0, \; j = 0   \nonumber \\
+      L_i = 1, L_f = 0 &\qquad  \text{ for } \lambda = 0, \;  j \label{eq:lilf} \geq 1  \\
+        L_i = 1 , L_f = 2& \qquad  \text{ for } \lambda = 1, \; j \geq 0 \nonumber
   \end{align}
 %%
-We note that we must treat the \(J=0\) term in eq.~\ref{eq:kinematicfreepartialwave} differently, since it has a different lowest orbital angular momentum possible than \(J\geq 1\). The explicit form for \(K^j_{\lambda0}\) is given by Table 6.1 in \cite{Collins}:
+We note that we must treat the \(J=0\) term in \cref{eq:kinematicfreepartialwave} differently, since it has a different lowest orbital angular momentum possible than \(J\geq 1\). The explicit form for \(K^j_{\lambda0}\) is given by Table 6.1 in \cite{Collins}:
 %%
   \begin{align}
     \label{eq:k-factor}
-    K^j_{00}(s) =& \;  ( 2\sqrt{s} \, k(s))/m_A \qquad \; \, \text{  for } j=0 \nonumber \\
-    K^j_{00 }(s) =& \; m_A \, ( 2\sqrt{s} \, k(s))^{-1} \qquad \text{for } j\geq 1\\ \nonumber
-    K^j_{10}(s) =& \; 4 \sqrt{2} \,  s^{3/2} \, k(s) \, q^2(s)  \quad \text{ for } j\geq 0
+    K^0_{00}(s) =& \;  ( 2\sqrt{s} \, k(s)) \qquad \qquad \qquad \quad \; \, \;
+    \text{  for } j=0 \nonumber \\
+    K^j_{00 }(s) =& \; ( 2\sqrt{s} \, k(s))^{-1} \qquad \qquad \qquad \quad
+    \text{for } j\geq 1\\ \nonumber
+    K^j_{10}(s) =& \; (2  \sqrt{s} \, q(s))^2  (2  \sqrt{s} \, k(s)) \qquad \; \; \;\text{ for } j\geq 0
   \end{align}
 %%
-which is consistent with eq.~\ref{eq:lilf}.
-
-We must also incorporate the \(s^{\lambda/2}\) behavior that ensures the Regge poles factorize (see eq. 6.4.7 in \cite{Collins}).
-
-The final form for our completely factorized amplitudes in terms of kinematic-singularity-free helicity amplitudes is
+which is consistent with \cref{eq:lilf}. In general, for a particle with quantum numbers \(J^{PC}\) decaying with helicity \(\lambda\) into three pions has
 %%
   \begin{equation}
-    \mathcal{A}_\lambda(s,z_s) = s^{\lambda/2} \, \xi_{\lambda0}(z_s) \;  \sum_{j=0}^\infty (2j+1) \, (k(s)q(s))^{j-\lambda} \; \hat{d}^j_{\lambda0}(\theta_s) \; K^j_{\lambda0}(s) \; \hat{a}^j_\lambda(s)
+    K_{\lambda 0}(s) = (2 \; \sqrt{s} \; k(s))^{|\lambda| + Y_i} \; (2 \; \sqrt{s} \; q(s))^{|\lambda| + Y_f} = \sqrt{\lambda_A}^{|\lambda| + Y_i} \; \sqrt{\lambda_\pi}^{|\lambda| + Y_f}\, .
+  \end{equation}
+%5
+where
+%%
+  \begin{equation}
+    Y_i =  \frac{1}{2} \big[ 1 - (-1)^{|\lambda|}\big] - J \mand Y_f =  \frac{1}{2} \big[ 1 + P (-1)^{J- |\lambda|}]
   \end{equation}
 %%
-with care to treat the \(\lambda =0, \;  j=0\) case as discussed above in eq.~\ref{eq:lilf}.
+
+The fully factorized amplitudes in terms of kinematic-singularity-free helicity amplitudes then takes the form
+%%
+  \begin{equation}
+    \label{eq:helicity-final}
+    \mathcal{A}_\lambda(s,z_s) = s^{-\lambda/2} \, \xi_{\lambda0}(z_s) \;  \sum_{j= |\lambda|}^\infty (2j+1) \, (k(s)q(s))^{j-\lambda} \; \hat{d}^j_{\lambda0}(\theta_s) \; K^j_{\lambda0}(s) \; \hat{a}^{(s)}_{j\lambda}(s)
+  \end{equation}
+%%
+with care to treat the \(\lambda =0, \;  j=0\) case as discussed above in \cref{eq:lilf}. We observe that we can rewrite \cref{eq:helicity-final} as
+%%
+  \begin{equation}
+    \label{eq:kibble-helicity}
+    \mathcal{A}_\lambda(s,z_s) =
+     \sqrt{\phi^{|\lambda|}} \;
+    \sum_{j =  |\lambda|}^\infty
+    \sqrt{\lambda_A^{Y_i} \; \lambda_\pi^{Y_f}} \; (k(s)q(s))^{j - |\lambda|} \times (2j + 1) \; \hat{d}^j_{\lambda0}(\theta_s) \; \hat{a}^{(s)}_{j\lambda}(s)
+  \end{equation}
+%%
+by introducing the Lorentz-covariant Kibble function \(\phi\)
+%%
+  \begin{equation}
+    \phi = (2\sqrt{s} \; \sqrt{1-z_s^2} \; k(s) \, q(s))^2
+    = s \, t \, u - m_\pi^2 \; (M^2 - m_\pi^2)^2 \; .
+  \end{equation}
+%%
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
 \subsection{Parity and Bose Symmetry}
 In general we have \((2J+1)\) helicity amplitudes to consider but we can use parity to reduce this number.
 
-The amplitude must conserve parity, so since the axial-vector meson is even under parity, \( P_A = +1\), and using \(P_\pi = -1\), we can relate \(a_{+1}^j(s) = a_{-1}^j(s)\).
+The amplitude must conserve parity, so since the axial-vector meson is even under parity, \( P_A = +1\), and using \(P_\pi = -1\), we can relate \(a_{j+}^{(s)}(s) = a_{j-}^{(s)}(s)\).
 
-In general, for parity even mesons such as the \(a_1(1260)\), we will have \((J +1)\) helicity amplitudes and parity odd (\(\omega \text{ or } \phi\)) will have \(J\) helicity amplitudes because \(\hat{a}^j_0(s) = 0\). So for our axial vector we only have two independent helicity amplitudes and we choose to consider \(\lambda = 0,\; +1\).
+In general, for parity even mesons such as the \(a_1(1260)\), we will have \((J +1)\) helicity amplitudes and parity odd (\(\omega \text{ or } \phi\)) will have \(J\) helicity amplitudes because \(\hat{a}^{(s)}_{j0}(s) = 0\). So for our axial vector we only have two independent helicity amplitudes and we choose to consider \(\lambda = 0,\; +1\).
 
-We rewrite eq.~\ref{eq:helicity}
+We rewrite \cref{eq:helicity}
 %%
   \begin{align}
     \label{eq:model-helicity-zero}
-    \mathcal{A}_0(s,z_s) &= \frac{1}{K_{00}(s)} \, \hat{a}^0_0(s) + K_{00}(s) \sum_{j = 1}^\infty (2j+1) \, (k(s)q(s))^j \; \hat{d}_{00}^j(\theta_s) \, \hat{a}^j_0(s) \\
+    \mathcal{A}_0(s,z_s) &= \frac{1}{K_{00}(s)} \, \hat{a}_{00}(s) + K_{00}(s) \sum_{j = 1}^\infty (2j+1) \, (k(s)q(s))^j \; \hat{d}_{00}^j(\theta_s) \, \hat{a}_{j0}(s) \\
     \nonumber \\
     \label{eq:model-helicity-plus}
-    \mathcal{A}_+(s,z_s) &= \; \sqrt{s} \; \xi_{10}(z_s) \, K_{10}(s) \sum_{j = 0}^\infty (2j+1) \ (k(s)q(s))^{j-1} \;  \hat{d}_{10}^j(\theta_s) \, \hat{a}^j_+(s) \,.
+    \mathcal{A}_+(s,z_s) &= \frac{ \xi_{10}(z_s) \, K_{10}(s)}{\sqrt{s}} \sum_{j = 1}^\infty (2j+1) \ (k(s)q(s))^{j-1} \;  \hat{d}_{10}^j(\theta_s) \, \hat{a}_{j+}(s) \,.
    \end{align}
 %%
-We recall that \(\hat{d}^j_{\lambda 0}(\theta_s)\) and \(\hat{a}_\lambda^J(s)\) are free of any kinematic singularities and the analytic structure therefore is solely dynamical.
+We recall that \(\hat{d}^j_{\lambda 0}(\theta_s)\) and \(\hat{a}_{j\lambda}(s)\) are free of any kinematic singularities and the analytic structure therefore is solely dynamical.
 
 The sums can be further restricted by imposing Bose symmetry. Because we have identical pions in the final state, the amplitude must be invariant under the interchange \(z_s \to -z_s\) regardless of the helicity of the decaying meson.
 Because \(d^j_{\lambda0}(\theta_s) \propto P^\lambda_j(z_s)\) where these are the associated Legendre polynomials, the amplitudes transform as
 %%
   \begin{equation}
     \label{eq:iso-bose}
-   \mathcal{A}_\lambda(s, -z_s) \propto \sum_{j} (-1)^{j+\lambda} \; \times (2j+1) d^j_{\lambda0}(\theta_s) \; a^j_\lambda(s) \,.
+   \mathcal{A}_\lambda(s, -z_s) \propto \sum_{j} (-1)^{j+\lambda} \; \times (2j+1) d^j_{\lambda0}(\theta_s) \; a_{j\lambda}(s) \,.
   \end{equation}
 %%
 The effect of interchanging pions is discussed in \cite{JACOB1959404}, and should be independent of the helicity of the decaying particle in the initial state.
@@ -198,7 +231,7 @@ The effect of interchanging pions is discussed in \cite{JACOB1959404}, and shoul
     \ket{j \; m ; \pi_1(p_1) \, \pi_2(p_2)} = (-1)^j \; \ket{j \; m; \pi_1(p_2) \, \pi_2(p_1)}.
   \end{equation}
 %%
-Examining eq.~\ref{eq:iso-bose}, the only way for eq.~\ref{eq:pipi-bose} to be satisfied in general is if:
+Examining \cref{eq:iso-bose}, the only way for \cref{eq:pipi-bose} to be satisfied in general is if:
 %%
   \begin{equation}
     \label{eq:helicity-bose}
@@ -206,30 +239,249 @@ Examining eq.~\ref{eq:iso-bose}, the only way for eq.~\ref{eq:pipi-bose} to be s
   \end{equation}
 %%
 this is the Bose symmetry condition for a meson decaying into three pions, (without definite isospin).
-Thus, \(\hat{a}^j_{\lambda}(s) = 0\) unless \(j\) is even and so we can restrict the sum to even values.
+Thus, \(\hat{a}_{j\lambda}(s) = 0\) unless \(j\) is even and so we can restrict the sum to even values.
+ %#######################################)#################################################################
+ %#########################################################################################################
+ %#########################################################################################################
+ \subsection{Covariant Scalar Amplitudes}
+ In this section we relate the helicity amplitudes of the previous section to the form factors of the axial vector meson. Writing amplitudes in terms of covariant structures is in general more process dependent and obtaining equations for the discontinuities is more challenging.
 
- In section~\ref{sec:isospin} we consider imposing definite isospin in the final state \(2\pi\) system.
-%#########################################################################################################
-%#########################################################################################################
-%#########################################################################################################
-\subsection{Khuri-Treiman Equations} \label{sec:unitarity}
-We now make model assumptions to evaluate the helicity amplitudes. First we use the isobar approximation to truncate the infinite sum in eq.~\ref{eq:model-helicity-zero} and~\ref{eq:model-helicity-plus}. To recover some of the high-energy singularity structure we add ``isobar helicity amplitudes" in the cross channel. Note we still need to treat the \(j=0\) term differently.
-%
+   We start by writing out the most general covariant structure, contracting the polarization tensor of the decaying mesons with two independent combinations of the momenta of the pions:
+ %%
+   \begin{equation}
+     \label{eq:covariant}
+     \mathcal{A}_\lambda(s,t,u) = \epsilon_\mu^\lambda(p_A) \, \bigg[ F(s,t,u) \; (p_1 + p_2)^\mu + G(s,t,u) \;  (p_1 - p_2)^\mu \bigg].
+     \end{equation}
+ %%
+ where \(F\) and \(G\) are two independent, Lorentz-scalar amplitudes. The momenta of the pions are \(p_i\), and the axial vector meson, \(A\), has polarization vector \(\epsilon_\mu\) which depends on helicity, \(\lambda\), energy in the center of mass frame, \(E_A\), and momentum \(p_A\):
+ %%
+   \begin{equation}
+     \label{eq:polarization}
+     \epsilon_\mu(p_A, \pm1) = \frac{1}{\sqrt{2}} \big( 0, \mp 1, - i, 0 \big) \qquad \text{ and } \qquad \epsilon_\mu(p_A, 0) = \frac{1}{m_A} \big( p_A, 0, 0, E_A \big).
+     \end{equation}
+ %%
+ We also have
+ %%
+   \begin{gather}
+     \vec{p}_1 = q(s) \; (\sin \theta_s, 0,  -\cos \theta_s) \qquad \qquad \vec{p}_2 = q(s) \; (-\sin \theta_s, 0 , \cos \theta_s ) \\
+     \vec{p}_3 = - \vec{p}_A = k(s) \; (0,0,-1). \nonumber
+   \end{gather}
+ %%
+
+ The  tensor structure in \cref{eq:covariant} highlights the intrinsic Bose symmetry of the reaction, i.e. because we have identical pions in the final states, the total amplitude should be invariant under the the interchange \(t \leftrightarrow u \) or \(p_1 \leftrightarrow p_2\), giving us the relations:
+ %%
+   \begin{equation}
+     F(s,t,u) = F(s,u,t) \qquad \text{ and } \qquad G(s,t,u) = - \, G(s,u,t).
+   \end{equation}
+ %%
+
+ We reiterate that the expression \cref{eq:covariant} defines the helicity, \(\lambda\), in the \(s\)-channel scattering frame, meaning the spin is quantized in the direction of \(p_3\), in the \(A \, \pi_3\) center-of-mass frame.
+ In this frame, we use \cref{eq:momenta,eq:polarization} for \(\lambda = 0 \text{ and } +1 \):
+ %%
+   \begin{align}
+     \label{eq:contract_zero}
+     \epsilon_\mu(p_A,0) \; p_1^\mu &= \frac{E_1}{m_A} \, k(s) + \frac{E_A}{m_A} \,  z_s \, q(s)
+     \qquad \qquad \epsilon_\mu(p_A,+1) \; p_1^\mu = - \frac{1}{\sqrt{2}} \, \sqrt{1 - z_s^2} \; q(s) \nonumber \\
+ %%
+     \epsilon_\mu(p_A,0) \; p_2^\mu &= \frac{E_2}{m_A} \, k(s) - \frac{E_A}{m_A} \,  z_s \, q(s)
+     \qquad \qquad \epsilon_\mu(p_A,+1) \; p_2^\mu =  \frac{1}{\sqrt{2}} \, \sqrt{1 - z_s^2} \; q(s)  \\
+ %%
+     \epsilon_\mu(p_A,0) \; p_3^\mu &= \frac{k(s)}{m_A} \, \big[E_3 + E_A \big]
+     \qquad \qquad \qquad \quad \epsilon_\mu(p_A,+1) \; p_3^\mu = 0 \nonumber
+   \end{align}
+ %%
+ We also have
+ %%
+   \begin{equation}
+     \label{eq:energies}
+     E_1 = E_2 = \frac{\sqrt{s}}{2} \mand E_A = \frac{s + m_A^2 - m_\pi^2}{2 \sqrt{s}}
+   \end{equation}
+ Using \cref{eq:contract_zero} in \cref{eq:covariant}, we get the helicity amplitude in terms of its covariant form factors to directly compare with \cref{eq:helicity}:
+ %%
   \begin{align}
-    \label{eq:isobar}
-    \mathcal{A}_\lambda(s,z_s) =& \;  s^{\lambda/2} \, \xi_{\lambda0}(z_s) \,
-     \sum_{j \text{ even}}^{j_\text{max}} (2j+1) \; (k(s)q(s))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_s) \, K^j_{\lambda0}(s) \;\hat{a}^j_{\lambda}(s)
-     \nonumber  \\
-    &+  t^{\lambda/2} \, \xi_{\lambda0}(z_t) \,
-     \sum_{j \text{ even}}^\jmax (2j+1) \; (k(t)q(t))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_t) \, K^j_{\lambda0}(t) \;\hat{a}^j_{\lambda}(t) \\
-    &+  u^{\lambda/2} \, \xi_{\lambda0}(z_u) \,
-     \sum_{j \text{ even}}^\jmax (2j+1) \;(k(u)q(u))^{j-\lambda} \, \hat{d}_{\lambda0}^j(\theta_u) \, K^j_{\lambda0}(u) \; \hat{a}^j_{\lambda}(u) \nonumber
+   \label{eq:covariant_zero}
+    \mathcal{A}_0 =& \; \frac{\sqrt{s}}{m_A} \, k(s) \; F(s,t,u) + 2 \; \frac{E_A}{m_A} \, z_s \; q(s) \; G(s,t,u) \\
+    \nonumber \\
+    \label{eq:covariant_plus}
+    \mathcal{A}_+ =& \; \sqrt{2} \sqrt{1-z_s^2} \, q(s) \; G(s,t,u).
   \end{align}
-%
-Now we wish to impose the KT formalism and impose elastic unitarity on each channel. The discontinuity is
+ %%
+ Comparing \cref{eq:covariant_zero} with \cref{eq:helicity} and using \cref{eq:halfangle,eq:k-factor}, we can match:
+ %%
+   \begin{equation}
+     \label{eq:matching_G}
+     G(s,t,u) =  4 \sqrt{2} \; s \sum_{j = 1}^\infty (2j+1) \, (k(s)q(s))^{j} \,\hat{d}^j_{10}(\theta_s) \, \hat{a}_{j+}(s)
+   \end{equation}
+ %%
+ Matching the other helicity amplitude and using \cref{eq:matching_G},
+ %%
+   \begin{align}
+     \label{eq:matching_F}
+     F(s,t,u) = \; \hat{a}_{00}(s) + \, \frac{1}{\lambda_A} \sum_{j \text{ even}}^\infty &(2j+1) \, (k(s)\,q(s))^{j} \; \times \nonumber \\
+     &\bigg[ \hat{d}^j_{00}(\theta_s) \; \hat{a}_{j0}(s)
+ %%
+   - 2 \sqrt{2} \; \lambda_\pi^{1/2} \, \lambda_A \; (s + m_A^2 - m_\pi^2)\,  z_s \; \hat{d}^j_{10}(\theta_s) \; \hat{a}_{j+}(s) \bigg]
+   \end{align}
+ %%
+ Here we recall that \(\hat{a}_{j+}\) and \(\hat{a}_{j0}\) vanish for odd values of \(j\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_A^{-1}\) term in front of the sum for \(j\geq 1\) poses a problem as it adds two poles at the pseudo-thresholds: \(s = (m_A^2 \pm m_\pi^2)\).
+ This means our helicity amplitudes are not completely independent of each other at the pseudo-threshold as the terms in the brackets in \cref{eq:matching_F} must vanish at these points as discussed in \cite{Mikhasenko:2017rkh}.
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################
+\section{Isobar Decomposition} \label{sec:isobar-decomp}
+In order to evaluate the helicity amplitudes, use the isobar approximation to truncate the infinite sum in \cref{eq:model-helicity-zero,eq:model-helicity-plus}. To recover some of the high-energy singularity structure we add ``isobar helicity amplitudes" in the cross channel
 %%
   \begin{equation}
-      \Disc \mathcal{A}_\lambda(s,z_s) = \frac{1}{2i} \bigg[ \mathcal{A}_\lambda(s + i\epsilon, z_s) - \mathcal{A}_\lambda(s-i\epsilon,z_s) \bigg],
+    \label{eq:isobar-def}
+    \mathcal{A}_\lambda(s,t,u) = A_\lambda^{(s)}(s,t,u) +  A_\lambda^{(t)}(s,t,u) + A_\lambda^{(u)}(s,t,u) \; .
+  \end{equation}
+%%
+Here each \(A_\lambda^{(x)}\) represents a finite sum of isobar partial waves in the specified scattering channel.
+
+ Because we are considering the decay of a particle with spin, there is additional complications of the helicity being defined in different channels. Evaluating everything in the \(s\)-channel center of mass frame, \(A_\lambda^{(s)}\) is identical to \cref{eq:helicity-final} with the sum truncated at some \(\j_\text{max}\), however the \(t\) and \(u\) channel isobars introduce additional rotational functions.
+ In general we may write (for now ignoring kinematic singularities):
+ %%
+ \begin{align}
+   \label{eq:iso-D-matrix}
+    \mathcal{A}_\lambda(s,t,u) &= \sum_{m} D^{J^*}_{\lambda m}(r_3)
+    \bigg [
+    \sum_{j = 0}^{\jmax} (2j+1) \; d_{\lambda0}^j(\theta_s) \; a_{ j m}^{(s)}(s)
+    \bigg ]
+     \nonumber \\
+    &+ \sum_{m} D^{J^*}_{\lambda m}(r_1) \;
+    \bigg[
+    \sum_{j = 0}^{\jmax} (2j+1) \;d_{m0}^j (\theta_t) \; a_{j m}^{(t)}(t)
+    \bigg]
+    + \sum_{m} D^{J^*}_{\lambda m}(r_2) \;
+    \bigg[
+    \sum_{j = 0}^{\jmax} (-1)^{j + m} \; (2j+1) \;d_{m0}^j(\theta_u) \; a_{j m}^{(u)}(u)
+    \bigg] \; .
+ \end{align}
+ %%
+ The \(D\)-matrix arguments, \(r_i\), denote a rotation by a set of Euler angles, \((\phi_i,\theta_i,\psi_i)\), that take the \(A \, \pi_3\) CM frame (the \(s\)-channel helicity frame) to the \(A \, \pi_i\) CM frame. Since the scattering process is planar, we can in general choose \(\phi_i, \,\psi_i = 0\), with the only transformations between the different helicity frames are boosts and rotation by \(\theta_i\) to align \(p_i\) with the \(z\)-direction (opposite \(p_A\)). We note that the additional Wigner rotation in the \(s\)-channel isobars vanishes because \(\hat{\theta_3} \equiv 0\)
+ in the \(s\)-channel helicity frame.
+
+We can then rewrite \cref{eq:iso-D-matrix} as
+%%
+\begin{align}
+  \label{eq:iso-d-func}
+   \mathcal{A}_\lambda(s,t,u) &= \sum_{j = 0}^{\jmax} (2 j+1) \; d_{\lambda0}^j(\theta_s) \; a_{j \lambda}^{(s)}(s)
+    \nonumber \\
+   &+ \sum_{m} \sum_{j = 0}^{\jmax} (2j+1) \;
+    d^{J}_{\lambda m}(\hat{\theta}_1)
+    \;d_{m0}^j(\theta_t) \; a_{j m}^{(t)}(t)
+    %%
+   + \sum_{m} \sum_{j = 0}^{\jmax} (-1)^{j + m} \; (2j+1) \;
+    d^{J}_{\lambda m}(\hat{\theta}_2)
+    \;d_{m0}^j(\theta_u) \; a_{j m}^{(u)}(u) \; ,
+\end{align}
+%%
+where \(\hat{\theta}_i\) the angle between \(p_3\) and \(p_i\) in the total CM frame \((p_A = 0\)).
+
+Particles with unnatural parity which decay into \(3\pi\) correspond to isovector particles, thus we need to take into account the different isospin projections in which the reaction can resonate.
+We define isospin definite isobars by plugging \cref{eq:iso-d-func} into \cref{eq:matrix} and identifying the \(s\) dependent piece:
+%%
+\begin{align}
+  \begin{bmatrix}
+  a^{(0)}_{j\lambda}(x) \\ a^{(1)}_{j\lambda}(x) \\ a^{(2)}_{j\lambda}(x)
+  \end{bmatrix}
+=
+  \begin{bmatrix*}[r]
+    3 & 1 & 1 \\ 	0 & 1 & -1 \\ 0 & 1 & 1
+  \end{bmatrix*}
+  \begin{bmatrix}
+  a^{(s)}_{j\lambda}(x) \\ a^{(t)}_{j\lambda}(x) \\ a^{(u)}_{j\lambda}(x)
+  \end{bmatrix}.
+\end{align}
+%%
+We note this is the same definition as \cite{Albaladejo2018}, which did not have complication of spin in the \(J^P = 0^-\) case. This is because the interchanges of Mandelstam variables are related to the interchanges of particles by
+%%
+  \begin{equation}
+    s\leftrightarrow  t  \qquad \pi_3 \leftrightarrow \pi_1 \qquad \Rightarrow \qquad \hat{\theta}_1 \to \hat{\theta}_3 = 0 \; ,
+  \end{equation}
+%%
+and thus the sum over helicities for the \(t\)-channel isobars vanishes, \(d_{\lambda m}^J(0) = \delta_{\lambda m} \).
+
+We can then relate \(\mathcal{A}_\lambda(s,t,u)\) to the isobar amplitudes of definite isospin:
+%%
+  \begin{align}
+    \label{eq:tot-from-iso}
+    \mathcal{A}_\lambda(s,t,u) &= \sum_{j = 0}^\jmax
+      (2j + 1) \; d_{\lambda 0}^j(\theta_s) \;
+      \frac{
+     a_{j \lambda}^{(0)}(s) - a_{j \lambda}^{(2)}(s)
+     }{
+     3
+     } \nonumber \\
+     &+ \sum_m \sum_{j=0}^\jmax \; (2j+1)
+     \; d^{J}_{\lambda m}(\hat{\theta}_1) \; d_{m0}^j(\theta_t) \;
+     \frac{
+     a^{(1)}_{j m}(t) + a^{(2)}_{j m}(t)
+     }{
+     2
+     } \\
+     &+ \sum_m \sum_{j=0}^\jmax \; (-1)^{j + m} \; (2j+1)
+     \; d^{J}_{\lambda m}(\hat{\theta}_2) \; d_{m0}^j(\theta_u) \;
+     \frac{
+     a^{(1)}_{jm}(u) + a^{(2)}_{j m}(u)
+     }{
+     2
+     } \, . \nonumber
+  \end{align}
+%%
+We see \cref{eq:tot-from-iso} recovers the \(\pi\pi\) scattering result when \(J = 0\) (c.f. eq. (14) in \cite{Albaladejo2018}).
+
+Similarly, inverting \cref{eq:matrix} and solving for the isospin projected amplitudes we find:
+%5
+  \begin{align}
+    \mathcal{A}^{(I)}_\lambda(s,t,u) &=
+    \sum_{j = 0}^\jmax \; (2j + 1) \; d_{\lambda 0}^j(\theta_s) \; a_{j \lambda}^{(I)}(s) \nonumber \\
+    &+ \sum_{m, \, \Ip} \sum_{j = 0}^\jmax (2j + 1) \; d_{\lambda m}^J(\hat{\theta_1}) \;  d_{m 0}^j(\theta_t) \; a_{j m}^{(\Ip)}(t) \; \frac{1}{2} \, C_{I\Ip} \\
+    &+ \sum_{m, \, \Ip} \sum_{j = 0}^\jmax (2j + 1) \; d_{\lambda m}^J(\hat{\theta_2}) \;  d_{m 0}^j(\theta_u) \;
+     a_{j m}^{(\Ip)}(u) \; (-1)^{I + \lambda + \Ip+  m} \; \frac{1}{2} \, C_{I\Ip} \; .
+  \end{align}
+%%
+\subsection{Comparison with Covariant Formalism}
+%
+In the covariant formalism, we write:
+%%
+  \begin{align}
+    \label{eq:covariant-iso-decomp}
+    \mathcal{A}_\lambda(s,t,u) = \epsilon_\mu^\lambda(p_A) \; \times \; &\bigg[
+     F^{(s)}(s,t,u) \; (p_1 + p_2)^\mu
+     + F^{(t)}(s,t,u) \; (p_3 + p_2)^\mu
+      +F^{(u)}(s,t,u) \; (p_1 + p_3)^\mu \nonumber \\
+    &+ G^{(s)}(s,t,u) \; (p_1 - p_2)^\mu
+    + G^{(t)}(s,t,u) \; (p_3 - p_2)^\mu
+    + G^{(u)}(s,t,u) \; (p_1 - p_3)^\mu \bigg]
+  \end{align}
+%%
+where each \(F^{(x)}(s,t,u)\) and \(G^{(x)}(s,t,u)\) has a form like \cref{eq:matching_F,eq:matching_G} respectively with isobar partial waves in the specific channel.
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################
+\section{Khuri-Treiman Equations} \label{sec:unitarity}
+Now we wish to impose impose elastic unitarity on each channel, via the KT equations.
+We use the discussion in \cref{sec:kin-singularities} to factor out kinematic singularities since the constraint of unitarity is only on the kinematic-singularity-free isobar amplitudes defined by analogue of \cref{eq:kinematicfreepartialwave}.
+%%
+\begin{align}
+  \label{eq:isobar}
+  \mathcal{A}^{(I)}_\lambda&(s,t,u) =
+  s^{|\lambda|/2} \; \xi_{\lambda 0}(z_s) \;
+  \sum_{j = 0}^\jmax \; (2j + 1) \;  (k(s)q(s))^{j - |\lambda|} \;
+  K_{\lambda 0}^j(s) \; \hat{d}_{\lambda 0}^j(\theta_s) \; \hat{a}_{j \lambda}^{(I)}(s) \nonumber \\
+  &+ \sum_{m, \, \Ip} \frac{1}{2} \, C_{I\Ip} \;  d_{\lambda m}^J(\hat{\theta_1}) \times
+  \bigg [t^{|m|/2} \; \xi_{m 0}(z_t) \; \sum_{j = 0}^\jmax (2j + 1) \;
+  (k(t)q(t))^{j - |m|} \; K_{m 0}^j(t) \; \hat{d}_{m 0}^j(\theta_t) \; \hat{a}_{j m}^{(\Ip)}(t) \bigg]  \\
+  &+ \sum_{m, \, \Ip} (-1)^{I + \lambda + \Ip + m} \; \frac{1}{2} \, C_{I\Ip} \;  d_{\lambda m}^J(\hat{\theta_2}) \times
+  \bigg [u^{|m|/2} \; \xi_{m 0}(z_u) \; \sum_{j = 0}^\jmax (2j + 1) \;
+  (k(u)q(u))^{j - |m|} \; K_{m 0}^j(u) \; \hat{d}_{m 0}^j(\theta_u) \; \hat{a}_{j m}^{(\Ip)}(u) \bigg]  \nonumber
+\end{align}
+%%
+Unitarity imposes a condition on the analytic structure in the complex \(s\)-plane. We assume that the isobar amplitudes only have a right-hand cut from \(s_\text{th} = 4m_\pi^2\) to \(\infty\) associated by the threshold opening of the \(\pi\pi\) final state. Unitarity tells us the discontinuity across this cut is
+%%
+  \begin{equation}
+      \Disc \mathcal{A}^{(I)}_\lambda(s,z_s) = \frac{1}{2i} \bigg[ \mathcal{A}^{(I)}_\lambda(s + i\epsilon, z_s) - \mathcal{A}^{(I)}_\lambda(s-i\epsilon,z_s) \bigg],
   \end{equation}
 %%
 which we compute by assuming the reaction proceeds through a two pion intermediate state and integrating over the allowed two-body phase space, i.e.
@@ -238,18 +490,18 @@ which we compute by assuming the reaction proceeds through a two pion intermedia
     A(p_A) \pi(\overline{p}_3) \rightarrow \pi(q_1)\pi(q_2) \to \pi(p_1) \pi(p_2).
   \end{equation}
 %%
- Unitarity imposes a condition on the discontinuity along the \(s\)-channel cut opening at \(s_{\text{th}} = 4m_\pi^2\) to \(\infty\). Note the condition is on the discontinuity and not simply the imaginary part as the discontinuity is not purely imaginary in \(1 \to 3\) processes. This is because of the analytic continuation needed to relate the decay channel to the scattering channel.
+Note the condition is on the discontinuity and not simply the imaginary part as the discontinuity is not purely imaginary in \(1 \to 3\) processes.
 
-The starting point for out KT equations is the unitarity relation for the helicity amplitude as in \cite{Danilkin:2014cra} (we will assume exact isospin symmetry for now)
+The starting point for out KT equations is the unitarity relation for the helicity amplitude as in \cite{Danilkin:2014cra}
 %%
   \begin{align}
     \label{eq:unitarity}
-    \Disc \mathcal{A}_\lambda(p_A \overline{p}_3 \to p_1 p_2 ) =&\; \frac{\rho(s)}{64 \pi^2} \int d\Omega_s^\prime  \; \tau^*(q_1q_2 \to p_1p_2) \times \mathcal{A}_\lambda(p_A \overline{p}_{3} \to q_1 q_2 ) \nonumber \\
+    \Disc \mathcal{A}^{(I)}_\lambda(p_A \overline{p}_3 \to p_1 p_2 ) =&\; \frac{\rho(s)}{64 \pi^2} \int d\Omega_s^\prime  \; {\mathcal{T}}^{(I)^*}(q_1q_2 \to p_1p_2) \times \mathcal{A}^{(I)}_\lambda(p_A \overline{p}_{3} \to q_1 q_2 ) \nonumber \\
 %%
-    =& \; \frac{\rho(s)}{64 \pi^2} \int d\Omega_s^\prime  \; \tau^*(s,z_s^{\prime\prime}) \times \mathcal{A}_\lambda(s,z_s^{\prime})
+    =& \; \frac{\rho(s)}{64 \pi^2} \int d\Omega_s^\prime  \; {\mathcal{T}}^{(I)^*}(s,z_s^{\prime\prime}) \times \mathcal{A}^{(I)}_\lambda(s,z_s^{\prime})
   \end{align}
 %%
-where \(\tau\) is the elastic \(\pi\pi\) scatting amplitude, \(\rho(s) = \sqrt{1 - 4m_\pi^2/s}\) is the two body intermediate phase space, and the integration is over the angles \(\theta^\prime\) and \(\varphi^\prime\) of the intermediate state momenta. This intermediate frame is related to the initial \(A\pi\) scattering frame (determined by \(\theta\) and \(\varphi = 0\)) by an angle, \(\theta^{\prime\prime}\), given by (see eq. 6.71 in \cite{MS})
+where \({\tau^{(I)}}\) is the elastic \(\pi\pi\) scatting amplitude with definite isospin-\(I\), \(\rho(s) = \sqrt{1 - 4m_\pi^2/s}\) is the two body intermediate phase space, and the integration is over the angles \(\theta^\prime\) and \(\varphi^\prime\) of the intermediate state momenta. This intermediate frame is related to the initial \(A\pi\) scattering frame (determined by \(\theta\) and \(\varphi = 0\)) by an angle, \(\theta^{\prime\prime}\), given by (see eq. 6.71 in \cite{MS})
 %%
   \begin{equation}
     \cos \theta^{\prime\prime} = \cos \theta \cos \theta^\prime + \cos \varphi^\prime \sin\theta \sin \theta^\prime.
@@ -260,32 +512,32 @@ For the elastic pion scattering amplitude we use the standard partial wave decom
 %%
   \begin{align}
     \label{eq:elastic-pion}
-    \tau^*(s, z_s^{\prime\prime}) =& \; 32 \, \pi \sum_{\ell=0  }^\infty \; (2\ell+1) \, P_{\ell}(z_s^{\prime\prime}) \; t_\ell^*(s) \nonumber \\
+    \mathcal{T}^{(I)}(s, z_s^{\prime\prime}) =& \; 32 \, \pi \sum_{\ell=0  }^\infty \; (2\ell+1) \, P_{\ell}(z_s^{\prime\prime}) \; \tau_\ell^{(I)}(s) \nonumber \\
 %%
-    =& \; 128 \, \pi^2 \; \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell} (2\ell +1 ) Y^m_\ell(\theta_s,0) \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \; t_\ell^*(s),
+    =& \; 128 \, \pi^2 \; \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell} (2\ell +1 ) Y^m_\ell(\theta_s,0) \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \; \tau_\ell^{(I)}(s) \; .
   \end{align}
 %%
-since we are using the full helicity amplitudes (no definite isospin projected out) we use the total \(\pi\pi\) scattering amplitude as well.
 
-First we evaluate the left-hand side of eq.~\ref{eq:unitarity}. Because we assume our kinematic-singularity-free isobar functions, \(\hat{a}_\lambda^j(s)\), only have a right-hand cut associated with unitarity the discontinuity comes only from the \(s\)-channel isobar:
+First we evaluate the left-hand side of \cref{eq:unitarity}. Because we assume our kinematic-singularity-free isobar functions, \(\hat{a}^{(I)}_{j \lambda}(s)\), only have a right-hand cut associated with unitarity the discontinuity comes only from the \(s\)-channel isobar:
 %%
   \begin{equation}
     \label{eq:discontinuity}
-    \Disc \mathcal{A}_\lambda = s^{\lambda/2}\, \sum_{j^\prime=0}^\jpmax \; (2 j^\prime +1) \; (k(s)q(s))^{j^\prime-\lambda}  \; \xi_{\lambda 0}(z_s)
-    \; \hat{d}^{j^\prime}_{\lambda 0}(\theta_s) \; K^{j^\prime}_{\lambda0}(s) \; \Disc \hat{a}_\lambda^{j^\prime}(s).
+    \Disc \mathcal{A}^{(I)}_\lamp = s^{\lamp/2}\, \sum_{j^\prime=0}^\jpmax \; (2 j^\prime +1) \; (k(s)q(s))^{j^\prime-\lamp}  \; \xi_{\lamp 0}(z_s)
+    \; \hat{d}^{j^\prime}_{\lamp 0}(\theta_s) \; K^{j^\prime}_{\lamp0}(s) \; \Disc \hat{a}^{(I)}_{\jp \lamp}(s).
   \end{equation}
 %%
 Taking the \(j\)-th partial wave projection we get
 %%
   \begin{equation}
     \label{eq:pw-disc}
-    \frac{1}{2} \int_{-1}^1 dz_s \; P^\lambda_{j}(z_s) \; \Disc \mathcal{A}_\lambda =
+    \frac{1}{2} \int_{-1}^1 dz_s \; P^\lambda_{j}(z_s) \; \Disc \mathcal{A}^{(I)}_\lamp =
     \bigg[ s^{\lambda/2} \, K^j_{\lambda 0}(s) \, (k(s)q(s))^{j-\lambda} \; \frac{(j+\lambda)!}{(j-
-    \lambda)!} \bigg] \times \Disc \hat{a}^j_\lambda(s).
+    \lambda)!} \bigg] \times \Disc \hat{a}^{(I)}_{j\lambda}(s).
   \end{equation}
 %%
 
-Next we move on to the homogeneous direct channel contribution of the right-hand side of eq.~\ref{eq:unitarity}. Combining eqs.~\ref{eq:isobar} and \ref{eq:elastic-pion} (note we have to be careful about the kinematic singularities we removed from the \(d\)-function in eq.~\ref{eq:halfangle} and \(\varphi^\prime \not= 0\) in eq.~\ref{eq:helicity}), the \(s\)-channel part of the integrand in eq.~\ref{eq:unitarity} is given by:
+Next we move on to the homogeneous direct channel contribution of the right-hand side of \cref{eq:unitarity}. Combining \cref{eq:isobar,eq:elastic-pion} (note we have to be careful about the kinematic singularities we removed from the \(d\)-function in \cref{eq:halfangle} and \(\varphi^\prime \not= 0\) in \cref{eq:helicity}),
+ the \(s\)-channel part of the integrand in\cref{eq:unitarity} is given by:
 %%
   \begin{align}
       \label{eq:direct-channel-angle}
@@ -298,56 +550,89 @@ Next we move on to the homogeneous direct channel contribution of the right-hand
 The entire direct-channel contribution then is
 %%
   \begin{align}
-    2 \; \sum_{j^\prime=0}^\jpmax \sqrt{\frac{4\pi}{2j^\prime+1}\frac{(j^\prime+\lambda)!}{(j^\prime-\lambda)!}}& \, {Y^\lambda_{j^\prime}}(\theta_s,0) \; s^{\lambda/2} \,  K^{j^\prime}_{\lambda0}(s) \; (2j^\prime +1) \; (k(s)q(s))^{j^\prime - \lambda}
-    \bigg[\rho(s) \; t^*_j(s) \; \hat{a}^\lambda_j(s) \bigg ] \nonumber \\
+    2 \; \sum_{j^\prime=0}^\jpmax \sqrt{\frac{4\pi}{2j^\prime+1}\frac{(j^\prime+\lambda)!}{(j^\prime-\lambda)!}}& \, {Y^\lambda_{j^\prime}}(\theta_s,0) \; s^{\lambda/2} \,  K^{j^\prime}_{\lambda0}(s)
+    \; (2j^\prime +1) \; (k(s)q(s))^{j^\prime - \lambda}
+    \bigg[\rho(s) \; \tau^{(I)^*}_j(s) \; \hat{a}^{(I)}_{j\lambda}(s) \bigg ] \nonumber \\
     =& \;  2\;  \sum_{j^\prime=0}^\jpmax \; P^\lambda_j(z_s) \; s^{\lambda/2} \, K^{j^\prime}_{\lambda0}(s)  \; (2j^\prime +1) \; (k(s)q(s))^{j^\prime - \lambda}
-    \bigg[\rho(s) \; t^*_{j^\prime}(s) \; \hat{a}^\lambda_{j^\prime}(s) \bigg ],
+    \bigg[\rho(s) \; {\tau}^{(I)^*}_{j^\prime}(s) \; \hat{a}^{(I)}_{\jp\lambda}(s) \bigg ],
   \end{align}
 %%
 and again taking the \(j\)-th partial wave as in eq.~\ref{eq:pw-disc}, we get the direct-channel contribution:
 %%
   \begin{equation}
     \label{eq:pw-direct}
-   \bigg[ s^{\lambda/2} \, K^j_{\lambda 0}(s) \; (k(s)q(s))^{j - \lambda} \; \frac{(j+\lambda)!}{(j- \lambda)!} \bigg] \times \rho(s) \; t^*_j(s) \; \hat{a}_\lambda^j(s).
+   \bigg[ s^{\lambda/2} \, K^j_{\lambda 0}(s) \; (k(s)q(s))^{j - \lambda} \; \frac{(j+\lambda)!}{(j- \lambda)!} \bigg] \times \rho(s) \; {\tau}^{(I)^*}_j(s) \; \hat{a}^{(I)}_{j\lambda}(s).
   \end{equation}
 %%
 
 Finally, in the cross-channels we have the inhomogeneous part of the dispersion relation. The angular integral cannot be done analytically:
 %%
   \begin{align}
-    \label{eq:cross-1}
-  \sum_{j^\prime} &(2j^\prime+1) \;\int d\Omega_s^\prime \;   (k(t^\prime)q(t^\prime))^{j^\prime-\lambda} \;  {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \;
-    \xi_{\lambda 0}(z_t^\prime) \, \hat{d}_{\lambda 0}^{j^\prime}(z_t^\prime) \, e^{i\lambda \varphi^\prime} \; {t^\prime}^{\lambda/2} \;  K^{j^\prime}_{\lambda0}(t^\prime) \; \hat{a}^{j^\prime}_\lambda(t^\prime) \nonumber \\
-%%
-  &= \sum_{j^\prime} \; (2j^\prime +1) \sqrt{\frac{2\ell+1}{4\pi}\frac{(\ell-\lambda)!}{(\ell+\lambda)!}} \;
-  \int dz_s^\prime \; P^\lambda_\ell(z_s^\prime) \,
-  \times (k(t^\prime)q(t^\prime))^{j^\prime-\lambda} \;  \xi_{\lambda 0}(z_t^\prime) \; \hat{d}^{j^\prime}_{\lambda0}(z_t^\prime)
-  \; {t^\prime}^{\lambda/2} \; K^{j^\prime}_{\lambda0}(t^\prime) \;\hat{a}^{j^\prime}_{\lambda}(t^\prime)
+   \sum_{\emp \;\Ip} \sum_{\jp=0}^\jpmax (2\jp + 1) \; C_{II^\prime} \int d\Omega^\prime_s
+    \; d^J_{\lambda \emp}(\hat{\theta}^\prime_1) \; &{Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime)  \; e^{i\lambda \varphi^\prime}
+     \nonumber \\
+    &\times \bigg[
+    {t^\prime}^{\emp/2} \; \xi_{\emp 0}(z_t^\prime) \; (k(t^\prime)q(t^\prime))^{j^\prime-\emp}
+    K^{j^\prime}_{\emp0}(t^\prime) \; \hat{d}_{\emp 0}^{j^\prime}(z_t^\prime) \; \hat{a}^{(\Ip)}_{j^\prime\emp}(t^\prime)
+    \bigg]
   \end{align}
 %%
-where \(t^\prime = t^\prime(s,z_s^\prime)\) and \(z_t^\prime = z_t^\prime(s,z_s^\prime)\). So we take the \(j\)-th partial wave right away. Considering only the prefactors in front of the angular integral of eq.~\ref{eq:cross-1} in eq.~\ref{eq:unitarity}
+where \(t^\prime = t^\prime(s,z_s^\prime)\) and \(z_t^\prime = z_t^\prime(s,z_s^\prime)\).
+Integrating over \(\varphi^\prime\),
+%%
+  \begin{align}
+    \label{eq:cross-1}
+     \sum_{\emp \;\Ip} \sum_{\jp=0}^\jpmax (2\jp + 1) \; C_{II^\prime} \; &\sqrt{\frac{2\ell+1}{4\pi}\frac{(\ell-\emp)!}{(\ell+\emp)!}} \; \int dz_s^\prime \; P_\ell^m(z_s^\prime)
+     \; d_{\lambda \emp}^J(\hat{\theta}^\prime_1) \nonumber \\
+     &\times \bigg[
+     {t^\prime}^{\emp/2} \; \xi_{\emp 0}(z_t^\prime) \; (k(t^\prime)q(t^\prime))^{j^\prime-\emp}
+     K^{j^\prime}_{\emp0}(t^\prime) \; \hat{d}_{\emp 0}^{j^\prime}(z_t^\prime) \; \hat{a}^{(\Ip)}_{j^\prime\emp}(t^\prime)
+     \bigg] \; ,
+  \end{align}
+%%
+we can take the \(j\)-th partial wave right away. Considering only the prefactors in front of the angular integral of \cref{eq:cross-1} in \cref{eq:unitarity} coming from the second spherical harmonic in \cref{eq:elastic-pion}:
 %%
   \begin{align}
     \label{eq:cross-2}
      (2\ell+1)  \; \sum_{\ell, m} \bigg [ \int \frac{dz_s}{2} &\; P^\lambda_j(z_s) \; Y^m_\ell(\theta_s,0) \bigg] \; \times \; \rho(s) \; t_\ell^*(s)
     %%
-  = \; \frac{(2j+1)}{2} \; \sqrt{\frac{4\pi}{2j+1} \frac{(j+\lambda)!}{(j-\lambda)!}} \;\rho(s) \; t_j^*(s) \; \delta_{\lambda m} \; \delta_{j \ell}.
+  = \; \frac{(2j+1)}{2} \; \sqrt{\frac{4\pi}{2j+1} \frac{(j+\lambda)!}{(j-\lambda)!}} \;\rho(s) \; \tau_j^{(I)*}(s) \; \delta_{\lambda m} \; \delta_{j \ell}.
   \end{align}
 %%
-Combining eqs.~\ref{eq:cross-1} and \ref{eq:cross-2}, we get the inhomogeneous contribution:
+Combining \cref{eq:cross-1,eq:cross-2}, we get the inhomogeneous contribution:
 %%
   \begin{align}
-    \label{eq:pw-cross}
-     2 \, (2j+1) \;\rho(s) \;  t^*_{j}(s) \;
-      \bigg[ \sum_{j^\prime=0}^\jpmax \, (2j^\prime+1)
-     \int \frac{dz_s^\prime}{2} \; P^\lambda_j(z_s^\prime) \;
-     \times (k(t^\prime)q(t^\prime))^{j^\prime-\lambda}
-      \; \xi_{\lambda 0}(z_t^\prime) \; \hat{d}^{j^\prime}_{\lambda0}(z_t^\prime)
-       \; {t^\prime}^{\lambda/2} \; K^{j^\prime}_{\lambda0}(t^\prime) \; \hat{a}^{j^\prime}_{\lambda}(t^\prime) \bigg]
+      \label{eq:pw-cross}
+      (2j+1) \; \rho(s) \; &\tau^{(I)*}_j(s) \; \bigg[
+      \sum_{\jp \emp \Ip} (2\jp+1) \; C_{I\Ip} \;  \nonumber \\
+      &\times \int d z_s^\prime \; P_j^\lambda(z_s^\prime) \times
+      d_{\lambda \emp}^J(\hat{\theta}^\prime_1) \;
+      {t^\prime}^{\emp/2} \; \xi_{\emp 0}(z_t^\prime) \; (k(t^\prime)q(t^\prime))^{j^\prime-\emp}
+      K^{j^\prime}_{\emp0}(t^\prime) \; \hat{d}_{\emp 0}^{j^\prime}(z_t^\prime) \; \hat{a}^{(\Ip)}_{j^\prime\emp}(t^\prime)
+      \bigg]
   \end{align}
 %%
-
-Thus combining eqs.~\ref{eq:pw-disc},~\ref{eq:pw-direct}, and~\ref{eq:pw-cross} we arrive at the KT equations for the kinematic singularity-free helicity amplitudes (removing the prime on the integrated angle because its the only one):
+which we can rewrite
+in terms of derivatives of Legendre polynomials and the Lorentz-covariant Kibble function, \(\phi\), by defining (with \(\lambda \geq 0\)):
+%%
+    \begin{equation}
+    \tilde{P}_{j}^\lambda(s) = (k(s)q(s))^{j-\lambda} \, \frac{d^\lambda}{{dz_s}^\lambda} (P_j(z_s))
+    \mand
+    \phi = (2 \sqrt{s} \; \sqrt{1-z_s^2} \;k(s)q(s))^2 \; .
+  \end{equation}
+%%
+With these and removing the prime on the angle, we can rewrite a form analogous to \cite{Danilkin:2014cra}
+%%
+  \begin{equation}
+    (2j+1) \; \rho(s) \; \tau^{(I)*}_j(s) \; \bigg[
+    \sum_{\jp \emp \Ip} (2\jp+1) \; C_{I\Ip} \; \int dz_s  \;
+    d_{\lambda \emp}^J(\hat{\theta}^\prime_1) \times
+    \bigg(  \frac{\phi}{4 \, s}\bigg)^\emp \;
+    \frac{\tilde{P}^\lambda_j(s) \, \tilde{P}_{j^\prime}^\emp(t)}{(k(s)q(s))^{2j}} \;  \; \hat{a}^{(\Ip)}_{j^\prime \emp}(t)
+    \bigg]
+  \end{equation}
+%%
+Thus combining \cref{eq:pw-disc,eq:pw-direct,eq:pw-cross} we arrive at the KT equations for the kinematic singularity-free helicity amplitudes:
 %%
   \begin{align}
     \Disc \hat{a}^j_\lambda(s) = \rho(s) \; t^*_{j}(s) \; & \bigg[ \; \hat{a}^j_\lambda(s) \;+ \;  2\, (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \nonumber \\
@@ -360,20 +645,13 @@ Thus combining eqs.~\ref{eq:pw-disc},~\ref{eq:pw-direct}, and~\ref{eq:pw-cross} 
 %%
 where we recall here, \(\xi_{\lambda 0}(z)\) and \(\hat{d}_{\lambda 0}^j(z)\) are given by eq.~\ref{eq:halfangle}.
 
-We can rewrite eq.~\ref{eq:helicity-kt} in terms of derivatives of Legendre polynomials and the Lorentz-covariant Kibble function, \(\phi\), by defining (with \(\lambda \geq 0\)):
-%%
-    \begin{equation}
-    \tilde{P}_{j}^\lambda(s) = (k(s)q(s))^{j-\lambda} \, \frac{d^\lambda}{{dz_s}^\lambda} (P_j(z_s))
-    \mand
-    \phi = (2 \sqrt{s} \; \sqrt{1-z_s^2} \;k(s)q(s))^2.
-  \end{equation}
-%%
+We can rewrite eq.~\ref{eq:helicity-kt}
 Then we write the KT equation for the \(j\)-th partial wave of a particle with helicity \(\lambda\) as:
 %%
 \begin{align}
   \label{eq:helicity-kt}
   \Disc \hat{a}^j_\lambda(s) = \rho(s) \; t^*_{j}(s) \, \bigg[ \; \hat{a}^j_\lambda(s) + (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
-  \int dz_s\; R^{jj^\prime}_{\lambda0}(s,z_s) \;
+  \int dz_s\;
   \bigg(  \frac{\phi}{4 \, s}\bigg)^\lambda \frac{\tilde{P}^\lambda_j(s) \, \tilde{P}_{j^\prime}^\lambda(t)}{(k(s)q(s))^{2j}} \;  \; \hat{a}^{j^\prime}_\lambda(t)\bigg]
 \end{align}
 %%
@@ -385,245 +663,6 @@ where we've defined the ratio of kinetic factors
   \end{equation}
 %%
 with \(t = t(s,z_s)\) and \(z_t = z_t(s,z_s)\). We note that if the decaying particles has natural parity, i.e. \(P = (-1)^J\) such as the \(\phi/\omega\), then the kinematic factors are directly related to the Kibble function and are invariant between frames. Then we have \(R^{jj}_{\lambda0}(s,z_s) = 1\) and we recover eq. 18 in \cite{Danilkin:2014cra} for \(j=1\). We must also take care to remember that the kinematic functions \(K^j_{\lambda0}(x)\) may have different dependences near threshold for \(j < J\).
-%#########################################################################################################
-%#########################################################################################################
-%#########################################################################################################
-\subsection{Isospin Considerations}
-\label{sec:isospin}
-The analysis of the helicity amplitudes and the derived KT equations so far has been completely general, with no mention of isospin. We note that we can easily reformulate results such that they represent a \(\pi\pi\) final state of definite isospin.
-
-Just as we considered a partial-wave decomposition in terms of helicity amplitudes in eq.~\ref{eq:helicity}. we can in general do the same for the definite-isospin amplitudes of eq.~\ref{eq:iso-decomp},
-%%
-  \begin{equation}
-    \mathcal{A}^{(I)}_\lambda(s,z_s) = P^{(I)}_{abcd} \; \braket{I_A, \,d \,;\,1 ,\, c \,}{\, 1, \,a \,;\, 1,\, b \,} \; \mathcal{A}_\lambda(s,z_s) = \sum_{j=0}^\infty \; (2j+1) \;
-     d^j_{\lambda0}(\theta_s) \; a^{Ij}_{\lambda}(s) \,
-  \end{equation}
-%%
-where now our helicity amplitudes, \(a^{Ij}_{\lambda}(s) \equiv P^{(I)}_{abcd} \; \braket{I_A, \,d \,;\,1 ,\, c \,}{\, 1, \,a \,;\, 1,\, b \,} \; a^j_{\lambda}(s) \), depend on the isospin projection. Using eqs.~\ref{eq:matrix} and
-\ref{eq:helicity}, we can see that the these isospin-dependent helicity amplitudes depend on the total helicity amplitudes considered before by
-%%
-  \begin{equation}
-    \begin{bmatrix}
-      a^{0j}_{\lambda}(s) \\
-      a^{1j}_{\lambda}(s) \\
-      a^{2j}_{\lambda}(s)
-  \end{bmatrix}
-     = \sum_{j^\prime =0}^\infty \; (2j^\prime+1) \int dz_s \; d^j_{\lambda0}(\theta_s) \times
-    \begin{bmatrix*}[r]
-      3 & 1 & 1 \\ 	0 & 1 & -1 \\ 0 & 1 & 1
-    \end{bmatrix*}
-    \begin{bmatrix}
-      d^{j^\prime}_{\lambda0}(\theta_s) \; a^{j^\prime}_{\lambda}(s) \\
-      d^{j^\prime}_{\lambda0}(\theta_t) \; a^{j^\prime}_{\lambda}(t) \\
-      d^{j^\prime}_{\lambda0}(\theta_u) \; a^{j^\prime}_{\lambda}(u)
-  \end{bmatrix} \; .
-  \end{equation}
-%%
- These relations are in general complicated and the dynamical content will differ for different \(I\) and from the total helicity amplitudes.
-
- The singularity structure that is kinematic in nature (e.g. the near-threshold behavior) must remain the same however. This is because these singularities only depends on masses of the particles involved. Thus, just as in eq.~\ref{eq:kinematicfreepartialwave} we can still write:
- %%
-    \begin{equation}
-      \label{eq:model-iso-helicity}
-      \mathcal{A}^{(I)}_\lambda(s,z_s) = s^{\lambda/2} \, \xi_{\lambda0}(z_s) \, \sum_{j=0}^\infty (k(s)q(s))^{j-\lambda} \; \hat{d}^j_{\lambda0}(\theta_s) \;  K^j_{\lambda0}(s) \; \hat{a}^{Ij}_{\lambda}(s)
-      \; ,
-    \end{equation}
- %%
-and all the previous derivation of sections~\ref{sec:kin-singularities} and \ref{sec:unitarity} still hold with the substitutions
-%%
-  \begin{equation}
-    \hat{a}^j_\lambda(x) \rightarrow \hat{a}^{Ij}_{\lambda}(x)
-    \mand
-    t^*_\ell(s) \rightarrow {t^I_{\ell}}^*(s) \; .
-  \end{equation}
-%%
-Here \(t^I_{\ell}(s)\) is the \(\pi\pi\) scattering amplitude of definite isospin to be used in eq.~\ref{eq:elastic-pion}. Since we assume isospin is conserved as in eq.~\ref{eq:iso-decomp}, the two pion intermediate state must also have the same isospin as the initial and final states. These are usually given in terms of phase shifts, \(\delta(s)\), and inelasticities, \(\eta(s)\) as in \cite{Albaladejo2018}:
-%%
-  \begin{equation}
-    t^{I}_{\ell}(s) = \frac{\eta^I_\ell(s) \; e^{2i \delta^I_\ell(s)} -1}{2i \; \rho(s)} \,.
-  \end{equation}
-%%
-Thus, the KT equation for isospin-definite isobars now reads:
-%%
-  \begin{equation}
-    \label{eq:final-kt-isospin}
-    \Disc \hat{a}^{Ij}_{\lambda}(s) = \rho(s) \; {t^I_{j}}^*(s) \, \bigg[ \; \hat{a}^{Ij}_{\lambda}(s) +  (2j+1) \, \frac{(j-\lambda)!}{(j+\lambda)!} \;  \sum_{j^\prime = 0}^\jpmax \, (2j^\prime+1)
-    \int dz_s \, R^{jj^\prime}_{\lambda0}(s,z_s) \bigg(\frac{\phi}{4 \, s}\bigg)^\lambda \frac{\tilde{P}^\lambda_j(s) \, \tilde{P}_{j^\prime}^\lambda(t)}{(k(s)q(s))^{2j}} \, \hat{a}^{Ij^\prime}_{\lambda}(t) \bigg]
-    \,.
-  \end{equation}
-%%
-
-Because all three particles are isovectors, we need to pay special attention to how we impose Bose symmetry with the additional isospin quantum number. When scattering in a state of total isospin, \(I\), the \(2\pi\) final state transforms as
-%%
-  \begin{equation}
-    \label{eq:pipi-iso-bose}
-    \ket{j \; m, \, I; \pi_1(p_1) \, \pi_2(p_2)} = (-1)^{I+j} \; \ket{j \; m, \, I; \pi_1(p_2) \, \pi_2(p_1)}.
-  \end{equation}
-%%
-This is the analogue of eq.~\ref{eq:pipi-bose} with an isospin-definite initial and final state.
-Then combining eqs.~\ref{eq:helicity-bose} and~\ref{eq:pipi-iso-bose} we see that Bose symmetry requires \(I + j\) to be even, which makes physical sense. This result is consistent also with the \(\omega/\phi \to 3\pi\) reaction in \cite{Danilkin:2014cra,Niecknig:2012sj}.
-
-For the purposes of comparing to the COMPASS analysis, then the relevant amplitudes are:
-%%
-  \begin{align}
-    \label{eq:relevant-pw}
-    \mathcal{A}^{(0)}_0(s,z_s) =& \;  \frac{1}{K_{00}(s)} \;\bigg[\hat{a}^0_{00}(s) + \hat{a}^0_{00}(t) + \hat{a}^0_{00}(u)\bigg] \nonumber \\
-    &\qquad \qquad  + K_{00}(s) \sum_{j \text{ even}}^\jmax \bigg[ (2j+1) \; (k(s)q(s))^{j} \; \hat{d}^j_{00}(\theta_s) \; \hat{a}^j_{00}(s)  + (s\leftrightarrow t) + (s \leftrightarrow u) \bigg]\nonumber \\
-    \mathcal{A}^{(1)}_0(s,z_s) =& K_{00}(s) \sum_{j \text{ odd}}^\jmax \bigg[ (2j+1) \; (k(s)q(s))^{j} \; \hat{d}^j_{00}(\theta_s) \; \hat{a}^j_{10}(s) + (s\leftrightarrow t) + (s \leftrightarrow u) \bigg] \\
-    \mathcal{A}^{(1)}_1(s,z_s) =& \; \sqrt{s} \;    \xi_{10}(z_s) \; K_{10}(s) \sum_{j \text{ odd}}^\jmax \bigg[ (2j+1) \, (k(s)q(s))^{j-1} \; \hat{d}^j_{10}(\theta_s) \; \hat{a}^j_{11}(s) + (s\leftrightarrow t) + (s \leftrightarrow u) \bigg]
-     \, . \nonumber
-  \end{align}
-%%
-which correspond to the three freed-partial-waves extracted in \cite{COMPASS-Swave}:
-%%
-  \begin{align}
-    1^{++} 0^+ [\pi\pi]_{0^{++}} \pi P & : \qquad a^{00}_{0}(s) \qquad a_1(\lambda = 0) \; \pi \to f_0(980)
-     \nonumber\\
-    1^{++} 0^+ [\pi\pi]_{1^{--}} \pi S  & : \qquad a^{11}_{0}(s) \qquad a_1(\lambda = 0) \; \pi \to \rho(770)
-      \qquad \\
-    1^{++} 1^+ [\pi\pi]_{1^{--}} \pi S & : \qquad a^{11}_{1}(s) \qquad a_1(\lambda = 1) \; \pi \to \rho(770)
-    \qquad \nonumber
-  \end{align}
-%%
-respectively. Each of these isobar amplitudes is assumed to have no kinematic singularities and only a right-hand cut associated with unitarity. We can write a dispersion relation for real values of \(s\) along the cut:
-%%
-  \begin{equation}
-    a^{Ij}_\lambda(s) = \frac{1}{\pi} \int^\infty_{4 \; m_\pi^2} ds^\prime \;
-    \frac{\Disc a^{Ij}_\lambda(s^\prime)}{s^\prime - s} \, .
-  \end{equation}
-%%
-and solve using the KT equation, eq.~\ref{eq:final-kt-isospin}.
-%#######################################)#################################################################
-%#########################################################################################################
-%#########################################################################################################
-\section{Scalar Amplitudes / Form Factors}
-
-\begin{center}
-  {\color{red} CAUTION: This section hasn't been double checked yet!!}
-\end{center}
-
-
-In this section we relate the helicity amplitudes of the previous section to the form factors of the axial vector meson. Writing amplitudes in terms of covariant structures is in general more process dependent and obtaining equations for the discontinuities is more challenging.
-
-  We start by writing out the most general covariant structure, contracting the polarization tensor of the decaying mesons with two independent combinations of the momenta of the pions:
-%%
-  \begin{equation}
-    \label{eq:covariant}
-    \mathcal{A}_\lambda(s,t,u) = \epsilon_\mu^\lambda(p_A) \, \bigg[ F(s,t,u) \; (p_1 + p_2)^\mu + G(s,t,u) \;  (p_1 - p_2)^\mu \bigg].
-    \end{equation}
-%%
-where \(F\) and \(G\) are two independent, Lorentz-scalar amplitudes/form factors. The momenta of the pions are \(p_i\), and the axial vector meson, \(A\), has polarization vector \(\epsilon_\mu\) which depends on helicity, \(\lambda\), energy in the center of mass frame, \(E_A\), and momentum \(p_A\):
-%%
-  \begin{equation}
-    \label{eq:polarization}
-    \epsilon_\mu(p_A, \pm1) = \frac{1}{\sqrt{2}} \big( 0, \mp 1, - i, 0 \big) \qquad \text{ and } \qquad \epsilon_\mu(p_A, 0) = \frac{1}{m_A} \big( p_A, 0, 0, E_A \big).
-    \end{equation}
-%%
-We also have
-%%
-  \begin{gather}
-    \vec{p}_1 = q(s) \; (\sin \theta_s, 0,  -\cos \theta_s) \qquad \qquad \vec{p}_2 = q(s) \; (-\sin \theta_s, 0 , \cos \theta_s ) \\
-    \vec{p}_3 = - \vec{p}_A = k(s) \; (0,0,-1). \nonumber
-  \end{gather}
-%%
-
-The choices of tensor structure in eq.~\ref{eq:covariant} are to highlight the intrinsic Bose symmetry of the reaction. Because we have identical pions in the final states, the helicity amplitude should be invariant under the the interchange \(t \leftrightarrow u \) or \(p_1 \leftrightarrow p_2\).
-%%
-  \begin{equation}
-    F(s,t,u) = F(s,u,t) \qquad \text{ and } \qquad G(s,t,u) = - G(s,u,t).
-  \end{equation}
-%%
-In the center of mass frame, using eqs.~\ref{eq:momenta} and \ref{eq:polarization} for \(\lambda = 0 \text{ and } +1 \):
-%%
-  \begin{align}
-    \label{eq:contract_zero}
-    \epsilon_\mu(p_A,0) p_1^\mu &= \frac{E_1}{m_A} \, k(s) + \frac{E_A}{m_A} \,  z_s \, q(s)
-    \qquad \qquad \epsilon_\mu(p_A,+1) p_1^\mu = - \frac{1}{\sqrt{2}} \, \sqrt{1 - z_s^2} \; q(s) \nonumber \\
-%%
-    \epsilon_\mu(p_A,0) p_2^\mu &= \frac{E_2}{m_A} \, k(s) - \frac{E_A}{m_A} \,  z_s \, q(s)
-    \qquad \qquad \epsilon_\mu(p_A,+1) p_2^\mu =  \frac{1}{\sqrt{2}} \, \sqrt{1 - z_s^2} \; q(s)  \\
-%%
-    \epsilon_\mu(p_A,0) p_3^\mu &= \frac{k(s)}{m_A} \, \big[E_3 + E_A \big]
-    \qquad \qquad \qquad \quad \epsilon_\mu(p_A,+1) p_3^\mu = 0 \nonumber
-  \end{align}
-%%
-We also have
-%%
-  \begin{equation}
-    \label{eq:energies}
-    E_1 = E_2 = \frac{\sqrt{s}}{2} \mand E_A = \frac{s + m_A^2 - m_\pi^2}{2 \sqrt{s}}
-  \end{equation}
-Using eq.~\ref{eq:contract_zero} in eq.~\ref{eq:covariant}, we get the helicity amplitude in terms of its covariant form factors to directly compare with eq.~\ref{eq:helicity}:
-%%
- \begin{align}
-  \label{eq:covariant_zero}
-   \mathcal{A}_0 =& \; \frac{\sqrt{s}}{m_A} \, k(s) \; F(s,t,u) + 2 \; \frac{E_A}{m_A} \, z_s \; q(s) \; G(s,t,u) \\
-   \nonumber \\
-   \label{eq:covariant_plus}
-   \mathcal{A}_+ =& \; \sqrt{2} \sqrt{1-z_s^2} \, q(s) \; G(s,t,u).
- \end{align}
-%%
-Comparing eq.~\ref{eq:covariant_zero} with eq.~\ref{eq:helicity} and using eqs.~\ref{eq:halfangle} and \ref{eq:k-factor}, we can match:
-%%
-  \begin{equation}
-    \label{eq:matching_G}
-    G(s,t,u) =  \; \lambda_A^{1/2}  \, \lambda_\pi^{1/2}  \, s \sum_{J \text{ even}}^\infty (2J+1) \, (k(s)q(s))^{J-1} \,\hat{d}^J_{10}(\theta_s) \, \hat{a}^J_+(s)
-  \end{equation}
-%%
-Matching the other helicity amplitude and using eq.~\ref{eq:matching_G},
-%%
-  \begin{align}
-    \label{eq:matching_F}
-    F(s,t,u) = \; \hat{a}^0_0(s) + \, \frac{1}{\lambda_A} \sum_{J \text{ even}}^\infty (2J+1) \, (k(s)\,q(s))^{J} \; \bigg[ \hat{d}^J_{00}(\theta_s) \; \hat{a}^J_0(s)
-%%
-  - \lambda_\pi \, \lambda_A^{1/2} \; (s + m_A^2 - m_\pi^2)\,  z_s \; \hat{d}^J_{10}(\theta_s) \; \hat{a}^J_+(s) \bigg]
-  \end{align}
-%%
-Here we recall that \(\hat{a}^J_+\) and \(\hat{a}^J_0\) vanish for odd values of \(J\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_A^{-1}\) term in front of the sum for \(J\geq 1\) poses a problem as it adds two poles at the pseudo-thresholds: \(s = (m_A^2 \pm m_\pi^2)\). This means our helicity amplitudes are not completely independent of each other at the pseudo-threshold as the terms in the brackets in eq.~\ref{eq:matching_F} must vanish at these points.
-%#########################################################################################################
-%#########################################################################################################
-%#########################################################################################################
-\newpage
-\appendix
-\section{Arbitrary \(I^G J^{PC}\)}
-In this section we want to summarize the previous analysis to derive the process of describing of a particle, \(M\) with spin and arbitrary quantum numbers to three pions in the helicity amplitude formalism. \(G\)-parity is the only quantum number fixed by the decay into three pions, requiring \(\bm{G=-1}\).
-
- We start with the ansatz:
-\begin{equation}
-  \mathcal{A}^{(I)}_\lambda(s,z_s) = s^{\lambda/2} \, \xi_{\lambda 0}(z_s) \, K_{\lambda 0}(s) \sum_{j=0}^\infty (2j+1) \; (k(s)q(s))^{j-\lambda} \; \hat{d}_{\lambda 0}^j(z_s) \; \hat{a}^{I j}_{\lambda}(s).
-\end{equation}
-This structure is entirely determined by the spin, helicity projection, and mass of the decaying particle, \(J\), \(\lambda\), and \(m\) respectively. The kinematic singularity functions discussed and given in section~\ref{sec:kin-singularities}.
-
-Parity conservation requires
-\begin{equation}
-    \hat{a}^{Ij}_{\lambda}(s) = (-1)^P \; \hat{a}^{Ij}_{-\lambda}(s) \quad
-     \Longrightarrow
-     \text{ \# ind. of helicity amps } =
-    \begin{cases}
-      J, & \bm{P \, = \, -1} \\
-      J+1, & \bm{P\, = \,+1}
-    \end{cases}
-\end{equation}
-so we choose each nonnegative \(\lambda\).
-
-We have assumed scattering in a fixed isospin, at this comes into play when we restrict the sum over \(j\) by imposing Bose Symmetry, i.e. invariant under the interchange of the final state pions:
-%%
- \begin{equation}
-   \mathcal{A}^{(I)}_\lambda(s,-z_s) = (-1)^{\lambda} \mathcal{A}_\lambda^{(I)}(s,z_s).
- \end{equation}
-%%
- We split this into two cases, the isoscalar and isovector cases for the decaying particle. Since \(G\)-parity is fixed, each isospin case also constricts the allowed \(C\)-parity quantum numbers.
-
-\hfill \break
-\(\bm{C = -1, \; I = 0:}\) This case has a total isospin-1 initial state. Isospin conservation then requires the final state and any subsequent rescattering to also have isospin 1 (c.f. \( \omega/\phi \to 3\pi \) in \cite{Danilkin:2014cra,Niecknig:2012sj}). Then the isobar expansion is:
-%%
-  \begin{equation}
-    \mathcal{A}^{(I)}_\lambda(s,z_s) = s^{\lambda/2}
-  \end{equation}
-%%
-
-
-
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################

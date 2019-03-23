@@ -1,4 +1,3 @@
-
 // Phase-shift and Inelasticities for PiPi scattering based off GKPRY parameterization.
 //
 // Dependencies: None
@@ -34,15 +33,15 @@ const std::complex<double> pipi::xi(0., 1.);
 //Constructor
 pipi::pipi()
 {
-        std::cout << " pipi : Input valid Isospin." << std::endl;
-        std::cout << " pipi : Usage: 'pipi amp(1);'" <<std::endl;
+        std::cout << " pipi : Input valid Isospin. \n";
+        std::cout << " pipi : Usage: 'pipi amp(1); \n";
         exit(1);
 }
 pipi::pipi(int i)
 {
         if (i < 0 || i > 2)
         {
-                std::cout << " pipi : Amplitude with Invalid Isospin Initialized." << std::endl;
+                std::cout << " pipi : Amplitude with Invalid Isospin Initialized. \n";
                 exit(1);
         }
         qn_I = i;
@@ -51,7 +50,7 @@ pipi::pipi(int i)
 //-----------------------------------------------------------------------------
 void pipi::print_I()
 {
-        std::cout << " Isospin = " << qn_I << std::endl;
+        std::cout << " Isospin = " << qn_I << "\n";
 };
 
 //-----------------------------------------------------------------------------
@@ -83,7 +82,7 @@ double pipi::phase_shift(int l, double s)
         if (qn_I > 2 || qn_I < 0) {wave = 600;}
         if (l % 2 != qn_I % 2) {wave = 600;}
         if (l >= 4 && wave != 600)
-        {std::cout << "Phase shift contributions of l > 3 are completely negligible. Quitting..." << std::endl;
+        {std::cout << "Phase shift contributions of l > 3 are completely negligible. Quitting... \n";
          exit(1);}
 
         double cot_delta, delta, sh;
@@ -354,7 +353,7 @@ double pipi::phase_shift(int l, double s)
 //Unphysical partial waves (ie anything else)
         else
         {
-                std::cout << "Invalid Phase Shift with l = " << l << " and isospin = " << qn_I << ". Quiting..." << std::endl;
+                std::cout << "Invalid Phase Shift with l = " << l << " and isospin = " << qn_I << ". Quiting... \n";
                 exit(1);
 
         }
@@ -491,7 +490,7 @@ double pipi::inelasticity(int l, double s)
 //Unphysical partial waves (ie anything else)
         else
         {
-                std::cout << "Invalid Inelasticity with l = " << l << " and isospin = " << qn_I << ". Quiting..." << std::endl;
+                std::cout << "Invalid Inelasticity with l = " << l << " and isospin = " << qn_I << ". Quiting... \n";
                 exit(1);
         }
 }
@@ -531,7 +530,7 @@ std::complex<double> pipi::GKPRY_iso_amp(double s, double z)
                 }
                 if (qn_I > 2 || qn_I < 0)
                 {
-                        std::cout << " Invalid isospin! Quitting..." << std::endl;
+                        std::cout << " Invalid isospin! Quitting... \n";
                         exit(1);
                 }
 
@@ -556,7 +555,7 @@ double pipi::legendre(int l, double x)
         case 3: PL = .5 * (5.*pow(x,3.) - 3.*x); break;
         case 4: PL = (35.*pow(x,4.) - 30.*pow(x,2.) + 3.)/8.; break;
         case 5: PL = (63.*pow(x,5.) - 70.*pow(x,3.) + 15.*x)/8.; break;
-        default: std::cout << "Legendre Polynomials don't go that high!!!" << std::endl;
+        default: std::cout << "Legendre Polynomials don't go that high!!! \n";
                 exit(1);
         }
         return PL;

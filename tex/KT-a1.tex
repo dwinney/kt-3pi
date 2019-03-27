@@ -148,22 +148,23 @@ where \(L_i\) and \(L_f\) are the minimum angular momentum of the initial and fi
       L_i = 1 , L_f = 2& \qquad  \text{ for } \lambda = 1, \; j \geq 0 \nonumber
   \end{align}
 %%
-We note that we must treat the \(J=0\) term in \cref{eq:kinematicfreepartialwave} differently, since it has a different lowest orbital angular momentum possible than \(J\geq 1\). The explicit form for \(K^j_{\lambda0}\) is given by Table 6.1 in \cite{Collins}:
+We note that we must treat the \(J=0\) term in \cref{eq:kinematicfreepartialwave} differently, since it has a different lowest orbital angular momentum possible than \(J\geq 1\). The explicit form for \(K_{\lambda0}\) is given by Table 6.1 in \cite{Collins}. For the axial-vector decay:
 %%
   \begin{align}
     \label{eq:k-factor}
-    K_{00}(s) =& \;  ( 2\sqrt{s} \, k(s)) \qquad \qquad \qquad \quad \; \, \; \qquad \quad
-    \text{  for } j=0 \nonumber \\
-    K_{00 }(s) =& \; ( 2\sqrt{s} \, k(s))^{-1} \qquad \qquad \qquad \quad \qquad \quad
-    \text{for } j\geq 1\\ \nonumber
-    K_{10}(s) =& \; s^{-1/2} \;\; (2  \sqrt{s} \, q(s))^2  (2  \sqrt{s} \, k(s)) \qquad \; \; \;\text{ for } j\geq 0
+    K_{\lambda0}(s) =
+    \begin{cases}
+       \lambda^{1/2}_\pi(s)    &     \text{  for }\lambda = 0, \; j=0 \\
+       \lambda^{-1/2}_\pi(s)  &\text{ for } \lambda = 0, \; j\geq 1 \\
+       s^{-1/2} \; \lambda_M^{1/2}(s) \; \lambda_\pi(s)     &\text{ for } \lambda = 1, \; j\geq 0
+    \end{cases}
   \end{align}
 %%
 which is consistent with \cref{eq:lilf}. In general, for a particle with quantum numbers \(J^{PC}\) decaying with helicity \(\lambda\) into three pions has
 %%
   \begin{align}
-    K_{\lambda 0}(s) &=  s^{-|\lambda|/2} \; (2 \; \sqrt{s} \; k(s))^{|\lambda| + Y_i} \; (2 \; \sqrt{s} \; q(s))^{|\lambda| + Y_f} \nonumber \\
-    &=  s^{-|\lambda|/2} \; \sqrt{\lambda_M(s)}^{|\lambda| + Y_i} \; \sqrt{\lambda_\pi(s)}^{|\lambda| + Y_f}\, .
+    K_{\lambda 0}(s) &=  s^{|\lambda|/2} \; (2 \; k(s))^{|\lambda| + Y_i} \; (2 \; q(s))^{|\lambda| + Y_f} \nonumber \\
+    &=  s^{-|\lambda|/2} \; \big(\lambda^{1/2}_M(s)\big)^{|\lambda| + Y_i} \; \big(\lambda_\pi^{1/2}(s)\big)^{|\lambda| + Y_f}\, .
   \end{align}
 %5
 with
@@ -560,7 +561,7 @@ where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0
     \propto
     \begin{bmatrix}
       \epsilon_\mu^0 (p_3 + p_2)^\mu & \epsilon_\mu^0 (p_3 - p_2)^\mu \\
-    \epsilon_\mu^1  (p_3 + p_2)^\mu & \epsilon_\mu^1 (p_3 - p_2)^\mu
+    \epsilon_\mu^+  (p_3 + p_2)^\mu & \epsilon_\mu^+ (p_3 - p_2)^\mu
     \end{bmatrix}
     \times
     \begin{bmatrix}
@@ -581,16 +582,18 @@ thus combining \cref{matrix-helicity,matrix-covariant} we get the consistency re
      \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1  & \cos \hat{\theta}_1
   \end{bmatrix}
   \begin{bmatrix}
-    \epsilon^0 \dot (p_3 + p_2) & \epsilon_\mu^0 (p_3 - p_2)^\mu \\
-  \epsilon_\mu^1  (p_3 + p_2)^\mu & \epsilon_\mu^1 (p_3 - p_2)^\mu
+    \epsilon^0_\mu  & \epsilon_\mu^0 \\
+  \epsilon_\mu^+  & \epsilon_\mu^+
   \end{bmatrix}
   \times
   \begin{bmatrix}
-    \bar{F}(t,z_t) \\
-     \bar{G}(t,z_t)
+    (p_3 + p_2)^\mu \; \bar{F}(t,z_t) \\
+    (p_3 - p_2)^\mu \;  \bar{G}(t,z_t)
   \end{bmatrix}
+   \; .
 \end{align}
 %%
+Plugging in
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################

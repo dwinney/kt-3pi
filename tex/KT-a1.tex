@@ -50,7 +50,7 @@ Because all the particles are isovectors, the isospin decomposition is identical
     \mel{\pi^a(p_1)\pi^b(p_2)}{\hat{T_\lambda}}{\pi^c(\overline{p}_3)A^d(p_A)} = \delta_{ab}\delta_{cd} \; \mathcal{A}^{c}_\lambda(s,t,u) + \delta_{ad}\delta_{bc} \; \mathcal{A}^{a}_\lambda(s,t,u) + \delta_{ac}\delta_{bd} \; \mathcal{A}^{b}_\lambda(s,t,u)
   \end{equation}
 %%
-here however the scalar amplitudes \(A^c_\lambda(s,t,u)\) depends on kinematic variables and additionally the helicity of the vector meson and the isospin projection of the pion in the initial state.
+  here however the scalar amplitudes \(A^c_\lambda(s,t,u)\) depends on kinematic variables and additionally the helicity of the vector meson and the isospin projection of the pion in the initial state.
 
 Because the different initial state pion projections should be related by crossing, we can relate all three scalar amplitudes in \cref{eq:scalar-decomp} to a single amplitude, \(\mathcal{A}_\lambda(s,t,u) \equiv \mathcal{A}_\lambda^{c}(s,t,u)\) by permutations of Mandelstam variables,
 %%
@@ -166,10 +166,22 @@ which is consistent with \cref{eq:lilf}. In general, for a particle with quantum
     &=  s^{-|\lambda|/2} \; \sqrt{\lambda_M(s)}^{|\lambda| + Y_i} \; \sqrt{\lambda_\pi(s)}^{|\lambda| + Y_f}\, .
   \end{align}
 %5
-where
+with
 %%
   \begin{equation}
     Y_i =  \frac{1}{2} \big[ 1 - (-1)^{|\lambda|}\big] - J \mand Y_f =  \frac{1}{2} \big[ 1 + P (-1)^{J- |\lambda|}]
+  \end{equation}
+%%
+We additionally notice that the two kinematic functions are related to the Lorentz-covariant Kibble function by:
+%%
+  \begin{equation}
+    \xi_{\lambda0}(z_s) \; K_{\lambda0}(s) = \sqrt{\phi^{|\lambda|}} \; \sqrt{\lambda_M^{Y_i}(s) \; \lambda_\pi^{Y_f}(s)}\;
+  \end{equation}
+%%
+where
+%%
+  \begin{equation}
+    \phi = (2\sqrt{s} \; \sin \theta_s \; k(s) q(s))^2 =  \; \sin^2\theta_s \; \lambda_M(s) \; \lambda_\pi(s) \; .
   \end{equation}
 %%
 
@@ -297,17 +309,16 @@ Thus, \(\hat{A}_{j\lambda}(s) = 0\) unless \(j\) is even and so we can restrict 
  %%
    \begin{equation}
      \label{eq:matching_G}
-     G(s,t,u) =  4 \sqrt{2} \; s \sum_{j = 1}^\infty (2j+1) \, (k(s)q(s))^{j} \,\hat{d}^j_{10}(\theta_s) \, \hat{A}_{j+}(s)
+     G(s,t,u) =  \bigg[ - 8 \sqrt{2} \; s \; k(s) \, q(s) \bigg] \times \sum_{j = 1}^\infty (2j+1) \, (k(s)q(s))^{j - 1} \,\hat{d}^j_{10}(\theta_s) \, \hat{A}_{j+}(s)
    \end{equation}
  %%
  Matching the other helicity amplitude and using \cref{eq:matching_G},
  %%
    \begin{align}
      \label{eq:matching_F}
-     M \; F(s,t,u) = \; \hat{a}_{00}(s) + \, \frac{1}{\lambda_M(s)} \sum_{j \text{ even}}^\infty &(2j+1) \, (k(s)\,q(s))^{j} \; \times \nonumber \\
-     &\bigg[ \hat{d}^j_{00}(\theta_s) \; \hat{A}_{j0}(s)
- %%
-   - 2 \sqrt{2} \; \lambda_\pi^{1/2}(s) \, \lambda_M(s) \; (s + M^2 - m_\pi^2)\,  z_s \; \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s) \bigg]
+     F(s,t,u) = 2 &M \, \hat{A}_{00}(s) + \, \bigg[ \frac{2M}{\lambda_M(s)}\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(s)\,q(s))^{j} \;  \hat{d}^j_{00}(\theta_s) \; \hat{A}_{j0}(s)  \nonumber \\
+      %%
+   & \bigg[ 4 \sqrt{2} \; (s + M^2 - m_\pi^2) \;  (k(s)q(s)) \,  z_s\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(s)\,q(s))^{j - 1} \;  \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s)
    \end{align}
  %%
  Here we recall that \(\hat{A}_{j+}\) and \(\hat{A}_{j0}\) vanish for odd values of \(j\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_M^{-1}\) term in front of the sum for \(j\geq 1\) poses a problem as it adds two poles at the pseudo-thresholds: \(s = (M^2 \pm m_\pi^2)\).
@@ -325,7 +336,7 @@ In order to evaluate the helicity amplitudes, use the isobar approximation to tr
 %%
 Here each \(A_\lambda^{(x)}\) represents a finite sum of isobar partial waves in the specified scattering channel.
 
- Because we are considering the decay of a particle with spin, there is additional complications of the helicity being defined in different channels. Evaluating everything in the \(s\)-channel center of mass frame, \(A_\lambda^{(s)}\) is identical to \cref{eq:helicity-final} with the sum truncated at some \(j_\text{max}\), however the \(t\) and \(u\) channel isobars introduce additional rotational functions.
+ Because we are considering the decay of a particle with spin, there is additional complications of the helicity being defined in different channels. Evaluating everything in the \(s\)-channel center of mass frame, \(A_\lambda^{(s)}\) is analogous  to \cref{eq:helicity-final} with the sum truncated at some \(j_\text{max}\), however the \(t\) and \(u\) channel isobars introduce additional rotational functions.
  In general we may write (for now ignoring kinematic singularities):
  %%
  \begin{align}
@@ -495,7 +506,7 @@ where each \(\bar{F}(s,z_s)\) and \(\bar{G}(s,z_s)\) have a form analogous to \c
       \bar{F}(x,z_x) &= \frac{\hat{a}_{00}(x)}{M} + \frac{1}{M \, \lambda_M(x)} \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j} \; \times \nonumber \\
            & \qquad \qquad \bigg[ \hat{d}^j_{00}(\theta_x) \; \hat{a}_{j0}(x)
        %%
-         - 2 \sqrt{2} \; \lambda_\pi(x)^{1/2} \, \lambda_M(x) \; (x + M^2 - m_\pi^2)\,  z_x \; \hat{d}^j_{10}(\theta_x) \; \hat{a}_{j+}(x) \bigg]
+         - 2 \sqrt{2} \; \lambda_\pi^{1/2}(x) \, \lambda_M(x) \; (x + M^2 - m_\pi^2)\,  z_x \; \hat{d}^j_{10}(\theta_x) \; \hat{a}_{j+}(x) \bigg]
       \label{isobar-f} \\
    \bar{G}(x,z_x) &=  4 \sqrt{2} \; x \sum_{j = 1}^\infty (2j+1) \, (k(x)q(x))^{j} \,\hat{d}^j_{10}(\theta_x) \, \hat{a}_{j+}(x) \; . \label{isobar-g}
   \end{align}
@@ -530,16 +541,58 @@ Immediately we see \cref{rot-kin-sym} is consistent with the \(\phi/\omega \to 3
     \end{bmatrix}
     \propto
     \begin{bmatrix}
-      \cos \hat{\theta}_1 &  \sqrt{2} \; \sin \hat{\theta}_1   \\
-       - \frac{1}{\sqrt{2}} \sin \hat{\theta}_1 & \cos \hat{\theta}_1
+        \cos \hat{\theta}_1 \; \tilde{K}_{0}(t) &  \sqrt{2} \; \sin \hat{\theta}_1 \; \tilde{K}_{1}(t)  \\
+       - \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1 \; \tilde{K}_{0}(t) & \cos \hat{\theta}_1 \;  \tilde{K}_{1}(t)
     \end{bmatrix}
     \times
     \begin{bmatrix}
-       K_{00}(t) \; \hat{a}_{j+}(t) \\
-       \xi_{10}(z_t) \; K_{10}(t) \; \hat{a}_{j0}(t)
+      \hat{a}_{j0}(t) \\
+       \hat{a}_{j+}(t)
     \end{bmatrix}
   \end{align}
-where we have condensed the notation but the presence of the sum over \(j\), \(d\)-functions, and \((kq)^{j-|\lambda|}\) factors is implied.
+%%
+where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0}(z_t) \; K_{\lambda0}(t)\) and the presence of the sum over \(j\), \(d\)-functions, and \((kq)^{j-|\lambda|}\) factors is implied. In terms of the invariant amplitudes,
+%%
+  \begin{align}
+    \begin{bmatrix}
+    \mathcal{A}_0 \\
+    \mathcal{A}_1
+    \end{bmatrix}
+    \propto
+    \begin{bmatrix}
+      \epsilon_\mu^0 (p_3 + p_2)^\mu & \epsilon_\mu^0 (p_3 - p_2)^\mu \\
+    \epsilon_\mu^1  (p_3 + p_2)^\mu & \epsilon_\mu^1 (p_3 - p_2)^\mu
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+      \bar{F}(t,z_t) \\
+       \bar{G}(t,z_t)
+    \end{bmatrix}
+  \end{align}
+%%
+thus we get:
+\begin{align}
+  \begin{bmatrix}
+    \bar{F}(t,z_t) \\
+     \bar{G}(t,z_t)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \epsilon_\mu^0 (p_3 + p_2)^\mu & \epsilon_\mu^0 (p_3 - p_2)^\mu \\
+  \epsilon_\mu^1  (p_3 + p_2)^\mu & \epsilon_\mu^1 (p_3 - p_2)^\mu
+\end{bmatrix}^{-1}
+  \begin{bmatrix}
+      \cos \hat{\theta}_1 \; \tilde{K}_{0}(t) &  \sqrt{2} \; \sin \hat{\theta}_1 \; \tilde{K}_{1}(t)  \\
+     - \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1 \; \tilde{K}_{0}(t) & \cos \hat{\theta}_1 \;  \tilde{K}_{1}(t)
+  \end{bmatrix}
+  \times
+  \begin{bmatrix}
+    \hat{a}_{j0}(t) \\
+     \hat{a}_{j+}(t)
+  \end{bmatrix}
+\end{align}
+%%
+The kinetic terms in front of the \(\lambda = 0\) terms are easy to match because they only appear in \(\bar{F}(t,z_t)\) and the form for
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################

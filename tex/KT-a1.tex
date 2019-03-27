@@ -503,12 +503,11 @@ where each \(\bar{F}(s,z_s)\) and \(\bar{G}(s,z_s)\) have a form analogous to \c
 %%
 \begin{subequations}
   \begin{align}
-      \bar{F}(x,z_x) &= \frac{\hat{a}_{00}(x)}{M} + \frac{1}{M \, \lambda_M(x)} \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j} \; \times \nonumber \\
-           & \qquad \qquad \bigg[ \hat{d}^j_{00}(\theta_x) \; \hat{a}_{j0}(x)
-       %%
-         - 2 \sqrt{2} \; \lambda_\pi^{1/2}(x) \, \lambda_M(x) \; (x + M^2 - m_\pi^2)\,  z_x \; \hat{d}^j_{10}(\theta_x) \; \hat{a}_{j+}(x) \bigg]
+    \bar{F}(x,z_x) &= 2 M \, \hat{A}_{00}(x) + \, \bigg[ \frac{2M}{\lambda_M(x)}\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j} \;  \hat{d}^j_{00}(\theta_x) \; \hat{a}_{j0}(x)  \nonumber \\
+     %%
+  & \qquad \qquad \bigg[ 4 \sqrt{2} \; (x + M^2 - m_\pi^2) \;  (k(x)q(x)) \,  z_x\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j - 1} \;  \hat{d}^j_{10}(\theta_x) \; \hat{a}_{j+}(x)
       \label{isobar-f} \\
-   \bar{G}(x,z_x) &=  4 \sqrt{2} \; x \sum_{j = 1}^\infty (2j+1) \, (k(x)q(x))^{j} \,\hat{d}^j_{10}(\theta_x) \, \hat{a}_{j+}(x) \; . \label{isobar-g}
+     \bar{G}(x,z_x) &=  \bigg[ - 8 \sqrt{2} \; x \; k(x) \, q(x) \bigg] \times \sum_{j = 1}^\infty (2j+1) \, (k(x)q(x))^{j - 1} \,\hat{d}^j_{10}(\theta_x) \, \hat{a}_{j+}(x) \; . \label{isobar-g}
   \end{align}
 \end{subequations}
 %%
@@ -534,26 +533,26 @@ where we have used the symmetry properties discussed in \cref{sec:symmetry}.
 
 Immediately we see \cref{rot-kin-sym} is consistent with the \(\phi/\omega \to 3\pi\) analyses \cite{Danilkin:2014cra,Niecknig:2012sj} with \(J^{PC} = 1^{--}\), i.e. there is no \(\lambda = 0\) contribution and the kinetic singularities are the same as those of the \(s\)-channel. For the \(a_1\) decay, we have
 %%
-  \begin{align}
+  \begin{align} \label{matrix-helicity}
     \begin{bmatrix}
     \mathcal{A}_0 \\
     \mathcal{A}_1
     \end{bmatrix}
     \propto
     \begin{bmatrix}
-        \cos \hat{\theta}_1 \; \tilde{K}_{0}(t) &  \sqrt{2} \; \sin \hat{\theta}_1 \; \tilde{K}_{1}(t)  \\
-       - \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1 \; \tilde{K}_{0}(t) & \cos \hat{\theta}_1 \;  \tilde{K}_{1}(t)
+        \cos \hat{\theta}_1  &  \sqrt{2} \; \sin \hat{\theta}_1   \\
+       - \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1  & \cos \hat{\theta}_1
     \end{bmatrix}
     \times
     \begin{bmatrix}
-      \hat{a}_{j0}(t) \\
-       \hat{a}_{j+}(t)
+       \tilde{K}_{0}(t) \; \hat{a}_{j0}(t) \\
+     \tilde{K}_{1}(t) \;   \hat{a}_{j+}(t)
     \end{bmatrix}
   \end{align}
 %%
 where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0}(z_t) \; K_{\lambda0}(t)\) and the presence of the sum over \(j\), \(d\)-functions, and \((kq)^{j-|\lambda|}\) factors is implied. In terms of the invariant amplitudes,
 %%
-  \begin{align}
+  \begin{align} \label{matrix-covariant}
     \begin{bmatrix}
     \mathcal{A}_0 \\
     \mathcal{A}_1
@@ -570,29 +569,28 @@ where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0
     \end{bmatrix}
   \end{align}
 %%
-thus we get:
+thus combining \cref{matrix-helicity,matrix-covariant} we get the consistency relation:
 \begin{align}
+  \begin{bmatrix}
+  \tilde{K}_{0}(t) \; \hat{a}_{j0}(t) \\
+    \tilde{K}_{1}(t) \; \hat{a}_{j+}(t)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+      \cos \hat{\theta}_1  & - \sqrt{2} \; \sin \hat{\theta}_1  \\
+     \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1  & \cos \hat{\theta}_1
+  \end{bmatrix}
+  \begin{bmatrix}
+    \epsilon^0 \dot (p_3 + p_2) & \epsilon_\mu^0 (p_3 - p_2)^\mu \\
+  \epsilon_\mu^1  (p_3 + p_2)^\mu & \epsilon_\mu^1 (p_3 - p_2)^\mu
+  \end{bmatrix}
+  \times
   \begin{bmatrix}
     \bar{F}(t,z_t) \\
      \bar{G}(t,z_t)
   \end{bmatrix}
-  =
-  \begin{bmatrix}
-    \epsilon_\mu^0 (p_3 + p_2)^\mu & \epsilon_\mu^0 (p_3 - p_2)^\mu \\
-  \epsilon_\mu^1  (p_3 + p_2)^\mu & \epsilon_\mu^1 (p_3 - p_2)^\mu
-\end{bmatrix}^{-1}
-  \begin{bmatrix}
-      \cos \hat{\theta}_1 \; \tilde{K}_{0}(t) &  \sqrt{2} \; \sin \hat{\theta}_1 \; \tilde{K}_{1}(t)  \\
-     - \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1 \; \tilde{K}_{0}(t) & \cos \hat{\theta}_1 \;  \tilde{K}_{1}(t)
-  \end{bmatrix}
-  \times
-  \begin{bmatrix}
-    \hat{a}_{j0}(t) \\
-     \hat{a}_{j+}(t)
-  \end{bmatrix}
 \end{align}
 %%
-The kinetic terms in front of the \(\lambda = 0\) terms are easy to match because they only appear in \(\bar{F}(t,z_t)\) and the form for
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################

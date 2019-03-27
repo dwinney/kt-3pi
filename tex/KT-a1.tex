@@ -221,21 +221,21 @@ Because \(d^j_{\lambda0}(\theta_s) \propto P^\lambda_j(z_s)\) where these are th
 %%
   \begin{equation}
     \label{eq:iso-bose}
-   \mathcal{A}_\lambda(s, -z_s) \propto \sum_{j} (-1)^{j+\lambda} \; \times (2j+1) \;  d^j_{\lambda0}(\theta_s) \; A_{j\lambda}(s) \,.
+   \mathcal{A}_{-\lambda}(s, -z_s) \propto \sum_{j} (-1)^{j+\lambda} \; \times (2j+1) \;  d^j_{\lambda0}(\theta_s) \; A_{j\lambda}(s) \,.
   \end{equation}
 %%
 The effect of interchanging pions is discussed in \cite{JACOB1959404}, and should be independent of the helicity of the decaying particle in the initial state.
 %%
   \begin{equation}
     \label{eq:pipi-bose}
-    \ket{j \; m ; \pi_1(p_1) \, \pi_2(p_2)} = (-1)^j \; \ket{j \; m; \pi_1(p_2) \, \pi_2(p_1)}.
+    \ket{j \; m ; \pi_1(p_1) \, \pi_2(p_2)} = (-1)^j \; \ket{j \; -m; \pi_1(p_2) \, \pi_2(p_1)}.
   \end{equation}
 %%
 Examining \cref{eq:iso-bose}, the only way for \cref{eq:pipi-bose} to be satisfied in general is if:
 %%
   \begin{equation}
     \label{eq:helicity-bose}
-    \mathcal{A}_\lambda(s,-z_s) = (-1)^\lambda \; \mathcal{A}_\lambda(s, z_s),
+    \mathcal{A}_{-\lambda}(s,-z_s) = (-1)^\lambda \; \mathcal{A}_{\lambda}(s, z_s),
   \end{equation}
 %%
 this is the Bose symmetry condition for a meson decaying into three pions, (without definite isospin).
@@ -243,7 +243,7 @@ Thus, \(\hat{A}_{j\lambda}(s) = 0\) unless \(j\) is even and so we can restrict 
  %#######################################)#################################################################
  %#########################################################################################################
  %#########################################################################################################
- \subsection{Covariant Scalar Amplitudes}
+ \subsection{Covariant Scalar Amplitudes} \label{sec:covariant}
  In this section we relate the helicity amplitudes of the previous section to the form factors of the axial vector meson. Writing amplitudes in terms of covariant structures is in general more process dependent and obtaining equations for the discontinuities is more challenging.
 
    We start by writing out the most general covariant structure, contracting the polarization tensor of the decaying mesons with two independent combinations of the momenta of the pions:
@@ -323,7 +323,12 @@ Thus, \(\hat{A}_{j\lambda}(s) = 0\) unless \(j\) is even and so we can restrict 
    \end{align}
  %%
  Here we recall that \(\hat{A}_{j+}\) and \(\hat{A}_{j0}\) vanish for odd values of \(j\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_M^{-1}\) term in front of the sum for \(j\geq 1\) poses a problem as it adds two poles at the pseudo-thresholds: \(s = (M^2 \pm m_\pi^2)\).
- This means our helicity amplitudes are not completely independent of each other at the pseudo-threshold as the terms in the brackets in \cref{eq:matching_F} must vanish at these points as discussed in \cite{Mikhasenko:2017rkh}.
+ This means our helicity amplitudes are not completely independent of each other at the pseudo-threshold as the terms in the brackets in \cref{eq:matching_F} must vanish at these points as discussed in \cite{Mikhasenko:2017rkh}. In other words, at these points, we have the kinematic constraint between the two helicity partial waves at \(s = (M^2 \pm m_\pi^2)\).
+ %%
+ \begin{align}
+  \bigg[ M \; \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s) + 2 \; \sqrt{2} \; \lambda_M(s) \; (s+ M^2 - m_\pi^2) \; z_s \; \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s) \bigg] = 0 \; .
+ \end{align}
+ %%
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
@@ -464,7 +469,7 @@ Similarly, inverting \cref{eq:matrix} and solving for the isospin projected ampl
     \sum_{j = 0}^\jmax \; (2j + 1) \; d_{\lambda 0}^j(\theta_s) \; a_{j \lambda}^{(I)}(s) \nonumber \\
     &+ \sum_{m, \, \Ip} \sum_{j = 0}^\jmax (2j + 1) \; d_{\lambda m}^J(\hat{\theta_1}) \;  d_{m 0}^j(\theta_t) \; a_{j m}^{(\Ip)}(t) \; \frac{1}{2} \, C_{I\Ip} \\
     &+ \sum_{m, \, \Ip} \sum_{j = 0}^\jmax (2j + 1) \; d_{\lambda m}^J(\hat{\theta_2}) \;  d_{m 0}^j(\theta_u) \;
-     a_{j m}^{(\Ip)}(u) \; (-1)^{I + \lambda + \Ip+  m} \; \frac{1}{2} \, C_{I\Ip} \; .
+     a_{j m}^{(\Ip)}(u) \; (-1)^{I + \lambda + \Ip+  m} \; \frac{1}{2} \, C_{I\Ip} \; . \nonumber
   \end{align}
 %%
 or with all the kinematic terms factored out,
@@ -551,7 +556,7 @@ Immediately we see \cref{rot-kin-sym} is consistent with the \(\phi/\omega \to 3
     \end{bmatrix}
   \end{align}
 %%
-where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0}(z_t) \; K_{\lambda0}(t)\) and the presence of the sum over \(j\), \(d\)-functions, and \((kq)^{j-|\lambda|}\) factors is implied. In terms of the invariant amplitudes,
+where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0}(z_t) \; K_{\lambda0}(t)\) and the presence of the sum over \(j\), \(d\)-functions, and \((kq)^{j-|\lambda|}\) factors is implied. In terms of the invariant amplitudes with the momenta and helicity definied in the \(s\)-channel center of mass frame s in \cref{sec:covariant}:
 %%
   \begin{align} \label{matrix-covariant}
     \begin{bmatrix}
@@ -591,7 +596,7 @@ thus combining \cref{matrix-helicity,matrix-covariant} we get the consistency re
     (p_3 - p_2)^\mu \;  \bar{G}(t,z_t)
   \end{bmatrix}
    \; .
-\end{align}
+ \end{align}
 %%
 Plugging in
 %#########################################################################################################

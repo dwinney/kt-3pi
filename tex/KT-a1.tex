@@ -134,7 +134,7 @@ Here
   \end{equation}
 with \(\lambda(x,y,z) = x^2 + y^2 + z^2 - 2 (xy + yz + zx)\) is the K\"{a}ll\'{e}n function, are the magnitudes of  the relative momentum between outgoing pions and the incoming pion's momentum respectively. \(M\) is the mass of the decaying particle. The \((kq)^{j-\lambda}\) term is included to cancel out singularities in \(s\) from the \(d\)-function at threshold and pseudo-threshold (see eq. 6.2.9 in \cite{Collins}).
 
-The other kinematic factor, \(K_{\lambda0}\) arise  because near threshold \(\hat{a}_{j\lambda}(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(j\) and \(L\) between helicity amplitudes and \(LS\) amplitudes (see discussions in \cite{Jackson1968,Franklin1966}). Near threshold:
+The other kinematic factor, \(K_{\lambda0}\) arise  because near threshold \(\hat{A}_{j\lambda}(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(j\) and \(L\) between helicity amplitudes and \(LS\) amplitudes (see discussions in \cite{Jackson1968,Franklin1966}). Near threshold:
 %%
   \begin{gather}
     A_{j\lambda}(s) \sim k(s)^{L_i} \, q(s)^{L_f} \times (k(s)q(s))^{j- |\lambda|}
@@ -182,7 +182,7 @@ We additionally notice that the two kinematic functions are related to the Loren
 where
 %%
   \begin{equation}
-    \phi = (2\sqrt{s} \; \sin \theta_s \; k(s) q(s))^2 =  \; \sin^2\theta_s \; \lambda_M(s) \; \lambda_\pi(s) \; .
+    \phi = (2\sqrt{s} \; \sin \theta_s \; k(s) q(s))^2 =  \; \sin^2\theta_s \; \frac{\lambda_M(s) \; \lambda_\pi(s)}{4s} \; .
   \end{equation}
 %%
 
@@ -190,7 +190,7 @@ The fully factorized amplitudes in terms of kinematic-singularity-free helicity 
 %%
   \begin{equation}
     \label{eq:helicity-final}
-    \mathcal{A}_\lambda(s,z_s) = \xi_{\lambda0}(z_s) \; K_{\lambda0}(s) \;  \sum_{j= |\lambda|}^\infty (2j+1) \, (k(s)q(s))^{j- |\lambda|} \; \hat{d}^j_{\lambda0}(\theta_s)  \; \hat{A}^{(s)}_{j\lambda}(s)
+    \mathcal{A}_\lambda(s,z_s) = \xi_{\lambda0}(z_s) \; K_{\lambda0}(s) \;  \sum_{j= |\lambda|}^\infty (2j+1) \, (k(s)q(s))^{j- |\lambda|} \; \hat{d}^j_{\lambda0}(\theta_s)  \; \hat{A}_{j\lambda}(s)
   \end{equation}
 %%
 with care to treat the \(\lambda =0, \;  j=0\) case as discussed above in \cref{eq:lilf}.
@@ -221,21 +221,21 @@ Because \(d^j_{\lambda0}(\theta_s) \propto P^\lambda_j(z_s)\) where these are th
 %%
   \begin{equation}
     \label{eq:iso-bose}
-   \mathcal{A}_{-\lambda}(s, -z_s) \propto \sum_{j} (-1)^{j+\lambda} \; \times (2j+1) \;  d^j_{\lambda0}(\theta_s) \; A_{j\lambda}(s) \,.
+   \mathcal{A}_{\lambda}(s, -z_s) \propto \sum_{j} (-1)^{j+\lambda} \; \times (2j+1) \;  d^j_{\lambda0}(\theta_s) \; A_{j\lambda}(s) \,.
   \end{equation}
 %%
 The effect of interchanging pions is discussed in \cite{JACOB1959404}, and should be independent of the helicity of the decaying particle in the initial state.
 %%
   \begin{equation}
     \label{eq:pipi-bose}
-    \ket{j \; m ; \pi_1(p_1) \, \pi_2(p_2)} = (-1)^j \; \ket{j \; -m; \pi_1(p_2) \, \pi_2(p_1)}.
+    \ket{j \; m ; \pi_1(p_1) \, \pi_2(p_2)} = (-1)^j \; \ket{j \; m; \pi_1(p_2) \, \pi_2(p_1)}.
   \end{equation}
 %%
 Examining \cref{eq:iso-bose}, the only way for \cref{eq:pipi-bose} to be satisfied in general is if:
 %%
   \begin{equation}
     \label{eq:helicity-bose}
-    \mathcal{A}_{-\lambda}(s,-z_s) = (-1)^\lambda \; \mathcal{A}_{\lambda}(s, z_s),
+    \mathcal{A}_{\lambda}(s,-z_s) = (-1)^\lambda \; \mathcal{A}_{\lambda}(s, z_s),
   \end{equation}
 %%
 this is the Bose symmetry condition for a meson decaying into three pions, (without definite isospin).
@@ -322,8 +322,8 @@ Thus, \(\hat{A}_{j\lambda}(s) = 0\) unless \(j\) is even and so we can restrict 
    & \bigg[ 4 \sqrt{2} \; (s + M^2 - m_\pi^2) \;  (k(s)q(s)) \,  z_s\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(s)\,q(s))^{j - 1} \;  \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s)
    \end{align}
  %%
- Here we recall that \(\hat{A}_{j+}\) and \(\hat{A}_{j0}\) vanish for odd values of \(j\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_M^{-1}\) term in front of the sum for \(j\geq 1\) poses a problem as it adds two poles at the pseudo-thresholds: \(s = (M^2 \pm m_\pi^2)\).
- This means our helicity amplitudes are not completely independent of each other at the pseudo-threshold as the terms in the brackets in \cref{eq:matching_F} must vanish at these points as discussed in \cite{Mikhasenko:2017rkh}. In other words, at these points, we have the kinematic constraint between the two helicity partial waves at \(s = (M^2 \pm m_\pi^2)\).
+ Here we recall that \(\hat{A}_{j+}\) and \(\hat{A}_{j0}\) vanish for odd values of \(j\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_M^{-1}\) term in front of the sum for \(j\geq 1\) poses a problem as it adds two poles at the pseudo-thresholds: \(s = (M \pm m_\pi)^2\).
+ This means our helicity amplitudes are not completely independent of each other at the pseudo-threshold as the terms in the brackets in \cref{eq:matching_F} must vanish at these points as discussed in \cite{Mikhasenko:2017rkh}. In other words, at these points, we have the kinematic constraint between the two helicity partial waves at \(s = (M \pm m_\pi)^2\).
  %%
  \begin{align}
   \bigg[ M \; \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s) + 2 \; \sqrt{2} \; \lambda_M(s) \; (s+ M^2 - m_\pi^2) \; z_s \; \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s) \bigg] = 0 \; .
@@ -383,13 +383,13 @@ We can then rewrite \cref{eq:iso-D-matrix} as
 where \(\hat{\theta}_i\) the angle between \(p_3\) and \(p_i\) in the total CM frame \((p_M = 0\)):
 %%
   \begin{align}
-    \sin\hat{\theta_1} = \frac{
+    \sin\hat{\theta}_1 = \frac{
     2 \; M \; \sqrt{\phi}
     }{
     \sqrt{\lambda_M(s) \;  \lambda_M(t)}
     }
     \mand
-    \sin\hat{\theta_2} = \frac{
+    \sin\hat{\theta}_2 = \frac{
     2 \; M \; \sqrt{\phi}
     }{
     \sqrt{\lambda_M(s) \;  \lambda_M(u)}
@@ -398,15 +398,15 @@ where \(\hat{\theta}_i\) the angle between \(p_3\) and \(p_i\) in the total CM f
 %%
 or
 %%
-\begin{subequations}
   \begin{align}
-    \cos\hat{\theta_1} &= \frac{(M^2 + m_\pi^2 - s)(M^2 + m_\pi^2 - t) + 2 \; M^2 (2m_\pi^2 - u)}
-    {\sqrt{\lambda_M(s) \; \lambda_M(t)}} \\
-    \cos\hat{\theta_2} &= \frac{(M^2 + m_\pi^2 - s)(M^2 + m_\pi^2 - u) + 2 \; M^2 (2m_\pi^2 - t)}
+    \cos\hat{\theta}_1 &= \frac{n(s,t)}
+    {\sqrt{\lambda_M(s) \; \lambda_M(t)}} \mand
+    \cos\hat{\theta}_2 = \frac{n(s,u)}
     {\sqrt{\lambda_M(s) \; \lambda_M(u)}} \; .
   \end{align}
-\end{subequations}
 %%
+for \(n(s,t) = (M^2 + m_\pi^2 - s)(M^2 + m_\pi^2 - t) + 2 \; M^2 (2m_\pi^2 - u)\).
+
  We note that the functions \(a^{(x)}_{jm}(x)\) are not the same as the helicity partial waves of the previous section. The isobar partial wave amplitudes describe an isobar intermediate state with total angular momentum \(j\), but taking the partial wave projection of \cref{eq:iso-d-func} we see we have contributions from the cross channel isobar functions as well, which we did not have in \cref{sec:helicity}.
 
 Particles with unnatural parity which decay into \(3\pi\) correspond to isovector particles, thus we need to take into account the different isospin projections in which the reaction can resonate.
@@ -428,6 +428,7 @@ We define isospin definite isobars by plugging \cref{eq:iso-d-func} into \cref{e
 We note this is the same definition as \cite{Albaladejo2018}, which did not have complication of spin in the \(J^P = 0^-\) case. This is because the interchanges of Mandelstam variables are related to the interchanges of particles by
 %%
   \begin{equation}
+    \label{frame-change}
     s\leftrightarrow  t  \qquad \pi_3 \leftrightarrow \pi_1 \qquad \Rightarrow \qquad \hat{\theta}_1 \to \hat{\theta}_3 = 0 \; ,
   \end{equation}
 %%
@@ -497,23 +498,23 @@ In the covariant formalism, we write:
   \begin{align}
     \label{eq:covariant-iso-decomp}
     \mathcal{A}_\lambda(s,t,u) = \epsilon_\mu^\lambda(p_A) \; \times \; &\bigg[
-     \bar{F}(s,z_s) \; (p_1 + p_2)^\mu
-     + \bar{F}(t, z_t) \; (p_3 + p_2)^\mu
-      + \bar{F}(u, z_u) \; (p_1 + p_3)^\mu \nonumber \\
-    &+\bar{G}(s,z_s) \; (p_1 - p_2)^\mu
-    + \bar{G}(t,z_t) \; (p_3 - p_2)^\mu
-    + \bar{G}(u,z_u) \; (p_1 - p_3)^\mu \bigg]
+     \bar{F}^{(s)}(s,t,u) \; (p_1 + p_2)^\mu
+     +  \bar{F}^{(t)}(s,t,u)  \; (p_3 + p_2)^\mu
+      +  \bar{F}^{(u)}(s,t,u)  \; (p_1 + p_3)^\mu \nonumber \\
+    &+ \bar{G}^{(s)}(s,t,u) \; (p_1 - p_2)^\mu
+    + \bar{G}^{(t)}(s,t,u)  \; (p_3 - p_2)^\mu
+    + \bar{G}^{(u)}(s,t,u)  \; (p_1 - p_3)^\mu \bigg]
   \end{align}
 %%
-where each \(\bar{F}(s,z_s)\) and \(\bar{G}(s,z_s)\) have a form analogous to \cref{eq:matching_F,eq:matching_G} respectively but with a truncated sum of isobar partial waves in the specific channel:
+where each \(\bar{F}^{(x)}\) and \(\bar{G}^{(x)}\) have a form analogous to \cref{eq:matching_F,eq:matching_G} respectively but with a truncated sum of isobar partial waves in the specific channel:
 %%
 \begin{subequations}
   \begin{align}
-    \bar{F}(x,z_x) &= 2 M \, \hat{A}_{00}(x) + \, \bigg[ \frac{2M}{\lambda_M(x)}\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j} \;  \hat{d}^j_{00}(\theta_x) \; \hat{a}_{j0}(x)  \nonumber \\
+  \bar{F}^{(x)}(s,t,u)  &= 2 M \, \hat{a}^{(x)}_{00}(x) + \, \bigg[ \frac{2M}{\lambda_M(x)}\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j} \;  \hat{d}^j_{00}(\theta_x) \; \hat{a}^{(x)}_{j0}(x)  \nonumber \\
      %%
-  & \qquad \qquad \bigg[ 4 \sqrt{2} \; (x + M^2 - m_\pi^2) \;  (k(x)q(x)) \,  z_x\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j - 1} \;  \hat{d}^j_{10}(\theta_x) \; \hat{a}_{j+}(x)
+  & \qquad \qquad \bigg[ 4 \sqrt{2} \; (x + M^2 - m_\pi^2) \;  (k(x)q(x)) \,  z_x\bigg] \times \sum_{j \text{ even}}^\infty (2j+1) \, (k(x)\,q(x))^{j - 1} \;  \hat{d}^j_{10}(\theta_x) \; \hat{a}^{(x)}_{j+}(x)
       \label{isobar-f} \\
-     \bar{G}(x,z_x) &=  \bigg[ - 8 \sqrt{2} \; x \; k(x) \, q(x) \bigg] \times \sum_{j = 1}^\infty (2j+1) \, (k(x)q(x))^{j - 1} \,\hat{d}^j_{10}(\theta_x) \, \hat{a}_{j+}(x) \; . \label{isobar-g}
+     \bar{G}^{(x)}(s,t,u)  &=  \bigg[ - 8 \sqrt{2} \; x \; k(x) \, q(x) \bigg] \times \sum_{j = 1}^\infty (2j+1) \, (k(x)q(x))^{j - 1} \,\hat{d}^j_{10}(\theta_x) \, \hat{a}^{(x)}_{j+}(x) \; . \label{isobar-g}
   \end{align}
 \end{subequations}
 %%
@@ -522,16 +523,16 @@ We reiterate that the \(\hat{a}_{j\lambda}(x)\) functions in \cref{isobar-f,isob
 To further motivate the use of the helicity formalism of \cref{sec:helicity}, we wish to match the kinematic singularity terms in the covariant and helicity formalisms. We focus on the \(t\)-channel isobar piece of \cref{eq:isobar}, with the \(u\)-channel being analogous. Identifying the \(t\)-channel contribution of \(\mathcal{A}_\lambda\) in general:
 %%
   \begin{align} \label{rot-kin-sym}
-    &\sum_{m} d_{\lambda m}^J(\hat{\theta}_1) \; \xi_{m0}(z_t) \; K_{m0}(t) \times \bigg[\sum_{j=0}^\jmax (2j+1) \; (k(t)q(t))^{j-|\lambda|} \; \hat{d}^j_{m0}(\theta_t) \; \hat{a}_{jm}(t) \bigg]
+    &\sum_{m} d_{\lambda m}^J(\hat{\theta}_1) \; \xi_{m0}(z_t) \; K_{m0}(t) \times \bigg[\sum_{j=0}^\jmax (2j+1) \; (k(t)q(t))^{j-|\lambda|} \; \hat{d}^j_{m0}(\theta_t) \; \hat{a}^{(t)}_{jm}(t) \bigg]
     = \nonumber \\
 %%
     &\sum_{|m| = 1}^J \bigg[ d_{\lambda \, +|m|}^J(\hat{\theta}_1) + P (-1)^{|m|} \; d_{\lambda \,-|m|}^J(\hat{\theta}_1) \bigg] \big(\xi_{|m|0}(z_t) \; K_{|m|0}(t)\big) \times
-    \bigg[\sum_{j=0}^\jmax (2j+1) \; (k(t)q(t))^{j-1} \; \hat{d}^j_{|m|0}(\theta_t) \; \hat{a}_{j|m|}(t) \bigg] \\
+    \bigg[\sum_{j=0}^\jmax (2j+1) \; (k(t)q(t))^{j-1} \; \hat{d}^j_{|m|0}(\theta_t) \; \hat{a}^{(t)}_{j|m|}(t) \bigg] \\
 %%
-    &\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \,
+    &\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad
      + \frac{1}{2}\big(1 + P \big) \;
      d^J_{\lambda \, 0}(\hat{\theta}_1) \; K_{00}(z_t) \times
-    \bigg[\sum_{j=0}^\jmax (2j+1) \; (k(t)q(t))^{j} \; \hat{d}^j_{00}(\theta_t) \; \hat{a}_{j0}(t) \bigg]
+    \bigg[\sum_{j=0}^\jmax (2j+1) \; (k(t)q(t))^{j} \; \hat{d}^j_{00}(\theta_t) \; \hat{a}^{(t)}_{j0}(t) \bigg]
     \nonumber
   \end{align}
 %%
@@ -541,64 +542,92 @@ Immediately we see \cref{rot-kin-sym} is consistent with the \(\phi/\omega \to 3
 %%
   \begin{align} \label{matrix-helicity}
     \begin{bmatrix}
-    \mathcal{A}_0 \\
-    \mathcal{A}_1
+  A^{(t)}_0(s,t,u) \\
+  A^{(t)}_1(s,t,u)
     \end{bmatrix}
-    \propto
+    =
     \begin{bmatrix}
-        \cos \hat{\theta}_1  &  \sqrt{2} \; \sin \hat{\theta}_1   \\
-       - \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1  & \cos \hat{\theta}_1
+        \cos \hat{\theta}_1 \;  \tilde{K}_{0}(t)   &  \sqrt{2} \; \sin \hat{\theta}_1 \; \tilde{K}_{1}(t) \\
+       - \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1 \;  \tilde{K}_{0}(t)  & \cos \hat{\theta}_1 \; \tilde{K}_{1}(t)
     \end{bmatrix}
     \times
     \begin{bmatrix}
-       \tilde{K}_{0}(t) \; \hat{a}_{j0}(t) \\
-     \tilde{K}_{1}(t) \;   \hat{a}_{j+}(t)
+       \hat{a}^{(t)}_{j0}(t) \\
+        \hat{a}^{(t)}_{j+}(t)
     \end{bmatrix}
   \end{align}
 %%
-where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0}(z_t) \; K_{\lambda0}(t)\) and the presence of the sum over \(j\), \(d\)-functions, and \((kq)^{j-|\lambda|}\) factors is implied. In terms of the invariant amplitudes with the momenta and helicity definied in the \(s\)-channel center of mass frame s in \cref{sec:covariant}:
+where we have condensed the notation with \(\tilde{K}_\lambda(t) = \xi_{\lambda0}(z_t) \; K_{\lambda0}(t)\) and the presence of the sum over \(j\), \(d\)-functions, and \((kq)^{j-|\lambda|}\) factors is implied. In terms of the invariant amplitudes with the momenta and helicity defined in the \(s\)-channel center of mass frame s in \cref{sec:covariant}:
 %%
   \begin{align} \label{matrix-covariant}
     \begin{bmatrix}
-    \mathcal{A}_0 \\
-    \mathcal{A}_1
+    A^{(t)}_0(s,t,u) \\
+  A^{(t)}_1(s,t,u)
     \end{bmatrix}
-    \propto
+    =
     \begin{bmatrix}
-      \epsilon_\mu^0 (p_3 + p_2)^\mu & \epsilon_\mu^0 (p_3 - p_2)^\mu \\
-    \epsilon_\mu^+  (p_3 + p_2)^\mu & \epsilon_\mu^+ (p_3 - p_2)^\mu
+      \epsilon^0 \cdot (p_3 + p_2) & \epsilon^0 \cdot (p_3 - p_2) \\
+    \epsilon^+ \cdot (p_3 + p_2) & \epsilon^+ \cdot (p_3 - p_2)
     \end{bmatrix}
     \times
     \begin{bmatrix}
-      \bar{F}(t,z_t) \\
-       \bar{G}(t,z_t)
+      \bar{F}^{(t)}(s,t,u)  \\
+      \bar{G}^{(t)}(s,t,u)
     \end{bmatrix}
   \end{align}
 %%
 thus combining \cref{matrix-helicity,matrix-covariant} we get the consistency relation:
 \begin{align}
+  \label{consistency}
   \begin{bmatrix}
-  \tilde{K}_{0}(t) \; \hat{a}_{j0}(t) \\
-    \tilde{K}_{1}(t) \; \hat{a}_{j+}(t)
+ \hat{a}^{(t)}_{j0}(t) \\
+ \hat{a}^{(t)}_{j+}(t)
   \end{bmatrix}
   =
+  \frac{1}{\tilde{K}_{0}(t) \; \tilde{K}_{1}(t)}
   \begin{bmatrix}
-      \cos \hat{\theta}_1  & - \sqrt{2} \; \sin \hat{\theta}_1  \\
-     \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1  & \cos \hat{\theta}_1
+      \cos \hat{\theta}_1 \;  \tilde{K}_{1}(t)   &  - \sqrt{2} \; \sin \hat{\theta}_1 \; \tilde{K}_{1}(t) \\
+     \frac{1}{\sqrt{2}}  \; \sin \hat{\theta}_1 \;  \tilde{K}_{0}(t)  & \cos \hat{\theta}_1 \; \tilde{K}_{0}(t)
   \end{bmatrix}
   \begin{bmatrix}
-    \epsilon^0_\mu  & \epsilon_\mu^0 \\
-  \epsilon_\mu^+  & \epsilon_\mu^+
+    \epsilon^0 \cdot (p_3 + p_2) & \epsilon^0 \cdot (p_3 - p_2) \\
+  \epsilon^+ \cdot (p_3 + p_2) & \epsilon^+ \cdot (p_3 - p_2)
   \end{bmatrix}
-  \times
   \begin{bmatrix}
-    (p_3 + p_2)^\mu \; \bar{F}(t,z_t) \\
-    (p_3 - p_2)^\mu \;  \bar{G}(t,z_t)
+     \bar{F}^{(t)}(s,t,u)  \\
+     \bar{G}^{(t)}(s,t,u)
   \end{bmatrix}
    \; .
  \end{align}
 %%
-Plugging in
+We can immediately recognize that the product of matrices as boosting the polarization Lorentz vector from the \(s\)-channel scattering frame to the \(t\)-channel frame.
+
+Additionally, using the kinematic changes from the interchange of Mandelstam variables \cref{frame-change},
+we see \cref{consistency} with \(s\leftrightarrow t\) shows
+%%
+\begin{align}
+  \begin{bmatrix}
+   \hat{a}^{(t)}_{j0}(s) \\
+   \hat{a}^{(t)}_{j+}(s)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  \big( \tilde{K}_{0}(s) \big)^{-1} & 0 \\
+  0 &   \big( \tilde{K}_{1}(s) \big)^{-1}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \epsilon^0 \cdot (p_1 + p_2) & \epsilon^0 \cdot (p_1 - p_2) \\
+  \epsilon^+ \cdot (p_1 + p_2) & \epsilon^+ \cdot (p_1 - p_2)
+  \end{bmatrix}
+  \times
+  \begin{bmatrix}
+     \bar{F}^{(t)}(t,s,u)  \\
+     \bar{G}^{(t)}(t,s,u)
+  \end{bmatrix}
+   \; .
+ \end{align}
+%%
+
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################

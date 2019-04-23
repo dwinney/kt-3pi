@@ -1,0 +1,527 @@
+%########################################################################################################
+%#########################################################################################################
+%########################################################################################################
+\section{Helicity Partial Wave Amplitudes} \label{sec:helicity}
+Following \cite{Mikhasenko:2017rkh} We start by writing the matrix element as a sum over \(s\)-channel helicity amplitudes (see eq. 10-5 in~\cite{perl}) by considering the scattering channel \(M(p_M, \lambda) \pi_3(\overline{p}_3) \to  \pi_1(p_1)\pi_2(p_2)\):
+%%
+  \begin{equation}
+    \label{eq:helicity}
+    \mathcal{A}_\lambda(s,z_s) = \sum_{j= |\lambda|}^\infty \, (2j +1) \; e^{i\lambda\varphi} \, d_{\lambda0}^j(\theta_s) \; A_{j \lambda}(s).
+  \end{equation}
+%%
+The angular dependence of the decay is described by Wigner-\(d\) functions of the \(s\)-channel scattering angle, \(\theta_s\), if we choose the \(x-z\) plane as the scattering plane (i.e. \(\varphi = 0 \) ).
+%%
+\subsection{Kinematic Singularities}
+\label{sec:kin-singularities}
+We wish to factor out all kinematic singularities in \(s\) and \(\theta_s\) from the helicity partial wave and rotational function respectively. First we define the kinematic-free \(d\)-function, denoted with a hat, such that:
+%%
+  \begin{equation}
+      \label{eq:halfangle}
+      d^j_{\lambda 0}(\theta_s) = \hat{d}^j_{\lambda 0}(\theta_s) \; \xi_{\lambda}(z_s)
+       \quad \text{ where } \quad
+      \xi_{\lambda}(z_s) = \bigg( \sqrt{ 1- z_s^2} \bigg)^{|\lambda|}
+       \quad \text{ and } \quad
+      \hat{d}^j_{\lambda 0}(\theta_s) = \frac{d^{|\lambda|}}{d \, z_s^{|\lambda|}} (P_j(z_s))
+  \end{equation}
+%%
+where \(\xi_{\lambda}\) are the ``half-angle factors" (see eq. 4.4.12 in \cite{Collins}).
+
+We similarly factor out singularities in \(s\) by defining:
+%%
+  \begin{equation}
+    \label{eq:kinematicfreepartialwave}
+    A^{(s)}_{j\lambda}(s) = s^{-|\lambda|/2} \;  (k(s)q(s))^{j - |\lambda|} \, \tilde{K}_{\lambda} \times \hat{A}_{j\lambda}(s).
+  \end{equation}
+%%
+Here
+  \begin{equation}
+    \label{eq:momenta}
+    q(s) = \frac{\lambda^{1/2}(m_\pi^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_\pi^{1/2}(s)}{2\sqrt{s}}
+     \qquad \text{ and } \qquad
+     k(s) = \frac{\lambda^{1/2}(M^2, m_\pi^2, s)}{2\sqrt{s}} = \frac{\lambda_M^{1/2}(s)}{2\sqrt{s}} ,
+  \end{equation}
+with \(\lambda(x,y,z) = x^2 + y^2 + z^2 - 2 (xy + yz + zx)\) is the K\"{a}ll\'{e}n function, are the magnitudes of  the relative momentum between outgoing pions and the incoming pion's momentum respectively. \(M\) is the mass of the decaying particle. The \((kq)^{j-\lambda}\) term is included to cancel out singularities in \(s\) from the \(d\)-function at threshold and pseudo-threshold (see eq. 6.2.9 in \cite{Collins}).
+
+The other kinematic factor, \(\tilde{K}_{\lambda}\) arise  because near threshold \(\hat{A}_{j\lambda}(s)\) has additional power behavior of \(k(s)\) or \(q(s)\) corresponding to the dependence on \(j\) and \(L\) between helicity amplitudes and \(LS\) amplitudes (see discussions in \cite{Jackson1968,Franklin1966}). Near threshold:
+%%
+  \begin{gather}
+    A_{j\lambda}(s) \sim k(s)^{L_i} \, q(s)^{L_f} \times (k(s)q(s))^{j- |\lambda|}
+  \end{gather}
+%%
+where \(L_i\) and \(L_f\) are the minimum angular momentum of the initial and final states for the given helicity. We have:
+%%
+  \begin{align}
+      L_i = 1, L_f = 0 &\qquad  \text{ for } \lambda = 0, \; j = 0   \nonumber \\
+      L_i = -1, L_f = 0 &\qquad  \text{ for } \lambda = 0, \;  j \label{eq:lilf} \geq 1  \\
+      L_i = 0 , L_f = 1 & \qquad  \text{ for } \lambda = 1, \; j \geq 0 \nonumber
+  \end{align}
+%%
+We note that we must treat the \(j=0\) term in \cref{eq:kinematicfreepartialwave} differently, since it has a different lowest orbital angular momentum possible than \(j\geq 1\). The explicit form for \(\tilde{K}_{\lambda}\) is given by Table 6.1 in \cite{Collins}. For the axial-vector decay:
+%%
+  \begin{align}
+    \label{eq:k-factor-tilde}
+    \tilde{K}_{\lambda}(s) =
+    \begin{cases}
+       \lambda^{1/2}_M(s)    &     \text{  for }\lambda = 0, \; j=0 \\
+       \lambda^{-1/2}_M(s)  &\text{ for } \lambda = 0, \; j\geq 1 \\
+       \lambda_\pi^{1/2}(s)     &\text{ for } \lambda = 1, \; j\geq 0
+    \end{cases}
+  \end{align}
+%%
+which is consistent with \cref{eq:lilf}. In general, for a particle with quantum numbers \(J^{PC}\) decaying with helicity \(\lambda\) into three pions has
+%%
+  \begin{align}
+    \tilde{K}_{\lambda }(s) &=  (2 \; \sqrt{s} \; k(s))^{|\lambda| - Y_i} \; (2 \; \sqrt{s} \; q(s))^{|\lambda| - Y_f} \nonumber \\
+    &=   \big(\lambda^{1/2}_M(s)\big)^{|\lambda| - Y_i}
+    \; \big(\lambda_\pi^{1/2}(s)\big)^{|\lambda| - Y_f}\, .
+  \end{align}
+%5
+with
+%%
+  \begin{equation}
+    -Y_i =  \frac{1}{2}\big[ 1 + \eta \big] - J \mand  -Y_f =  \frac{1}{2} \big[ 1 - \eta \big]
+    \end{equation}
+%%
+where \(\eta = \pm1\) is the naturality of the exchange particle connecting the initial and final state vertices. Because this must couple to the \(\pi\pi\) final state and we assume parity conservation, \(\eta = +1\) such that
+%%
+  \begin{equation}
+    Y_i =  J \mand  Y_f =  0 \, .
+    \end{equation}
+%%
+We note that the kinematic singularity functions are related to the Lorentz-covariant Kibble function, \(\phi\), by:
+%%
+  \begin{equation}
+    \label{eq:k-factor}
+    K_\lambda(s) = s^{-|\lambda|/2} \; \xi_{\lambda}(z_s) \; \tilde{K}_{\lambda}(s) = \sqrt{\phi^{|\lambda|}} \; \sqrt{\lambda_M^{Y_i}(s) \; \lambda_\pi^{Y_f}(s)}\;  .
+  \end{equation}
+%%
+Explicitly, the Kibble function can be expressed in terms of invariants as:
+%%
+  \begin{equation}
+    \phi = (2\sqrt{s} \; \sin \theta_s \; k(s) q(s))^2 =  \bigg( \sin\theta_s \; \frac{\lambda^{1/2}_M(s) \; \lambda^{1/2}_\pi(s)}{2 \,\sqrt{s}} \bigg)^2 = s \, t\, u - m_\pi^2 \;(M^2 - m_\pi^2)^2 \; ,
+  \end{equation}
+%%
+with \(\phi = 0\) defining the boundaries of physical kinematic regions.
+
+The fully factorized amplitudes in terms of kinematic-singularity-free helicity amplitudes then takes the form
+%%
+  \begin{equation}
+    \label{eq:helicity-final}
+    \mathcal{A}_\lambda(s,z_s) =  K_{\lambda}(s)  \sum_{j= |\lambda|}^\infty (2j+1) \, (k(s)q(s))^{j- |\lambda|} \; \hat{d}^j_{\lambda0}(\theta_s)  \; \hat{A}_{j\lambda}(s)
+  \end{equation}
+%%
+with care to treat the \(\lambda =0, \;  j=0\) case as discussed above in \cref{eq:lilf}.
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################
+\subsection{Parity and Bose Symmetry} \label{sec:symmetry}
+In general we have \((2J+1)\) helicity amplitudes to consider but we can use parity to reduce this number.
+
+The amplitude must conserve parity, so since the axial-vector meson is even under parity, \( P_A = +1\), and using \(P_\pi = -1\), we can relate \(A_{j+}(s) = A_{j-}(s)\). Or more generally:
+%%
+  \begin{equation}
+    \label{parity-jpc}
+    \hat{A}_{-\lambda}(s,z_s) = -P(-1)^{J+\lambda} \; \hat{A}_{\lambda}(s,z_s)
+  \end{equation}
+%%
+
+In general, for parity even mesons such as the \(a_1(1260)\), we will have \((J +1)\) helicity amplitudes and parity odd (\(\omega \text{ or } \phi\)) will have \(J\) helicity amplitudes because \(\hat{A}_{j0}(s) = 0\). So for our axial vector we only have two independent helicity amplitudes and we choose to consider \(\lambda = 0,\; +1\).
+
+We rewrite \cref{eq:helicity}
+%%
+  \begin{align}
+    \label{eq:model-helicity-zero}
+    \mathcal{A}_0(s,z_s) &= \frac{1}{K_{0}(s)} \, \hat{A}_{00}(s) + K_{0}(s) \sum_{j = 0}^\infty (2j+1) \, (k(s)q(s))^j \; \hat{d}_{00}^j(\theta_s) \, \hat{A}_{j0}(s) \\
+    \nonumber \\
+    \label{eq:model-helicity-plus}
+    \mathcal{A}_+(s,z_s) &=  K_{+}(s) \sum_{j = 2}^\infty (2j+1) \ (k(s)q(s))^{j-1} \;  \hat{d}_{10}^j(\theta_s) \, \hat{A}_{j+}(s) \,.
+   \end{align}
+%%
+We recall that \(\hat{d}^j_{\lambda 0}(\theta_s)\) and \(\hat{A}_{j\lambda}(s)\) are free of any kinematic singularities and the analytic structure therefore is solely dynamical.
+
+The sums can be further restricted by imposing Bose symmetry. Because we have identical pions in the final state, the amplitude must be invariant under the interchange \(z_s \to -z_s\) regardless of the helicity of the decaying meson.
+Because \(d^j_{\lambda0}(\theta_s) \propto P^\lambda_j(z_s)\) where these are the associated Legendre polynomials, the amplitudes transform as
+%%
+  \begin{equation}
+    \label{eq:iso-bose}
+   \mathcal{A}_{\lambda}(s, -z_s) \propto \sum_{j} (-1)^{j+\lambda} \; \times (2j+1) \;  d^j_{\lambda0}(\theta_s) \; A_{j\lambda}(s) \,.
+  \end{equation}
+%%
+The effect of interchanging pions is discussed in \cite{JACOB1959404}, and should be independent of the helicity of the decaying particle in the initial state.
+%%
+  \begin{equation}
+    \label{eq:pipi-bose}
+    \ket{j \; m ; \pi_1(p_1) \, \pi_2(p_2)} = (-1)^j \; \ket{j \; m; \pi_1(p_2) \, \pi_2(p_1)}.
+  \end{equation}
+%%
+Examining \cref{eq:iso-bose}, the only way for \cref{eq:pipi-bose} to be satisfied in general is if:
+%%
+  \begin{equation}
+    \label{eq:helicity-bose}
+    \mathcal{A}_{\lambda}(s,-z_s) = (-1)^\lambda \; \mathcal{A}_{\lambda}(s, z_s),
+  \end{equation}
+%%
+this is the Bose symmetry condition for a meson decaying into three pions, (without definite isospin).
+Thus, \(\hat{A}_{j\lambda}(s) = 0\) unless \(j\) is even and so we can restrict the sum to even values.
+
+If we define isospin-definite amplitudes by \cref{eq:matrix}, the analogous expression to \cref{eq:helicity-bose} gives
+%%
+  \begin{equation}
+    \label{eq:helicity-iso-bose}
+      \mathcal{A}^{(I)}_{\lambda}(s,-z_s) = (-1)^{I + \lambda} \; \mathcal{A}^{(I)}_{\lambda}(s, z_s) \;,
+  \end{equation}
+%%
+since the \(\pi\pi\) final state in a configuration of definite isospin-\(I\) transforms as
+%%
+  \begin{equation}
+    \label{eq:pipi-iso-bose}
+    \ket{j \; m, \, I ;  \pi^a_1(p_1) \, \pi^b_2(p_2)} = (-1)^{j+I} \, \ket{j \; m, \, I; \pi^b_1(p_2) \, \pi^a_2(p_1)}
+    \; .
+  \end{equation}
+%%
+Thus the sums over isospin-definite, helicity partial waves is restricted to values of \(j\) with \(I + j\) is even.
+ %#######################################)#################################################################
+ %#########################################################################################################
+ %#########################################################################################################
+ \subsection{Connection to Covariant Scalar Amplitudes} \label{sec:covariant}
+ In this section we relate the helicity amplitudes of the previous section to Lorentz scalar amplitudes. Writing amplitudes in terms of covariant structures is in general more process dependent and obtaining equations for the discontinuities is more challenging. We illustrate the procedure with the axial vector meson in order to match with previous results derived directly from the helicity amplitudes.
+
+   We start by writing out the most general covariant structure, contracting the polarization tensor of the decaying mesons with two independent combinations of the momenta of the pions:
+ %%
+   \begin{equation}
+     \label{eq:covariant}
+     \mathcal{A}_\lambda(s,t,u) = \epsilon_\mu^\lambda(p_M) \, \bigg[ F(s,t,u) \; (p_1 + p_2)^\mu + G(s,t,u) \;  (p_1 - p_2)^\mu \bigg].
+     \end{equation}
+ %%
+ where \(F\) and \(G\) are two independent, Lorentz-scalar amplitudes. The momenta of the pions are \(p_i\), and the axial vector meson, \(M\), has polarization vector \(\epsilon_\mu\) which depends on helicity, \(\lambda\), energy in the center of mass frame, \(E_M\), and momentum \(p_M\):
+ %%
+   \begin{equation}
+     \label{eq:polarization}
+     \epsilon_\mu(p_M, \pm1) = \frac{1}{\sqrt{2}} \big( 0, \mp 1, - i, 0 \big) \qquad \text{ and } \qquad \epsilon_\mu(p_M, 0) = \frac{1}{M} \big( p_M, 0, 0, E_M \big).
+     \end{equation}
+ %%
+ We also have
+ %%
+   \begin{gather}
+     \vec{p}_1 = q(s) \; (\sin \theta_s, 0,  -\cos \theta_s) \qquad \qquad \vec{p}_2 = q(s) \; (-\sin \theta_s, 0 , \cos \theta_s ) \\
+     \vec{p}_3 = - \vec{p}_M = k(s) \; (0,0,-1). \nonumber
+   \end{gather}
+ %%
+
+ The  tensor structure in \cref{eq:covariant} highlights the intrinsic Bose symmetry of the reaction, i.e. because we have identical pions in the final states, the total amplitude should be invariant under the the interchange \(t \leftrightarrow u \) or \(p_1 \leftrightarrow p_2\), giving us the relations:
+ %%
+   \begin{equation}
+     F(s,t,u) = F(s,u,t) \qquad \text{ and } \qquad G(s,t,u) = - \, G(s,u,t).
+   \end{equation}
+ %%
+
+ We reiterate that the expression \cref{eq:covariant} defines the helicity, \(\lambda\), in the \(s\)-channel scattering frame, meaning the spin is quantized in the direction of \(p_3\), in the \(M \, \pi_3\) center-of-mass frame.
+ In this frame, we use \cref{eq:momenta,eq:polarization} for \(\lambda = 0 \text{ and } +1 \):
+ %%
+   \begin{align}
+     \label{eq:contract_zero}
+     \epsilon_\mu(p_M,0) \; p_1^\mu &= \frac{E_1}{M} \, k(s) + \frac{E_M}{M} \,  z_s \, q(s)
+     \qquad \qquad \epsilon_\mu(p_M,+1) \; p_1^\mu = - \frac{1}{\sqrt{2}} \, \sqrt{1 - z_s^2} \; q(s) \nonumber \\
+ %%
+     \epsilon_\mu(p_M,0) \; p_2^\mu &= \frac{E_2}{M} \, k(s) - \frac{E_M}{M} \,  z_s \, q(s)
+     \qquad \qquad \epsilon_\mu(p_M,+1) \; p_2^\mu =  \frac{1}{\sqrt{2}} \, \sqrt{1 - z_s^2} \; q(s)  \\
+ %%
+     \epsilon_\mu(p_M,0) \; p_3^\mu &= \frac{k(s)}{M} \, \sqrt{s}
+     \qquad \qquad \qquad \quad \epsilon_\mu(p_M,+1) \; p_3^\mu = 0 \nonumber
+   \end{align}
+ %%
+ We also have
+ %%
+   \begin{equation}
+     \label{eq:energies}
+     E_1 = E_2 = \frac{\sqrt{s}}{2} \mand E_M = \frac{s + M^2 - m_\pi^2}{2 \sqrt{s}}
+   \end{equation}
+ Using \cref{eq:contract_zero} in \cref{eq:covariant}, we get the helicity amplitude in terms of its covariant form factors to directly compare with \cref{eq:helicity}:
+ %%
+  \begin{align}
+   \label{eq:covariant_zero}
+    \mathcal{A}_0 =& \; \frac{\sqrt{s}}{M} \, k(s) \; F(s,t,u) + 2 \; \frac{E_M}{M} \, z_s \; q(s) \; G(s,t,u) \\
+    \nonumber \\
+    \label{eq:covariant_plus}
+    \mathcal{A}_+ =& \; - \sqrt{2} \sqrt{1-z_s^2} \, q(s) \; G(s,t,u).
+  \end{align}
+ %%
+ Comparing \cref{eq:covariant_zero} with \cref{eq:helicity} and using \cref{eq:halfangle,eq:k-factor}, we can match:
+ %%
+   \begin{equation}
+     \label{eq:matching_G}
+     G(s,t,u) =  - \sqrt{2} \; \sum_{j = 0}^\infty (2j+1) \, (k(s)q(s))^{j - 1} \,\hat{d}^j_{10}(\theta_s) \, \hat{A}_{j+}(s)
+   \end{equation}
+ %%
+ Matching the other helicity amplitude and using \cref{eq:matching_G},
+ %%
+   \begin{align}
+     \label{eq:matching_F}
+     F(s,t,u) &= 2 M \, \hat{A}_{00}(s) \nonumber
+     \\
+     &+ \, \frac{2 \; M}{\lambda_M(s)} \times \sum_{j \not= 0}^\infty (2j+1) \, (k(s)\,q(s))^{j} \;
+     \bigg[
+        \hat{d}^j_{00}(\theta_s) \; \hat{A}_{j0}(s)
+      %%
+   +  2 \sqrt{2} \; \frac{(s + M^2 - m_\pi^2)}{M}\;  \,  z_s \, \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s)
+   \bigg]
+   \end{align}
+ %%
+ Here we recall that \(\hat{A}_{j+}\) and \(\hat{A}_{j0}\) vanish for odd values of \(j\). Additionally since we want \(F\) and \(G\) to be free of any kinematic singularities, the \(\lambda_M^{-1}\) term in front of the sum for \(j\geq 1\) poses a problem as it adds two poles at the pseudo-thresholds: \(s = (M \pm m_\pi)^2\).
+ This means our helicity amplitudes are not completely independent of each other at the pseudo-threshold as the terms in the brackets in \cref{eq:matching_F} must vanish at these points as discussed in \cite{Mikhasenko:2017rkh}. In other words, at these points, we have the kinematic constraint between the two helicity partial waves as \(s \to (M \pm m_\pi)^2\).
+ %%
+ \begin{align}
+   \label{constraint-invariant}
+  \bigg[  \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s) + 2 \; \sqrt{2} \; \frac{(s+ M^2 - m_\pi^2)}{M} \; z_s \; \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s) \bigg]
+   \to 0 \text{ as } \lambda_M(s) \; .
+ \end{align}
+ %%
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################
+\subsection{Crossing Symmetry}
+ So far we have considered only \(s\)-channel helicity partial waves, but equivalently we may write an analogous expansion to \cref{eq:helicity} in the \(t\)-channel. In other words, denoting the helicity projection with a superscript:
+ %%
+ \begin{equation}
+   \label{eq:helicity-t}
+   \mathcal{A}^{(t)}_\lambda(s, t, u) = \sum_{j = |\lambda|}^\infty \, (2j+1) \; d^{j}_{\lambda0}(\theta_t) \; A^{(t)}_{j\lambda}(t) \; .
+ \end{equation}
+%%%
+Both infinite sum expansions are exact and describe the same amplitude, in terms of different orientations of the helicity. The \(t\)-channel amplitudes of \cref{eq:helicity-t} then are related to the \(s\)-channel helicity amplitudes \cref{eq:helicity} by a Wigner rotation that takes one orientation of \(\lambda\) to the other.
+In terms of the \(s\)-channel scattering channel considered in \cref{sec:helicity} with \(\lambda\) in the direction of \(-\bar{p}_3\) and \cref{eq:invariants}, we write the Trueman-Wick crossing symmetry relation:
+%%
+  \begin{equation}
+    \label{eq:crossing-relation}
+    \mathcal{A}_\lambda^{(t)}(s, t, u) = \sum_{\lambda^\prime} \;  (-1)^\lamp \;d_{\lambda^\prime \lambda}^J(\hat{\theta}_1) \; \mathcal{A}_{\lambda^\prime}^{(s)}(s,t,u)
+  \end{equation}
+%%
+where \(\hat{\theta}_1\) the angle between \(p_3\) and \(p_1\) in the total CM frame \((p_M = 0\)). The factor of \((-1)^\lamp\) depends on the route of analytic continuation of the kinematic singularities encoded in \(K_\lambda(s)\) when crossing through the physical region (see \cref{app:continuation}). The relation \cref{eq:crossing-relation} relates the two channels up to an overall constant phase
+
+ We can analogously define \(u\)-channel helicity partial waves with \(\hat{\theta}_2\), the angle between \(p_3\) and \(p_2\):
+%%
+  \begin{align} \label{sin-hat}
+    \sin\hat{\theta}_1 = \frac{
+    2 \; M \; \sqrt{\phi}
+    }{
+    \sqrt{\lambda_M(s) \;  \lambda_M(t)}
+    }
+    \mand
+    \sin\hat{\theta}_2 = \frac{
+    2 \; M \; \sqrt{\phi}
+    }{
+    \sqrt{\lambda_M(s) \;  \lambda_M(u)}
+    }
+  \end{align}
+%%
+or
+%%
+  \begin{align} \label{cos-hat}
+    \cos\hat{\theta}_1 &= \frac{n(s,t)}
+    {\sqrt{\lambda_M(s) \; \lambda_M(t)}} \mand
+    \cos\hat{\theta}_2 = \frac{n(s,u)}
+    {\sqrt{\lambda_M(s) \; \lambda_M(u)}} \; .
+  \end{align}
+%%
+for \(n(s,t) =  (M^2 - m_\pi^2 + s) \; (M^2 - m_\pi^2  + t)  + 2 \; M^2 \; (m_\pi^2 -M^2)\) is polynomial and symmetric in \(s\) and \(t\).
+
+Using the symmetry properties discussed in \cref{sec:symmetry}, we may rewrite the right-hand side of \cref{eq:crossing-relation} for a general \(J^{PC}\) decaying with helicity \(\lambda\) in the \(s\)-channel, with \(\mu > 0\):
+%%
+  \begin{align} \label{gggg}
+      \mathcal{A}_\lambda^{(t)}(s, t, u) = \frac{1}{2} \big[1- P(-1)^J \big] \; d_{ \lambda0}^J(\hat{\theta}_1) \; \mathcal{A}^{(s)}_0(s,t,u)
+       + \sum_{\lamp = 1}^J (-1)^\lamp \;\bigg[ d_{ \lamp \lambda}^J(\hat{\theta}_1) - P (-1)^{J+\lambda} \; d_{-\lamp, \, \lambda }^J(\hat{\theta}_1) \bigg] \; \mathcal{A}_{\lamp}^{(s)}(s,t,u)
+  \end{align}
+%%
+or specifically for the axial vector meson,
+%%
+  \begin{align} \label{matrix-helicity}
+    \begin{bmatrix}
+  \mathcal{A}^{(t)}_0(s,t,u) \\
+   \mathcal{A}^{(t)}_+(s,t,u)
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+       \cos \hat{\theta}_1   &   \sqrt{2} \; \sin \hat{\theta}_1   \\
+       \sin \hat{\theta}_1 / \sqrt{2}   &  - \cos \hat{\theta}_1
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+  \mathcal{A}^{(s)}_0(s,t,u) \\
+   \mathcal{A}^{(s)}_+(s,t,u)
+    \end{bmatrix}
+  \end{align}
+%%
+where we have made use of the identities:
+%%
+  \begin{equation}
+    d_{\lambda \lamp}^J(\hat{\theta}_1) = d^J_{-\lamp, -\lambda}(\hat{\theta}_1) = (-1)^{\lambda - \lamp} d_{\lamp \lambda}(\hat{\theta}_1) \; .
+  \end{equation}
+%%
+Following the procedure of \cref{sec:kin-singularities} we seperate the kinematic singularities of \(\mathcal{A}_\lambda^{(s)}\). We define the kinematic-singularity-free sum
+\(\hat{A}_\lambda^{(s)} = \sum_j (2j+1) \; (k(s)q(s))^{j-|\lambda|} \; \hat{d}^j_{\lambda0}(\theta_s) \; \hat{A}^{(s)}_{j\lambda}(s)\) to alleviate the notation and focus on the relation between different helicity amplitudes.
+%%
+  \begin{align} \label{matrix-helicity}
+    \begin{bmatrix}
+        K_{0}(t)   & 0 \\
+        0  &  K_{+}(t)
+    \end{bmatrix}
+    \begin{bmatrix}
+      \hat{A}^{(t)}_{0}(t) \\
+      \hat{A}^{(t)}_{+}(t)
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \cos \hat{\theta}_1  &  \sqrt{2} \; \sin \hat{\theta}_1   \\
+       \sin \hat{\theta}_1 / \sqrt{2}  &  - \cos \hat{\theta}_1
+    \end{bmatrix}
+    \begin{bmatrix}
+        K_{0}(s)   & 0 \\
+        0  &  K_{+}(s)
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+  \hat{A}^{(s)}_{0}(s) \\
+  \hat{A}^{(s)}_{+}(s)
+    \end{bmatrix}
+  \end{align}
+%%
+Inserting \cref{eq:k-factor,sin-hat,cos-hat} into the above matrix we find:
+%%
+  \begin{align} \label{nosing-matrix}
+    \begin{bmatrix}
+  \hat{A}^{(t)}_{0}(t) \\
+  \sqrt{2} \; \hat{A}^{(t)}_{+}(t)
+    \end{bmatrix}
+    =
+    \frac{1}{\lambda_M(s)}
+    \begin{bmatrix}
+        n(s,t)   &  4 \; M \; \phi \\
+        M  & - n(s,t)
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+  \hat{A}^{(s)}_{0}(s) \\
+  \sqrt{2} \;  \hat{A}^{(s)}_{+}(s)
+    \end{bmatrix} \; .
+  \end{align}
+%%
+We see that the matrix in \cref{nosing-matrix} is completely regular with no singularities except for the overall prefactor of \(\lambda_M^{-1}(s)\). Thus to cancel out the pole arising thresholds from \(\lambda_M(s)\), we need everything on the right-hand-side to be proportional to \(\lambda_M(s)\). This forms our kinematic constraint.
+
+Additionally, we note that the matrix is its own inverse with \(s\leftrightarrow t\), inverting \cref{nosing-matrix}, and using \(n^2(s,t) + 4 \, M^2 \, \phi = \lambda_M(s) \, \lambda_M(t)\), we get the analogous constraints for the \(t\)-channel helicity amplitudes:
+%%
+  \begin{align} \label{t-nosing-matrix}
+    \begin{bmatrix}
+  \hat{A}^{(s)}_{0}(s) \\
+  \sqrt{2} \; \hat{A}^{(s)}_{+}(s)
+    \end{bmatrix}
+    =
+    \frac{1}{\lambda_M(t)}
+    \begin{bmatrix}
+        n(s,t)   &  4 \; M \; \phi \\
+        M  & - n(s,t)
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+  \hat{A}^{(t)}_{0}(t) \\
+  \sqrt{2} \;  \hat{A}^{(t)}_{+}(t)
+    \end{bmatrix} \; .
+  \end{align}
+%%
+The above technically gives two kinematic constraints at threshold but satisfying one is sufficient.
+ We find:
+\begin{align}
+      \big[  M \; \hat{A}_0^{(s)}(s) - \sqrt{2} \; n(s,t) \; \hat{A}_+^{(s)}(s) \big]
+      \sim \lambda_M(s) \text{ at } s = (M \pm m_\pi)^2
+\end{align}
+or replacing the sum over helicity partial waves,
+\begin{align}
+  M \; \sum_{j} (2j+1) \; (k(s)q(s))^j \times \; \bigg[
+  \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s)
+  - \frac{\sqrt{2}}{M} \; \frac{n(s,t)}{k(s) q(s)} \; \hat{d}_{10}^j(\theta_s) \; \hat{A}_{j+}(s)
+  \bigg] \to 0 \text{ as } \lambda_M(s) \; .
+\end{align}
+Then using \(n(s,t) \sim 2 \, M \, (-i \sqrt{\phi})\) near the (pseudo-)threshold,, so we have the kinematic constraint:
+%%
+  \begin{align}
+    \bigg[
+    \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s)
+    + 4\sqrt{2} \; (M\pm m_\pi) \; i \, \sqrt{1 - z_s^2} \; \hat{d}_{10}^j(\theta_s) \; \hat{A}_{j+}(s)
+    \bigg] \to 0 \text{ as } \lambda_M(s) \; .
+  \end{align}
+%%
+Finally, using \(\sin\theta_s \to - i \, \cos\theta_s\) at the singular points,
+\begin{align}
+  \bigg[
+  \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s)
+  + 4\sqrt{2} \; (M\pm m_\pi) \; z_s \; \hat{d}_{10}^j(\theta_s) \; \hat{A}_{j+}(s)
+  \bigg] \to 0 \text{ as } \lambda_M(s) \; .
+\end{align}
+%#######################################)#################################################################
+%#########################################################################################################
+%#########################################################################################################
+\subsection{Kinematic Constraints and Transversity Amplitudes} \label{sec:transetivity}
+So far we have derived the kinematic constraints for the kinematic-singularity-free helicity amplitudes of the axial vector meson decay to be regular at (pseudo-)threshold using two methods: from the crossing matrix of helicity amplitudes and from their relation to Lorentz scalar amplitudes. Here we take a brief aside into transveristy amplitudes as discussed in \cite{Kotanski1968,Cohen-Tannoudji1968,McKerrell1968} which provide a way to easily generalize the kinematic constraint on helicity amplitudes, \cref{constraint-invariant}, to a decaying particle with arbitrary quantum numbers.
+
+The transversity, \(\tau\), of a particle is spin of that particle quantized normal to the scattering plane. Because three of our particles are identical and have no spin, the relation between the transversity amplitude \(\mathcal{M}_\tau(s,t,u)\) and the helicity amplitudes as defined in \cref{sec:helicity} is simple:
+%%
+  \begin{equation} \label{trans-rot}
+    \mathcal{M}_\tau (s,t,u) = \sum_{\lambda^\prime} D_{\lamp \tau}^{J*}(R) \times \mathcal{A}_\lamp(s,t,u)
+    = \sum_{\lamp} e^{- i \pi (\lamp - \tau) /2} \; d^J_{\lamp \tau}\bigg(\frac{\pi}{2}\bigg) \times \mathcal{A}_\lamp(s,t,u) \; .
+    \end{equation}
+%%
+The rotation, \(R = e^{-\frac{1}{2} i \pi J_z}\, e^{-\frac{1}{2} i \pi J_y} \, e^{\frac{1}{2} i \pi J_z}\) in \cref{trans-rot} has the property of diagonalizing the crossing matrix \cref{eq:crossing-relation} such that the crossing relation for transversity amplitudes is
+%%
+  \begin{equation}
+    \mathcal{M}^{(t)}_{-\tau}(s,t,u) = (-1)^{J+\tau} \; e^{i \, \tau \, \hat{\theta}_1} \; \mathcal{M}^{(s)}_\tau(s,t,u)
+    \qquad \text{ with} \qquad
+    \mathcal{M}_{-\tau}(s,t,u) = - P(-1)^{J+\tau} \; \mathcal{M}_\tau(s,t,u)
+  \end{equation}
+%%
+where \(\hat{\theta}_1\) is the same as \cref{sin-hat} and, unlike \cref{eq:crossing-relation}, there is no sum over transversities.
+The transversity amplitudes have well defined behavior near initial-state threshold branch-points at \(s= (M\pm m_\pi)^2\) because the behavior is entirely dominated by the threshold behavior of \(\hat{\theta}_1\) in the exponent of the crossing relation (c.f. eq. (2.5) in \cite{Kotanski1968}):
+%%
+  \begin{equation} \label{trans-constraint}
+    \mathcal{M}_\tau(s,t,u) \sim \sqrt{\big(\lambda_M(s)\big)^{\varepsilon \, \tau}}\; .
+  \end{equation}
+%%
+Here the factor \(\varepsilon = \pm 1\) depends on the determination of the Kibble function in \cref{sin-hat} which can be shown to determine whether the behavior of the \(\mathcal{M}_\tau\) is a pole or a zero near threshold. Similarly \(\varepsilon\) can be related to the behavior of \(\sin \theta_s\) near threshold which depends on the path of analytic continuation:
+%%
+  \begin{equation} \label{epsilon_sin}
+    \sin \theta_s \longrightarrow - i  \,\epsilon \, \cos \theta_s \text{ as } s \to (M \pm m_\pi)^2 \; .
+  \end{equation}
+%%
+ Either choice of determination can be shown to give the same constraint on helicity amplitudes (see for example remarks below eq. (IV-11) in \cite{Cohen-Tannoudji1968}).
+
+Thus combining \cref{trans-rot,trans-constraint} we have in general \((J + 1)\) additional kinematic constraints for our helicity amplitudes, for \(0 \leq \tau \leq J\):
+%%
+  \begin{equation}
+    \sum_{\lamp} e^{\frac{i\pi}{2} (\lamp - \tau)} \; d^J_{\lamp \tau}\bigg(\frac{\pi}{2} \bigg) \times \mathcal{A}_\lamp(s,t,u) \sim \lambda^{\tau/2}_M(s)   \; .
+  \end{equation}
+%%
+
+For the axial vector, we only have one nontrivial constraint for \(\tau = +1\), at \(s = (M \pm  m_\pi)^2\)
+%%
+  \begin{equation}
+      \bigg[ \sqrt{2} \; \mathcal{A}_+(s,t,u) + i \; \mathcal{A}_0(s,t,u) \bigg] \to 0 \text{ as } \lambda^{1/2}_M(s) \; .
+  \end{equation}
+%
+The imaginary coefficient in front of \(\mathcal{A}_0\) may seem suspect but in terms of the kinematic-singularity-free partial wave amplitudes \cref{eq:kinematicfreepartialwave},
+%%
+  \begin{align}
+          i \;  \sum_{j=1}^\infty (2j+1) \; (k(s)q(s))^{j} &\times
+          \bigg[\lambda_M^{-1/2}(s) \; \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}
+           - i \; \sqrt{2} \; \frac{\lambda^{1/2}_\pi(s) \sin \theta_s}{\sqrt{s} \, k(s)q(s)} \; \hat{d}_{10}^j(\theta_s) \; \hat{A}_{j0}(s) \bigg]
+           \to 0 \text{ as } \lambda^{1/2}_M(s) \; ,
+  \end{align}
+%%
+we use \cref{epsilon_sin}, then the constraint becomes:
+%%
+  \begin{align}
+          \bigg[\hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}
+           + 4 \; \sqrt{2} \; (M \pm m_\pi) \; z_s \; \hat{d}_{10}^j(\theta_s) \; \hat{A}_{j0}(s) \bigg]
+           \to 0 \text{ as } \lambda_M(s) \; .
+  \end{align}
+%%
+which we see is consistent with \cref{constraint-invariant,nosing-matrix}.
+%#######################################)#################################################################
+%#########################################################################################################
+%#########################################################################################################

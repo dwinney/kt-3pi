@@ -1,13 +1,19 @@
 \documentclass[10pt, aps,prd,amsmath,amssymb,superscriptaddress,onecolumn,
 nofootinbib,showpacs,preprintnumbers]{revtex4-1}
 
-\usepackage{KT-a1}
+\usepackage{./KT-a1}
 
 \begin{document}
+
+%% SECTIONS $$
 \input{./text/1-introduction.tex}
 \input{./text/2-helicity.tex}
-\input{./text/3-isobar.tex}
-\input{./text/4-khuri-treiman.tex}
+% \input{./text/3-isobar.tex}
+% \input{./text/4-khuri-treiman.tex}
+
+%% APPENDICES %%
+\appendix
+\input{./text/5-analytic-con.tex}
 
 \bibliographystyle{apsrev4-1.bst}
 \bibliography{KT-a1}

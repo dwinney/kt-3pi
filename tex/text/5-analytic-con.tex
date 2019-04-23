@@ -1,0 +1,89 @@
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################
+\section{Analytic Continuation of \(\sqrt{\phi}\)} \label{app:anal-con}
+%#########################################################################################################
+In this section we derive the additional phase that appears in the crossing relations between helicity amplitudes in different channels. This phase is associated with the analytic continuation the Kibble function \cref{eq:kibble}. We derive the phase with an explicit choice of path in the analytic continuation from the \(s\)- to \(t\)-channel kinematic regions but the result can be shown to be independent of path (up to an overall constant phase) \cite{Trueman,FoxThesis,Brunet1966,Cohen-Tannoudji1968}.
+
+We start by defining the endpoints of the path of continuation, i.e. the kinematic variables that are to describe the two scattering channels:
+%%
+  \begin{subequations}
+  \begin{align} \label{eq:endpoints-path-s}
+    \text{Region I } (s \text{-channel) :}& \qquad s \geq 0, \quad t, \; u  \leq 0 \quad \pi \geq \theta_s \geq 0
+    \\
+    \label{eq:endpoints-path-t}
+    \text{Region III } (t \text{-channel) :}& \qquad t \geq 0, \quad s, \; u \leq 0 \quad \pi \geq \theta_t \geq 0
+  \end{align}
+\end{subequations}
+%%
+such that in a physical scattering region, \(\phi > 0\) and for values of energy on the real axis, \(\sqrt{\phi}\) is real. This gives us the usual definition of \cref{eq:kibble}, with \(\phi = 0\) marking the physical boundaries in the Mandelstam plane. We take \(z_s, \; z_t\) as the continuing variables and the phase will arise from a choice of branch in \(\sin\theta_t\):
+%%
+  \begin{equation} \label{branch-choice}
+    \sin\theta_s = + \;\sqrt{1 - z_s^2} \quad \text{ but } \quad \sin \theta_t = \pm \; \sqrt{1 - z_t^2} \; .
+  \end{equation}
+%%
+In Appendix A of \cite{Trueman}, invariant arguments are used to show that the assumptions of \(\sin\theta_s > 0\) at the starting point requires \(\sin\theta_t < 0\) at the end of the path of analytic continuation (regardless of the path taken), i.e. because, \( \theta_t\) is positive in \cref{eq:endpoints-path-t},
+%%
+  \begin{equation}
+    \label{eq:neg-sin}
+    \sqrt{\phi_s} = \sqrt{s} \; k(s) q(s) \; \sin\theta_s = - \sqrt{t} \; k(t) q(t) \; \sin\theta_t \; .
+  \end{equation}
+%%
+
+We then choose the path of continuation to pass through an intermediate region such that:
+%%
+  \begin{align} \label{eq:intermediate-path}
+    \text{Region II :}& \qquad s, \; t > 0, \quad  u  < 0  \quad\text{ with } t \gg |u| \text{ such that } \theta_s \text{ is positive}.
+  \end{align}
+%%
+This is the same path considered in \cite{FoxThesis}, which is useful in Regge theory. Comparing \cref{eq:endpoints-path-s,eq:intermediate-path}, we see continuing from I \(\to\) II at fixed \(s\), takes \(\sqrt{\phi_s} \to i \sqrt{\phi_s}\)
+ (here \(\sqrt{\phi_s}\) denotes \(\sqrt{\phi}\) initially evaluated in the \(s\)-channel physical region above). Thus to satisfy \cref{eq:endpoints-path-t}, we need the continuation from II \(\to\) III to take \(\sqrt{\phi_s} \to - i \, \sqrt{\phi_s}\).
+
+ To take II \(\to\) III, we choose a path in the complex-\(s\) plane to not cross any cuts (i.e. the cuts from \(s = (M\pm m_\pi)^2 \text{ to } \pm \infty\)) as to not introduce any factor associated with the discontinuity. This requires introducing a small imaginary part, \(\varepsilon\) such that (c.f eq. 3.23 in \cite{Brunet1966}):
+ %%
+  \begin{equation}
+    \lim_{\varepsilon \to 0} \sqrt{\phi_s(s + i \varepsilon, \; t - i \varepsilon)} =
+    \lim_{\varepsilon \to 0} \sqrt{\phi_t(s - i \varepsilon, \; t + i \varepsilon)} \; .
+  \end{equation}
+ %%
+ With this we can match the end points in terms of the continuation variable in regions I and III in \cref{eq:endpoints-path-s,eq:endpoints-path-t}:
+ %%
+  \begin{equation}
+    \sqrt{s} \; k(s) q(s) \; \sqrt{1 - z_s^2} = \sqrt{t} \; k(t) q(t) \; \sqrt{1-z_t^2} \; .
+  \end{equation}
+ %%
+Then when we compare with \cref{eq:neg-sin}, with \cref{branch-choice} we get:
+%%
+    \begin{equation} \label{theta_minus}
+      - \sin\theta_t = \sqrt{1 - z_t^2} \; .
+    \end{equation}
+%%
+
+This has implications on the crossing matrix because of how the kinematic singularity functions \(K_\lambda(s)\) analytically continue between physical regions. If we write
+%5
+  \begin{align}
+    \mathcal{A}^{(s)}_\lambda(s,t,u) &= \sum_{\lamp} \; d_{\lamp \, \lambda}^J(\hat{\theta}_1) \; \mathcal{A}_\lambda^{(t)}(s,t,u) \nonumber \\
+    &= \sum_{\lamp} \; d_{\lamp \, \lambda}^J(\hat{\theta}_1) \; K_\lamp(t) \; \hat{A}_\lambda^{(t)}(s,t,u)
+    \; ,
+  \end{align}
+%%
+the left-hand side is evaluated in the \(s\)-channel scattering region (Region I in \cref{eq:endpoints-path-s}). The right-hand side must then be evaluated in the \(t\)-channel physical region as analytically continued from the \(s\)-channel. Because \(K_\lamp(t) \propto (\sin\theta_s)^{|\lamp|}\), to keep the \(\pi \geq \theta_t \geq 0\) as in the usual \(t\)-channel scattering kinematics, we need to pull out a \((-1)^{\lamp}\).
+
+Thus the Trueman-Wick crossing relation for a particle of \(J^{PC}\) decaying to three pions with all angles positive (\(\pi \geq \theta_x \geq 0\)) is:
+%%
+    \begin{align}
+      \label{final-TW-relation}
+     \mathcal{A}^{(s)}_\lambda(s,t,u) &= \sum_{\lamp} \; (-1)^\lamp \; d_{\lamp \, \lambda}^J(\hat{\theta}_1) \; \mathcal{A}_\lambda^{(t)}(s,t,u) \; .
+   \end{align}
+%%
+Additionally we see near threshold, \(t \to (M\pm m_\pi)^2\), the analytically continued angle \cref{theta_minus} obeys
+%%
+  \begin{equation}
+    \label{sin-eps}
+    \sin\theta_t \sim - i \; \cos\theta_t \; ,
+  \end{equation}
+%%
+where ``\(\sim\)" means asymptotically equal near the pole at \(\lambda_M(t = (M\pm m_\pi)^2) = 0\). This expression can be used in formulating a general kinematic-constraint at threshold using tranversity amplitudes (see \cref{sec:transversity}).
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################

@@ -97,7 +97,7 @@ We note that the kinematic singularity functions are related to the Lorentz-cova
 %%
 Explicitly, the Kibble function can be expressed in terms of invariants as:
 %%
-  \begin{equation}
+  \begin{equation} \label{eq:kibble}
     \phi = (2\sqrt{s} \; \sin \theta_s \; k(s) q(s))^2 =  \bigg( \sin\theta_s \; \frac{\lambda^{1/2}_M(s) \; \lambda^{1/2}_\pi(s)}{2 \,\sqrt{s}} \bigg)^2 = s \, t\, u - m_\pi^2 \;(M^2 - m_\pi^2)^2 \; ,
   \end{equation}
 %%
@@ -272,7 +272,7 @@ Thus the sums over isospin-definite, helicity partial waves is restricted to val
  %%
  \begin{align}
    \label{constraint-invariant}
-  \bigg[  \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s) + 2 \; \sqrt{2} \; \frac{(s+ M^2 - m_\pi^2)}{M} \; z_s \; \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s) \bigg]
+  \bigg[  \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s) + 4 \; \sqrt{2} \; (M \pm m_\pi) \; z_s \; \hat{d}^j_{10}(\theta_s) \; \hat{A}_{j+}(s) \bigg]
    \to 0 \text{ as } \lambda_M(s) \; .
  \end{align}
  %%
@@ -295,7 +295,7 @@ In terms of the \(s\)-channel scattering channel considered in \cref{sec:helicit
     \mathcal{A}_\lambda^{(t)}(s, t, u) = \sum_{\lambda^\prime} \;  (-1)^\lamp \;d_{\lambda^\prime \lambda}^J(\hat{\theta}_1) \; \mathcal{A}_{\lambda^\prime}^{(s)}(s,t,u)
   \end{equation}
 %%
-where \(\hat{\theta}_1\) the angle between \(p_3\) and \(p_1\) in the total CM frame \((p_M = 0\)). The factor of \((-1)^\lamp\) depends on the route of analytic continuation of the kinematic singularities encoded in \(K_\lambda(s)\) when crossing through the physical region (see \cref{app:continuation}). The relation \cref{eq:crossing-relation} relates the two channels up to an overall constant phase
+where \(\hat{\theta}_1\) the angle between \(p_3\) and \(p_1\) in the total CM frame \((p_M = 0\)). The factor of \((-1)^\lamp\) emerges from the route of analytic continuation of the kinematic singularities encoded in \(K_\lambda(s)\) when crossing through the physical region (see \cref{app:anal-con}). The relation \cref{eq:crossing-relation} relates the two channels up to an overall constant phase.
 
  We can analogously define \(u\)-channel helicity partial waves with \(\hat{\theta}_2\), the angle between \(p_3\) and \(p_2\):
 %%
@@ -359,7 +359,7 @@ where we have made use of the identities:
 Following the procedure of \cref{sec:kin-singularities} we seperate the kinematic singularities of \(\mathcal{A}_\lambda^{(s)}\). We define the kinematic-singularity-free sum
 \(\hat{A}_\lambda^{(s)} = \sum_j (2j+1) \; (k(s)q(s))^{j-|\lambda|} \; \hat{d}^j_{\lambda0}(\theta_s) \; \hat{A}^{(s)}_{j\lambda}(s)\) to alleviate the notation and focus on the relation between different helicity amplitudes.
 %%
-  \begin{align} \label{matrix-helicity}
+  \begin{align}
     \begin{bmatrix}
         K_{0}(t)   & 0 \\
         0  &  K_{+}(t)
@@ -426,7 +426,8 @@ Additionally, we note that the matrix is its own inverse with \(s\leftrightarrow
     \end{bmatrix} \; .
   \end{align}
 %%
-The above technically gives two kinematic constraints at threshold but satisfying one is sufficient.
+We note that the matrices in \cref{nosing-matrix,t-nosing-matrix} are related simply by \(s\leftrightarrow t\) as expected.
+The above also technically gives two kinematic constraints at threshold but satisfying one is sufficient.
  We find:
 \begin{align}
       \big[  M \; \hat{A}_0^{(s)}(s) - \sqrt{2} \; n(s,t) \; \hat{A}_+^{(s)}(s) \big]
@@ -439,7 +440,7 @@ or replacing the sum over helicity partial waves,
   - \frac{\sqrt{2}}{M} \; \frac{n(s,t)}{k(s) q(s)} \; \hat{d}_{10}^j(\theta_s) \; \hat{A}_{j+}(s)
   \bigg] \to 0 \text{ as } \lambda_M(s) \; .
 \end{align}
-Then using \(n(s,t) \sim 2 \, M \, (-i \sqrt{\phi})\) near the (pseudo-)threshold,, so we have the kinematic constraint:
+Then using \(n(s,t) \sim 2 \, M \, (-i \sqrt{\phi})\) near the (pseudo-)threshold (c.f. \cref{app:anal-con}, this reflects the Region II \(\to\) III continuation), we derive have the kinematic constraint:
 %%
   \begin{align}
     \bigg[
@@ -448,17 +449,18 @@ Then using \(n(s,t) \sim 2 \, M \, (-i \sqrt{\phi})\) near the (pseudo-)threshol
     \bigg] \to 0 \text{ as } \lambda_M(s) \; .
   \end{align}
 %%
-Finally, using \(\sin\theta_s \to - i \, \cos\theta_s\) at the singular points,
+Finally, using \cref{sin-eps} at the singular points,
 \begin{align}
   \bigg[
   \hat{d}_{00}^j(\theta_s) \; \hat{A}_{j0}(s)
   + 4\sqrt{2} \; (M\pm m_\pi) \; z_s \; \hat{d}_{10}^j(\theta_s) \; \hat{A}_{j+}(s)
   \bigg] \to 0 \text{ as } \lambda_M(s) \; .
 \end{align}
+This of course matchs \cref{constraint-invariant}.
 %#######################################)#################################################################
 %#########################################################################################################
 %#########################################################################################################
-\subsection{Kinematic Constraints and Transversity Amplitudes} \label{sec:transetivity}
+\subsection{Kinematic Constraints and Transversity Amplitudes} \label{sec:transversity}
 So far we have derived the kinematic constraints for the kinematic-singularity-free helicity amplitudes of the axial vector meson decay to be regular at (pseudo-)threshold using two methods: from the crossing matrix of helicity amplitudes and from their relation to Lorentz scalar amplitudes. Here we take a brief aside into transveristy amplitudes as discussed in \cite{Kotanski1968,Cohen-Tannoudji1968,McKerrell1968} which provide a way to easily generalize the kinematic constraint on helicity amplitudes, \cref{constraint-invariant}, to a decaying particle with arbitrary quantum numbers.
 
 The transversity, \(\tau\), of a particle is spin of that particle quantized normal to the scattering plane. Because three of our particles are identical and have no spin, the relation between the transversity amplitude \(\mathcal{M}_\tau(s,t,u)\) and the helicity amplitudes as defined in \cref{sec:helicity} is simple:
@@ -471,6 +473,7 @@ The transversity, \(\tau\), of a particle is spin of that particle quantized nor
 The rotation, \(R = e^{-\frac{1}{2} i \pi J_z}\, e^{-\frac{1}{2} i \pi J_y} \, e^{\frac{1}{2} i \pi J_z}\) in \cref{trans-rot} has the property of diagonalizing the crossing matrix \cref{eq:crossing-relation} such that the crossing relation for transversity amplitudes is
 %%
   \begin{equation}
+    \label{trans-crossing}
     \mathcal{M}^{(t)}_{-\tau}(s,t,u) = (-1)^{J+\tau} \; e^{i \, \tau \, \hat{\theta}_1} \; \mathcal{M}^{(s)}_\tau(s,t,u)
     \qquad \text{ with} \qquad
     \mathcal{M}_{-\tau}(s,t,u) = - P(-1)^{J+\tau} \; \mathcal{M}_\tau(s,t,u)
@@ -483,15 +486,15 @@ The transversity amplitudes have well defined behavior near initial-state thresh
     \mathcal{M}_\tau(s,t,u) \sim \sqrt{\big(\lambda_M(s)\big)^{\varepsilon \, \tau}}\; .
   \end{equation}
 %%
-Here the factor \(\varepsilon = \pm 1\) depends on the determination of the Kibble function in \cref{sin-hat} which can be shown to determine whether the behavior of the \(\mathcal{M}_\tau\) is a pole or a zero near threshold. Similarly \(\varepsilon\) can be related to the behavior of \(\sin \theta_s\) near threshold which depends on the path of analytic continuation:
+Here the factor \(\varepsilon = \pm 1\) depends on the determination of the Kibble function in \cref{sin-hat} which determines whether the behavior of the \(\hat{\theta}_1\) is a pole or a zero near threshold in the exponential of \cref{trans-crossing}. Similarly \(\varepsilon\) can be related to \(\sin \theta_s\) near threshold:
 %%
   \begin{equation} \label{epsilon_sin}
-    \sin \theta_s \longrightarrow - i  \,\epsilon \, \cos \theta_s \text{ as } s \to (M \pm m_\pi)^2 \; .
+    \sin \theta_s \sim - i  \,\varepsilon \, \cos \theta_s \text{ as } s \to (M \pm m_\pi)^2 \; .
   \end{equation}
 %%
- Either choice of determination can be shown to give the same constraint on helicity amplitudes (see for example remarks below eq. (IV-11) in \cite{Cohen-Tannoudji1968}).
+ Either choice of determination can be shown to give the same constraint on helicity amplitudes (see for example remarks below eq. (IV-11) in \cite{Cohen-Tannoudji1968}), and comparing to \cref{sin-eps}, for our chosen path of analytic continuation, we have \(\varepsilon = +1\).
 
-Thus combining \cref{trans-rot,trans-constraint} we have in general \((J + 1)\) additional kinematic constraints for our helicity amplitudes, for \(0 \leq \tau \leq J\):
+Combining \cref{trans-rot,trans-constraint}, we have in general \((J + 1)\) additional kinematic constraints for our helicity amplitudes, for \(0 \leq \tau \leq J\):
 %%
   \begin{equation}
     \sum_{\lamp} e^{\frac{i\pi}{2} (\lamp - \tau)} \; d^J_{\lamp \tau}\bigg(\frac{\pi}{2} \bigg) \times \mathcal{A}_\lamp(s,t,u) \sim \lambda^{\tau/2}_M(s)   \; .
@@ -521,7 +524,7 @@ we use \cref{epsilon_sin}, then the constraint becomes:
            \to 0 \text{ as } \lambda_M(s) \; .
   \end{align}
 %%
-which we see is consistent with \cref{constraint-invariant,nosing-matrix}.
+which we see is consistent with \cref{constraint-invariant,nosing-matrix}. \Cref{trans-constraint} gives a systematic way to easily write down all linear combinations of helicity partial waves which must obey kinematic constraints at (pseudo-)threshold.
 %#######################################)#################################################################
 %#########################################################################################################
 %#########################################################################################################

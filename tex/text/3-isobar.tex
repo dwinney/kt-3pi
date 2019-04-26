@@ -6,79 +6,45 @@ In order to evaluate the helicity amplitudes, use the isobar approximation to tr
 %%
   \begin{equation}
     \label{eq:isobar-def}
-    \mathcal{A}_\lambda(s,t,u) = A_\lambda^{(s)}(s,t,u) +  A_\lambda^{(t)}(s,t,u) + A_\lambda^{(u)}(s,t,u) \; .
+    \mathcal{A}_\lambda(s,t,u) = \mathcal{A}_\lambda^{(s)}(s,t,u) +  \mathcal{A}_\lambda^{(t)}(s,t,u) + \mathcal{A}_\lambda^{(u)}(s,t,u) \; .
   \end{equation}
 %%
-Here each \(A_\lambda^{(x)}\) represents a finite sum of isobar partial waves in the specified scattering channel.
+Here each \(\mathcal{A}_\lambda^{(x)}\) represents a finite sum of isobar partial waves in the specified scattering channel:
+%%
+  \begin{equation}
+    \mathcal{A}_\lambda^{(x)}(s,t,u) = \sum_{j = 0}^\jmax \; (2j+1) \; d_{\lambda0}^j(\theta_x) \; a^{(x)}_{j\lambda}(x) \; .
+  \end{equation}
+%5
+We use lowercase, \(a_{j\lambda}(x)\) to differentiate the helicity \textit{isobar} amplitudes from the helicity partial wave amplitudes of \cref{eq:helicity}.
 
- Because we are considering the decay of a particle with spin, there is additional complications of the helicity being defined in different channels. Evaluating everything in the \(s\)-channel center of mass frame, \(A_\lambda^{(s)}\) is analogous  to \cref{eq:helicity-final} with the sum truncated at some \(j_\text{max}\), however the \(t\) and \(u\) channel isobars introduce additional rotational functions.
- In general we may write (for now ignoring kinematic singularities):
- %%
- \begin{align}
-   \label{eq:iso-D-matrix}
-    \mathcal{A}_\lambda(s,t,u) &= \sum_{m} D^{J^*}_{\lambda m}(r_3)
-    \bigg [
-    \sum_{j = 0}^{\jmax} (2j+1) \; d_{\lambda0}^j(\theta_s) \; a_{ j m}^{(s)}(s)
-    \bigg ]
-     \nonumber \\
-    &+ \sum_{m} D^{J^*}_{\lambda m}(r_1) \;
-    \bigg[
-    \sum_{j = 0}^{\jmax} (2j+1) \;d_{m0}^j (\theta_t) \; a_{j m}^{(t)}(t)
-    \bigg]
-    + \sum_{m} D^{J^*}_{\lambda m}(r_2) \;
-    \bigg[
-    \sum_{j = 0}^{\jmax} (-1)^{j + m} \; (2j+1) \;d_{m0}^j(\theta_u) \; a_{j m}^{(u)}(u)
-    \bigg] \; .
- \end{align}
- %%
- The \(D\)-matrix arguments, \(r_i\), denote a rotation by a set of Euler angles, \((\phi_i,\theta_i,\psi_i)\), that take the \(A \, \pi_3\) CM frame (the \(s\)-channel helicity frame) to the \(A \, \pi_i\) CM frame. Since the scattering process is planar, we can in general choose \(\phi_i, \,\psi_i = 0\), with the only transformations between the different helicity frames are boosts and rotation by \(\theta_i\) to align \(p_i\) with the \(z\)-direction (opposite \(p_A\)). We note that the additional Wigner rotation in the \(s\)-channel isobars vanishes because \(\hat{\theta_3} \equiv 0\)
- in the \(s\)-channel helicity frame.
+ Because we are considering the decay of a particle with spin, there is additional complications of the helicity being defined in different channels. Evaluating everything in the \(s\)-channel center of mass frame, \(\mathcal{A}_\lambda^{(s)}\) is analogous  to \cref{eq:helicity-final} with the sum truncated at some \(j_\text{max}\), however the \(t\) and \(u\) channel isobars introduce additional rotational functions from crossing (c.f. \cref{sec:crossing}).
 
-We can then rewrite \cref{eq:iso-D-matrix} as
+ Using \cref{eq:crossing-relation}, we may write (for now ignoring kinematic singularities):
 %%
 \begin{align}
   \label{eq:iso-d-func}
    \mathcal{A}_\lambda(s,t,u) &= \sum_{j = 0}^{\jmax} (2 j+1) \; d_{\lambda0}^j(\theta_s) \; a_{j \lambda}^{(s)}(s)
     \nonumber \\
-   &+ \sum_{m} \sum_{j = 0}^{\jmax} (2j+1) \;
-    d^{J}_{\lambda m}(\hat{\theta}_1)
-    \;d_{m0}^j(\theta_t) \; a_{j m}^{(t)}(t)
-    %%
-   + \sum_{m} \sum_{j = 0}^{\jmax} (-1)^{j + \lambda + m} \; (2j+1) \;
-    d^{J}_{\lambda m}(\hat{\theta}_2)
-    \;d_{m0}^j(\theta_u) \; a_{j m}^{(u)}(u) \; ,
+  %%
+   &+ \sum_\lamp (-1)^\lamp \; d_{\lamp \lambda}^J(\hat{\theta}_1) \times
+   \bigg[
+   \sum_{\jp = 0}^{\jpmax} (2\jp+1) \; d_{\lamp0}^\jp(\theta_t) \; a_{\jp \lamp}^{(t)}(t)
+   \bigg] \\
+  %%
+  &+  (-1)^\lambda \sum_{\lamp} (-1)^{\lamp} \; d^{J}_{\lamp\lambda }(\hat{\theta}_2)
+  \times
+  \bigg[
+  \sum_{\jp = 0}^{\jpmax} \, (2\jp+1) \; d_{\lamp0}^\jp(\theta_u) \;  (-1)^{\jp + \lamp}
+    \, a_{\jp \lamp}^{(u)}(u)
+  \bigg] \; ,
+  \nonumber
   \end{align}
 %%
-where \(\hat{\theta}_i\) the angle between \(p_3\) and \(p_i\) in the total CM frame \((p_M = 0\)):
-%%
-  \begin{align}
-    \sin\hat{\theta}_1 = \frac{
-    2 \; M \; \sqrt{\phi}
-    }{
-    \sqrt{\lambda_M(s) \;  \lambda_M(t)}
-    }
-    \mand
-    \sin\hat{\theta}_2 = \frac{
-    2 \; M \; \sqrt{\phi}
-    }{
-    \sqrt{\lambda_M(s) \;  \lambda_M(u)}
-    }
-  \end{align}
-%%
-or
-%%
-  \begin{align}
-    \cos\hat{\theta}_1 &= \frac{n(s,t)}
-    {\sqrt{\lambda_M(s) \; \lambda_M(t)}} \mand
-    \cos\hat{\theta}_2 = \frac{n(s,u)}
-    {\sqrt{\lambda_M(s) \; \lambda_M(u)}} \; .
-  \end{align}
-%%
-for \(n(s,t) = (M^2 + m_\pi^2 - s)(M^2 + m_\pi^2 - t) + 2 \; M^2 (2m_\pi^2 - u)\).
+where \(\hat{\theta}_i\) the angle between \(p_3\) and \(p_i\) in the total CM frame \((p_M = 0\)) are the same as the crossing angles \cref{sin-hat}. The relative factors between the \(t\)- and \(u\)-channel isobars are required to maintain Bose symmetry (see \cref{sec:symmetry}) with relation between cross-channel isobar \(a_{j\lambda}^{(t)}(t) = (-1)^{j + \lambda} \; a_{j\lambda}^{(u)}(t)\).
 
- We note that the functions \(a^{(x)}_{jm}(x)\) are not the same as the helicity partial waves of the previous section. The isobar partial wave amplitudes describe an isobar intermediate state with total angular momentum \(j\), but taking the partial wave projection of \cref{eq:iso-d-func} we see we have contributions from the cross channel isobar functions as well, which we did not have in \cref{sec:helicity}.
+ We reemphisize that the functions \(a^{(x)}_{j\lambda}(x)\) are not the same as the helicity partial waves, \(A_{j\lambda}(x)\) of the previous section. The helicity isobar amplitudes describe an quasi-two-body intermediate state with total angular momentum \(j\). Taking the partial wave projection of \cref{eq:iso-d-func} we see we have necesarily have contributions from the cross channel isobar functions as well, which we did not have in \cref{sec:helicity}.
 
-Particles with unnatural parity which decay into \(3\pi\) correspond to isovector particles, thus we need to take into account the different isospin projections in which the reaction can resonate.
+Particles with unnatural parity which decay into \(3\pi\) correspond to isovector particles, thus we need to take into account the different isospin projections in which the reaction can resonate (we consider the isoscalar case in the context of the \(f_2(1270)\) decay in \cref{app:2pp}).
 We define isospin definite isobars by plugging \cref{eq:iso-d-func} into \cref{eq:matrix} and identifying the \(s\) dependent piece:
 %%
 \begin{align}
@@ -86,6 +52,7 @@ We define isospin definite isobars by plugging \cref{eq:iso-d-func} into \cref{e
   a^{(0)}_{j\lambda}(x) \\ a^{(1)}_{j\lambda}(x) \\ a^{(2)}_{j\lambda}(x)
   \end{bmatrix}
 =
+  (-1)^\lambda
   \begin{bmatrix*}[r]
     3 & 1 & 1 \\ 	0 & 1 & -1 \\ 0 & 1 & 1
   \end{bmatrix*}
@@ -101,62 +68,75 @@ We note this is the same definition as \cite{Albaladejo2018}, which did not have
     s\leftrightarrow  t  \qquad \pi_3 \leftrightarrow \pi_1 \qquad \Rightarrow \qquad \hat{\theta}_1 \to \hat{\theta}_3 = 0 \; ,
   \end{equation}
 %%
-and thus the sum over helicities for the \(t\)-channel isobars vanishes, \(d_{\lambda m}^J(0) = \delta_{\lambda m} \).
+and thus the sum over helicities for the \(t\)-channel isobars vanishes, \(d_{\lamp \lambda}^J(0) = \delta_{\lamp\lambda} \).
 
 We can then relate \(\mathcal{A}_\lambda(s,t,u)\) to the isobar amplitudes of definite isospin:
 %%
   \begin{align}
     \label{eq:tot-from-iso}
-    \mathcal{A}_\lambda(s,t,u) &= \sum_{j = 0}^\jmax
-      (2j + 1) \; d_{\lambda 0}^j(\theta_s) \;
-      \frac{
-     a_{j \lambda}^{(0)}(s) - a_{j \lambda}^{(2)}(s)
-     }{
-     3
-     } \nonumber \\
-     &+ \sum_m \sum_{j=0}^\jmax \; (2j+1)
-     \; d^{J}_{\lambda m}(\hat{\theta}_1) \; d_{m0}^j(\theta_t) \;
-     \frac{
-     a^{(1)}_{j m}(t) + a^{(2)}_{j m}(t)
-     }{
-     2
-     } \\
-     &+ \sum_m \sum_{j=0}^\jmax \; (-1)^{j + m + \lambda} \; (2j+1)
-     \; d^{J}_{\lambda m}(\hat{\theta}_2) \; d_{m0}^j(\theta_u) \;
-     \frac{
-     a^{(1)}_{jm}(u) + a^{(2)}_{j m}(u)
-     }{
-     2
-     } \, . \nonumber
-  \end{align}
+    \mathcal{A}_\lambda(s,t,u) &= \sum_{j = 0}^{\jmax} (2 j+1) \; d_{\lambda0}^j(\theta_s) \;
+     \frac{a_{j \lambda}^{(0)}(s) - a_{j \lambda}^{(2)}(s)}{3}
+     \nonumber \\
+   %%
+    &+ \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_1) \times
+    \bigg[
+    \sum_{\jp = 0}^{\jpmax} (2\jp+1) \; d_{\lamp0}^\jp(\theta_t) \;
+    \frac{a_{\jp \lamp}^{(1)}(t) + a_{\jp \lamp}^{(2)}(t)}{2}
+    \bigg] \\
+   %%
+   &+ (-1)^\lambda \sum_{\lamp}  d^{J}_{\lamp\lambda }(\hat{\theta}_2)
+   \times
+   \bigg[
+   \sum_{\jp = 0}^{\jpmax} \, (2\jp+1) \; (-1)^{\jp + \lamp}
+     \;d_{\lamp0}^\jp(\theta_u) \;
+     \frac{a_{\jp \lamp}^{(1)}(u) + a_{\jp \lamp}^{(2)}(u)}{2}
+   \bigg] \; ,
+   \nonumber
+   \end{align}
 %%
-We see \cref{eq:tot-from-iso} recovers the \(\pi\pi\) scattering result when \(J = 0\) (c.f. eq. (14) in \cite{Albaladejo2018}).
+which we see \cref{eq:tot-from-iso} recovers the \(\pi\pi\) scattering result when \(J = 0\) (c.f. eq. (14) in \cite{Albaladejo2018}).
 
 Similarly, inverting \cref{eq:matrix} and solving for the isospin projected amplitudes we find:
 %5
   \begin{align}
     \mathcal{A}^{(I)}_\lambda(s,t,u) &=
     \sum_{j = 0}^\jmax \; (2j + 1) \; d_{\lambda 0}^j(\theta_s) \; a_{j \lambda}^{(I)}(s) \nonumber \\
-    &+ \sum_{m, \, \Ip} \sum_{j = 0}^\jmax (2j + 1) \; d_{\lambda m}^J(\hat{\theta_1}) \;  d_{m 0}^j(\theta_t) \; a_{j m}^{(\Ip)}(t) \; \frac{1}{2} \, C_{I\Ip} \\
-    &+ \sum_{m, \, \Ip} \sum_{j = 0}^\jmax (2j + 1) \; d_{\lambda m}^J(\hat{\theta_2}) \;  d_{m 0}^j(\theta_u) \;
-     a_{j m}^{(\Ip)}(u) \; (-1)^{I + \lambda + \Ip+  m} \; \frac{1}{2} \, C_{I\Ip} \; . \nonumber
+    %%
+    &+ \sum_\lamp d_{\lamp \lambda}^J(\hat{\theta}_1) \times
+    \bigg[
+    \sum_\Ip \frac{1}{2} \, C_{I\Ip}
+    \sum_{\jp = 0}^\jpmax (2\jp + 1) \; d_{\lamp 0}^\jp(\theta_t) \; a_{\jp \lamp}^{(\Ip)}(t)
+    \bigg] \\
+    %%
+    &+ (-1)^{I + \lambda} \, \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_2) \times
+    \bigg[
+     \sum_\Ip \, \frac{1}{2} \, C_{I\Ip}
+    \sum_{\jp = 0}^\jpmax (2\jp + 1) \;d_{\lamp 0}^\jp(\theta_u) \;  (-1)^{\Ip + \lamp} \,  a_{\jp \lamp}^{(\Ip)}(u)
+    \bigg] \nonumber \; .
   \end{align}
 %%
-or with all the kinematic terms factored out,
+We see that if the sum over \(j\) is restricted by setting \(a_{j\lambda}^{(I)} \equiv 0 \) unless \(j + I\) is even, then we have \(\mathcal{A}_\lambda^{(I)}(s,t,u) = (-1)^{I + \lambda} \, \mathcal{A}_\lambda^{(I)}(s,u,t)\) as required by Bose symmetry. Replacing the kinematic singularities in the form of the \(K\)-functions, \cref{eq:k-factor}, and barrier factors, we have the decomposition into kinematic-singularity-free isobar helicity amplitudes:
 %%
 \begin{align}
   \label{eq:isobar}
-  \mathcal{A}^{(I)}_\lambda&(s,t,u) =
-   K_{\lambda}(s)
-  \sum_{j = 0}^\jmax \; (2j + 1) \;  (k(s)q(s))^{j - |\lambda|} \;
-   \hat{d}_{\lambda 0}^j(\theta_s) \; \hat{a}_{j \lambda}^{(I)}(s) \nonumber \\
-  &+ \sum_{m, \, \Ip} \frac{1}{2} \, C_{I\Ip} \;  d_{\lambda m}^J(\hat{\theta_1}) \times
-  \bigg [  K_{m}(t) \sum_{j = 0}^\jmax (2j + 1) \;
-  (k(t)q(t))^{j - |m|} \;\hat{d}_{m 0}^j(\theta_t) \; \hat{a}_{j m}^{(\Ip)}(t) \bigg]  \\
-  &+ \sum_{m, \, \Ip} (-1)^{I + \lambda + \Ip + m} \; \frac{1}{2} \, C_{I\Ip} \;  d_{\lambda m}^J(\hat{\theta_2}) \times
-  \bigg [ K_{m}(u) \sum_{j = 0}^\jmax (2j + 1) \;
-  (k(u)q(u))^{j - |m|} \; \hat{d}_{m 0}^j(\theta_u) \; \hat{a}_{j m}^{(\Ip)}(u) \bigg] \;. \nonumber
-\end{align}
+    \mathcal{A}^{(I)}_\lambda(s,&t,u) =
+    K_\lambda(s) \; \sum_{j = 0}^\jmax \; (2j + 1) \; (k(s)q(s))^{j-|\lambda|} \; \hat{d}_{\lambda 0}^j(\theta_s) \; \hat{a}_{j \lambda}^{(I)}(s) \nonumber \\
+    %%
+    &+ \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_1) \times
+    K_\lamp(t)
+    \bigg[
+    \sum_\Ip \frac{1}{2} \, C_{I\Ip} \;
+    \sum_{\jp = 0}^\jpmax (2\jp + 1) \; (k(t)q(t))^{\jp-|\lamp|} \; \hat{d}_{\lamp 0}^\jp(\theta_t) \; \hat{a}_{\jp\lamp}^{(\Ip)}(t)
+    \bigg] \\
+    %%
+    &+ (-1)^{I + \lambda} \, \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_2) \times
+    K_\lamp(u)
+    \bigg[
+    \sum_\Ip  \frac{1}{2} \, C_{I\Ip} \;
+    \sum_{\jp = 0}^\jpmax (2\jp + 1) \;  (k(u)q(u))^{\jp-|\lamp|} \; \hat{d}_{\lamp 0}^\jp(\theta_u)
+    \;  (-1)^{\Ip + \lamp} \,\hat{a}_{\jp\lamp}^{(\Ip)}(u)
+    \bigg] \nonumber \; .
+  \end{align}
 %%
 This is the final form of the isobar model for \(J^{PC} \to 3\pi\). We note from \cref{eq:isobar}, that by adding isobars into each channel separately we introduce kinematic singularities in all three channels.
 %#########################################################################################################

@@ -11,3 +11,6 @@ tex/KT-a1Notes.bib
 *.F
 eta_charge_JPAC/
 /tex/metafiles
+/build
+/CodeMain.nb
+/CMakeFiles

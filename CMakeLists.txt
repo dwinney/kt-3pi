@@ -14,4 +14,10 @@ else()
     message(SEND_ERROR "Root not found!")
 endif()
 
-add_executable( test src/test.cpp src/omnes.cpp src/aux_math.cpp src/pipi.cpp)
+add_executable( test
+src/test.cpp
+src/amp.cpp
+src/pipi.cpp
+src/omnes.cpp
+src/aux_math.cpp
+)

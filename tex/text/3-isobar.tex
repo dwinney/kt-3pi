@@ -23,18 +23,18 @@ We use lowercase, \(a_{j\lambda}(x)\) to differentiate the helicity \textit{isob
 %%
 \begin{align}
   \label{eq:iso-d-func}
-   \mathcal{A}_\lambda(s,t,u) &= \sum_{j = 0}^{\jmax} (2 j+1) \; d_{\lambda0}^j(\theta_s) \; a_{j \lambda}^{(s)}(s)
+   \mathcal{A}_\lambda(s,t,u) &= \sum_{j = |\lambda|}^{\jmax} (2 j+1) \; d_{\lambda0}^j(\theta_s) \; a_{j \lambda}^{(s)}(s)
     \nonumber \\
   %%
    &+ \sum_\lamp (-1)^\lamp \; d_{\lamp \lambda}^J(\hat{\theta}_1) \times
    \bigg[
-   \sum_{\jp = 0}^{\jpmax} (2\jp+1) \; d_{\lamp0}^\jp(\theta_t) \; a_{\jp \lamp}^{(t)}(t)
+   \sum_{\jp =  |\lamp|}^{\jpmax} (2\jp+1) \; d_{\lamp0}^\jp(\theta_t) \; a_{\jp \lamp}^{(t)}(t)
    \bigg] \\
   %%
   &+  (-1)^\lambda \sum_{\lamp} (-1)^{\lamp} \; d^{J}_{\lamp\lambda }(\hat{\theta}_2)
   \times
   \bigg[
-  \sum_{\jp = 0}^{\jpmax} \, (2\jp+1) \; d_{\lamp0}^\jp(\theta_u) \;  (-1)^{\jp + \lamp}
+  \sum_{\jp =  |\lamp|}^{\jpmax} \, (2\jp+1) \; d_{\lamp0}^\jp(\theta_u) \;  (-1)^{\jp + \lamp}
     \, a_{\jp \lamp}^{(u)}(u)
   \bigg] \; ,
   \nonumber
@@ -74,20 +74,20 @@ We can then relate \(\mathcal{A}_\lambda(s,t,u)\) to the isobar amplitudes of de
 %%
   \begin{align}
     \label{eq:tot-from-iso}
-    \mathcal{A}_\lambda(s,t,u) &= \sum_{j = 0}^{\jmax} (2 j+1) \; d_{\lambda0}^j(\theta_s) \;
+    \mathcal{A}_\lambda(s,t,u) &= \sum_{j = |\lambda|}^{\jmax} (2 j+1) \; d_{\lambda0}^j(\theta_s) \;
      \frac{a_{j \lambda}^{(0)}(s) - a_{j \lambda}^{(2)}(s)}{3}
      \nonumber \\
    %%
     &+ \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_1) \times
     \bigg[
-    \sum_{\jp = 0}^{\jpmax} (2\jp+1) \; d_{\lamp0}^\jp(\theta_t) \;
+    \sum_{\jp =  |\lamp|}^{\jpmax} (2\jp+1) \; d_{\lamp0}^\jp(\theta_t) \;
     \frac{a_{\jp \lamp}^{(1)}(t) + a_{\jp \lamp}^{(2)}(t)}{2}
     \bigg] \\
    %%
    &+ (-1)^\lambda \sum_{\lamp}  d^{J}_{\lamp\lambda }(\hat{\theta}_2)
    \times
    \bigg[
-   \sum_{\jp = 0}^{\jpmax} \, (2\jp+1) \; (-1)^{\jp + \lamp}
+   \sum_{\jp =  |\lamp|}^{\jpmax} \, (2\jp+1) \; (-1)^{\jp + \lamp}
      \;d_{\lamp0}^\jp(\theta_u) \;
      \frac{a_{\jp \lamp}^{(1)}(u) + a_{\jp \lamp}^{(2)}(u)}{2}
    \bigg] \; ,
@@ -100,18 +100,18 @@ Similarly, inverting \cref{eq:matrix} and solving for the isospin projected ampl
 %5
   \begin{align}
     \mathcal{A}^{(I)}_\lambda(s,t,u) &=
-    \sum_{j = 0}^\jmax \; (2j + 1) \; d_{\lambda 0}^j(\theta_s) \; a_{j \lambda}^{(I)}(s) \nonumber \\
+    \sum_{j = |\lambda|}^\jmax \; (2j + 1) \; d_{\lambda 0}^j(\theta_s) \; a_{j \lambda}^{(I)}(s) \nonumber \\
     %%
     &+ \sum_\lamp d_{\lamp \lambda}^J(\hat{\theta}_1) \times
     \bigg[
     \sum_\Ip \frac{1}{2} \, C_{I\Ip}
-    \sum_{\jp = 0}^\jpmax (2\jp + 1) \; d_{\lamp 0}^\jp(\theta_t) \; a_{\jp \lamp}^{(\Ip)}(t)
+    \sum_{\jp =  |\lamp|}^\jpmax (2\jp + 1) \; d_{\lamp 0}^\jp(\theta_t) \; a_{\jp \lamp}^{(\Ip)}(t)
     \bigg] \\
     %%
     &+ (-1)^{I + \lambda} \, \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_2) \times
     \bigg[
      \sum_\Ip \, \frac{1}{2} \, C_{I\Ip}
-    \sum_{\jp = 0}^\jpmax (2\jp + 1) \;d_{\lamp 0}^\jp(\theta_u) \;  (-1)^{\Ip + \lamp} \,  a_{\jp \lamp}^{(\Ip)}(u)
+    \sum_{\jp = |\lamp|}^\jpmax (2\jp + 1) \;d_{\lamp 0}^\jp(\theta_u) \;  (-1)^{\Ip + \lamp} \,  a_{\jp \lamp}^{(\Ip)}(u)
     \bigg] \nonumber \; .
   \end{align}
 %%
@@ -120,20 +120,20 @@ We see that if the sum over \(j\) is restricted by setting \(a_{j\lambda}^{(I)} 
 \begin{align}
   \label{eq:isobar}
     \mathcal{A}^{(I)}_\lambda(s,&t,u) =
-    K_\lambda(s) \; \sum_{j = 0}^\jmax \; (2j + 1) \; (k(s)q(s))^{j-|\lambda|} \; \hat{d}_{\lambda 0}^j(\theta_s) \; \hat{a}_{j \lambda}^{(I)}(s) \nonumber \\
+    K_\lambda(s) \; \sum_{j = |\lambda|}^\jmax \; (2j + 1) \; (k(s)q(s))^{j-|\lambda|} \; \hat{d}_{\lambda 0}^j(\theta_s) \; \hat{a}_{j \lambda}^{(I)}(s) \nonumber \\
     %%
     &+ \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_1) \times
     K_\lamp(t)
     \bigg[
     \sum_\Ip \frac{1}{2} \, C_{I\Ip} \;
-    \sum_{\jp = 0}^\jpmax (2\jp + 1) \; (k(t)q(t))^{\jp-|\lamp|} \; \hat{d}_{\lamp 0}^\jp(\theta_t) \; \hat{a}_{\jp\lamp}^{(\Ip)}(t)
+    \sum_{\jp = |\lamp|}^\jpmax (2\jp + 1) \; (k(t)q(t))^{\jp-|\lamp|} \; \hat{d}_{\lamp 0}^\jp(\theta_t) \; \hat{a}_{\jp\lamp}^{(\Ip)}(t)
     \bigg] \\
     %%
     &+ (-1)^{I + \lambda} \, \sum_\lamp  d_{\lamp \lambda}^J(\hat{\theta}_2) \times
     K_\lamp(u)
     \bigg[
     \sum_\Ip  \frac{1}{2} \, C_{I\Ip} \;
-    \sum_{\jp = 0}^\jpmax (2\jp + 1) \;  (k(u)q(u))^{\jp-|\lamp|} \; \hat{d}_{\lamp 0}^\jp(\theta_u)
+    \sum_{\jp =|\lamp|}^\jpmax (2\jp + 1) \;  (k(u)q(u))^{\jp-|\lamp|} \; \hat{d}_{\lamp 0}^\jp(\theta_u)
     \;  (-1)^{\Ip + \lamp} \,\hat{a}_{\jp\lamp}^{(\Ip)}(u)
     \bigg] \nonumber \; .
   \end{align}

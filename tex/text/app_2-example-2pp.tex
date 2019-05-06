@@ -1,13 +1,14 @@
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
-\section{The \(f_2(1270)\)  Decay (\(I^G \,J^{PC} = 0^- \, 2^{++}\))} \label{app:2pp}
+\section{The Tensor Isoscalar Decay (\(I^G \,J^{PC} = 0^- \, 2^{++}\))} \label{app:2pp}
 %#########################################################################################################
 In this section we consider the illustrative example of a tensor meson with natural parity, the \(f_2(1270)\), decaying into three pions with the formalism developed in this note.
 
 First from \cref{parity-jpc}, we immediately have \(\hat{A}_0(s,z_s) = 0\) and we only have to consider \(\lambda = 1, \; 2\). Now we use \cref{eq:k-factor} to identify the kinematic singularities:
 %%
   \begin{align}
+    \label{2pp-k-factor}
   K_1(s) =  \frac{\sin\theta_s \;\lambda^{1/2}_\pi(s)}{ \sqrt{s} \; \lambda^{1/2}_M(s) }
   \mand
   K_2(s) = \frac{\sin^2\theta_s \;\lambda_\pi(s)}{s} \; .
@@ -26,6 +27,22 @@ and
     \label{eq:2pp-2}
     \mathcal{A}_2(s,z_s) = s^{-1} \; \sin^2\theta_s \; \lambda_\pi(s) \; \sum_{j=1}^\infty \; (2j+1) \; (k(s)q(s))^{j-2} \; \hat{d}_{20}^j(\theta_s) \; \hat{A}_{j2}(s) \; .
   \end{align}
+%%
+We may easily list off the only nontrivial kinematic constraint at threshold corresponds to \(\tau = 1\) in \cref{trans-constraint}:
+%%
+  \begin{equation}
+    \bigg[
+    \mathcal{A}_{1}(s,t,u) + i \; \mathcal{A}_{2}(s,t,u)
+    \bigg] \sim \lambda_M^{1/2}(s) \;
+  \end{equation}
+%%
+which, using \cref{2pp-k-factor}, see is very similar to \cref{constraint-invariant}:
+%%
+  \begin{equation}
+    \bigg[
+    \hat{d}_{10}^j \; \hat{A}_{j1}(s) +  (M\pm m_\pi) \; z_s \; \hat{d}_{20}^j(\theta_s) \; \hat{A}_{j2}
+    \bigg] \to 0 \text{ as } \lambda_M(s)
+  \end{equation}
 %%
 %# ########################################################################################################
 %#########################################################################################################

@@ -46,8 +46,8 @@ For the elastic pion scattering amplitude we use the standard partial wave decom
 %%
     =& \; 128 \, \pi^2 \;
     \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell}
-    (2\ell +1 ) \; Y^m_\ell(\theta_s,0) \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime)
-      \; \tau_\ell^{(I)}(s) \; .
+     Y^m_\ell(\theta_s,0) \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime)
+      \; \tau_\ell^{(I)}(s)
   \end{align}
 %%
 Here the \(\pi\pi\) partial wave amplitudes are parameterized by the phase shifts, \(\delta\) and inelasticities \(\eta\) by:
@@ -67,33 +67,35 @@ First we evaluate the left-hand side of \cref{eq:unitarity}. Because we assume o
 %%
   \begin{equation}
     \label{eq:discontinuity}
-    \Disc \mathcal{A}^{(I)}_\lamp = \sum_{j^\prime=0}^\jpmax \; (2 j^\prime +1)
-    \; d^{j^\prime}_{\lamp 0}(\theta_s) \; \Disc a^{(I)}_{\jp \lamp}(s) \;
+    \Disc \mathcal{A}^{(I)}_\lambda = \sum_{j^\prime=|\lamp|}^\jpmax \; (2 j^\prime +1)
+    \; d^{j^\prime}_{\lambda 0}(\theta_s) \; \Disc a^{(I)}_{\jp \lambda}(s) \;
   \end{equation}
 %%
 Taking the \(j\)-th partial wave projection we get
 %%
   \begin{equation}
     \label{eq:pw-disc}
-    \frac{1}{2} \int_{-1}^1 dz_s  \; d^j_{\lambda 0}(\theta_s) \; \Disc \mathcal{A}^{(I)}_\lamp =
-    \Disc a^{(I)}_{j\lambda}(s).
+   \int_{-1}^1 dz_s  \; d^j_{\lambda 0}(\theta_s) \; \Disc \mathcal{A}^{(I)}_\lambda =
+    \frac{\delta_{j\jp}}{2j+1} \; \Disc a^{(I)}_{j\lambda}(s) \; .
   \end{equation}
 %%
-Next we move on to the homogeneous direct channel contribution of the right-hand side of \cref{eq:unitarity}. Combining \cref{eq:isobar,eq:elastic-pion} (note we have to be careful about the kinematic singularities we removed from the \(d\)-function in \cref{eq:halfangle} and \(\varphi^\prime \not= 0\) in \cref{eq:helicity}),
- the \(s\)-channel part of the integrand in \cref{eq:unitarity} is given by:
+
+Next we move on to the homogeneous direct channel contribution of the right-hand side of \cref{eq:unitarity}, the \(s\)-channel part of the integrand in \cref{eq:unitarity} is given by:
 %%
   \begin{align}
       \label{eq:direct-channel-angle}
      \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \times d_{\lambda0}^{j^\prime}(\theta_s^\prime) \, e^{i\lambda \varphi^\prime} =&
-     \; \sqrt{\frac{4\pi}{2j^\prime+1}\frac{(j^\prime+\lambda)!}{(j^\prime-\lambda)!}} \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \;  Y^\lambda_{j^\prime}(\theta_s^\prime, \varphi^\prime) \nonumber \\
+     \;
+     \sqrt{\frac{4\pi}{2j^\prime+1}}
+      \int d\Omega_s^\prime \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime) \;  Y^\lambda_{j^\prime}(\theta_s^\prime, \varphi^\prime) \nonumber \\
 %%
-    =& \;  \sqrt{\frac{4\pi}{2j^\prime+1}\frac{(j^\prime+\lambda)!}{(j^\prime-\lambda)!}} \;  \delta_{m\lambda} \; \delta_{\ell j^\prime}.
+    =& \;  \sqrt{\frac{4\pi}{2j^\prime+1}} \;  \delta_{m\lambda} \; \delta_{\ell j^\prime}.
   \end{align}
 %%
 The entire direct-channel contribution then is (converting back from spherical hamronics with \(\phi = 0\) to \(d\)-functions):
 %%
   \begin{align}
-     2 \,  \sum_{\jp=0}^\jpmax  \,
+     2 \,  \sum_{\jp=|\lambda|}^\jpmax  \,
        (2\jp +1) \; d_\lambda^\jp(\theta_s)
         \times
         \bigg[\rho(s) \; \tau^{(I)^*}_\jp(s) \; a^{(I)}_{\jp\lambda}(s) \bigg ]
@@ -116,9 +118,10 @@ Comparing this to \cref{eq:pw-disc}, we see that if we ignore any contributions 
     \Disc \hat{a}^{(I)}_{j\lambda}(s) = \rho(s) \; {\tau}^{(I)^*}_j(s) \; \hat{a}_{j\lambda}^{(I)}(s)
   \end{equation}
 %%
-where we have additionally noticed the kinematic singularities are the same on the left- and right-hand sides and therefore cancel. If we use the fact that the isobar functions are analytic and have only a RHC in the complex plane and obey a dispersion relation,
+where we have additionally noticed the kinematic singularities are the same on the left- and right-hand sides and therefore cancel. If we use the fact that the isobar functions are analytic and have only a RHC in the complex plane and obey a (in general subtracted) dispersion relation,
 %%
   \begin{equation}
+    \label{dispersion}
     \hat{a}_{j\lambda}^{(I)}(s) = \frac{1}{2i} \int_\sth^\infty \frac{ds^\prime}{\pi}
     \; \frac{
     \Disc \hat{a}_{j\lambda}^{(I)}(s)
@@ -130,7 +133,8 @@ where we have additionally noticed the kinematic singularities are the same on t
 we find this admits a solution of the Omn\`{e}s-Muskhelishvili form \cite{Omnes1958,Kamal1979,1953sie..book.....M}:
 %%
   \begin{equation}
-    \hat{a}_{j\lambda}^{(I)} = \text{exp} \;
+    \hat{a}_{j\lambda}^{(I)} =
+    F^{(I)}_{j\lambda}(s) \; \text{exp} \;
     \bigg\{
     \frac{s}{\pi} \int_{\sth}^\infty ds^\prime
      \frac{
@@ -141,15 +145,8 @@ we find this admits a solution of the Omn\`{e}s-Muskhelishvili form \cite{Omnes1
     \bigg\}
   \end{equation}
 %%
-where \(\delta_j^{(I)}(s)\) is the \(j\)-th partial-wave, isospin-\(I\), \(\pi\pi\) phase-shift.
-{\color{red} In general, how should we expect the helicity \(\lambda\) to appear in the Omnes solution? \Cref{omnes-unitarity} seems to suggest that, if we ignore cross-channel effects, \(\hat{a}^{(I)}_{j0}(s) = \hat{a}^{(I)}_{j+}(s)\) because they obey the exact same unitarity constraint.
-
-Does helicity only factor into the angular dependence? Should it be :
-\begin{equation}
-    a^{(I)}_{j\lambda}(s) = K_\lambda \; (k(s)q(s))^{j-|\lambda|} \; \hat{a}^{(I)}_j(s),
-\end{equation}
-with the kinematic-singularity-free partial-wave \textit{of definite isospin} having no dependence on the helicity of the initial decay?
-}
+where \(\delta_j^{(I)}(s)\) is the \(j\)-th partial-wave, isospin-\(I\), \(\pi\pi\) phase-shift and \(F\) is a helicity-dependent polynomial arrising from possible subtractions.
+We note that the dependence on \(\lambda\) only appears in the subtractions used in the dispersion relation. If we consider unsubtracted dispersion relations as \cref{dispersion} then the Omn\`{e}s solution is entirely determined by the \(\pi\pi\) phase-shift and does not depend on the helicity of the initial decay.
 %#########################################################################################################
 %#########################################################################################################
 %#########################################################################################################
@@ -158,7 +155,7 @@ with the kinematic-singularity-free partial-wave \textit{of definite isospin} ha
 %%
   \begin{align}
     \label{eq:cross-0}
-   \sum_\lamp \sum_\Ip \sum_{\jp=0}^\jpmax (2\jp + 1) \; \frac{1}{2} \, C_{II^\prime} \int d\Omega^\prime_s
+   \sum_\lamp \sum_\Ip \sum_{\jp=|\lamp|}^\jpmax (2\jp + 1) \; \frac{1}{2} \, C_{II^\prime} \int d\Omega^\prime_s
     \; {Y^m_\ell}^*(\theta_s^\prime, \varphi^\prime)
     \times  d^J_{\lamp \lambda}(\hat{\theta}^\prime_1) \;
     \bigg[
@@ -172,21 +169,21 @@ Instead we take the \(j\)-th partial-wave right away and examine the prefactors 
 %%
   \begin{align}
     \label{eq:cross-1}
-    \sum_{\ell, m} \; (2\ell +1) \;
-      \bigg[ \frac{1}{2}
+    \sum_{\ell, m} \;
+      \bigg[
        \int dz_s \;
       d_{\lambda 0}^j(\theta_s) \; Y^m_\ell(\theta_s,0)
        \bigg]
         \times \rho(s) \; {\tau}^{(I)^*}_\ell(s)
     %%
-  = \frac{1}{2} (2\ell +1) \; \sqrt{\frac{4\pi}{2j+1}} \; \rho(s) \; \tau_j^{(I)*}(s) \; \delta_{\lambda m} \; \delta_{j \ell}.
+  = \sqrt{\frac{2j+1}{4\pi}} \; \rho(s) \; \tau_j^{(I)*}(s) \; \delta_{\lambda m} \; \delta_{j \ell}.
   \end{align}
 %%
 Now we integrate \cref{eq:cross-0} over \(\varphi^\prime\),
 %%
   \begin{align}
     \label{eq:cross-2}
-    2\pi \; \sum_\lamp \sum_\Ip \sum_{\jp=0}^\jpmax (2\jp + 1) \; \frac{1}{2}C_{II^\prime} \; \sqrt{\frac{4\pi}{2\ell+1}} \;
+    4\pi \; \sum_\lamp \sum_\Ip \sum_{\jp=|\lamp|}^\jpmax  \frac{1}{2}C_{II^\prime} \; \sqrt{\frac{2\ell+1}{4\pi}} \;
      %%
      \int dz_s^\prime \; d_{m0}^{\,\ell}(\theta_s^\prime)
      \times
@@ -202,7 +199,7 @@ Combining \cref{eq:cross-1,eq:cross-2}, we get the inhomogeneous contribution:
       \label{eq:pw-cross}
      \rho(s) \; \tau^{(I)*}_j(s) \times
      \bigg[
-      \sum_{\lamp \Ip} \frac{1}{2}C_{I\Ip} \; \sum_{\jp=0}^\jpmax (2\jp+1) \;
+      \sum_{\lamp \Ip} \; \frac{1}{2}C_{I\Ip} \; \sum_{\jp=|\lamp|}^\jpmax \;
       \int d z_s^\prime \; d_{\lambda0}^j(\theta^\prime_s) \;
       d_{\lamp \lambda}^J(\hat{\theta}^\prime_1) \; d_{\lamp 0}^\jp(z_t^\prime) \; a^{(\Ip)}_{\jp \lamp}(t^\prime)
       \bigg] \; .
@@ -213,41 +210,38 @@ Finally, combining \cref{eq:pw-cross} with \cref{eq:pw-disc,eq:pw-direct} and re
 %%
   \begin{align}
     \label{kt-final}
-    \Disc a_{j\lambda}^{(I)}(s) = \rho(s) \; \tau^{(I)*}_j(s) \times
+    \Disc a_{j\lambda}^{(I)}(s) = \rho(s) \; \tau^{(I)^*}_j(s) \times
     \bigg[
     a_{j\lambda}^{(I)}(s) +
-    \sum_{\lamp \Ip \jp}  (2\jp+1) \; C_{I\Ip} \;
+    \sum_{\lamp \Ip \jp} \frac{1}{2}C_{I\Ip}
     \int d z_s \;  d_{\lambda0}^j(\theta_s) \; d_{\lamp \lambda}^J(\hat{\theta}_1) \;
        d_{\lamp 0}^\jp(z_t) \; a^{(\Ip)}_{\jp \lamp}(t)
     \bigg] \; .
   \end{align}
 %%
-To directly compare with \cite{Danilkin:2014cra,Niecknig:2012sj}, we define the kinematic-singularity-free derivatives of Legendre polynomials
+We note that \cref{kt-final} is in terms of the isobar functions with kinematic singularities, thus we may define the kinematic integration kernal which is a ratio of \(K\)-functions \cref{eq:k-factor}:
 %%
-    \begin{equation}
-    \tilde{P}_{j}^\lambda(s) = (k(s)q(s))^{j-\lambda} \, \frac{d^\lambda}{{dz_s}^\lambda} (P_j(z_s)) \; .
+  \begin{equation}
+    K_{\lamp\lambda}(t,s) = \frac{K_\lamp(t)}{K_\lambda(s)}
   \end{equation}
 %%
-With these, \cref{eq:k-factor,eq:kibble,eq:halfangle}, we may write \cref{kt-final} in terms of the kinematic-singularity-free isobar amplitudes:
+to rewrite \cref{kt-final} in terms of the kinematic-singularity-free \(d\)-functions and isobar amplitudes:
 %%
   \begin{align}
-    \Disc \hat{a}_{j\lambda}^{(I)}(s) = \rho(s) \; \tau^{(I)*}_j(s) \;
+    \label{kt-final-KSF}
+    \Disc \hat{a}_{j\lambda}^{(I)}(s) = \rho(s) \; \tau^{(I)^*}_j(s) \times
     \bigg[
-    \hat{a}_{j\lambda}^{(I)}(s) + \sum_{\jp \lamp \Ip}  &(2\jp+1) \; C_{I\Ip} \;
-    \frac{(j-\lambda)!}{(j+\lambda)!} \nonumber \\
-    &\times \int d z_s \; d_{\lamp \lambda}^J(\hat{\theta}_1) \;
-    \bigg(\frac{\lambda_M(t)}{\lambda_M(s)}\bigg)^{J/2} \;
-    \bigg(\frac{\phi}{4s}\bigg)^\lamp \;
-    \frac{
-    \tilde{P}_{j}^\lambda(s) \, \tilde{P}_{\jp}^\lamp(t)
-    }{
-    (k(s)q(s))^{2j}
-    } \;
-    \hat{a}_{\jp \lamp}^{(\Ip)}(t)
+    \hat{a}_{j\lambda}^{(I)}(s) +
+    \sum_{\lamp \Ip \jp} \frac{1}{2}C_{I\Ip}
+    \int d z_s \; K_{\lamp\lambda}(t,s) \; d_{\lambda0}^j(\theta_s) \; d_{\lamp \lambda}^J(\hat{\theta}_1) \;
+       d_{\lamp 0}^\jp(z_t) \; \hat{a}^{(\Ip)}_{\jp \lamp}(t)
     \bigg] \; .
   \end{align}
 %%
-The ratio of \(\lambda_M\) arrise from the additional factors of momenta near threshold in \cref{eq:k-factor-tilde} with \(Y_i = J\). 
+%#########################################################################################################
+%#########################################################################################################
+%#########################################################################################################
+\subsection{Path of Integration}
 
 %#########################################################################################################
 %#########################################################################################################

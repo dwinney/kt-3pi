@@ -1,36 +1,37 @@
 // Self-contained implementation of the GKPY paramterization for low-energy pion scattering.
 // Based on: 10.1103/PhysRevD.83.074004
 //
-// Dependencies: None
+// Dependencies: amp.hpp
 //
 // Author:       Daniel Winney (2018)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
+// Define an pipi object with a specified isospin:
+// pipi my_pipi_amp(isospin);
+//
+// Evaluate the GKPY partial wave amplitude with spin j (as a complex number) at some s:
+// my_pipi_amp.GKPRY_partial_wave(j, s);
+// -----------------------------------------------------------------------------
+
 #ifndef _PIPI_
 #define _PIPI_
 
+#include "amp.hpp"
 #include <complex>
 #include <iostream>
 #include <stdlib.h>
 #include <cmath>
 
-//------------------------------------------------------------------------------
-// Pion Scattering Amplitude Object
-class pipi
+class pipi : public amplitude
 {
 //-----------------------------------------------------------------------------
 protected:
-int qn_I;
+int pipi_qn_I;
 //-----------------------------------------------------------------------------
 public:
-static const double conv; // degrees to radians conversion
-static const std::complex<double> xr, xi; // unit imaginary and real
-
-static const double mPi, mK, mEta, mRho, mF2; //masses
-static const double sthPi, sthK, sthEta; // particle thresholds
-//-----------------------------------------------------------------------------
 pipi();
 pipi(int i);
 void print_I();

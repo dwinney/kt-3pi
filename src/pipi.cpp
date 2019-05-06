@@ -10,47 +10,27 @@
 #include "pipi.hpp"
 
 //-----------------------------------------------------------------------------
-const double pipi::conv = (M_PI / 180.);
-
-//Masses
-const double pipi::mPi = 0.1396;
-const double pipi::mK = 0.496;
-const double pipi::mEta = 0.54753;
-
-const double pipi::mRho = .77545;
-const double pipi::mF2 = 1.2754;
-
-//Thresholds for pi, eta, and K
-const double pipi::sthPi = 4.*mPi*mPi;
-const double pipi::sthK = 4.*mK*mK;
-const double pipi::sthEta = 4.*mEta*mEta;
-
-//Unit imaginary and real
-const std::complex<double> pipi::xr(1., 0.);
-const std::complex<double> pipi::xi(0., 1.);
-
-//-----------------------------------------------------------------------------
-//Constructor
-pipi::pipi()
+// Constructor
+pipi::pipi() : amplitude()
 {
         std::cout << " pipi : Input valid Isospin. \n";
         std::cout << " pipi : Usage: 'pipi amp(1); \n";
         exit(1);
 }
-pipi::pipi(int i)
+pipi::pipi(int i) : amplitude()
 {
         if (i < 0 || i > 2)
         {
                 std::cout << " pipi : Amplitude with Invalid Isospin Initialized. \n";
                 exit(1);
         }
-        qn_I = i;
+        pipi_qn_I = i;
 }
 
 //-----------------------------------------------------------------------------
 void pipi::print_I()
 {
-        std::cout << " Isospin = " << qn_I << "\n";
+        std::cout << " Isospin = " << pipi_qn_I << "\n";
 };
 
 //-----------------------------------------------------------------------------
@@ -78,9 +58,9 @@ double pipi::elastic_mom( double s, double sth)
 double pipi::phase_shift(int l, double s)
 {
         //Error Checks :)
-        int wave = (3*l - qn_I)/2;
-        if (qn_I > 2 || qn_I < 0) {wave = 600;}
-        if (l % 2 != qn_I % 2) {wave = 600;}
+        int wave = (3*l - pipi_qn_I)/2;
+        if (pipi_qn_I > 2 || pipi_qn_I < 0) {wave = 600;}
+        if (l % 2 != pipi_qn_I % 2) {wave = 600;}
         if (l >= 4 && wave != 600)
         {std::cout << "Phase shift contributions of l > 3 are completely negligible. Quitting... \n";
          exit(1);}
@@ -353,7 +333,7 @@ double pipi::phase_shift(int l, double s)
 //Unphysical partial waves (ie anything else)
         else
         {
-                std::cout << "Invalid Phase Shift with l = " << l << " and isospin = " << qn_I << ". Quiting... \n";
+                std::cout << "Invalid Phase Shift with l = " << l << " and isospin = " << pipi_qn_I << ". Quiting... \n";
                 exit(1);
 
         }
@@ -371,9 +351,9 @@ double pipi::inelasticity(int l, double s)
         double eta;
         double sh = pow(1.42, 2.);
 
-        int wave = (3*l - qn_I)/2;
-        if (qn_I > 2 || qn_I < 0 || l < 0) {wave = 600;}
-        if (l % 2 != qn_I % 2) {wave = 600;} //Check Bose symmetry
+        int wave = (3*l - pipi_qn_I)/2;
+        if (pipi_qn_I > 2 || pipi_qn_I < 0 || l < 0) {wave = 600;}
+        if (l % 2 != pipi_qn_I % 2) {wave = 600;} //Check Bose symmetry
         if (l >= 3 && wave != 600) {return eta = 1.;} //Inelasticities for high partial waves are negligable
 
 //S2 wave (l = 0, iso = 2)
@@ -490,7 +470,7 @@ double pipi::inelasticity(int l, double s)
 //Unphysical partial waves (ie anything else)
         else
         {
-                std::cout << "Invalid Inelasticity with l = " << l << " and isospin = " << qn_I << ". Quiting... \n";
+                std::cout << "Invalid Inelasticity with l = " << l << " and isospin = " << pipi_qn_I << ". Quiting... \n";
                 exit(1);
         }
 }
@@ -520,15 +500,15 @@ std::complex<double> pipi::GKPRY_iso_amp(double s, double z)
 
         for (int i = 0; i < 2; i++)
         {
-                if (qn_I == 0 || qn_I == 2)
+                if (pipi_qn_I == 0 || pipi_qn_I == 2)
                 {
                         l = 2*i; //only even spin
                 }
-                else if (qn_I == 1)
+                else if (pipi_qn_I == 1)
                 {
                         l = 2*i + 1;
                 }
-                if (qn_I > 2 || qn_I < 0)
+                if (pipi_qn_I > 2 || pipi_qn_I < 0)
                 {
                         std::cout << " Invalid isospin! Quitting... \n";
                         exit(1);

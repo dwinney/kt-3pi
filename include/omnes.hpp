@@ -7,6 +7,14 @@
 // Email:        dwinney@iu.edu
 // -----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
+// Define an omnes object with a given partial wave and isospin:
+// omnes my_omnes(isospin, spin);
+//
+// Evaluate the Omnes function (as a complex number) at some s:
+// my_omnes.eval(s);
+// -----------------------------------------------------------------------------
+
 #ifndef _OMNES_
 #define _OMNES_
 
@@ -22,7 +30,7 @@ int wave;
 int sign = 1;
 double eps = 1e-9;
 int N_omnes = 100;
-double s0 = sthPi; //Lower Bound for integral
+double s0 = amplitude::sthPi; //Lower Bound for integral
 
 //-----------------------------------------------------------------------------
 private:

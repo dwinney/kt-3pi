@@ -1,7 +1,6 @@
 // Classes for Dalitz plot generation and fitting to polynomial expansion with dalitz plot parameters.
 //
-//
-// Dependencies: amp.hpp
+// Dependencies: amp.hpp, aux_math.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -12,11 +11,11 @@
 #define _DALITZ_
 
 #include "amp.hpp"
-#include <iostream>
-#include <complex>
+#include "aux_math.hpp"
 #include <cmath>
-using std::complex;
-using std::cout;
+#include <vector>
+
+    using std::vector;
 
 //-----------------------------------------------------------------------------
 //  Define a Dalitz plot object with a pointer to the amplitude.
@@ -28,15 +27,25 @@ using std::cout;
 //  dalitz my_dalitz(ptr_amp);
 //-----------------------------------------------------------------------------
 
-class dalitz : amplitude
+class dalitz : public amplitude
 {
 protected:
 complex<double> (*amp) (double, double);
-double s_c = (Mass * Mass + 3. * mPi*mPi) / 3.;
-double temp_num, temp_den, temp_pref, amp_sqr;
+double s_c = (mDec * mDec + 3. * mPi*mPi) / 3.;
+double scale = 1.0e-3;
+
+//Temporary variables
+double temp1, temp2, temp3, amp_ij, poly_ij;
+double t_sum, s_sum, s_i, t_j, d_area;
 
 // Polynomial expansion parameters
 double Norm, alpha, beta, gamma, delta;
+
+// Gaussian-Legendre Weights and Absiccas in s
+bool S_WG_GENERATED;
+vector<double> s_wgt, s_abs, t_wgt, t_abs;
+int N_int = 60; // Number of integration points
+int N_params = 2;
 
 //-----------------------------------------------------------------------------
 public:
@@ -49,6 +58,7 @@ public:
   {
     amp = my_amp;
   };
+
 //-----------------------------------------------------------------------------
   // Lorentz Invariant dimensionless parameters
   double x(double s, double t);
@@ -57,12 +67,35 @@ public:
   double x_polar(double z, double theta);
   double y_polar(double z, double theta);
 
+  double z(double s, double t);
+  double theta(double s, double t);
+
   // Double differential cross section
   double d2Gamma(double s, double t);
 
-  // Polynomial expansion around the center of dalitz plot
-  complex<double> F_poly(double z, double theta);
 //-----------------------------------------------------------------------------
+// Extraction of Dalitz Plot parameters by fitting
+//-----------------------------------------------------------------------------
+  double set_integration_points(int n)
+  {
+    N_int = n;
+    S_WG_GENERATED = false;
+  };
+
+  // Set the number of parameters in the polynomial expansion.
+  // Default is 2, i.e. alpha and beta up to order 3/2 in z.
+  double set_N_params(int n)
+  {
+    N_params = n;
+  };
+
+  void generate_s_weights();
+  void generate_t_weights(double s);
+
+  // Polynomial expansion around the center of dalitz plot
+  double F_poly(double s, double t);
+  double kin_kernal(double s, double t); // Kinematic Kernal in dalitz region integral
+  double chi_squared(double s, double t); // Chi-squared between input line-shape and polynomial.
 };
 
 //-----------------------------------------------------------------------------

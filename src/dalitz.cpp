@@ -87,7 +87,11 @@ double dalitz::F_poly(double s, double t)
 void dalitz::generate_s_weights()
 {
   double weights[N_int + 1], abscissas[N_int + 1];
-  gauleg(smin, smax, abscissas, weights, N_int + 1);
+
+  double smn = smin() + 0.001;
+  double smx = smax() + 0.001;
+
+  gauleg(smn , smx, abscissas, weights, N_int + 1);
 
   s_wgt.clear(); s_abs.clear();
 
@@ -103,7 +107,11 @@ void dalitz::generate_s_weights()
 void dalitz::generate_t_weights(double s)
 {
   double weights[N_int + 1], abscissas[N_int + 1];
-  gauleg(tmin(s), tmax(s), abscissas, weights, N_int + 1);
+
+  double tmn = tmin(s) + 0.001;
+  double tmx = tmax(s) - 0.001;
+
+  gauleg(tmn, tmx, abscissas, weights, N_int + 1);
 
   t_wgt.clear(); t_abs.clear();
 
@@ -126,13 +134,12 @@ double dalitz::kin_kernal(double s, double t)
 };
 
 // Calculate chi_squared
-double dalitz::chi_squared(double s, double t)
+double dalitz::chi_squared()
 {
   if (S_WG_GENERATED == false)
   {
     generate_s_weights();
   };
-
 // Integrate over s
 for (int i = 0; i < N_int; i++)
 {
@@ -157,5 +164,6 @@ for (int i = 0; i < N_int; i++)
   d_area += s_wgt[i] * s_i;
 };
 temp3 = s_sum / (Norm * Norm * d_area);
-return temp3;
+chi2 = temp3;
+return chi2;
 };

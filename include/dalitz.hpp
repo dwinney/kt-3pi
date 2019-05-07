@@ -1,6 +1,6 @@
 // Classes for Dalitz plot generation and fitting to polynomial expansion with dalitz plot parameters.
 //
-// Dependencies: amp.hpp, aux_math.hpp
+// Dependencies: amp.hpp, aux_math.hpp, ROOT
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -14,8 +14,11 @@
 #include "aux_math.hpp"
 #include <cmath>
 #include <vector>
+// #include <TFitter.h>
+// #include <TMinuit.h>
+// #include <TROOT.h>
 
-    using std::vector;
+using std::vector;
 
 //-----------------------------------------------------------------------------
 //  Define a Dalitz plot object with a pointer to the amplitude.
@@ -39,10 +42,11 @@ double temp1, temp2, temp3, amp_ij, poly_ij;
 double t_sum, s_sum, s_i, t_j, d_area;
 
 // Polynomial expansion parameters
-double Norm, alpha, beta, gamma, delta;
+double Norm = 1., alpha, beta, gamma, delta;
 
 // Gaussian-Legendre Weights and Absiccas in s
 bool S_WG_GENERATED;
+double chi2;
 vector<double> s_wgt, s_abs, t_wgt, t_abs;
 int N_int = 60; // Number of integration points
 int N_params = 2;
@@ -76,7 +80,7 @@ public:
 //-----------------------------------------------------------------------------
 // Extraction of Dalitz Plot parameters by fitting
 //-----------------------------------------------------------------------------
-  double set_integration_points(int n)
+  void set_integration_points(int n)
   {
     N_int = n;
     S_WG_GENERATED = false;
@@ -84,7 +88,7 @@ public:
 
   // Set the number of parameters in the polynomial expansion.
   // Default is 2, i.e. alpha and beta up to order 3/2 in z.
-  double set_N_params(int n)
+  void set_N_params(int n)
   {
     N_params = n;
   };
@@ -94,8 +98,24 @@ public:
 
   // Polynomial expansion around the center of dalitz plot
   double F_poly(double s, double t);
+  void print_params()
+  {
+    cout << " Printing Dalitz Plot parameters... \n";
+    cout << " ---------------------------------------- \n";
+    cout << " normalization :  \t \t" << Norm << "\n";
+    cout << " alpha : \t \t" << alpha << "\n";
+    cout << " beta : \t \t " << beta << "\n";
+    cout << " gamma : \t \t " << gamma << "\n";
+    cout << " delta : \t \t" << delta << "\n";
+    cout << " ---------------------------------------- \n";
+    cout << "\n";
+  };
+
   double kin_kernal(double s, double t); // Kinematic Kernal in dalitz region integral
-  double chi_squared(double s, double t); // Chi-squared between input line-shape and polynomial.
+  double chi_squared(); // Chi-squared between input line-shape and polynomial.
+
+  // void root_WRAPPER(int& npar, double* g, double& result, double *par, int flag);
+  // void fit_params();
 };
 
 //-----------------------------------------------------------------------------

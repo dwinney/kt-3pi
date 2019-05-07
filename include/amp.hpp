@@ -43,6 +43,7 @@ void set_Helicity(int lambda)
 void set_Mass(double m)
 {
         mDec = m;
+        cout << " Decay Mass set to: " << mDec << "\n";
 };
 
 //-----------------------------------------------------------------------------
@@ -59,8 +60,14 @@ double com_P2(double s);
 double com_P3(double s);
 
 // Dalitz region
-double smin = sthPi;
-double smax = (mDec - mPi) * (mDec - mPi);
+double smin()
+  {
+    return sthPi;
+  };
+double smax()
+  {
+    return (mDec - mPi) * (mDec - mPi);
+  };
 double tmin(double s);
 double tmax(double s);
 

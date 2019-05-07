@@ -36,26 +36,38 @@ double amplitude::com_E2(double s)
 
 double amplitude::com_E3(double s)
 {
-  return (mDec*mDec - s - mPi*mPi) / (2.*sqrt(s));
+  return (mDec*mDec - mPi*mPi - s) / (2.*sqrt(s));
 };
 
 double amplitude::com_P2(double s)
 {
-  return sqrt(com_E2(s)*com_E2(s) - mPi*mPi);
+  double temp = com_E2(s)*com_E2(s) - mPi*mPi;
+  if (temp < 0.)
+  {
+    cout << " Outside of Dalitz region: com_P2 (sqrt(" << temp << ")) is imaginary. Quitting... \n";
+    exit(1);
+  }
+  return sqrt(temp);
 };
 
 double amplitude::com_P3(double s)
 {
-  return sqrt(com_E3(s)*com_E3(s) - mPi*mPi);
+  double temp = com_E3(s)*com_E3(s) - mPi*mPi;
+  if (temp < 0.)
+  {
+    cout << " Outside of Dalitz region: com_P3 (sqrt(" << temp << ")) is imaginary. Quitting... \n";
+    exit(1);
+  }
+  return sqrt(temp);
 };
 
 double amplitude::tmin(double s)
 {
-  return pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) - com_P3(s), 2.);
+  return pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) + com_P3(s), 2.);
 };
 
 double amplitude::tmax(double s)
 {
-  return pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) + com_P3(s), 2.);
+  return pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) - com_P3(s), 2.);
 };
 // ---------------------------------------------------------------------------

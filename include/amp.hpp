@@ -10,6 +10,7 @@
 #ifndef _AMP_
 #define _AMP_
 
+#include "constants.hpp"
 #include <iostream>
 #include <complex>
 
@@ -23,13 +24,6 @@ int qn_J, qn_C, qn_P, qn_I, qn_H;
 double Mass;
 //-----------------------------------------------------------------------------
 public:
-//-----------------------------------------------------------------------------
-static double conv; // degrees to radians conversion
-static std::complex<double> xr, xi; // unit imaginary and real
-
-static double mPi, mK, mEta, mRho, mF2; //masses
-static double sthPi, sthK, sthEta; // particle thresholds
-//-----------------------------------------------------------------------------
 amplitude(){};
 
 void set_JPC(int j, int p, int c)
@@ -50,6 +44,7 @@ void set_Mass(double m)
 };
 
 // Kinematic Functions
+double u(double s, double t);
 double Kibble(double s, double t);
 //-----------------------------------------------------------------------------
 };

@@ -20,4 +20,5 @@ src/amp.cpp
 src/pipi.cpp
 src/omnes.cpp
 src/aux_math.cpp
+src/dalitz.cpp
 )

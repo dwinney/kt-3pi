@@ -30,7 +30,7 @@ int wave;
 int sign = 1;
 double eps = 1e-9;
 int N_omnes = 100;
-double s0 = amplitude::sthPi; //Lower Bound for integral
+double s0 = sthPi; //Lower Bound for integral
 
 //-----------------------------------------------------------------------------
 private:

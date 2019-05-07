@@ -40,7 +40,7 @@ double omnes::extrap_phase(double s)
 
         double result;
 
-        switch(qn_I) {
+        switch(pipi_qn_I) {
         case 0: {nJ = 2.; break;}
         case 1: {nJ = 1.; break;}
         case 2: {nJ = 2.; break;}

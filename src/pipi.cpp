@@ -1,6 +1,6 @@
 // Phase-shift and Inelasticities for PiPi scattering based off GKPRY parameterization.
 //
-// Dependencies: None
+// Dependencies: constants.hpp
 //
 // Author:       Daniel Winney (2018)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -11,13 +11,13 @@
 
 //-----------------------------------------------------------------------------
 // Constructor
-pipi::pipi() : amplitude()
+pipi::pipi()
 {
         std::cout << " pipi : Input valid Isospin. \n";
         std::cout << " pipi : Usage: 'pipi amp(1); \n";
         exit(1);
 }
-pipi::pipi(int i) : amplitude()
+pipi::pipi(int i)
 {
         if (i < 0 || i > 2)
         {
@@ -71,8 +71,8 @@ double pipi::phase_shift(int l, double s)
 
         //Momenta
         double k, k2;
-        k = elastic_mom(s, pipi::sthPi);
-        k2 = elastic_mom(s, pipi::sthK);
+        k = elastic_mom(s, sthPi);
+        k2 = elastic_mom(s, sthK);
 
 //S2 wave (l = 0, iso = 2)
         if (wave == -1)
@@ -147,11 +147,11 @@ double pipi::phase_shift(int l, double s)
                         double d0, C1, B, C2, D;
                         double k2, k2m;
 
-                        d0 = 226.5 * pipi::conv; //converting to radians
-                        C1 = -81. * pipi::conv;
-                        B = 93.3 * pipi::conv;
-                        C2 = 48.7 * pipi::conv;
-                        D = -88.3 * pipi::conv;
+                        d0 = 226.5 * conv; //converting to radians
+                        C1 = -81. * conv;
+                        B = 93.3 * conv;
+                        C2 = 48.7 * conv;
+                        D = -88.3 * conv;
 
 
                         k2m = elastic_mom(sthK, sm); //Switched inputs to avoid negative under radical

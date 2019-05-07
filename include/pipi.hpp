@@ -1,7 +1,7 @@
 // Self-contained implementation of the GKPY paramterization for low-energy pion scattering.
 // Based on: 10.1103/PhysRevD.83.074004
 //
-// Dependencies: amp.hpp
+// Dependencies: amp.hpp (only for constants)
 //
 // Author:       Daniel Winney (2018)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -19,13 +19,13 @@
 #ifndef _PIPI_
 #define _PIPI_
 
-#include "amp.hpp"
+#include "constants.hpp"
 #include <complex>
 #include <iostream>
 #include <stdlib.h>
 #include <cmath>
 
-class pipi : public amplitude
+class pipi
 {
 //-----------------------------------------------------------------------------
 protected:

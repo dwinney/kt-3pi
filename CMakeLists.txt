@@ -5,6 +5,7 @@ project (KT-3P)
 set(CMAKE_CXX_STANDARD 11)
 include_directories("include")
 include_directories("src")
+include_directories("scripts")
 
 find_package(ROOT REQUIRED)
 if (ROOT_FOUND)
@@ -14,8 +15,8 @@ else()
     message(SEND_ERROR "Root not found!")
 endif()
 
-add_executable( test
-src/test.cpp
+add_executable( omega_BW
+scripts/omega_BW.cpp
 src/amp.cpp
 src/pipi.cpp
 src/omnes.cpp

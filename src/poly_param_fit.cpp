@@ -29,15 +29,16 @@ double poly_param_fit::F_poly(double s, double t)
 void poly_param_fit::set_integration_points(int m)
 {
   n = m;
+  cout << " Number of integration points changed to " << n << "... \n";
   S_WG_GENERATED = false;
 };
 
 // Set the number of parameters in the polynomial expansion.
 // Default is 2, i.e. alpha and beta up to order 3/2 in z.
-void poly_param_fit::set_params(int n, double *par)
+void poly_param_fit::set_params(int n, const double *par)
 {
-  N_params = n;
-  switch (N_params)
+  n_params = n;
+  switch (N_params())
    {
     case 4: delta = par[3];
     case 3: gamma = par[2];
@@ -83,7 +84,8 @@ void poly_param_fit::generate_s_weights()
           s_wgt.push_back(weights[i]);
           s_abs.push_back(abscissas[i]);
   }
-  cout << " Gaussian Weights and Absiccas for s in the Dalitz Region generated... \n";
+  cout << " Gaussian weights for s in the Dalitz Region generated with "
+  << N_int() << " points... \n";
   S_WG_GENERATED = true;
 };
 
@@ -112,7 +114,8 @@ void poly_param_fit::generate_t_weights(vector<double> s)
     t_wgt.push_back(t_wgt_temp);
     t_abs.push_back(t_abs_temp);
   }
-  cout << " Gaussian Weights and Absiccas for t in the Dalitz Region generated... \n";
+  cout << " Gaussian weights for t in the Dalitz Region generated with "
+  << N_int() << " points... \n";
   T_WG_GENERATED = true;
 };
 
@@ -125,10 +128,6 @@ void poly_param_fit::generate_weights(){
   else if (T_WG_GENERATED == false)
   {
     generate_t_weights(s_abs);
-  }
-  else
-  {
-    cout << " generate_weight(): Weights already generated. Continuing... \n";
   }
 };
 
@@ -167,8 +166,9 @@ return s_sum;
 //-----------------------------------------------------------------------------
 // Calculate chi_squared
 // Normlized by the area of the Dalitz plot.
-double poly_param_fit::chi_squared()
+double poly_param_fit::chi_squared(const double *par)
 {
+  set_params(N_params(), par);
   double t_sum, s_sum, s_i, t_ij, d_area, amp_ij, poly_ij;
   double chi2;
 
@@ -200,4 +200,31 @@ double poly_param_fit::chi_squared()
 
   chi2 = s_sum / d_area;
   return chi2;
+};
+// ---------------------------------------------------------------------------
+
+void poly_param_fit::fit_params()
+{
+  ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "");
+  minuit->SetMaxFunctionCalls(10000);
+  minuit->SetTolerance(0.001);
+  minuit->SetPrintLevel(1);
+
+  ROOT::Math::Functor fcn(this, &poly_param_fit::chi_squared, N_params());
+  minuit->SetFunction(fcn);
+
+  switch (N_params())
+  {
+    case 4: minuit->SetVariable(3, "delta", 0., 1.);
+    case 3: minuit->SetVariable(2,"gamma", 0., 1.);
+    case 2: minuit->SetVariable(1, "beta", 0., 1.);
+    case 1: {minuit->SetVariable(0,"alpha", 0., 1.); break;}
+    default:
+    {
+      cout << " fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";
+      exit(1);
+    }
+  }
+
+  minuit->Minimize();
 };

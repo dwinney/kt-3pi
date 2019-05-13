@@ -1,28 +1,24 @@
 #include "poly_param_fit.hpp"
+#include "breit_wigner.hpp"
 #include <iostream>
 #include <complex>
+#include <functional>
 
 using std::complex;
 using std::cout;
-
-complex<double> test_func(double s, double t)
-{
-  return xr;
-};
+using std::endl;
 
 int main()
 {
-  complex<double> (*ptr_amp) (double, double);
-  ptr_amp = test_func;
+  // using namespace std::placeholders;
+  breit_wigner_simple rho(.770, .150);
 
-  double a[2] = {0., 0.};
+  // std::function<complex<double>(double, double)> rho_BW = std::bind(&breit_wigner_simple::operator(), rho, _1, _2);
 
-  poly_param_fit test(test_func);
-  test.set_Mass(.782);
+  // test.set_Mass(.782);
+  // test.set_params(1., a);
+  // test.fit_params();
   // test.print_params();
-  test.set_params(2, a);
-  test.print_params();
-  test.set_integration_points(10);
-  cout << test.chi_squared() << "\n";
+
   return 0;
 };

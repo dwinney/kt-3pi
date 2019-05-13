@@ -14,6 +14,9 @@
 #include "dalitz.hpp"
 #include "aux_math.hpp"
 #include <iomanip>
+#include "Math/Minimizer.h"
+#include "Math/Factory.h"
+#include "Math/Functor.h"
 
 using std::vector;
 using std::setw;
@@ -22,7 +25,8 @@ class poly_param_fit : public dalitz
 {
 protected:
   // Polynomial expansion parameters up to order 5/2 in z
-  int N_params = 2;
+  int n_params = 2;
+  int N_params(){return n_params;};
   double Norm = 1., alpha = 0., beta = 0., gamma = 0., delta = 0.;
   double scale = 1.e-3;
 
@@ -43,17 +47,18 @@ protected:
 public:
   poly_param_fit(complex<double> (*my_amp) (double, double)) : dalitz(my_amp){};
 
-  void set_params(int n, double *par);
+  void set_params(int n, const double *par);
   void print_params(int a = 0);
   void set_integration_points(int n);
 
   double F_poly(double s, double t);
 
   double kin_kernel(double s, double t); // Kinematic Kernal in dalitz region integral
-  double chi_squared(); // Chi-squared between input line-shape and polynomial.
+  double chi_squared(const double *par); // Chi-squared between input line-shape and polynomial.
   double dalitz_area();
 
   void fit_params();
+// ---------------------------------------------------------------------------
 };
-
+// ---------------------------------------------------------------------------
 #endif

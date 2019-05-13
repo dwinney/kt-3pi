@@ -19,7 +19,7 @@ double amplitude::u(double s, double t)
 double amplitude::Kibble(double s, double t)
 {
     double u = 3.*mPi*mPi + mDec*mDec - s - t;
-    return s * t * u - mPi*mPi* std::pow(mDec*mDec - mPi*mPi, 2);
+    return (s * t * u ) - mPi*mPi * (mDec*mDec - mPi*mPi)*(mDec*mDec - mPi*mPi);
 };
 
 double amplitude::Kallen(double x, double y, double z)

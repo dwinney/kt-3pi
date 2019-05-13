@@ -14,9 +14,10 @@
 #include "constants.hpp"
 #include <iostream>
 #include <complex>
+
 using std::complex;
 using std::cout;
-
+using std::endl;
 
 //-----------------------------------------------------------------------------
 class amplitude
@@ -25,6 +26,8 @@ class amplitude
 protected:
 int qn_J, qn_C, qn_P, qn_I, qn_H;
 double mDec;
+
+
 //-----------------------------------------------------------------------------
 public:
 //-----------------------------------------------------------------------------
@@ -44,6 +47,7 @@ void set_Mass(double m)
 {
         mDec = m;
         cout << " Decay Mass set to: " << mDec << "\n";
+        cout << endl;
 };
 
 //-----------------------------------------------------------------------------

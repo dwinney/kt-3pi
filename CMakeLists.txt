@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.9)
 
 project (KT-3P)
 
@@ -22,4 +22,6 @@ src/pipi.cpp
 src/omnes.cpp
 src/aux_math.cpp
 src/dalitz.cpp
+src/poly_param_fit.cpp
 )
+target_link_libraries( omega_BW ${ROOT_LIBRARIES})

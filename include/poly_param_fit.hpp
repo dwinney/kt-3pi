@@ -21,14 +21,15 @@
 using std::vector;
 using std::setw;
 
-class poly_param_fit : public dalitz
+template <class T>
+class poly_param_fit : public dalitz<T>
 {
 protected:
   // Polynomial expansion parameters up to order 5/2 in z
   int n_params = 2;
   int N_params(){return n_params;};
-  double Norm = 1., alpha = 0., beta = 0., gamma = 0., delta = 0.;
-  double scale = 1.e-3;
+  double Norm = 1.451, alpha = 0., beta = 0., gamma = 0., delta = 0.;
+  double scale = 1.;
 
   // For integration
   int n = 60; // Number of integration points
@@ -45,7 +46,7 @@ protected:
 
 // ---------------------------------------------------------------------------
 public:
-  poly_param_fit(complex<double> (*my_amp) (double, double)) : dalitz(my_amp){};
+  poly_param_fit(T my_amp) : dalitz<T>(my_amp){};
 
   void set_params(int n, const double *par);
   void print_params(int a = 0);

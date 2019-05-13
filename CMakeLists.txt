@@ -22,7 +22,7 @@ src/pipi.cpp
 src/omnes.cpp
 src/aux_math.cpp
 src/dalitz.cpp
-src/poly_param_fit.cpp
 src/breit_wigner.cpp
+src/poly_param_fit.cpp
 )
 target_link_libraries( omega_BW ${ROOT_LIBRARIES})

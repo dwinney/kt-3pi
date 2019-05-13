@@ -11,6 +11,7 @@
 #define _BW_
 
 #include "amp.hpp"
+#include <complex>
 
 // ---------------------------------------------------------------------------
 // Relativisitic Breit-Wigner with a constant imaginary part.
@@ -29,6 +30,7 @@ public:
   };
 
   complex<double> operator ()(double s, double t);
+
 // ---------------------------------------------------------------------------
 };
 
@@ -50,7 +52,9 @@ public:
   };
 
   complex<double> operator ()(double s, double t);
-  double width(double s);
+  complex<double> f(double x);
+  complex<double> width(double s);
+  complex<double> mom_pi(double s);
 // ---------------------------------------------------------------------------
 };
 // ---------------------------------------------------------------------------

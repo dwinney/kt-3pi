@@ -11,22 +11,25 @@
 
 // Polynomial expansion around the center of the dalitz plot.
 // The bounds of integrations are easiest seen in terms of s and t (c.f. PDG Kinematics)
-double poly_param_fit::F_poly(double s, double t)
+template <class T>
+double poly_param_fit<T>::F_poly(double s, double t)
 {
-  temp1 = z(s,t);
-  temp2 = theta(s,t);
+  double zs, thetas, poly;
+  zs = dalitz<T>::z(s,t);
+  thetas = dalitz<T>::theta(s,t);
 
-  temp3 = 1.0
-        + 2. * alpha * scale * temp1;
-        + 2. * beta * scale * pow(temp1, 1.5) * sin(3.*temp2)
-        + 2. * gamma * scale *  temp1*temp1
-        + 2. * delta * scale * pow(temp1, 2.5) * sin(3.*temp2);
-  return Norm * Norm * temp3;
+  poly = 1.0
+        + 2. * alpha * scale * zs
+        + 2. * beta * scale * pow(zs, 1.5) * sin(3.*thetas)
+        + 2. * gamma * scale *  zs*zs
+        + 2. * delta * scale * pow(zs, 2.5) * sin(3.*thetas);
+  return Norm * Norm * poly;
 };
 
 // ---------------------------------------------------------------------------
 // General set and print functions
-void poly_param_fit::set_integration_points(int m)
+template <class T>
+void poly_param_fit<T>::set_integration_points(int m)
 {
   n = m;
   cout << " Number of integration points changed to " << n << "... \n";
@@ -35,7 +38,8 @@ void poly_param_fit::set_integration_points(int m)
 
 // Set the number of parameters in the polynomial expansion.
 // Default is 2, i.e. alpha and beta up to order 3/2 in z.
-void poly_param_fit::set_params(int n, const double *par)
+template <class T>
+void poly_param_fit<T>::set_params(int n, const double *par)
 {
   n_params = n;
   switch (N_params())
@@ -48,7 +52,8 @@ void poly_param_fit::set_params(int n, const double *par)
 };
 
 // Polynomial expansion around the center of dalitz plot
-void poly_param_fit::print_params(int a)
+template <class T>
+void poly_param_fit<T>::print_params(int a)
 {
   switch (a)
   {
@@ -68,12 +73,13 @@ void poly_param_fit::print_params(int a)
 // ---------------------------------------------------------------------------
 // The gauleg function in aux_math.hpp indexes from 1 to N so thats why
 // these wrapper functions exist. Also to put them into vectors such that the number of points can change.
-void poly_param_fit::generate_s_weights()
+template <class T>
+void poly_param_fit<T>::generate_s_weights()
 {
   double weights[N_int() + 1], abscissas[N_int() + 1];
 
-  double smn = smin() + 0.001;
-  double smx = smax() - 0.001;
+  double smn = dalitz<T>::smin() + 0.001;
+  double smx = dalitz<T>::smax() - 0.001;
 
   gauleg(smn , smx, abscissas, weights, N_int() + 1);
 
@@ -90,7 +96,8 @@ void poly_param_fit::generate_s_weights()
 };
 
 // Same but now the bounds in the t variable depend on s.
-void poly_param_fit::generate_t_weights(vector<double> s)
+template <class T>
+void poly_param_fit<T>::generate_t_weights(vector<double> s)
 {
   // Clear preexisting weights and abcsissas
   t_wgt.clear(); t_abs.clear();
@@ -99,8 +106,8 @@ void poly_param_fit::generate_t_weights(vector<double> s)
     double weights[N_int() + 1], abscissas[N_int() + 1];
 
     // add 0.001 to push values off the boundary where things may be singular
-    double tmn = tmin(s[i]) + 0.001;
-    double tmx = tmax(s[i]) - 0.001;
+    double tmn = dalitz<T>::tmin(s[i]) + 0.001;
+    double tmx = dalitz<T>::tmax(s[i]) - 0.001;
 
     gauleg(tmn, tmx, abscissas, weights, N_int() + 1);
 
@@ -119,7 +126,8 @@ void poly_param_fit::generate_t_weights(vector<double> s)
   T_WG_GENERATED = true;
 };
 
-void poly_param_fit::generate_weights(){
+template <class T>
+void poly_param_fit<T>::generate_weights(){
   if (S_WG_GENERATED == false)
   {
     generate_s_weights();
@@ -134,16 +142,18 @@ void poly_param_fit::generate_weights(){
 //-----------------------------------------------------------------------------
 // The kinematic kernal that goes into the integral over the Dalitz region.
 // For the omega case it is the kibble function, but this may be different in general.
-double poly_param_fit::kin_kernel(double s, double t)
+template <class T>
+double poly_param_fit<T>::kin_kernel(double s, double t)
 {
   double ttemp1, ttemp2;
-  ttemp1 = Kibble(s,t);
-  ttemp2 = Kibble(s_c(), t_c()); // Normalized to the center of the Dalitz region
-  return ttemp1*ttemp1 / (ttemp2*ttemp2);
+  ttemp1 = amplitude::Kibble(s,t) / 4.;
+  ttemp2 = amplitude::Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()) / 4.; // Normalized to the center of the Dalitz region
+  return ttemp1 / (ttemp2);
 };
 
 // Calculate the area of the physical Dalitz region
-double poly_param_fit::dalitz_area()
+template <class T>
+double poly_param_fit<T>::dalitz_area()
 {
 double t_sum, s_sum, s_i, t_ij;
 generate_weights();
@@ -166,10 +176,12 @@ return s_sum;
 //-----------------------------------------------------------------------------
 // Calculate chi_squared
 // Normlized by the area of the Dalitz plot.
-double poly_param_fit::chi_squared(const double *par)
+template <class T>
+double poly_param_fit<T>::chi_squared(const double *par)
 {
   set_params(N_params(), par);
   double t_sum, s_sum, s_i, t_ij, d_area, amp_ij, poly_ij;
+  double tmp1, tmp2, tmp3;
   double chi2;
 
   generate_weights();
@@ -177,7 +189,7 @@ double poly_param_fit::chi_squared(const double *par)
   d_area = dalitz_area();
 
   // Integrate over s
-  s_sum = 0.; temp1 = 0.; temp2 = 0.; temp3 = 0.;
+  s_sum = 0.;
   for (int i = 0; i < N_int(); i++)
   {
     s_i = s_abs[i];
@@ -186,14 +198,14 @@ double poly_param_fit::chi_squared(const double *par)
     for (int j = 0; j < N_int(); j++)
     {
         t_ij = t_abs[i][j];
-        amp_ij = abs(amp(s_i, t_ij));
+        amp_ij = abs(dalitz<T>::amp(s_i, t_ij));
         poly_ij = F_poly(s_i, t_ij);
 
-        temp1 = (amp_ij * amp_ij) - (poly_ij * poly_ij);
-        temp2 = kin_kernel(s_i, t_ij) * temp1 * temp1 / (Norm * Norm);
-        temp3 = temp2 * temp2;
+        tmp1 = (amp_ij * amp_ij) - poly_ij;
+        tmp2 = kin_kernel(s_i, t_ij) * tmp1 / (Norm * Norm);
+        tmp3 = tmp2 * tmp2;
 
-        t_sum += t_wgt[i][j] * temp3;
+        t_sum += t_wgt[i][j] * tmp3;
     };
     s_sum += s_wgt[i] * t_sum;
   };
@@ -202,17 +214,17 @@ double poly_param_fit::chi_squared(const double *par)
   return chi2;
 };
 // ---------------------------------------------------------------------------
-
-void poly_param_fit::fit_params()
+template <class T>
+void poly_param_fit<T>::fit_params()
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "");
-  minuit->SetMaxFunctionCalls(10000);
+  minuit->SetMaxFunctionCalls(100000);
   minuit->SetTolerance(0.001);
-  minuit->SetPrintLevel(1);
+  minuit->SetPrintLevel(0);
 
   ROOT::Math::Functor fcn(this, &poly_param_fit::chi_squared, N_params());
   minuit->SetFunction(fcn);
-
+  cout << " Minimizing with " << N_params() << " free parameters... \n";
   switch (N_params())
   {
     case 4: minuit->SetVariable(3, "delta", 0., 1.);
@@ -227,4 +239,6 @@ void poly_param_fit::fit_params()
   }
 
   minuit->Minimize();
+  cout << " Minimizing done. " << endl;
+  cout << endl;
 };

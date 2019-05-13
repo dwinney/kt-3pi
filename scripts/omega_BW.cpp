@@ -1,8 +1,10 @@
+#include "poly_param_fit.cpp"
 #include "poly_param_fit.hpp"
+#include "dalitz.hpp"
+#include "dalitz.cpp"
 #include "breit_wigner.hpp"
 #include <iostream>
 #include <complex>
-#include <functional>
 
 using std::complex;
 using std::cout;
@@ -10,15 +12,14 @@ using std::endl;
 
 int main()
 {
-  // using namespace std::placeholders;
-  breit_wigner_simple rho(.770, .150);
-
-  // std::function<complex<double>(double, double)> rho_BW = std::bind(&breit_wigner_simple::operator(), rho, _1, _2);
-
-  // test.set_Mass(.782);
-  // test.set_params(1., a);
-  // test.fit_params();
-  // test.print_params();
+  breit_wigner_KLOE rho(.770, .150);
+  poly_param_fit<breit_wigner_KLOE> test(rho);
+  test.set_Mass(.782);
+  test.set_integration_points(100);
+  double start[1] = {0.};
+  test.set_params(1, start);
+  test.fit_params();
+  test.print_params();
 
   return 0;
 };

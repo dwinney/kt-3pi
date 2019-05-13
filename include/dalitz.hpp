@@ -24,10 +24,11 @@
 //  dalitz my_dalitz(ptr_amp);
 //-----------------------------------------------------------------------------
 
+template <class T>
 class dalitz : public amplitude
 {
 protected:
-complex<double> (*amp) (double, double);
+T amp;
 
 // Center of the Dalitz plot in s and t
 double s_c()
@@ -49,11 +50,11 @@ public:
     cout << " Need pointer to amplitude function in dalitz object declaration. Quitting... \n";
     std::exit(1);
   };
-  dalitz(complex<double> (*my_amp) (double, double))
+  dalitz(T& my_amp) : amp(my_amp){};
+  complex<double> operator()(double s, double t)
   {
-    amp = my_amp;
+    return amp(s,t);
   };
-
 //-----------------------------------------------------------------------------
   // Lorentz Invariant dimensionless parameters
   double x(double s, double t);

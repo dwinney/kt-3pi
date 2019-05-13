@@ -11,7 +11,8 @@
 
 //-----------------------------------------------------------------------------
 // Lorentz Invariant dimensionless parameters in terms of Mandelstam variables
-double dalitz::x(double s, double t)
+template <class T>
+double dalitz<T>::x(double s, double t)
 {
   temp1 = sqrt(3.) * (t - u(s,t) );
   temp2 = 2.*mDec* (mDec - 3.*mPi);
@@ -19,7 +20,8 @@ double dalitz::x(double s, double t)
   return temp1 / temp2;
 };
 
-double dalitz::y(double s, double t)
+template <class T>
+double dalitz<T>::y(double s, double t)
 {
   temp1 = 3. * (s_c() - s);
   temp2 = 2.* mDec * (mDec - 3.*mPi);
@@ -28,18 +30,21 @@ double dalitz::y(double s, double t)
 };
 
 // Lorentz Invariant dimensionless parameters in terms of polar variables
-double dalitz::x_polar(double z, double theta)
+template <class T>
+double dalitz<T>::x_polar(double z, double theta)
 {
   return sqrt(z) * cos(theta);
 };
 
-double dalitz::y_polar(double z, double theta)
+template <class T>
+double dalitz<T>::y_polar(double z, double theta)
 {
   return sqrt(z) * sin(theta);
 };
 
 // Inverted to get z and theta in terms of s and t
-double dalitz::z(double s, double t)
+template <class T>
+double dalitz<T>::z(double s, double t)
 {
     temp1 = x(s,t);
     temp2 = y(s,t);
@@ -47,7 +52,8 @@ double dalitz::z(double s, double t)
     return temp1 * temp1 + temp2 * temp2;
 };
 
-double dalitz::theta(double s, double t)
+template <class T>
+double dalitz<T>::theta(double s, double t)
 {
   temp1 = x(s,t);
   temp2 = y(s,t);
@@ -62,7 +68,8 @@ double dalitz::theta(double s, double t)
 //-----------------------------------------------------------------------------
 
 // Doubly Differential Decay Width
-double dalitz::d2Gamma(double s, double t)
+template <class T>
+double dalitz<T>::d2Gamma(double s, double t)
 {
   temp1 = 96. * (mDec*mDec*mDec) * pow(2.* M_PI, 3);
   temp2 = abs(amp(s,t));

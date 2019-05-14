@@ -14,19 +14,19 @@
 template <class T>
 double dalitz<T>::x(double s, double t)
 {
-  temp1 = sqrt(3.) * (t - u(s,t) );
-  temp2 = 2.*mDec* (mDec - 3.*mPi);
+  double temp;
+  temp = sqrt(3.) * (t - u(s,t) );
 
-  return temp1 / temp2;
+  return temp * d_norm();
 };
 
 template <class T>
 double dalitz<T>::y(double s, double t)
 {
-  temp1 = 3. * (s_c() - s);
-  temp2 = 2.* mDec * (mDec - 3.*mPi);
+  double temp;
+  temp = 3. * (s_c() - s);
 
-  return temp1 / temp2;
+  return temp * d_norm();
 };
 
 // Lorentz Invariant dimensionless parameters in terms of polar variables
@@ -46,15 +46,17 @@ double dalitz<T>::y_polar(double z, double theta)
 template <class T>
 double dalitz<T>::z(double s, double t)
 {
-    temp1 = x(s,t);
-    temp2 = y(s,t);
+    double tmp1, tmp2;
+    tmp1 = x(s,t);
+    tmp2 = y(s,t);
 
-    return temp1 * temp1 + temp2 * temp2;
+    return tmp1 * tmp1 + tmp2 * tmp2;
 };
 
 template <class T>
 double dalitz<T>::theta(double s, double t)
 {
+  double temp1, temp2, temp3;
   temp1 = x(s,t);
   temp2 = y(s,t);
 
@@ -71,6 +73,7 @@ double dalitz<T>::theta(double s, double t)
 template <class T>
 double dalitz<T>::d2Gamma(double s, double t)
 {
+  double temp1, temp2;
   temp1 = 96. * (mDec*mDec*mDec) * pow(2.* M_PI, 3);
   temp2 = abs(amp(s,t));
   return temp2 * temp2 / temp1;

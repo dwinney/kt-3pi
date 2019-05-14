@@ -14,10 +14,12 @@
 #include "constants.hpp"
 #include <iostream>
 #include <complex>
+#include <string>
 
 using std::complex;
 using std::cout;
 using std::endl;
+using std::string;
 
 //-----------------------------------------------------------------------------
 class amplitude
@@ -26,7 +28,7 @@ class amplitude
 protected:
 int qn_J, qn_C, qn_P, qn_I, qn_H;
 double mDec;
-
+double decay_particle;
 
 //-----------------------------------------------------------------------------
 public:
@@ -74,7 +76,6 @@ double smax()
   };
 double tmin(double s);
 double tmax(double s);
-
 //-----------------------------------------------------------------------------
 };
 

@@ -25,13 +25,14 @@ complex<double> breit_wigner_simple::operator ()(double s, double t)
 complex<double> breit_wigner_KLOE::f(double s)
 {
   complex<double> denom = s - s_res() + xi * std::sqrt(xr * s) * width(s);
-  return s_res() / denom;
+  return -s_res() / denom;
 };
 
 complex<double> breit_wigner_KLOE::operator ()(double s, double t)
 {
   double u_man = amplitude::u(s,t);
-  return f(s) + f(t) + f(u_man);
+  complex<double> temp = f(s) + f(t) + f(u_man);
+  return temp;
 }
 
 complex<double> breit_wigner_KLOE::width(double s)
@@ -44,9 +45,24 @@ complex<double> breit_wigner_KLOE::width(double s)
 
 complex<double> breit_wigner_KLOE::mom_pi(double s)
 {
-  complex<double> temp1, temp2;
-   temp1 = (mDec*mDec - mPi*mPi - s) / (2.*std::sqrt(s * xr));
-   temp2 = sqrt(temp1 * temp1 - mPi * mPi);
+   return .5 * sqrt( xr * (s - sthPi));
+};
 
-   return temp2;
+void breit_wigner_KLOE::plot()
+{
+  std::ofstream output;
+  std::string filename = "./BW_KLOE_" + name + ".dat";
+  output.open(filename.c_str());
+  double s[100], re[100], im[100];
+
+  double step = (2. - sthPi)/100.;
+  complex<double> amp;
+  for (int i = 0; i < 100; i++)
+  {
+    s[i] = sthPi + double(i) * step;
+    amp = f(-s[i]);
+    re[i] = std::real(amp); im[i] = std::imag(amp);
+    output << std::left << setw(15) << -s[i] << setw(15) << re[i] << setw(15) << im[i] << endl;
+  }
+output.close();
 };

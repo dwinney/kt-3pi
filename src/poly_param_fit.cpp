@@ -18,11 +18,14 @@ double poly_param_fit<T>::F_poly(double s, double t)
   zs = dalitz<T>::z(s,t);
   thetas = dalitz<T>::theta(s,t);
 
+
+  // cout << std::left << setw(10) << s << setw(10) << t << setw(10)  << zs << setw(10) << thetas / conv << endl;
+
   poly = 1.0
         + 2. * alpha * scale * zs
-        + 2. * beta * scale * pow(zs, 1.5) * sin(3.*thetas)
+        + 2. * beta * scale * std::pow(zs, 1.5) * std::sin(3.*thetas)
         + 2. * gamma * scale *  zs*zs
-        + 2. * delta * scale * pow(zs, 2.5) * sin(3.*thetas);
+        + 2. * delta * scale * std::pow(zs, 2.5) * std::sin(3.*thetas);
   return Norm * Norm * poly;
 };
 
@@ -145,10 +148,10 @@ void poly_param_fit<T>::generate_weights(){
 template <class T>
 double poly_param_fit<T>::kin_kernel(double s, double t)
 {
-  double ttemp1, ttemp2;
-  ttemp1 = amplitude::Kibble(s,t) / 4.;
-  ttemp2 = amplitude::Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()) / 4.; // Normalized to the center of the Dalitz region
-  return ttemp1 / (ttemp2);
+  double temp1, temp2;
+  temp1 = amplitude::Kibble(s,t) / 4.;
+  temp2 = amplitude::Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()) / 4.; // Normalized to the center of the Dalitz region
+  return temp1 / (temp2);
 };
 
 // Calculate the area of the physical Dalitz region
@@ -198,11 +201,11 @@ double poly_param_fit<T>::chi_squared(const double *par)
     for (int j = 0; j < N_int(); j++)
     {
         t_ij = t_abs[i][j];
-        amp_ij = abs(dalitz<T>::amp(s_i, t_ij));
+        amp_ij = abs( dalitz<T>::amp(s_i, t_ij) );
         poly_ij = F_poly(s_i, t_ij);
 
         tmp1 = (amp_ij * amp_ij) - poly_ij;
-        tmp2 = kin_kernel(s_i, t_ij) * tmp1 / (Norm * Norm);
+        tmp2 = kin_kernel(s_i, t_ij) * kin_kernel(s_i, t_ij) * tmp1 / (Norm * Norm);
         tmp3 = tmp2 * tmp2;
 
         t_sum += t_wgt[i][j] * tmp3;
@@ -214,12 +217,13 @@ double poly_param_fit<T>::chi_squared(const double *par)
   return chi2;
 };
 // ---------------------------------------------------------------------------
+// Minimize the above chi_squared by calling Minuit2 in the ROOT::Math::Minimizer class
 template <class T>
 void poly_param_fit<T>::fit_params()
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "");
   minuit->SetMaxFunctionCalls(100000);
-  minuit->SetTolerance(0.001);
+  minuit->SetTolerance(0.0001);
   minuit->SetPrintLevel(0);
 
   ROOT::Math::Functor fcn(this, &poly_param_fit::chi_squared, N_params());
@@ -241,4 +245,9 @@ void poly_param_fit<T>::fit_params()
   minuit->Minimize();
   cout << " Minimizing done. " << endl;
   cout << endl;
+
+  double chi2 = minuit ->MinValue();
+  cout << " sqrt(chi2) = " << sqrt(chi2) << endl;
+  cout << endl;
+  // minuit->PrintResults();
 };

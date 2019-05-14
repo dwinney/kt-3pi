@@ -40,9 +40,6 @@ double t_c()
     return (3.*mPi*mPi + mDec*mDec - s_c())/2.;
 };
 
-//Temporary variables
-double temp1, temp2, temp3;
-
 //-----------------------------------------------------------------------------
 public:
   dalitz()
@@ -57,6 +54,9 @@ public:
   };
 //-----------------------------------------------------------------------------
   // Lorentz Invariant dimensionless parameters
+  double d_norm(){
+    return 1. / (2. * mDec * (mDec - 3. * mPi));
+  }
   double x(double s, double t);
   double y(double s, double t);
 

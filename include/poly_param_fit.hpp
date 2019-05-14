@@ -14,6 +14,7 @@
 #include "dalitz.hpp"
 #include "aux_math.hpp"
 #include <iomanip>
+#include <cmath>
 #include "Math/Minimizer.h"
 #include "Math/Factory.h"
 #include "Math/Functor.h"
@@ -28,8 +29,8 @@ protected:
   // Polynomial expansion parameters up to order 5/2 in z
   int n_params = 2;
   int N_params(){return n_params;};
-  double Norm = 1.451, alpha = 0., beta = 0., gamma = 0., delta = 0.;
-  double scale = 1.;
+  double Norm = 1., alpha = 0., beta = 0., gamma = 0., delta = 0.;
+  double scale = 1.e3;
 
   // For integration
   int n = 60; // Number of integration points

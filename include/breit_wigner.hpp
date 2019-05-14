@@ -11,7 +11,20 @@
 #define _BW_
 
 #include "amp.hpp"
+
 #include <complex>
+#include <cmath>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+
+#include "TGraph.h"
+#include "TCanvas.h"
+#include "TAxis.h"
+
+using std::setw;
+using std::string;
 
 // ---------------------------------------------------------------------------
 // Relativisitic Breit-Wigner with a constant imaginary part.
@@ -41,20 +54,24 @@ public:
 class breit_wigner_KLOE : public amplitude
 {
 protected:
+  string name;
   double res_mass, res_width;
   double s_res(){ return res_mass * res_mass;};
 // ---------------------------------------------------------------------------
 public:
-  breit_wigner_KLOE(double mass, double width)
+  breit_wigner_KLOE(double mass, double width, const char * n = "")
   {
   res_mass = mass;
   res_width = width;
+  name = n;
   };
 
   complex<double> operator ()(double s, double t);
   complex<double> f(double x);
   complex<double> width(double s);
   complex<double> mom_pi(double s);
+
+  void plot();
 // ---------------------------------------------------------------------------
 };
 // ---------------------------------------------------------------------------

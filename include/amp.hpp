@@ -46,7 +46,7 @@ void set_Helicity(int lambda)
 void set_Mass(double m)
 {
         mDec = m;
-        cout << " Decay Mass set to: " << mDec << "\n";
+        cout << "Decay Mass set to: " << mDec << "\n";
         cout << endl;
 };
 
@@ -58,12 +58,14 @@ double u(double s, double t); // Mandelstam u
 double Kibble(double s, double t); // Lorentz Invariant Kibble Function
 double Kallen(double x, double y, double z); // Kallen triangle function
 
+// Momenta in center of mass frame
 double com_E2(double s);
 double com_E3(double s);
 double com_P2(double s);
 double com_P3(double s);
 
-// Dalitz region
+//-----------------------------------------------------------------------------
+// Dalitz region limits
 double smin()
   {
     return sthPi;
@@ -74,7 +76,30 @@ double smax()
   };
 double tmin(double s);
 double tmax(double s);
+
+// Center of the Dalitz plot in s and t
+double s_c()
+  {
+    return  (mDec * mDec + 3. * mPi* mPi) / 3.;
+  };
+double t_c()
+{
+    return (3.*mPi*mPi + mDec* mDec - s_c())/2.;
+};
 //-----------------------------------------------------------------------------
+
+// Lorentz Invariant dimensionless parameters X and Y
+double d_norm(){
+  return 1. / (2. * mDec * (mDec - 3. * mPi));
+}
+double x(double s, double t);
+double y(double s, double t);
+
+double x_polar(double z, double theta);
+double y_polar(double z, double theta);
+
+double z(double s, double t);
+double theta(double s, double t);
 };
 
 #endif

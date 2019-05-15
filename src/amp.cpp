@@ -71,3 +71,52 @@ double amplitude::tmax(double s)
   return pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) - com_P3(s), 2.);
 };
 // ---------------------------------------------------------------------------
+// Lorentz Invariant dimensionless parameters in terms of Mandelstam variables
+double amplitude::x(double s, double t)
+{
+  double temp;
+  temp = sqrt(3.) * (t - u(s,t));
+  return temp * d_norm();
+};
+
+double amplitude::y(double s, double t)
+{
+  double temp;
+  temp = 3. * (s_c() - s);
+  return temp * d_norm();
+};
+//-----------------------------------------------------------------------------
+// Lorentz Invariant dimensionless parameters in terms of polar variables
+double amplitude::x_polar(double z, double theta)
+{
+  return sqrt(z) * cos(theta);
+};
+
+double amplitude::y_polar(double z, double theta)
+{
+  return sqrt(z) * sin(theta);
+};
+//-----------------------------------------------------------------------------
+// Inverted to get z and theta in terms of s and t
+double amplitude::z(double s, double t)
+{
+    double tmp1, tmp2;
+    tmp1 = x(s,t);
+    tmp2 = y(s,t);
+
+    return tmp1 * tmp1 + tmp2 * tmp2;
+};
+
+double amplitude::theta(double s, double t)
+{
+  double temp1, temp2, temp3;
+  temp1 = x(s,t);
+  temp2 = y(s,t);
+
+  temp3 = atan2(temp2, temp1);
+  if (temp3 < 0.0)
+  {
+    temp3 += 2. * M_PI; // Map [-pi,pi] to [0, 2pi]
+  }
+  return temp3;
+};

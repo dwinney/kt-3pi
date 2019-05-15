@@ -18,9 +18,6 @@ double poly_param_fit<T>::F_poly(double s, double t)
   zs = dalitz<T>::z(s,t);
   thetas = dalitz<T>::theta(s,t);
 
-
-  // cout << std::left << setw(15) << s << setw(15) << t << setw(15)  << zs << setw(15) << thetas / conv << endl;
-
   poly = 1.0
         + 2. * alpha * scale * zs
         + 2. * beta * scale * std::pow(zs, 1.5) * std::sin(3.*thetas)
@@ -35,7 +32,7 @@ template <class T>
 void poly_param_fit<T>::set_integration_points(int m)
 {
   n = m;
-  cout << " Number of integration points changed to " << n << "... \n";
+  cout << "Number of integration points changed to " << n << "... \n";
   S_WG_GENERATED = false;
 };
 
@@ -61,18 +58,19 @@ void poly_param_fit<T>::print_params(int a)
   switch (a)
   {
   case 0: {
-      cout << " Printing Dalitz Plot parameters... \n";
-      cout << " ---------------------------------------- \n";
-      cout << std::left <<  setw(20) << " normalization:" << setw(20) << Norm << "\n";
-      cout << std::left <<  setw(20) << " alpha:" << setw(20) << alpha << "\n";
-      cout << std::left <<  setw(20) << " beta:" << setw(20) << beta << "\n";
-      cout << std::left <<  setw(20) << " gamma:" << setw(20) <<  gamma << "\n";
-      cout << std::left <<  setw(20) << " delta:" << setw(20) << delta << "\n";
-      cout << " ---------------------------------------- \n";
+      cout << "Printing Dalitz Plot parameters... \n";
+      cout << "---------------------------------------- \n";
+      cout << std::left <<  setw(20) << "normalization:" << setw(20) << Norm << "\n";
+      cout << std::left <<  setw(20) << "alpha:" << setw(20) << alpha << "\n";
+      cout << std::left <<  setw(20) << "beta:" << setw(20) << beta << "\n";
+      cout << std::left <<  setw(20) << "gamma:" << setw(20) <<  gamma << "\n";
+      cout << std::left <<  setw(20) << "delta:" << setw(20) << delta << "\n";
+      cout << "---------------------------------------- \n";
       cout << "\n";
     };
   };
 };
+
 // ---------------------------------------------------------------------------
 // The gauleg function in aux_math.hpp indexes from 1 to N so thats why
 // these wrapper functions exist. Also to put them into vectors such that the number of points can change.
@@ -93,7 +91,7 @@ void poly_param_fit<T>::generate_s_weights()
           s_wgt.push_back(weights[i]);
           s_abs.push_back(abscissas[i]);
   }
-  cout << " Gaussian weights for s in the Dalitz Region generated with "
+  cout << "Gaussian weights for s in the Dalitz Region generated with "
   << N_int() << " points... \n";
   S_WG_GENERATED = true;
 };
@@ -124,7 +122,7 @@ void poly_param_fit<T>::generate_t_weights(vector<double> s)
     t_wgt.push_back(t_wgt_temp);
     t_abs.push_back(t_abs_temp);
   }
-  cout << " Gaussian weights for t in the Dalitz Region generated with "
+  cout << "Gaussian weights for t in the Dalitz Region generated with "
   << N_int() << " points... \n";
   T_WG_GENERATED = true;
 };
@@ -143,15 +141,15 @@ void poly_param_fit<T>::generate_weights(){
 };
 
 //-----------------------------------------------------------------------------
-// The kinematic kernal that goes into the integral over the Dalitz region.
+// The kinematic kernel that goes into the integral over the Dalitz region.
 // For the omega case it is the kibble function, but this may be different in general.
 template <class T>
 double poly_param_fit<T>::kin_kernel(double s, double t)
 {
   double temp1, temp2;
-  temp1 = dalitz<T>::amp.Kibble(s,t) / 4.;
-  temp2 = dalitz<T>::amp.Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()) / 4.; // Normalized to the center of the Dalitz region
-  return temp1 / (temp2);
+  temp1 = dalitz<T>::amp.Kibble(s,t);
+  temp2 = dalitz<T>::amp.Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()); // Normalized to the center of the Dalitz region
+  return temp1 / temp2;
 };
 
 // Calculate the area of the physical Dalitz region
@@ -178,12 +176,16 @@ return s_sum;
 
 //-----------------------------------------------------------------------------
 // Calculate chi_squared
-// Normlized by the area of the Dalitz plot.
+// Normalized by the area of the Dalitz plot.
 template <class T>
 double poly_param_fit<T>::chi_squared(const double *par)
 {
+  // Update parameters at the fitting step:
   set_params(N_params(), par);
-  double t_sum, s_sum, s_i, t_ij, d_area, amp_ij, poly_ij;
+
+  complex<double> amp_ij;
+  double t_sum, s_sum, s_i, t_ij, d_area;
+  double ampsqr_ij, poly_ij, kern_ij;
   double tmp1, tmp2, tmp3;
   double chi2;
 
@@ -201,11 +203,13 @@ double poly_param_fit<T>::chi_squared(const double *par)
     for (int j = 0; j < N_int(); j++)
     {
         t_ij = t_abs[i][j];
-        amp_ij = abs( dalitz<T>::amp(s_i, t_ij) );
+        amp_ij = dalitz<T>::amp(s_i, t_ij);
+        ampsqr_ij = real(amp_ij * conj(amp_ij));
         poly_ij = F_poly(s_i, t_ij);
+        kern_ij = kin_kernel(s_i, t_ij);
 
-        tmp1 = (amp_ij * amp_ij) - poly_ij;
-        tmp2 = kin_kernel(s_i, t_ij) * kin_kernel(s_i, t_ij) * tmp1 / (Norm * Norm);
+        tmp1 = ampsqr_ij - poly_ij;
+        tmp2 = tmp1 * (kern_ij * kern_ij);
         tmp3 = tmp2 * tmp2;
 
         t_sum += t_wgt[i][j] * tmp3;
@@ -213,7 +217,7 @@ double poly_param_fit<T>::chi_squared(const double *par)
     s_sum += s_wgt[i] * t_sum;
   };
 
-  chi2 = s_sum / d_area;
+  chi2 = s_sum / (pow(Norm, 4.) * d_area);
   return chi2;
 };
 // ---------------------------------------------------------------------------
@@ -221,33 +225,33 @@ double poly_param_fit<T>::chi_squared(const double *par)
 template <class T>
 void poly_param_fit<T>::fit_params()
 {
-  ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "");
+  ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
   minuit->SetMaxFunctionCalls(100000);
   minuit->SetTolerance(0.0001);
   minuit->SetPrintLevel(0);
 
   ROOT::Math::Functor fcn(this, &poly_param_fit::chi_squared, N_params());
   minuit->SetFunction(fcn);
-  cout << " Minimizing with " << N_params() << " free parameters... \n";
+  cout << "Minimizing with " << N_params() << " free parameters... \n";
   switch (N_params())
   {
-    case 4: minuit->SetVariable(3, "delta", 0., 1.);
+    case 4: minuit->SetVariable(3, "delta", 0., .01);
     case 3: minuit->SetVariable(2,"gamma", 0., 1.);
-    case 2: minuit->SetVariable(1, "beta", 0., 1.);
-    case 1: {minuit->SetVariable(0,"alpha", 0., 1.); break;}
+    case 2: minuit->SetLowerLimitedVariable(1,"beta", 100., .01, 0.0);
+    case 1: {minuit->SetLowerLimitedVariable(0,"alpha", 132., .01, 0.0); break;}
     default:
     {
-      cout << " fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";
+      cout << "fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";
       exit(1);
     }
   }
 
   minuit->Minimize();
-  cout << " Minimizing done. " << endl;
+  cout << "Minimizing done. " << endl;
   cout << endl;
 
   double chi2 = minuit ->MinValue();
-  cout << " sqrt(chi2) = " << sqrt(chi2) << endl;
+  cout << "sqrt(chi2) = " << sqrt(chi2) << endl;
   cout << endl;
-  // minuit->PrintResults();
+  minuit->PrintResults();
 };

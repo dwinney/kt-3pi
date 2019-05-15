@@ -43,6 +43,7 @@ public:
   };
 
   complex<double> operator ()(double s, double t);
+  complex<double> f(double s);
 
 // ---------------------------------------------------------------------------
 };

@@ -10,7 +10,7 @@
 #include "breit_wigner.hpp"
 // ---------------------------------------------------------------------------
 // Simple Relativisitic Breit-Wigner amplitude with constant width
-complex<double> breit_wigner_simple::operator ()(double s, double t)
+complex<double> breit_wigner_simple::f(double s)
 {
   double real_part, imag_part;
   real_part = s - s_res();
@@ -19,12 +19,17 @@ complex<double> breit_wigner_simple::operator ()(double s, double t)
   return 1. / (real_part * xr - imag_part * xi);
 };
 
+complex<double> breit_wigner_simple::operator ()(double s, double t)
+{
+  return f(s) + f(t) + f(u(s,t));
+}
+
 // ---------------------------------------------------------------------------
 // KLOE BW amplitude
 // ---------------------------------------------------------------------------
 complex<double> breit_wigner_KLOE::f(double s)
 {
-  complex<double> denom = s - s_res() + xi * res_mass * width(s);
+  complex<double> denom = s - s_res() + xi * res_mass * sqrt(s) * width(s);
   return s_res() / denom;
 };
 

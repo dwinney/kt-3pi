@@ -233,16 +233,26 @@ void poly_param_fit<T>::fit_params()
   ROOT::Math::Functor fcn(this, &poly_param_fit::chi_squared, N_params());
   minuit->SetFunction(fcn);
   cout << "Minimizing with " << N_params() << " free parameters... \n";
-  switch (N_params())
+
+  if (N_params() >= 1)
   {
-    case 4: minuit->SetVariable(3, "delta", 0., .01);
-    case 3: minuit->SetVariable(2,"gamma", 0., 1.);
-    case 2: minuit->SetLowerLimitedVariable(1,"beta", 0., .01, 0.001);
-    case 1: {minuit->SetLowerLimitedVariable(0,"alpha", 0., .01, 0.001); break;}
-    default:
+    minuit->SetLowerLimitedVariable(0,"alpha", 0., .01, 0.001);
+    if (N_params() >= 2)
     {
-      cout << "fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";
-      exit(1);
+      minuit->SetLowerLimitedVariable(1,"beta", 0., .01, 0.001);
+      if (N_params() >= 3)
+      {
+        minuit->SetVariable(2,"gamma", 0., 1.);
+        if (N_params() == 4)
+        {
+          minuit->SetVariable(3, "delta", 0., .01);
+          if (N_params() > 4)
+          {
+            cout << "fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";
+            exit(1);
+          }
+        }
+      }
     }
   }
 

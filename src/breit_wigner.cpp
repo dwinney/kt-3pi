@@ -24,8 +24,8 @@ complex<double> breit_wigner_simple::operator ()(double s, double t)
 // ---------------------------------------------------------------------------
 complex<double> breit_wigner_KLOE::f(double s)
 {
-  complex<double> denom = s - s_res() + xi * std::sqrt(xr * s) * width(s);
-  return -s_res() / denom;
+  complex<double> denom = s - s_res() + xi * res_mass * width(s);
+  return s_res() / denom;
 };
 
 complex<double> breit_wigner_KLOE::operator ()(double s, double t)
@@ -60,9 +60,10 @@ void breit_wigner_KLOE::plot()
   for (int i = 0; i < 100; i++)
   {
     s[i] = sthPi + double(i) * step;
-    amp = f(-s[i]);
+    amp = f(s[i]);
     re[i] = std::real(amp); im[i] = std::imag(amp);
-    output << std::left << setw(15) << -s[i] << setw(15) << re[i] << setw(15) << im[i] << endl;
+    output << std::left << setw(15) << s[i] << setw(15) << re[i] << setw(15) << im[i] <<
+    setw(15) << abs(amp * amp) << endl;
   }
 output.close();
 };

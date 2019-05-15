@@ -30,7 +30,7 @@ protected:
   int n_params = 2;
   int N_params(){return n_params;};
   double Norm = 1., alpha = 0., beta = 0., gamma = 0., delta = 0.;
-  double scale = 1.e3;
+  double scale = 1.;
 
   // For integration
   int n = 60; // Number of integration points

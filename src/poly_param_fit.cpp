@@ -19,7 +19,7 @@ double poly_param_fit<T>::F_poly(double s, double t)
   thetas = dalitz<T>::theta(s,t);
 
 
-  // cout << std::left << setw(10) << s << setw(10) << t << setw(10)  << zs << setw(10) << thetas / conv << endl;
+  // cout << std::left << setw(15) << s << setw(15) << t << setw(15)  << zs << setw(15) << thetas / conv << endl;
 
   poly = 1.0
         + 2. * alpha * scale * zs
@@ -81,8 +81,8 @@ void poly_param_fit<T>::generate_s_weights()
 {
   double weights[N_int() + 1], abscissas[N_int() + 1];
 
-  double smn = dalitz<T>::smin() + 0.001;
-  double smx = dalitz<T>::smax() - 0.001;
+  double smn = dalitz<T>::amp.smin() + dalitz<T>::offset;
+  double smx = dalitz<T>::amp.smax() - dalitz<T>::offset;
 
   gauleg(smn , smx, abscissas, weights, N_int() + 1);
 
@@ -109,8 +109,8 @@ void poly_param_fit<T>::generate_t_weights(vector<double> s)
     double weights[N_int() + 1], abscissas[N_int() + 1];
 
     // add 0.001 to push values off the boundary where things may be singular
-    double tmn = dalitz<T>::tmin(s[i]) + 0.001;
-    double tmx = dalitz<T>::tmax(s[i]) - 0.001;
+    double tmn = dalitz<T>::amp.tmin(s[i]) + dalitz<T>::offset;
+    double tmx = dalitz<T>::amp.tmax(s[i]) - dalitz<T>::offset;
 
     gauleg(tmn, tmx, abscissas, weights, N_int() + 1);
 
@@ -149,8 +149,8 @@ template <class T>
 double poly_param_fit<T>::kin_kernel(double s, double t)
 {
   double temp1, temp2;
-  temp1 = amplitude::Kibble(s,t) / 4.;
-  temp2 = amplitude::Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()) / 4.; // Normalized to the center of the Dalitz region
+  temp1 = dalitz<T>::amp.Kibble(s,t) / 4.;
+  temp2 = dalitz<T>::amp.Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()) / 4.; // Normalized to the center of the Dalitz region
   return temp1 / (temp2);
 };
 

@@ -11,8 +11,18 @@
 #ifndef _DALITZ_
 #define _DALITZ_
 
-#include "amp.hpp"
+#include "constants.hpp"
 #include <cmath>
+#include<complex>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+
+using std::complex;
+using std::setw;
+using std::cout;
+using std::endl;
 
 //-----------------------------------------------------------------------------
 //  Define a Dalitz plot object with a pointer to the amplitude.
@@ -25,19 +35,20 @@
 //-----------------------------------------------------------------------------
 
 template <class T>
-class dalitz : public amplitude
+class dalitz
 {
 protected:
 T amp;
+double offset = 0.00001;
 
 // Center of the Dalitz plot in s and t
 double s_c()
   {
-    return  (mDec*mDec + 3. * mPi*mPi) / 3.;
+    return  (amp.mDec * amp.mDec + 3. * mPi* mPi) / 3.;
   };
 double t_c()
 {
-    return (3.*mPi*mPi + mDec*mDec - s_c())/2.;
+    return (3.*mPi*mPi + amp.mDec* amp.mDec - s_c())/2.;
 };
 
 //-----------------------------------------------------------------------------
@@ -48,14 +59,10 @@ public:
     std::exit(1);
   };
   dalitz(T& my_amp) : amp(my_amp){};
-  complex<double> operator()(double s, double t)
-  {
-    return amp(s,t);
-  };
-//-----------------------------------------------------------------------------
+//--------------------------------------------------------------------------
   // Lorentz Invariant dimensionless parameters
   double d_norm(){
-    return 1. / (2. * mDec * (mDec - 3. * mPi));
+    return 1. / (2. * amp.mDec * (amp.mDec - 3. * mPi));
   }
   double x(double s, double t);
   double y(double s, double t);
@@ -68,6 +75,8 @@ public:
 
   // Double differential cross section
   double d2Gamma(double s, double t);
+
+  void plot(const char *n = "");
 };
 
 //-----------------------------------------------------------------------------

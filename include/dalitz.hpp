@@ -1,7 +1,7 @@
 // General purpose classes for Dalitz plot generation.
 // for fitting to polynomial expansion see poly_param_fit.hpp
 //
-// Dependencies: amp.hpp, aux_math.hpp
+// Dependencies: constant.cpp aux_math.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -13,7 +13,7 @@
 
 #include "constants.hpp"
 #include <cmath>
-#include<complex>
+#include <complex>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -25,13 +25,15 @@ using std::cout;
 using std::endl;
 
 //-----------------------------------------------------------------------------
-//  Define a Dalitz plot object with a pointer to the amplitude.
-//  The amp should be a complex<double> and a function of 2 doubles, Mandelstam s and t.
+// Define a Dalitz plot object with some other amplitude object containing a model.
+// Object argument must inherit from 'amplitude' class and be callable with the signature:
+// with the signature:
 //
-//  complex<double> (*ptr_amp) (double, double);
-//  ptr_func = my_amp;
+//  complex<double> operator() (double, double)
 //
-//  dalitz my_dalitz(ptr_amp);
+// Initiate a dalitz plot object with:
+// model_amp my_model;
+// dalitz<model_amp> my_dalitz(my_model);
 //-----------------------------------------------------------------------------
 
 template <class T>
@@ -53,11 +55,7 @@ double t_c()
 
 //-----------------------------------------------------------------------------
 public:
-  dalitz()
-  {
-    cout << " Need pointer to amplitude function in dalitz object declaration. Quitting... \n";
-    std::exit(1);
-  };
+  // Default Constructor
   dalitz(T& my_amp) : amp(my_amp){};
 //--------------------------------------------------------------------------
   // Lorentz Invariant dimensionless parameters
@@ -72,10 +70,10 @@ public:
 
   double z(double s, double t);
   double theta(double s, double t);
-
+//--------------------------------------------------------------------------
   // Double differential cross section
   double d2Gamma(double s, double t);
-
+//--------------------------------------------------------------------------
   void plot(const char *n = "");
 };
 

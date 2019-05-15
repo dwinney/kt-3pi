@@ -15,8 +15,8 @@ template <class T>
 double poly_param_fit<T>::F_poly(double s, double t)
 {
   double zs, thetas, poly;
-  zs = dalitz<T>::z(s,t);
-  thetas = dalitz<T>::theta(s,t);
+  zs = dalitz<T>::amp.z(s,t);
+  thetas = dalitz<T>::amp.theta(s,t);
 
   poly = 1.0
         + 2. * alpha * scale * zs
@@ -148,7 +148,7 @@ double poly_param_fit<T>::kin_kernel(double s, double t)
 {
   double temp1, temp2;
   temp1 = dalitz<T>::amp.Kibble(s,t);
-  temp2 = dalitz<T>::amp.Kibble( dalitz<T>::s_c(), dalitz<T>::t_c()); // Normalized to the center of the Dalitz region
+  temp2 = dalitz<T>::amp.Kibble( dalitz<T>::amp.s_c(), dalitz<T>::amp.t_c()); // Normalized to the center of the Dalitz region
   return temp1 / temp2;
 };
 
@@ -237,8 +237,8 @@ void poly_param_fit<T>::fit_params()
   {
     case 4: minuit->SetVariable(3, "delta", 0., .01);
     case 3: minuit->SetVariable(2,"gamma", 0., 1.);
-    case 2: minuit->SetLowerLimitedVariable(1,"beta", 100., .01, 0.0);
-    case 1: {minuit->SetLowerLimitedVariable(0,"alpha", 132., .01, 0.0); break;}
+    case 2: minuit->SetLowerLimitedVariable(1,"beta", 0., .01, 0.001);
+    case 1: {minuit->SetLowerLimitedVariable(0,"alpha", 0., .01, 0.001); break;}
     default:
     {
       cout << "fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";

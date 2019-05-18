@@ -41,6 +41,7 @@ class dalitz
 {
 protected:
 T amp;
+double normalization = 32. * pow(2.* M_PI * amp.mDec, 3.);
 double offset = 0.00001;
 
 //-----------------------------------------------------------------------------

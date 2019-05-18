@@ -10,16 +10,17 @@
 #include "amp.hpp"
 
 // Mandelstam u in terms of the other two variables
-double amplitude::u(double s, double t)
+double amplitude::u_man(double s, double t)
 {
  return 3.*mPi*mPi + mDec*mDec - s - t;
 }
 
-// Lorentz Covariant Kibble function, only defined in the physical regions, i.e. it can only be real
-double amplitude::Kibble(double s, double t)
+// Lorentz Covariant Kibble function
+complex<double> amplitude::Kibble(double s, double t)
 {
-    double u = 3.*mPi*mPi + mDec*mDec - s - t;
-    return (s * t * u ) - mPi*mPi * (mDec*mDec - mPi*mPi)*(mDec*mDec - mPi*mPi);
+    double u = u_man(s,t);
+    double lambda = (s * t * u ) - mPi*mPi * (mDec*mDec - mPi*mPi)*(mDec*mDec - mPi*mPi);
+    return xr * lambda;
 };
 
 double amplitude::Kallen(double x, double y, double z)
@@ -75,7 +76,7 @@ double amplitude::tmax(double s)
 double amplitude::x(double s, double t)
 {
   double temp;
-  temp = sqrt(3.) * (t - u(s,t));
+  temp = sqrt(3.) * (t - u_man(s,t));
   return temp * d_norm();
 };
 

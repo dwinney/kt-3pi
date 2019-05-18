@@ -15,11 +15,10 @@
 template <class T>
 double dalitz<T>::d2Gamma(double s, double t)
 {
-  complex<double> f;
-  double temp1;
-  temp1 = 96. * pow(2.* M_PI * amp.mDec, 3);
-  f = dalitz<T>::amp(s,t);
-  return abs(f * f) * amp.Kibble(s,t) / temp1;
+  complex<double> F = dalitz<T>::amp(s,t);
+  double result = abs( F * F);
+
+  return result ;
 };
 
 //-----------------------------------------------------------------------------
@@ -27,6 +26,9 @@ double dalitz<T>::d2Gamma(double s, double t)
 template <class T>
 void dalitz<T>::plot(const char * n)
 {
+
+  cout << "Plotting Dalitz plot... \n";
+
   std::ofstream output;
   output.open(n);
 
@@ -40,13 +42,18 @@ void dalitz<T>::plot(const char * n)
     si = amp.smin() + offset + double(i) * s_step;
     for(int j = 0; j < 100; j++)
     {
-      t_step = (amp.tmax(si) - offset - amp.tmin(si))/100.;
+      t_step = (amp.tmax(si) - offset - amp.tmin(si)) / 100.;
       tij = amp.tmin(si) + offset  + double(j) * t_step;
 
-      gam = d2Gamma(si, tij) ;
+      gam = d2Gamma(si, tij);
 
-      output << std::left << setw(15) << amp.x(si, tij) << setw(15) << amp.y(si, tij) << setw << gam << endl;
+      output << std::left << setw(15) << amp.x(si, tij) << setw(15) << amp.y(si, tij) << setw(15) << gam << endl;
     }
   }
 output.close();
+
+cout << "Output to : " << n << endl;
+cout << endl;
+
+
 };

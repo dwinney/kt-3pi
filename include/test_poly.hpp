@@ -18,12 +18,12 @@ class test_poly : public amplitude
 protected:
   double alpha, beta, gamma, delta;
   double Norm = 1.;
-  double scale = 1.;
+  double scale = 1.e3;
 
 public:
   // Default constructor only two parameters for now
-  test_poly(double alp = 0, double bet = 0, double gam = 0, double del = 0)
-          : alpha(alp), beta(bet), gamma(gam), delta(del) {};
+  test_poly(double norm, double alp = 0, double bet = 0, double gam = 0, double del = 0)
+          : Norm(norm), alpha(alp), beta(bet), gamma(gam), delta(del) {};
 
   complex<double> operator ()(double s, double t)
     {

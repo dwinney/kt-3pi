@@ -29,7 +29,7 @@ public:
 //-----------------------------------------------------------------------------
 int qn_J, qn_C, qn_P, qn_I, qn_H;
 double mDec;
-double decay_particle;
+string decay_particle;
 
 void set_JPC(int j, int p, int c)
 {
@@ -43,9 +43,15 @@ void set_Helicity(int lambda)
 {
         qn_H = lambda;
 }
-void set_Mass(double m)
+void set_Mass(double m, const char * n ="")
 {
         mDec = m;
+        decay_particle = n;
+
+        if (decay_particle != "")
+        {
+          cout << "Amplitude Kinematics for " << decay_particle << "-> 3pi: ";
+        }
         cout << "Decay Mass set to: " << mDec << "\n";
         cout << endl;
 };
@@ -54,9 +60,10 @@ void set_Mass(double m)
 // Kinematic Functions
 //-----------------------------------------------------------------------------
 
-double u(double s, double t); // Mandelstam u
-double Kibble(double s, double t); // Lorentz Invariant Kibble Function
+double u_man(double s, double t); // Mandelstam u
 double Kallen(double x, double y, double z); // Kallen triangle function
+
+complex<double> Kibble(double s, double t); // Lorentz Invariant Kibble Function
 
 // Momenta in center of mass frame
 double com_E2(double s);

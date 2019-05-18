@@ -7,12 +7,12 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "poly_param_fit.hpp"
+#include "param_fit.hpp"
 
 // Polynomial expansion around the center of the dalitz plot.
 // The bounds of integrations are easiest seen in terms of s and t (c.f. PDG Kinematics)
 template <class T>
-double poly_param_fit<T>::F_poly(double s, double t)
+double param_fit<T>::F_poly(double s, double t)
 {
   double zs, thetas, poly;
   zs = dalitz<T>::amp.z(s,t);
@@ -29,7 +29,7 @@ double poly_param_fit<T>::F_poly(double s, double t)
 // ---------------------------------------------------------------------------
 // General set and print functions
 template <class T>
-void poly_param_fit<T>::set_integration_points(int m)
+void param_fit<T>::set_integration_points(int m)
 {
   n = m;
   cout << "Number of integration points changed to " << n << "... \n";
@@ -39,21 +39,21 @@ void poly_param_fit<T>::set_integration_points(int m)
 // Set the number of parameters in the polynomial expansion.
 // Default is 2, i.e. alpha and beta up to order 3/2 in z.
 template <class T>
-void poly_param_fit<T>::set_params(int n, const double *par)
+void param_fit<T>::set_params(int n, const double *par)
 {
-  n_params = n;
-  switch (N_params())
+  switch (n)
    {
-    case 4: delta = par[3];
-    case 3: gamma = par[2];
-    case 2: beta = par[1];
-    case 1: alpha = par[0];
+    case 4: delta = par[4];
+    case 3: gamma = par[3];
+    case 2: beta = par[2];
+    case 1: alpha = par[1];
+    case 0: Norm = par[0]; break;
   };
 };
 
 // Polynomial expansion around the center of dalitz plot
 template <class T>
-void poly_param_fit<T>::print_params(int a)
+void param_fit<T>::print_params(int a)
 {
   switch (a)
   {
@@ -75,7 +75,7 @@ void poly_param_fit<T>::print_params(int a)
 // The gauleg function in aux_math.hpp indexes from 1 to N so thats why
 // these wrapper functions exist. Also to put them into vectors such that the number of points can change.
 template <class T>
-void poly_param_fit<T>::generate_s_weights()
+void param_fit<T>::generate_s_weights()
 {
   double weights[N_int() + 1], abscissas[N_int() + 1];
 
@@ -98,7 +98,7 @@ void poly_param_fit<T>::generate_s_weights()
 
 // Same but now the bounds in the t variable depend on s.
 template <class T>
-void poly_param_fit<T>::generate_t_weights(vector<double> s)
+void param_fit<T>::generate_t_weights(vector<double> s)
 {
   // Clear preexisting weights and abcsissas
   t_wgt.clear(); t_abs.clear();
@@ -128,7 +128,7 @@ void poly_param_fit<T>::generate_t_weights(vector<double> s)
 };
 
 template <class T>
-void poly_param_fit<T>::generate_weights(){
+void param_fit<T>::generate_weights(){
   if (S_WG_GENERATED == false)
   {
     generate_s_weights();
@@ -144,17 +144,17 @@ void poly_param_fit<T>::generate_weights(){
 // The kinematic kernel that goes into the integral over the Dalitz region.
 // For the omega case it is the kibble function, but this may be different in general.
 template <class T>
-double poly_param_fit<T>::kin_kernel(double s, double t)
+double param_fit<T>::kin_kernel(double s, double t)
 {
-  double temp1, temp2;
+  complex<double> temp1, temp2;
   temp1 = dalitz<T>::amp.Kibble(s,t);
   temp2 = dalitz<T>::amp.Kibble( dalitz<T>::amp.s_c(), dalitz<T>::amp.t_c()); // Normalized to the center of the Dalitz region
-  return temp1 / temp2;
+  return abs(temp1 / temp2);
 };
 
 // Calculate the area of the physical Dalitz region
 template <class T>
-double poly_param_fit<T>::dalitz_area()
+double param_fit<T>::dalitz_area()
 {
 double t_sum, s_sum, s_i, t_ij;
 generate_weights();
@@ -178,10 +178,10 @@ return s_sum;
 // Calculate chi_squared
 // Normalized by the area of the Dalitz plot.
 template <class T>
-double poly_param_fit<T>::chi_squared(const double *par)
+double param_fit<T>::chi_squared(const double *par)
 {
   // Update parameters at the fitting step:
-  set_params(N_params(), par);
+  set_params(n_params, par);
 
   complex<double> amp_ij;
   double t_sum, s_sum, s_i, t_ij, d_area;
@@ -204,12 +204,12 @@ double poly_param_fit<T>::chi_squared(const double *par)
     {
         t_ij = t_abs[i][j];
         amp_ij = dalitz<T>::amp(s_i, t_ij);
-        ampsqr_ij = real(amp_ij * conj(amp_ij));
+        ampsqr_ij = abs(amp_ij * amp_ij);
         poly_ij = F_poly(s_i, t_ij);
         kern_ij = kin_kernel(s_i, t_ij);
 
         tmp1 = ampsqr_ij - poly_ij;
-        tmp2 = tmp1 * (kern_ij * kern_ij);
+        tmp2 = tmp1 * kern_ij;
         tmp3 = tmp2 * tmp2;
 
         t_sum += t_wgt[i][j] * tmp3;
@@ -217,36 +217,39 @@ double poly_param_fit<T>::chi_squared(const double *par)
     s_sum += s_wgt[i] * t_sum;
   };
 
-  chi2 = s_sum / (pow(Norm, 4.) * d_area);
+  chi2 = s_sum / d_area;
+
   return chi2;
 };
 // ---------------------------------------------------------------------------
 // Minimize the above chi_squared by calling Minuit2 in the ROOT::Math::Minimizer class
 template <class T>
-void poly_param_fit<T>::fit_params()
+void param_fit<T>::extract_params(double N)
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
-  minuit->SetMaxFunctionCalls(100000);
-  minuit->SetTolerance(0.0001);
+  minuit->SetMaxFunctionCalls(10000000);
+  minuit->SetTolerance(0.001);
   minuit->SetPrintLevel(0);
 
-  ROOT::Math::Functor fcn(this, &poly_param_fit::chi_squared, N_params());
+  n_params = N;
+  ROOT::Math::Functor fcn(this, &param_fit::chi_squared, N);
   minuit->SetFunction(fcn);
-  cout << "Minimizing with " << N_params() << " free parameters... \n";
+  cout << "Minimizing with " << N << " free parameters... \n";
 
-  if (N_params() >= 1)
+  minuit->SetVariable(0,"normalization", 0., .01);
+  if (N >= 1)
   {
-    minuit->SetLowerLimitedVariable(0,"alpha", 0., .01, 0.001);
-    if (N_params() >= 2)
+    minuit->SetVariable(1,"alpha", 0., .01);
+    if (N >= 2)
     {
-      minuit->SetLowerLimitedVariable(1,"beta", 0., .01, 0.001);
-      if (N_params() >= 3)
+      minuit->SetVariable(2,"beta", 0., .01);
+      if (N >= 3)
       {
-        minuit->SetVariable(2,"gamma", 0., 1.);
-        if (N_params() == 4)
+        minuit->SetVariable(3,"gamma", 0., 1.);
+        if (N == 4)
         {
-          minuit->SetVariable(3, "delta", 0., .01);
-          if (N_params() > 4)
+          minuit->SetVariable(4, "delta", 0., .01);
+          if (N > 4)
           {
             cout << "fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";
             exit(1);
@@ -254,6 +257,11 @@ void poly_param_fit<T>::fit_params()
         }
       }
     }
+  }
+else
+  {
+    cout << "fit_params(): Invalid number of free parameters in Minuit2. Quitting... \n";
+    exit(1);
   }
 
   minuit->Minimize();
@@ -263,5 +271,7 @@ void poly_param_fit<T>::fit_params()
   double chi2 = minuit ->MinValue();
   cout << "sqrt(chi2) = " << sqrt(chi2) << endl;
   cout << endl;
-  minuit->PrintResults();
+
+  print_params();
+
 };

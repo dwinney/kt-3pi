@@ -19,10 +19,6 @@
 #include <string>
 #include <iomanip>
 
-#include "TGraph.h"
-#include "TCanvas.h"
-#include "TAxis.h"
-
 using std::setw;
 using std::string;
 
@@ -50,9 +46,9 @@ public:
 
 // ---------------------------------------------------------------------------
 // Reltivistic Breit-Wigner from the KLOE analysis [hep-ex/0204013]
-// with an Energy-dependent width.
+// with finite-width corrections to VMD model of Rho decay
 // ---------------------------------------------------------------------------
-class breit_wigner_KLOE : public amplitude
+class breit_wigner: public amplitude
 {
 protected:
   string name;
@@ -60,15 +56,19 @@ protected:
   double s_res(){ return res_mass * res_mass;};
 // ---------------------------------------------------------------------------
 public:
-  breit_wigner_KLOE(double mass, double width, const char * n = "")
+  breit_wigner(double mass, double width, const char * n = "")
+    : res_mass(mass), res_width(width), name(n)
   {
-  res_mass = mass;
-  res_width = width;
-  name = n;
+    cout << endl;
+    if (name != "")
+        {
+      cout << name + ": ";
+    }
+    cout << "Breit-Wigner with M = " << mass << " and Gamma_0 = " << width << " created. \n";
   };
 
   complex<double> operator ()(double s, double t);
-  complex<double> f(double x);
+  complex<double> F(double x);
   complex<double> width(double s);
   complex<double> mom_pi(double s);
 

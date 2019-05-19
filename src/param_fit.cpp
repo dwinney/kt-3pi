@@ -208,7 +208,7 @@ double param_fit<T>::chi_squared(const double *par)
         poly_ij = F_poly(s_i, t_ij);
         kern_ij = kin_kernel(s_i, t_ij);
 
-        tmp1 = ampsqr_ij - poly_ij;
+        tmp1 = (ampsqr_ij - poly_ij) / (Norm * Norm);
         tmp2 = tmp1 * kern_ij;
         tmp3 = tmp2 * tmp2;
 
@@ -236,7 +236,7 @@ void param_fit<T>::extract_params(double N)
   minuit->SetFunction(fcn);
   cout << "Minimizing with " << N << " free parameters... \n";
 
-  minuit->SetVariable(0,"normalization", 0., .01);
+  minuit->SetVariable(0,"normalization", 1., .01);
   if (N >= 1)
   {
     minuit->SetVariable(1,"alpha", 0., .01);

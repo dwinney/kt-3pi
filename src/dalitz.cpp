@@ -16,21 +16,21 @@ template <class T>
 double dalitz<T>::d2Gamma(double s, double t)
 {
   complex<double> F = dalitz<T>::amp(s,t);
-  double result = abs( F * F);
-
-  return result ;
+  double result = abs(amp.Kibble(s,t) * F * F);
+  return result / normalization;
 };
 
 //-----------------------------------------------------------------------------
-// Quick function to print out a txt file with the Dalitz plot.
+// Print out a txt file with the Dalitz plot and plot with ROOT
 template <class T>
-void dalitz<T>::plot(const char * n)
+void dalitz<T>::plot(const char * filename)
 {
-
+  std::string name = filename;
   cout << "Plotting Dalitz plot... \n";
 
   std::ofstream output;
-  output.open(n);
+  name += ".dat";
+  output.open(name.c_str());
 
   double s_step = (amp.smax() - amp.smin() - offset)/100.;
   double t_step;
@@ -52,8 +52,16 @@ void dalitz<T>::plot(const char * n)
   }
 output.close();
 
-cout << "Output to : " << n << endl;
+cout << "Output to : " << name << endl;
 cout << endl;
 
+TCanvas *c = new TCanvas("c", "c");
+TGraph2D *g = new TGraph2D(name.c_str());
+g->Draw("colz");
+gStyle->SetPalette(55);
 
+c->Modified();
+name.erase(name.end() - 4, name.end());
+name += ".pdf";
+c->Print(name.c_str());
 };

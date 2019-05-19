@@ -17,13 +17,14 @@ int main()
   rho.set_Mass(.78, "omega");
 
   dalitz<breit_wigner> plot_bw(rho);
-  plot_bw.plot("BW_dalitz_plot.dat");
+  plot_bw.plot("KLOE_briet_wigner");
 
   // Fit to polynomial
   param_fit<breit_wigner> fit(rho);
   fit.extract_params(1);
   fit.extract_params(2);
   fit.extract_params(3);
+  fit.extract_params(4);
 
   return 0;
 };

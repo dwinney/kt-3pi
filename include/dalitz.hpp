@@ -1,5 +1,5 @@
 // General purpose classes for Dalitz plot generation.
-// for fitting to polynomial expansion see poly_param_fit.hpp
+// for fitting to polynomial expansion see param_fit.hpp
 //
 // Dependencies: constant.cpp aux_math.hpp
 //
@@ -18,6 +18,10 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+
+#include "TGraph2D.h"
+#include "TCanvas.h"
+#include "TStyle.h"
 
 using std::complex;
 using std::setw;

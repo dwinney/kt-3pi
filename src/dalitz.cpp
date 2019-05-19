@@ -64,4 +64,5 @@ c->Modified();
 name.erase(name.end() - 4, name.end());
 name += ".pdf";
 c->Print(name.c_str());
+c->Destructor();
 };

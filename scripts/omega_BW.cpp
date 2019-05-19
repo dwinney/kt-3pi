@@ -2,6 +2,7 @@
 #include "dalitz.cpp"
 #include "breit_wigner.hpp"
 #include "test_poly.hpp"
+#include "omnes.hpp"
 
 #include <iostream>
 #include <complex>
@@ -17,14 +18,22 @@ int main()
   rho.set_Mass(.78, "omega");
 
   dalitz<breit_wigner> plot_bw(rho);
-  plot_bw.plot("KLOE_briet_wigner");
+  plot_bw.plot("KLOE_breit_wigner");
 
   // Fit to polynomial
   param_fit<breit_wigner> fit(rho);
   fit.extract_params(1);
   fit.extract_params(2);
-  fit.extract_params(3);
-  fit.extract_params(4);
+
+  //Additionally we can compare with the Omnes solution
+  omnes pwave(1., 1.);
+  pwave.set_Mass(.78, "omega");
+
+  dalitz<omnes> plot_omnes(pwave);
+  plot_omnes.plot("Omnes");
+
+  param_fit<omnes> fit2(pwave);
+  fit2.extract_params(1);
 
   return 0;
 };

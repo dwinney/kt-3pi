@@ -91,7 +91,7 @@ void param_fit<T>::generate_s_weights()
           s_wgt.push_back(weights[i]);
           s_abs.push_back(abscissas[i]);
   }
-  cout << "Gaussian weights for s in the Dalitz Region generated with "
+  cout << "param_fit: Gaussian weights for s in the Dalitz Region generated with "
   << N_int() << " points... \n";
   S_WG_GENERATED = true;
 };
@@ -122,7 +122,7 @@ void param_fit<T>::generate_t_weights(vector<double> s)
     t_wgt.push_back(t_wgt_temp);
     t_abs.push_back(t_abs_temp);
   }
-  cout << "Gaussian weights for t in the Dalitz Region generated with "
+  cout << "param_fit: Gaussian weights for t in the Dalitz Region generated with "
   << N_int() << " points... \n";
   T_WG_GENERATED = true;
 };
@@ -234,7 +234,7 @@ void param_fit<T>::extract_params(double N)
   n_params = N;
   ROOT::Math::Functor fcn(this, &param_fit::chi_squared, N);
   minuit->SetFunction(fcn);
-  cout << "Minimizing with " << N << " free parameters... \n";
+  cout << "param_fit: Minimizing with " << N << " free parameters... \n";
 
   minuit->SetVariable(0,"normalization", 1., .01);
   if (N >= 1)

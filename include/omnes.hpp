@@ -1,6 +1,6 @@
 // Functions for Omnes function procedures.
 //
-// Dependencies: pipi, aux_math
+// Dependencies: pipi, aux_math, amp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -19,17 +19,18 @@
 #define _OMNES_
 
 #include "pipi.hpp"
+#include "amp.hpp"
 #include "aux_math.hpp"
 
 //-----------------------------------------------------------------------------
-class omnes : public pipi
+class omnes : public pipi, public amplitude
 //-----------------------------------------------------------------------------
 {
 protected:
 int wave;
 int sign = 1;
 double eps = 1e-9;
-int N_omnes = 100;
+int N_omnes = 60;
 double s0 = sthPi; //Lower Bound for integral
 
 //-----------------------------------------------------------------------------
@@ -50,6 +51,8 @@ omnes(int i, int j) : pipi(i)
 {
         wave = j;
 };
+
+std::complex<double> operator ()(double s, double t);
 
 void set_eps(int sig, double eps);
 void set_N_omnes(int i);

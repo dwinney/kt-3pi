@@ -208,8 +208,8 @@ double param_fit<T>::chi_squared(const double *par)
         poly_ij = F_poly(s_i, t_ij);
         kern_ij = kin_kernel(s_i, t_ij);
 
-        tmp1 = (ampsqr_ij - poly_ij) / (Norm * Norm);
-        tmp2 = tmp1 * kern_ij;
+        tmp1 = (ampsqr_ij - poly_ij);
+        // tmp2 = tmp1 * kern_ij;
         tmp3 = tmp2 * tmp2;
 
         t_sum += t_wgt[i][j] * tmp3;

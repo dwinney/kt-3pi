@@ -183,10 +183,7 @@ double param_fit<T>::chi_squared(const double *par)
   // Update parameters at the fitting step:
   set_params(n_params, par);
 
-  complex<double> amp_ij;
-  double t_sum, s_sum, s_i, t_ij, d_area;
-  double ampsqr_ij, poly_ij, kern_ij;
-  double tmp1, tmp2, tmp3;
+  double t_sum, s_sum, s_i, d_area;
   double chi2;
 
   generate_weights();
@@ -202,14 +199,18 @@ double param_fit<T>::chi_squared(const double *par)
     t_sum = 0.;
     for (int j = 0; j < N_int(); j++)
     {
+        complex<double> amp_ij;
+        double t_ij, ampsqr_ij, poly_ij, kern_ij;
+
         t_ij = t_abs[i][j];
         amp_ij = dalitz<T>::amp(s_i, t_ij);
         ampsqr_ij = abs(amp_ij * amp_ij);
         poly_ij = F_poly(s_i, t_ij);
         kern_ij = kin_kernel(s_i, t_ij);
 
+        double tmp1, tmp2, tmp3;
         tmp1 = (ampsqr_ij - poly_ij);
-        // tmp2 = tmp1 * kern_ij;
+        tmp2 = tmp1 * kern_ij;
         tmp3 = tmp2 * tmp2;
 
         t_sum += t_wgt[i][j] * tmp3;

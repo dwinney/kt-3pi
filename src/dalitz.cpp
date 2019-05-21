@@ -8,9 +8,107 @@
 // ---------------------------------------------------------------------------
 
 #include "dalitz.hpp"
+//-----------------------------------------------------------------------------
+// Routines related to integrating over dalitz region
+template <class T>
+void dalitz<T>::set_integration_points(int m)
+{
+  n = m;
+  cout << "Number of integration points changed to " << n << "... \n";
+  S_WG_GENERATED = false;
+};
+
+// The gauleg function in aux_math.hpp indexes from 1 to N so thats why
+// these wrapper functions exist. Also to put them into vectors such that the number of points can change.
+template <class T>
+void dalitz<T>::generate_s_weights()
+{
+  double weights[N_int() + 1], abscissas[N_int() + 1];
+
+  double smn = amp.smin() + offset;
+  double smx = amp.smax() - offset;
+
+  gauleg(smn , smx, abscissas, weights, N_int() + 1);
+
+  s_wgt.clear(); s_abs.clear();
+
+  for (int i = 1; i < N_int() + 1; i++)
+  {
+          s_wgt.push_back(weights[i]);
+          s_abs.push_back(abscissas[i]);
+  }
+  cout << "param_fit: Gaussian weights for s in the Dalitz Region generated with "
+  << N_int() << " points... \n";
+  S_WG_GENERATED = true;
+};
+
+// Same but now the bounds in the t variable depend on s.
+template <class T>
+void dalitz<T>::generate_t_weights(vector<double> s)
+{
+  // Clear preexisting weights and abcsissas
+  t_wgt.clear(); t_abs.clear();
+  for (int i = 0; i < N_int(); i++)
+  {
+    double weights[N_int() + 1], abscissas[N_int() + 1];
+
+    // add 0.001 to push values off the boundary where things may be singular
+    double tmn = amp.tmin(s[i]) + offset;
+    double tmx = amp.tmax(s[i]) - offset;
+
+    gauleg(tmn, tmx, abscissas, weights, N_int() + 1);
+
+    vector<double> t_wgt_temp, t_abs_temp;
+    for (int j = 1; j < N_int() + 1; j++)
+    {
+        t_wgt_temp.push_back(weights[j]);
+        t_abs_temp.push_back(abscissas[j]);
+    }
+
+    t_wgt.push_back(t_wgt_temp);
+    t_abs.push_back(t_abs_temp);
+  }
+  cout << "param_fit: Gaussian weights for t in the Dalitz Region generated with "
+  << N_int() << " points... \n";
+  T_WG_GENERATED = true;
+};
+
+template <class T>
+void dalitz<T>::generate_weights(){
+  if (S_WG_GENERATED == false)
+  {
+    generate_s_weights();
+    generate_t_weights(s_abs);
+  }
+  else if (T_WG_GENERATED == false)
+  {
+    generate_t_weights(s_abs);
+  }
+};
+
+// Calculate the area of the physical Dalitz region
+template <class T>
+double dalitz<T>::dalitz_area()
+{
+double t_sum, s_sum, s_i, t_ij;
+generate_weights();
+
+s_sum = 0.;
+for (int i = 0; i < N_int(); i++)
+{
+  s_i = s_abs[i];
+  t_sum = 0.;
+  for (int j = 0; j < N_int(); j++)
+  {
+    t_ij = t_abs[i][j];
+    t_sum +=  t_wgt[i][j] * t_ij;
+  }
+  s_sum += s_wgt[i] * t_sum;
+};
+return s_sum;
+};
 
 //-----------------------------------------------------------------------------
-
 // Doubly Differential Decay Width
 template <class T>
 double dalitz<T>::d2Gamma(double s, double t)
@@ -33,19 +131,16 @@ void dalitz<T>::plot(const char * filename)
   output.open(name.c_str());
 
   double s_step = (amp.smax() - amp.smin() - offset)/100.;
-  double t_step;
-
-  double si, tij, gam;
 
   for (int i = 0; i < 100; i++)
   {
-    si = amp.smin() + offset + double(i) * s_step;
+    double si = amp.smin() + offset + double(i) * s_step;
     for(int j = 0; j < 100; j++)
     {
-      t_step = (amp.tmax(si) - offset - amp.tmin(si)) / 100.;
-      tij = amp.tmin(si) + offset  + double(j) * t_step;
+     double t_step = (amp.tmax(si) - offset - amp.tmin(si)) / 100.;
+     double tij = amp.tmin(si) + offset  + double(j) * t_step;
 
-      gam = d2Gamma(si, tij);
+     double gam = d2Gamma(si, tij);
 
       output << std::left << setw(15) << amp.x(si, tij) << setw(15) << amp.y(si, tij) << setw(15) << gam << endl;
     }

@@ -11,10 +11,7 @@
 #define _POLY_FIT_
 
 #include "dalitz.hpp"
-#include "aux_math.hpp"
 #include <iomanip>
-#include <cmath>
-#include <vector>
 #include "Math/Minimizer.h"
 #include "Math/Factory.h"
 #include "Math/Functor.h"
@@ -31,18 +28,10 @@ protected:
   double Norm = 1., alpha = 0., beta = 0., gamma = 0., delta = 0.;
   double scale = 1.e-3;
 
-  // For integration
-  int n = 60; // Number of integration points
-  int N_int(){
-    return n;
-  };
+  double F_poly(double s, double t);
 
-  bool S_WG_GENERATED, T_WG_GENERATED;
-  vector<double> s_wgt, s_abs;
-  vector< vector<double>> t_wgt, t_abs;
-  void generate_s_weights();
-  void generate_t_weights(vector<double> s);
-  void generate_weights();
+  double kin_kernel(double s, double t); // Kinematic Kernel in dalitz region integral
+  double chi_squared(const double *par); // Chi-squared between input line-shape and polynomial.
 
 // ---------------------------------------------------------------------------
 public:
@@ -50,13 +39,6 @@ public:
 
   void set_params(int n, const double *par);
   void print_params(int a = 0);
-  void set_integration_points(int n);
-
-  double F_poly(double s, double t);
-
-  double kin_kernel(double s, double t); // Kinematic Kernel in dalitz region integral
-  double chi_squared(const double *par); // Chi-squared between input line-shape and polynomial.
-  double dalitz_area();
 
   void extract_params(double N);
 // ---------------------------------------------------------------------------

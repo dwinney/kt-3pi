@@ -28,13 +28,6 @@ double param_fit<T>::F_poly(double s, double t)
 
 // ---------------------------------------------------------------------------
 // General set and print functions
-template <class T>
-void param_fit<T>::set_integration_points(int m)
-{
-  n = m;
-  cout << "Number of integration points changed to " << n << "... \n";
-  S_WG_GENERATED = false;
-};
 
 // Set the number of parameters in the polynomial expansion.
 // Default is 2, i.e. alpha and beta up to order 3/2 in z.
@@ -71,75 +64,6 @@ void param_fit<T>::print_params(int a)
   };
 };
 
-// ---------------------------------------------------------------------------
-// The gauleg function in aux_math.hpp indexes from 1 to N so thats why
-// these wrapper functions exist. Also to put them into vectors such that the number of points can change.
-template <class T>
-void param_fit<T>::generate_s_weights()
-{
-  double weights[N_int() + 1], abscissas[N_int() + 1];
-
-  double smn = dalitz<T>::amp.smin() + dalitz<T>::offset;
-  double smx = dalitz<T>::amp.smax() - dalitz<T>::offset;
-
-  gauleg(smn , smx, abscissas, weights, N_int() + 1);
-
-  s_wgt.clear(); s_abs.clear();
-
-  for (int i = 1; i < N_int() + 1; i++)
-  {
-          s_wgt.push_back(weights[i]);
-          s_abs.push_back(abscissas[i]);
-  }
-  cout << "param_fit: Gaussian weights for s in the Dalitz Region generated with "
-  << N_int() << " points... \n";
-  S_WG_GENERATED = true;
-};
-
-// Same but now the bounds in the t variable depend on s.
-template <class T>
-void param_fit<T>::generate_t_weights(vector<double> s)
-{
-  // Clear preexisting weights and abcsissas
-  t_wgt.clear(); t_abs.clear();
-  for (int i = 0; i < N_int(); i++)
-  {
-    double weights[N_int() + 1], abscissas[N_int() + 1];
-
-    // add 0.001 to push values off the boundary where things may be singular
-    double tmn = dalitz<T>::amp.tmin(s[i]) + dalitz<T>::offset;
-    double tmx = dalitz<T>::amp.tmax(s[i]) - dalitz<T>::offset;
-
-    gauleg(tmn, tmx, abscissas, weights, N_int() + 1);
-
-    vector<double> t_wgt_temp, t_abs_temp;
-    for (int j = 1; j < N_int() + 1; j++)
-    {
-        t_wgt_temp.push_back(weights[j]);
-        t_abs_temp.push_back(abscissas[j]);
-    }
-
-    t_wgt.push_back(t_wgt_temp);
-    t_abs.push_back(t_abs_temp);
-  }
-  cout << "param_fit: Gaussian weights for t in the Dalitz Region generated with "
-  << N_int() << " points... \n";
-  T_WG_GENERATED = true;
-};
-
-template <class T>
-void param_fit<T>::generate_weights(){
-  if (S_WG_GENERATED == false)
-  {
-    generate_s_weights();
-    generate_t_weights(s_abs);
-  }
-  else if (T_WG_GENERATED == false)
-  {
-    generate_t_weights(s_abs);
-  }
-};
-
 //-----------------------------------------------------------------------------
 // The kinematic kernel that goes into the integral over the Dalitz region.
 // For the omega case it is the kibble function, but this may be different in general.
@@ -152,27 +76,6 @@ double param_fit<T>::kin_kernel(double s, double t)
   return abs(temp1 / temp2);
 };
 
-// Calculate the area of the physical Dalitz region
-template <class T>
-double param_fit<T>::dalitz_area()
-{
-double t_sum, s_sum, s_i, t_ij;
-generate_weights();
-
-s_sum = 0.;
-for (int i = 0; i < N_int(); i++)
-{
-  s_i = s_abs[i];
-  t_sum = 0.;
-  for (int j = 0; j < N_int(); j++)
-  {
-    t_ij = t_abs[i][j];
-    t_sum +=  t_wgt[i][j] * t_ij;
-  }
-  s_sum += s_wgt[i] * t_sum;
-};
-return s_sum;
-};
 
 //-----------------------------------------------------------------------------
 // Calculate chi_squared
@@ -186,23 +89,23 @@ double param_fit<T>::chi_squared(const double *par)
   double t_sum, s_sum, s_i, d_area;
   double chi2;
 
-  generate_weights();
+  dalitz<T>::generate_weights();
 
-  d_area = dalitz_area();
+  d_area = dalitz<T>::dalitz_area();
 
   // Integrate over s
   s_sum = 0.;
-  for (int i = 0; i < N_int(); i++)
+  for (int i = 0; i < dalitz<T>::N_int(); i++)
   {
-    s_i = s_abs[i];
+    s_i = dalitz<T>::s_abs[i];
     // Integrate over t
     t_sum = 0.;
-    for (int j = 0; j < N_int(); j++)
+    for (int j = 0; j < dalitz<T>::N_int(); j++)
     {
         complex<double> amp_ij;
         double t_ij, ampsqr_ij, poly_ij, kern_ij;
 
-        t_ij = t_abs[i][j];
+        t_ij = dalitz<T>::t_abs[i][j];
         amp_ij = dalitz<T>::amp(s_i, t_ij);
         ampsqr_ij = abs(amp_ij * amp_ij);
         poly_ij = F_poly(s_i, t_ij);
@@ -213,9 +116,9 @@ double param_fit<T>::chi_squared(const double *par)
         tmp2 = tmp1 * kern_ij;
         tmp3 = tmp2 * tmp2;
 
-        t_sum += t_wgt[i][j] * tmp3;
+        t_sum += dalitz<T>::t_wgt[i][j] * tmp3;
     };
-    s_sum += s_wgt[i] * t_sum;
+    s_sum += dalitz<T>::s_wgt[i] * t_sum;
   };
 
   chi2 = s_sum / d_area;

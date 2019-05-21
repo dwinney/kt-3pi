@@ -12,7 +12,9 @@
 #define _DALITZ_
 
 #include "constants.hpp"
+#include "aux_math.hpp"
 #include <cmath>
+#include <vector>
 #include <complex>
 #include <iostream>
 #include <fstream>
@@ -24,6 +26,7 @@
 #include "TStyle.h"
 
 using std::complex;
+using std::vector;
 using std::setw;
 using std::cout;
 using std::endl;
@@ -44,10 +47,24 @@ template <class T>
 class dalitz
 {
 protected:
-T amp;
-double normalization = 32. * pow(2.* M_PI * amp.mDec, 3.);
-double offset = 0.00001;
+  T amp;
+  double normalization = 32. * pow(2.* M_PI * amp.mDec, 3.);
+  double offset = 0.00001;
+//-----------------------------------------------------------------------------
+// For integration
+  int n = 60; // Number of integration points
+  int N_int(){
+    return n;
+  };
 
+  bool S_WG_GENERATED, T_WG_GENERATED;
+  vector<double> s_wgt, s_abs;
+  vector< vector<double> > t_wgt, t_abs; //"two-dimensional" vectors
+  void generate_s_weights();
+  void generate_t_weights(vector<double> s);
+  void generate_weights();
+
+  double dalitz_area();
 //-----------------------------------------------------------------------------
 public:
   // Default Constructor
@@ -59,6 +76,7 @@ public:
 
 //--------------------------------------------------------------------------
   void plot(const char *n = "");
+  void set_integration_points(int n);
 };
 
 //-----------------------------------------------------------------------------

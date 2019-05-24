@@ -22,7 +22,7 @@ void omnes::set_eps(int sig, double e)
         sign = sig;
         if (sig != 1 && sig !=-1 && sig != 0)
         {
-                std::cout << " Invalid i*eps presription. Allowed sig values = -1, 0, +1"
+                std::cout << "omnes: Invalid i*eps presription. Allowed sig values = -1, 0, +1"
                           << "\n";
                 exit(1);
         }
@@ -33,7 +33,7 @@ void omnes::set_eps(int sig, double e)
 void omnes::set_N_omnes(int i)
 {
         N_omnes = i;
-        std::cout << " Number of integration points set to " << N_omnes << "...\n";
+        std::cout << "omnes: Number of integration points set to " << N_omnes << "...\n";
 };
 //-----------------------------------------------------------------------------
 // Smoothly extrapolated Phase-shift shift matched at Lambda_phase^2
@@ -88,7 +88,7 @@ std::complex<double> omnes::eval(double s)
         {
                 double weights[N_omnes + 1], abscissas[N_omnes + 1];
                 gauleg(s0, LamSq, abscissas, weights, N_omnes + 1);
-                std::cout << "omnes:: Generating Gaussian-Legendre Quandrature weights and abscissas... \n ";
+                std::cout << "omnes: Generating Gaussian-Legendre Quandrature weights and abscissas... \n";
 
                 for (int i = 1; i < N_omnes + 1; i++)
                 {

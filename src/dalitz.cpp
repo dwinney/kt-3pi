@@ -128,10 +128,10 @@ void dalitz<T>::plot()
   std::string name = amp.get_ampName();
 
   // Command Line Message
-  cout << "Plotting Dalitz Region ";
+  cout << "Plotting Dalitz Region";
   if (amp.get_ampName() != "")
   {
-    cout << "(" << amp.get_ampName() << ") ";
+    cout << " (" << amp.get_ampName() << ")";
   }
   cout << "... \n";
 
@@ -168,5 +168,7 @@ c->Modified();
 name.erase(name.end() - 4, name.end());
 name += ".pdf";
 c->Print(name.c_str());
-c->Destructor();
+
+delete c;
+delete g;
 };

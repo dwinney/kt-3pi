@@ -12,7 +12,7 @@
 // omnes my_omnes(isospin, spin);
 //
 // Evaluate the Omnes function (as a complex number) at some s:
-// my_omnes.eval(s);
+// my_omnes(s);
 // -----------------------------------------------------------------------------
 
 #ifndef _OMNES_
@@ -39,7 +39,7 @@ static constexpr double Lambda_phase = 1.3;
 static constexpr double LamSq = Lambda_phase*Lambda_phase;
 static constexpr double hD = 0.0001;
 
-bool WG_GENERATED = false;
+bool WG_GENERATED;
 std::vector<double> wgt, abs;
 
 //-----------------------------------------------------------------------------
@@ -47,9 +47,9 @@ public:
 omnes() : pipi()
 {
 };
-omnes(int i, int j) : pipi(i)
+omnes(int i, int j, const char * n = "") : pipi(i), wave(j)
 {
-        wave = j;
+  set_ampName(n);
 };
 
 std::complex<double> operator ()(double s, double t);

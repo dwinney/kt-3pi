@@ -11,7 +11,10 @@
 #define _POLY_FIT_
 
 #include "dalitz.hpp"
+#include "poly_exp.hpp"
+
 #include <iomanip>
+
 #include "Math/Minimizer.h"
 #include "Math/Factory.h"
 #include "Math/Functor.h"
@@ -25,18 +28,18 @@ class param_fit : public dalitz<T>
 protected:
   // Polynomial expansion parameters up to order 5/2 in z
   int n_params = 2;
-  int nError = 0; // Default print level for info messages in Minuit (0 - 4)  
-  double Norm = 1., alpha = 0., beta = 0., gamma = 0., delta = 0.;
-  double scale = 1.e-3;
+  int nError = 0; // Default print level for info messages in Minuit (0 - 4)
 
-  double F_poly(double s, double t);
+  poly_exp F_poly; // start with norm = 1. and all params = 0.
 
   double kin_kernel(double s, double t); // Kinematic Kernel in dalitz region integral
   double chi_squared(const double *par); // Chi-squared between input line-shape and polynomial.
 
 // ---------------------------------------------------------------------------
 public:
-  param_fit(T my_amp) : dalitz<T>(my_amp){};
+  param_fit(T my_amp) : dalitz<T>(my_amp){
+    F_poly.set_decayMass(my_amp.get_decayMass());
+  };
 
   void set_params(int n, const double *par);
   void print_params(int a = 0);

@@ -104,7 +104,6 @@ double amplitude::z(double s, double t)
     double tmp1, tmp2;
     tmp1 = x(s,t);
     tmp2 = y(s,t);
-
     return tmp1 * tmp1 + tmp2 * tmp2;
 };
 

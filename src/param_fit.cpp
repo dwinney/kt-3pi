@@ -1,6 +1,6 @@
 // Routines to fit a lineshape to a polynomial (z, theta) expansion around center of dalitz plot.
 //
-// Dependencies: dalitz.cpp
+// Dependencies: dalitz.cpp, poly_exp.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -8,61 +8,6 @@
 // ---------------------------------------------------------------------------
 
 #include "param_fit.hpp"
-
-// Polynomial expansion around the center of the dalitz plot.
-// The bounds of integrations are easiest seen in terms of s and t (c.f. PDG Kinematics)
-template <class T>
-double param_fit<T>::F_poly(double s, double t)
-{
-  double zs, thetas, poly;
-  zs = dalitz<T>::amp.z(s,t);
-  thetas = dalitz<T>::amp.theta(s,t);
-
-  poly = 1.0
-        + 2. * alpha * scale * zs
-        + 2. * beta * scale * std::pow(zs, 1.5) * std::sin(3.*thetas)
-        + 2. * gamma * scale *  zs*zs
-        + 2. * delta * scale * std::pow(zs, 2.5) * std::sin(3.*thetas);
-  return Norm * Norm * poly;
-};
-
-// ---------------------------------------------------------------------------
-// General set and print functions
-
-// Set the number of parameters in the polynomial expansion.
-// Default is 2, i.e. alpha and beta up to order 3/2 in z.
-template <class T>
-void param_fit<T>::set_params(int n, const double *par)
-{
-  switch (n)
-   {
-    case 4: delta = par[4];
-    case 3: gamma = par[3];
-    case 2: beta = par[2];
-    case 1: alpha = par[1];
-    case 0: Norm = par[0]; break;
-  };
-};
-
-// Polynomial expansion around the center of dalitz plot
-template <class T>
-void param_fit<T>::print_params(int a)
-{
-  switch (a)
-  {
-  case 0: {
-      cout << "Printing Dalitz Plot parameters... \n";
-      cout << "---------------------------------------- \n";
-      cout << std::left <<  setw(20) << "normalization:" << setw(20) << Norm << "\n";
-      cout << std::left <<  setw(20) << "alpha:" << setw(20) << alpha << "\n";
-      cout << std::left <<  setw(20) << "beta:" << setw(20) << beta << "\n";
-      cout << std::left <<  setw(20) << "gamma:" << setw(20) <<  gamma << "\n";
-      cout << std::left <<  setw(20) << "delta:" << setw(20) << delta << "\n";
-      cout << "---------------------------------------- \n";
-      cout << "\n";
-    };
-  };
-};
 
 //-----------------------------------------------------------------------------
 // The kinematic kernel that goes into the integral over the Dalitz region.
@@ -83,14 +28,13 @@ double param_fit<T>::kin_kernel(double s, double t)
 template <class T>
 double param_fit<T>::chi_squared(const double *par)
 {
-  // Update parameters at the fitting step:
-  set_params(n_params, par);
-
   double t_sum, s_sum, s_i, d_area;
   double chi2;
 
   dalitz<T>::generate_weights();
 
+  // Update parameters in polynomial expansion at the fitting step:
+  F_poly.set_params(n_params, par);
   d_area = dalitz<T>::dalitz_area();
 
   // Integrate over s
@@ -103,11 +47,13 @@ double param_fit<T>::chi_squared(const double *par)
     for (int j = 0; j < dalitz<T>::N_int(); j++)
     {
         complex<double> amp_ij;
-        double t_ij, ampsqr_ij, poly_ij, kern_ij;
+        double t_ij, ampsqr_ij, poly_ij, polysqr_ij, kern_ij;
 
         t_ij = dalitz<T>::t_abs[i][j];
+
         amp_ij = dalitz<T>::amp(s_i, t_ij);
         ampsqr_ij = abs(amp_ij * amp_ij);
+
         poly_ij = F_poly(s_i, t_ij);
         kern_ij = kin_kernel(s_i, t_ij);
 
@@ -181,6 +127,6 @@ else
   cout << "sqrt(chi2) = " << sqrt(chi2) << endl;
   cout << endl;
 
-  print_params();
+  F_poly.print_params();
 
 };

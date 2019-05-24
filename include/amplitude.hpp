@@ -25,35 +25,57 @@ using std::string;
 class amplitude
 //-----------------------------------------------------------------------------
 {
+protected:
+  int qn_J, qn_C, qn_P, qn_I, qn_H;
+  double mDec;
+  string decay_particle, amp_name;
+
 public:
 //-----------------------------------------------------------------------------
-int qn_J, qn_C, qn_P, qn_I, qn_H;
-double mDec;
-string decay_particle;
-
-void set_JPC(int j, int p, int c)
+void set_decayJPC(int j, int p, int c)
 {
         qn_J = j; qn_P = p; qn_C = c;
 };
-void set_Isospin(int i)
+void set_decayIsospin(int i)
 {
         qn_I = i;
 };
-void set_Helicity(int lambda)
+void set_decayHelicity(int lambda)
 {
         qn_H = lambda;
 }
-void set_Mass(double m, const char * n ="")
+void set_decayMass(double m)
 {
         mDec = m;
-        decay_particle = n;
 
-        if (decay_particle != "")
+        if (amp_name != "")
         {
-          cout << "Amplitude Kinematics for " << decay_particle << "-> 3pi: ";
+          cout << amp_name + ": ";
         }
         cout << "Decay Mass set to: " << mDec << "\n";
         cout << endl;
+};
+
+void set_ampName(const char * n)
+{
+  amp_name = n;
+};
+
+void set_decayParticle(const char * n)
+{
+  decay_particle = n;
+};
+
+//-----------------------------------------------------------------------------
+// get functions to access protected data outside of the initial construction
+double get_decayMass()
+{
+  return mDec;
+};
+
+string get_ampName()
+{
+  return amp_name;
 };
 
 //-----------------------------------------------------------------------------
@@ -93,8 +115,8 @@ double t_c()
 {
     return (3.*mPi*mPi + mDec* mDec - s_c())/2.;
 };
-//-----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
 // Lorentz Invariant dimensionless parameters X and Y
 double d_norm(){
   return 1. / (2. * mDec * (mDec - 3. * mPi));

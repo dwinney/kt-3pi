@@ -7,7 +7,7 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "amp.hpp"
+#include "amplitude.hpp"
 
 // Mandelstam u in terms of the other two variables
 double amplitude::u_man(double s, double t)

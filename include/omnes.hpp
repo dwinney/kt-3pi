@@ -19,7 +19,7 @@
 #define _OMNES_
 
 #include "pipi.hpp"
-#include "amp.hpp"
+#include "amplitude.hpp"
 #include "aux_math.hpp"
 
 //-----------------------------------------------------------------------------

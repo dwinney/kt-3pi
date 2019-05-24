@@ -1,7 +1,7 @@
 // General purpose classes for Dalitz plot generation.
 // for fitting to polynomial expansion see param_fit.hpp
 //
-// Dependencies: constant.cpp aux_math.hpp
+// Dependencies: constants.hpp aux_math.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -24,6 +24,7 @@
 #include "TGraph2D.h"
 #include "TCanvas.h"
 #include "TStyle.h"
+#include "TError.h"
 
 using std::complex;
 using std::vector;
@@ -37,6 +38,8 @@ using std::endl;
 // with the signature:
 //
 //  complex<double> operator() (double, double)
+//  or
+//  double operator() (double,double)
 //
 // Initiate a dalitz plot object with:
 // model_amp my_model;
@@ -48,7 +51,7 @@ class dalitz
 {
 protected:
   T amp;
-  double normalization = 32. * pow(2.* M_PI * amp.mDec, 3.);
+  double normalization = 32. * pow(2.* M_PI * amp.get_decayMass(), 3.);
   double offset = 0.00001;
 //-----------------------------------------------------------------------------
 // For integration
@@ -75,7 +78,7 @@ public:
   double d2Gamma(double s, double t);
 
 //--------------------------------------------------------------------------
-  void plot(const char *n = "");
+  void plot();
   void set_integration_points(int n);
 };
 

@@ -121,10 +121,19 @@ double dalitz<T>::d2Gamma(double s, double t)
 //-----------------------------------------------------------------------------
 // Print out a txt file with the Dalitz plot and plot with ROOT
 template <class T>
-void dalitz<T>::plot(const char * filename)
+void dalitz<T>::plot()
 {
-  std::string name = filename;
-  cout << "Plotting Dalitz plot... \n";
+
+  gErrorIgnoreLevel = kWarning;
+  std::string name = amp.get_ampName();
+
+  // Command Line Message
+  cout << "Plotting Dalitz Region ";
+  if (amp.get_ampName() != "")
+  {
+    cout << "(" << amp.get_ampName() << ") ";
+  }
+  cout << "... \n";
 
   std::ofstream output;
   name += ".dat";

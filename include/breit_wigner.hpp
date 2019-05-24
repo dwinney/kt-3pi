@@ -10,7 +10,7 @@
 #ifndef _BW_
 #define _BW_
 
-#include "amp.hpp"
+#include "amplitude.hpp"
 
 #include <complex>
 #include <cmath>
@@ -51,18 +51,18 @@ public:
 class breit_wigner: public amplitude
 {
 protected:
-  string name;
   double res_mass, res_width;
   double s_res(){ return res_mass * res_mass;};
 // ---------------------------------------------------------------------------
 public:
   breit_wigner(double mass, double width, const char * n = "")
-    : res_mass(mass), res_width(width), name(n)
+    : res_mass(mass), res_width(width)
   {
+    set_ampName(n);
     cout << endl;
-    if (name != "")
+    if (amp_name != "")
         {
-      cout << name + ": ";
+      cout << amp_name + ": ";
     }
     cout << "Breit-Wigner with M = " << mass << " and Gamma_0 = " << width << " created. \n";
   };

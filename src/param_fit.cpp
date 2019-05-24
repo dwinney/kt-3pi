@@ -133,12 +133,17 @@ void param_fit<T>::extract_params(double N)
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
   minuit->SetMaxFunctionCalls(10000000);
   minuit->SetTolerance(0.001);
-  minuit->SetPrintLevel(0);
+  minuit->SetPrintLevel(nError);
 
   n_params = N;
   ROOT::Math::Functor fcn(this, &param_fit::chi_squared, N);
   minuit->SetFunction(fcn);
-  cout << "param_fit: Minimizing with " << N << " free parameters... \n";
+  cout << "param_fit: Fitting";
+  if (dalitz<T>::amp.get_ampName() != "")
+  {
+    cout << " " + dalitz<T>::amp.get_ampName();
+  }
+   cout << " with " << N << " free parameters... \n";
 
   minuit->SetVariable(0,"normalization", 1., .01);
   if (N >= 1)

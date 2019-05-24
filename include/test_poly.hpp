@@ -10,7 +10,7 @@
 #ifndef _TEST_
 #define _TEST_
 
-#include "amp.hpp"
+#include "amplitude.hpp"
 
 class test_poly : public amplitude
 {

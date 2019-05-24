@@ -48,7 +48,7 @@ void breit_wigner::plot()
 {
   std::ofstream output;
 
-  std::string filename = "./BW_KLOE" + name + ".dat";
+  std::string filename = "./BW_KLOE" + amp_name + ".dat";
   output.open(filename.c_str());
 
   double s[100], re[100], im[100];

@@ -17,7 +17,7 @@ endif()
 
 add_executable( omega_BW
 scripts/omega_BW.cpp
-src/amp.cpp
+src/amplitude.cpp
 src/pipi.cpp
 src/omnes.cpp
 src/aux_math.cpp

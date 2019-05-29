@@ -20,7 +20,7 @@ to evaluate the user-defined amplitude at some values of Mandelstam s and t. The
 
 ```
 my_amp example(my_inputs);
-param_fit<my_amp, output_amp> fit(example);
+dalitz_fit<my_amp, output_amp> fit(example);
 
 output_amp = fit.extract_params(num_params);
 ```

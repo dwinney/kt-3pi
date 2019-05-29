@@ -89,10 +89,10 @@ double Kallen(double x, double y, double z); // Kallen triangle function
 complex<double> Kibble(double s, double t); // Lorentz Invariant Kibble Function
 
 // Momenta in center of mass frame
-double com_E2(double s);
-double com_E3(double s);
-double com_P2(double s);
-double com_P3(double s);
+complex<double> com_E2(double s);
+complex<double> com_E3(double s);
+complex<double> com_P2(double s);
+complex<double> com_P3(double s);
 
 //-----------------------------------------------------------------------------
 // Dalitz region limits

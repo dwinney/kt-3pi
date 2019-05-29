@@ -30,46 +30,36 @@ double amplitude::Kallen(double x, double y, double z)
 
 // ---------------------------------------------------------------------------
 // Momenta and Energies in the Center of Momentum Frame
-double amplitude::com_E2(double s)
+complex<double> amplitude::com_E2(double s)
 {
-  return sqrt(s) / 2.;
+  return sqrt(s * xr) / 2.;
 };
 
-double amplitude::com_E3(double s)
+complex<double> amplitude::com_E3(double s)
 {
-  return (mDec*mDec - mPi*mPi - s) / (2.*sqrt(s));
+  return (mDec*mDec - mPi*mPi - s * xr) / (2.*sqrt(s * xr));
 };
 
-double amplitude::com_P2(double s)
+complex<double> amplitude::com_P2(double s)
 {
-  double temp = com_E2(s)*com_E2(s) - mPi*mPi;
-  if (temp < 0.)
-  {
-    cout << "Outside of Dalitz region: com_P2 (sqrt(" << temp << ")) is imaginary. Quitting... \n";
-    exit(1);
-  }
+  complex<double> temp = com_E2(s)*com_E2(s) - mPi*mPi;
   return sqrt(temp);
 };
 
-double amplitude::com_P3(double s)
+complex<double> amplitude::com_P3(double s)
 {
-  double temp = com_E3(s)*com_E3(s) - mPi*mPi;
-  if (temp < 0.)
-  {
-    cout << "Outside of Dalitz region: com_P3 (sqrt(" << temp << ")) is imaginary. Quitting... \n";
-    exit(1);
-  }
+  complex<double> temp = com_E3(s)*com_E3(s) - mPi*mPi;
   return sqrt(temp);
 };
 
 double amplitude::tmin(double s)
 {
-  return pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) + com_P3(s), 2.);
+  return real(pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) + com_P3(s), 2.));
 };
 
 double amplitude::tmax(double s)
 {
-  return pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) - com_P3(s), 2.);
+  return real(pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) - com_P3(s), 2.));
 };
 // ---------------------------------------------------------------------------
 // Lorentz Invariant dimensionless parameters in terms of Mandelstam variables

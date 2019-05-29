@@ -55,6 +55,7 @@ protected:
   double s_res(){ return res_mass * res_mass;};
 // ---------------------------------------------------------------------------
 public:
+  breit_wigner(){};
   breit_wigner(double mass, double width, const char * n = "")
     : res_mass(mass), res_width(width)
   {

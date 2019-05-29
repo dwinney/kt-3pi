@@ -66,6 +66,7 @@ void set_decayParticle(const char * n)
   decay_particle = n;
 };
 
+void set_params(int n, const double *par);
 //-----------------------------------------------------------------------------
 // get functions to access protected data outside of the initial construction
 double get_decayMass()

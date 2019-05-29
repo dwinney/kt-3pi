@@ -32,7 +32,7 @@ public:
           : Norm(norm), alpha(alp), beta(bet), gamma(gam), delta(del) {};
 
   // Evaluate amplitude squared
-  double operator ()(double s, double t);
+  complex<double> operator ()(double s, double t);
 
   // Set and Print
   void set_params(int n, const double *par);

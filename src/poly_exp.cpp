@@ -9,22 +9,22 @@
 
 #include "poly_exp.hpp"
 
-double poly_exp::operator ()(double s, double t)
+complex<double> poly_exp::operator ()(double s, double t)
   {
     double zs = z(s,t);
     double thetas = theta(s,t);
 
-    double temp = 1.
+    complex<double> temp = 1.
                 + 2. * alpha * zs * scale
                 + 2. * beta * scale * std::pow(zs, 1.5) * std::sin(3. * thetas)
                 + 2. * gamma * scale *  zs*zs
                 + 2. * delta * scale * std::pow(zs, 2.5) * std::sin(3.*thetas);
-    return Norm * temp;
+    return Norm * sqrt(temp);
   };
 
 void poly_exp::set_params(int n, const double *par)
 {
-  switch (n)
+  switch (n - 1)
    {
     case 4: delta = par[4];
     case 3: gamma = par[3];

@@ -14,13 +14,13 @@ make && ./omega_BW
 ```
 
 Additionally you can make your own amplitude and use the `param_fit` and `dalitz` objects to extract parameters. Any object can be used so long as it inherits publicly from the `amplitude` class and is callable with the right signature (```double ()(double, double)```
-or 
+or
 ```std::complex<double> ()(double, double)```)
-to evaluate the user-defined amplitude at some values of Mandelstam s and t. Then plot parameters can be extracted with:
+to evaluate the user-defined amplitude at some values of Mandelstam s and t. Then an 'output_amp' object with 'num_param' free fitting parameters is output with:
 
 ```
 my_amp example(my_inputs);
-param_fit<my_amp> fit(example);
+param_fit<my_amp, output_amp> fit(example);
 
-fit.extract_params(1);
+output_amp = fit.extract_params(num_params);
 ```

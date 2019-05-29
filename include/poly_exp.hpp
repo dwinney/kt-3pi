@@ -31,6 +31,11 @@ public:
   poly_exp(double norm, double alp, double bet, double gam, double del)
           : Norm(norm), alpha(alp), beta(bet), gamma(gam), delta(del) {};
 
+  // Constructor with number of params and an array
+  poly_exp(int n, const double * par)
+  {
+    set_params(n, par);
+  }
   // Evaluate amplitude squared
   complex<double> operator ()(double s, double t);
 

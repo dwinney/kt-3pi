@@ -25,7 +25,7 @@ complex<double> breit_wigner::operator ()(double s, double t)
 complex<double> breit_wigner::F(double s)
 {
   complex<double> denom = xr * (s - s_res()) + xi * sqrt(xr * s) * width(s);
-  return - s_res() / denom;
+  return s_res() / denom;
 };
 
 // Width with corrections from [https://doi.org/10.1103/PhysRevLett.21.244]
@@ -33,7 +33,7 @@ complex<double> breit_wigner::width(double s)
 {
   complex<double> temp1, temp2;
   temp1 = mom_pi(s) / mom_pi(s_res());
-  temp2 =  res_width * pow(temp1, 3.) * (s_res() / s);
+  temp2 =   res_width * pow(temp1, 3.) * (s_res() / s);
   return temp2;
 };
 
@@ -48,7 +48,7 @@ void breit_wigner::plot()
 {
   std::ofstream output;
 
-  std::string filename = "./BW_KLOE" + amp_name + ".dat";
+  std::string filename = "./BW_" + amp_name + ".dat";
   output.open(filename.c_str());
 
   double s[100], re[100], im[100];
@@ -65,6 +65,30 @@ void breit_wigner::plot()
     setw(15) << abs(amp * amp) << endl;
   }
 output.close();
+};
+
+void breit_wigner::set_params(int n, const double * par)
+{
+  if (n > 2 || n < 0)
+  {
+    cout << "breit_wigner: Invalid number of free parameeters. Quitting... \n";
+    exit(1);
+  }
+  switch(n)
+  {
+  case 2: {res_width = par[1];}
+  case 1: {res_mass = par[0]; break;}
+  }
+};
+
+void breit_wigner::print_params()
+{
+  cout << "Printing Breit-Wigner parameters... \n";
+  cout << "---------------------------------------- \n";
+  cout << std::left <<  setw(20) << "Mass:" << setw(20) << res_mass << "\n";
+  cout << std::left <<  setw(20) << "Width:" << setw(20) << res_width << "\n";
+  cout << "---------------------------------------- \n";
+  cout << "\n";
 };
 
 // ---------------------------------------------------------------------------

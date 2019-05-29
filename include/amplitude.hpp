@@ -47,13 +47,13 @@ void set_decayHelicity(int lambda)
 void set_decayMass(double m)
 {
         mDec = m;
-
-        if (amp_name != "")
-        {
-          cout << amp_name + ": ";
-        }
-        cout << "Decay Mass set to: " << mDec << "\n";
-        cout << endl;
+        // 
+        // if (amp_name != "")
+        // {
+        //   cout << amp_name + ": ";
+        // }
+        // cout << "Decay Mass set to: " << mDec << "\n";
+        // cout << endl;
 };
 
 void set_ampName(const char * n)

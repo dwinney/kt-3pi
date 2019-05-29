@@ -53,6 +53,10 @@ class breit_wigner: public amplitude
 protected:
   double res_mass, res_width;
   double s_res(){ return res_mass * res_mass;};
+
+  complex<double> F(double x);
+  complex<double> width(double s);
+  complex<double> mom_pi(double s);
 // ---------------------------------------------------------------------------
 public:
   breit_wigner(){};
@@ -69,10 +73,9 @@ public:
   };
 
   complex<double> operator ()(double s, double t);
-  complex<double> F(double x);
-  complex<double> width(double s);
-  complex<double> mom_pi(double s);
 
+  void set_params(int n, const double * par);
+  void print_params();
   void plot();
 // ---------------------------------------------------------------------------
 };

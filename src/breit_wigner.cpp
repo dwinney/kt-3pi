@@ -83,6 +83,10 @@ void breit_wigner::set_params(int n, const double * par)
 
 void breit_wigner::print_params()
 {
+  if (amp_name != "")
+  {
+    cout << amp_name + ":";
+  }
   cout << "Printing Breit-Wigner parameters... \n";
   cout << "---------------------------------------- \n";
   cout << std::left <<  setw(20) << "Mass:" << setw(20) << res_mass << "\n";

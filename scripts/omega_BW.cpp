@@ -29,7 +29,9 @@ int main()
   poly_exp fit2 = fitter.extract_params(3); // Both alpha and beta
   fit2.print_params();
 
-  cout << "--------------------------------------------------------------------- \n";
+  cout << "-------------------------------------------------------------------- \n";
+  cout << endl;
+
   // Additionally we can start with the best fit BESIII values and calculate
   // the mass and width of and effective (rescattered) rho BW amplitude.
   double BES_params[3] = {4.78, 120.2, 29.5};
@@ -41,7 +43,8 @@ int main()
   rho_eff.print_params();
   rho_eff.plot();
 
-    cout << "--------------------------------------------------------------------- \n";
+  cout << "-------------------------------------------------------------------- \n";
+  cout << endl;
   //----------------------------------------------------------------------------
   // We can do this with an arbitrary input function.
   // Here we compare with the pure Omnes function, extracting Dalitz plot parameters.

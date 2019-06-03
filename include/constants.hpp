@@ -15,6 +15,7 @@
 
 //-----------------------------------------------------------------------------
 const double conv = (M_PI / 180.);
+const double elastic_cutoff = 0.95;
 
 //Masses
 const double mPi = 0.1396;

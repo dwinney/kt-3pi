@@ -2,7 +2,7 @@
 //
 // Dependencies: amp.hpp
 //
-// Author:       Daniel Winney (2018)
+// Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
@@ -18,21 +18,19 @@ using std::vector;
 using std::complex;
 using std::cout;
 
-
+// The kt class combines isobars together.
 //-----------------------------------------------------------------------------
-
-template <class T>
-class kt_amplitude
+class kt : public isobar
 //-----------------------------------------------------------------------------
 {
 protected:
-T ini_lineshape;
+vector<isobar> partial_waves;
 
 //-----------------------------------------------------------------------------
 public:
-  kt_amplitude(T& my_lineshape) : ini_lineshape(my_lineshape){};
+kt_amplitude() : ini_lineshape(my_lineshape){};
 
-  
+
 //-----------------------------------------------------------------------------
 };
 #endif

@@ -52,4 +52,43 @@ void gauleg(double x1, double x2, double x[], double w[], int n)
                 w[i]=2.0*xl/((1.0-z*z)*pp*pp); /* Compute the weight             */
                 w[n+1-i]=w[i]; /* and its symmetric counterpart. */
         }
-}
+};
+
+// Utility functions that take in a vector of complex<doubles> and return vector<double>s of the same size
+// containing only the real or imaginary parts.
+//-----------------------------------------------------------------------------
+std::vector<double> vec_real(std::vector<std::complex<double>> fx)
+{
+  std::vector<double> result;
+  for (int i = 0; i < fx.size(); i++)
+  {
+    result.push_back(real(fx[i]));
+  }
+
+  // Quick Error check
+  if (result.size() != fx.size())
+  {
+    std::cout << "vec_real: ERROR Output and Input vector sizes dont match. Quitting... \n";
+    std::exit(1);
+  }
+
+  return result;
+};
+
+std::vector<double> vec_imag(std::vector<std::complex<double>> fx)
+{
+  std::vector<double> result;
+  for (int i = 0; i < fx.size(); i++)
+  {
+    result.push_back(imag(fx[i]));
+  }
+
+  // Quick Error check
+  if (result.size() != fx.size())
+  {
+    std::cout << "vec_imag: ERROR Output and Input vector sizes dont match. Quitting... \n";
+    std::exit(1);
+  }
+
+  return result;
+};

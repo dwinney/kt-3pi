@@ -17,7 +17,7 @@ std::complex<double> omnes::operator ()(double s, double t)
 //-----------------------------------------------------------------------------
 // Set the i epsilon persription for the integration kernal in Omnes function
 // Default is + 1e-9
-void omnes::set_eps(int sig, double e)
+void omnes::set_ieps(int sig)
 {
         sign = sig;
         if (sig != 1 && sig !=-1 && sig != 0)
@@ -26,7 +26,6 @@ void omnes::set_eps(int sig, double e)
                           << "\n";
                 exit(1);
         }
-        eps = e;
 };
 //-----------------------------------------------------------------------------
 // Set number of Gaussian Quandrature points in evaluating Omnes function

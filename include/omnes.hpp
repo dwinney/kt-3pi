@@ -54,7 +54,7 @@ omnes(int i, int j, const char * n = "") : pipi(i), wave(j)
 
 std::complex<double> operator ()(double s, double t);
 
-void set_eps(int sig, double eps);
+void set_ieps(int sig);
 void set_N_omnes(int i);
 
 double extrap_phase(double s);

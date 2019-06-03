@@ -13,12 +13,10 @@
 
 #include "constants.hpp"
 #include "aux_math.hpp"
-#include <cmath>
+
 #include <vector>
-#include <complex>
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <iomanip>
 
 #include "TGraph2D.h"
@@ -26,7 +24,6 @@
 #include "TStyle.h"
 #include "TError.h"
 
-using std::complex;
 using std::vector;
 using std::setw;
 using std::cout;

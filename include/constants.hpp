@@ -13,6 +13,8 @@
 #include <cmath>
 #include <complex>
 
+using std::complex;
+
 //-----------------------------------------------------------------------------
 const double conv = (M_PI / 180.);
 const double elastic_cutoff = 0.95;
@@ -31,7 +33,7 @@ const double sthK = 4.*mK*mK;
 const double sthEta = 4.*mEta*mEta;
 
 //Unit imaginary and real
-const std::complex<double> xr(1., 0.);
-const std::complex<double> xi(0., 1.);
+const complex<double> xr(1., 0.);
+const complex<double> xi(0., 1.);
 
 #endif

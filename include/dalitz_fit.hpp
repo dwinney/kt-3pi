@@ -14,20 +14,17 @@
 #include "poly_exp.hpp"
 #include "breit_wigner.hpp"
 
-#include <iomanip>
-
 #include "Math/Minimizer.h"
 #include "Math/Factory.h"
 #include "Math/Functor.h"
 
-using std::vector;
-using std::setw;
+
 
 // ---------------------------------------------------------------------------
 // The dalitz_fit class allows two amplitudes to be fit to each other by minimizing a chi_squared type integral
 // over the entire allowed decay region.
 //
-// a dalitz_fit object can be from a amplitude::my_amp and a amplitude::fitting_amp by 
+// a dalitz_fit object can be from a amplitude::my_amp and a amplitude::fitting_amp by
 //
 // my_amp data_amp(my_inputs);
 // dalitz_fit<my_amp, fitting_amp> fit(data_amp);

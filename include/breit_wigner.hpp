@@ -12,15 +12,11 @@
 
 #include "amplitude.hpp"
 
-#include <complex>
 #include <cmath>
-#include <iostream>
 #include <fstream>
-#include <string>
 #include <iomanip>
 
 using std::setw;
-using std::string;
 
 // ---------------------------------------------------------------------------
 // Relativisitic Breit-Wigner with a constant imaginary part.

@@ -16,7 +16,6 @@
 #include <complex>
 #include <string>
 
-using std::complex;
 using std::cout;
 using std::endl;
 using std::string;
@@ -47,7 +46,7 @@ void set_decayHelicity(int lambda)
 void set_decayMass(double m)
 {
         mDec = m;
-        // 
+        //
         // if (amp_name != "")
         // {
         //   cout << amp_name + ": ";

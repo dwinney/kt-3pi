@@ -54,7 +54,6 @@ protected:
   double res_mass, res_width;
   double s_res(){ return res_mass * res_mass;};
 
-  complex<double> F(double x);
   complex<double> width(double s);
   complex<double> mom_pi(double s);
 // ---------------------------------------------------------------------------
@@ -72,6 +71,7 @@ public:
     cout << "Breit-Wigner with M = " << mass << " and Gamma_0 = " << width << " created. \n";
   };
 
+  complex<double> F(double x);
   complex<double> operator ()(double s, double t);
 
   void set_params(int n, const double * par);

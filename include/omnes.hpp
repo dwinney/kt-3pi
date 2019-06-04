@@ -44,13 +44,21 @@ std::vector<double> wgt, abs;
 
 //-----------------------------------------------------------------------------
 public:
+// Default constructor
 omnes() : pipi()
 {
 };
+
+// Parameterized constructor with quantum numbers
 omnes(int i, int j, const char * n = "") : pipi(i), wave(j)
 {
   set_ampName(n);
 };
+
+// Copy constructor
+omnes(const omnes &previous):
+  pipi(previous.pipi::pipi_qn_I), wave(previous.wave)
+{};
 
 std::complex<double> operator ()(double s, double t);
 

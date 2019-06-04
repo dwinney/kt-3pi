@@ -38,6 +38,8 @@ src/breit_wigner.cpp
 src/dalitz.cpp
 src/dalitz_fit.cpp
 src/poly_exp.cpp
-src/kt_isobar.cpp
+src/isobar.cpp
+src/kt_iteration.cpp
+src/kt.cpp
 )
 target_link_libraries( omega_KT ${ROOT_LIBRARIES})

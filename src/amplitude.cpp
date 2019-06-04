@@ -13,8 +13,7 @@
 double amplitude::u_man(double s, double t)
 {
  return 3.*mPi*mPi + mDec*mDec - s - t;
-}
-
+};
 // Lorentz Covariant Kibble function
 complex<double> amplitude::Kibble(double s, double t)
 {

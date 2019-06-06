@@ -1,13 +1,13 @@
-# kt-3pi
-Formalism to study J^PC -> 3 pi decays of mesons and rescattering effects.
+# kt_3pi
+Codebase with tools to study J^PC -> 3 pi decays of mesons and rescattering effects with Khuri-Treiman formalism.
 
 Requires ROOT (tested with version 6.17) with the ROOT::Minuit2 and MathMore libraries installed.
 MathMore additionally requires a distribution of GSL (version >= 1.8) linked with ROOT.
 
-## Omega -> 3pi
-The `param_fit` object allows an arbitrary amplitude to be fit to the a polynomial expansion around the center of the Dalitz plot. __scripts/omega_BW.cpp__ has an example with a Breit-Wigner amplitude used to extract plot parameters.   
+## Dalitz Plot Parameter Extraction
+The `param_fit` object allows an arbitrary amplitude to be fit to the a polynomial expansion around the center of the Dalitz plot. __scripts/omega_BW.cpp__ has an example with a Breit-Wigner amplitude used to extract plot parameters for the omega meson decaying to three pions.   
 
-Its the only script currently so to run simply do:
+To build in command-line use:
 ```
 mkdir build && cd build
 cmake ..
@@ -25,3 +25,14 @@ dalitz_fit<my_amp, output_amp> fit(example);
 
 output_amp = fit.extract_params(num_params);
 ```
+
+## Khuri-Treiman Equations
+__UNDER CONSTRUCTION__
+
+The ```kt_amplitude``` class will allow to create dispersive isobar amplitudes within the KT formalism for the three pion final state.
+The class structure will be laid out as:
+
+Mass and quantum numbers of decaying particle which define the amplitude ( ``` kt_amplitude``` )
+ -> Number of partial waves to consider (each with a spin and isospin projection to be summed over) ( ``` isobar``` )
+ -> Number of subtrations and iterations of the rescattering ladder ( ```iteration``` )
+ -> Method of evaluating the KT-equations ( currently only ```conformal_int``` which uses the method in [[Dan14a]](https://arxiv.org/abs/1409.7708) but a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can easily be implemented).

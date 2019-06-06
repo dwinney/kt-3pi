@@ -92,3 +92,10 @@ std::vector<double> vec_imag(std::vector<std::complex<double>> fx)
 
   return result;
 };
+
+// Evaluate the interpolation
+complex<double> interpolation::operator ()(double s)
+{
+  complex<double> result(r_inter.Eval(s), i_inter.Eval(s));
+  return result;
+};

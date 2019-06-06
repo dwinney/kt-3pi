@@ -33,6 +33,9 @@ The ```kt_amplitude``` class will allow to create dispersive isobar amplitudes w
 The class structure will be laid out as:
 
 Mass and quantum numbers of decaying particle which define the amplitude ( ``` kt_amplitude``` )
+
  -> Number of partial waves to consider (each with a spin and isospin projection to be summed over) ( ``` isobar``` )
+
  -> Number of subtrations and iterations of the rescattering ladder ( ```iteration``` )
+ 
  -> Method of evaluating the KT-equations ( currently only ```conformal_int``` which uses the method in [[Dan14a]](https://arxiv.org/abs/1409.7708) but a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can easily be implemented).

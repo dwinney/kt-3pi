@@ -14,21 +14,21 @@
 #include <complex>
 #include <vector>
 
-using std::vector;
-using std::complex;
-using std::cout;
+#include "kt_isobar.hpp"
 
 // The kt class combines isobars together.
 //-----------------------------------------------------------------------------
-class kt : public isobar
+class kt_amplitude
 //-----------------------------------------------------------------------------
 {
 protected:
-vector<isobar> partial_waves;
+int max_iter;
+
+vector<isobar> isobars;
 
 //-----------------------------------------------------------------------------
 public:
-kt_amplitude() : ini_lineshape(my_lineshape){};
+kt_amplitude(){};
 
 
 //-----------------------------------------------------------------------------

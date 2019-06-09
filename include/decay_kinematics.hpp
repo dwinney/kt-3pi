@@ -1,5 +1,6 @@
-// Generic amplitude class for the reaction of J^PC -> 3 pi.
+// Generic kinematics class for the reaction of J^PC -> 3 pi.
 // The reaction is defined by the mass and the quantum numbers of the decaying particle.
+// This allows passing all relevant kinematic quantities easily into other classes.
 //
 // Dependencies: constants.hpp
 //
@@ -8,8 +9,8 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#ifndef _AMP_
-#define _AMP_
+#ifndef _DECAY_
+#define _DECAY_
 
 #include "constants.hpp"
 #include <iostream>
@@ -27,10 +28,26 @@ class decay_kinematics
 protected:
   int qn_J, qn_C, qn_P, qn_I, qn_H;
   double mDec;
+
+  // Char string names of the decay particle (e.g. "omega") and
+  // for the user-defined amplitude (e.g. "eff_breit_wigner")
   string decay_particle, amp_name;
 
 public:
 //-----------------------------------------------------------------------------
+// Default Constructor
+// For clarity and keeping track of which numbers go where in a script
+// instead of having a parameterized constructor,
+// I prefer the data members be set with the set functions
+decay_kinematics()
+{};
+
+// Copy Constructor
+decay_kinematics(const decay_kinematics & old) :
+qn_J(old.qn_J), qn_C(old.qn_C), qn_P(old.qn_P), qn_H(old.qn_H), qn_I(old.qn_I),
+mDec(old.mDec), decay_particle(old.decay_particle), amp_name(old.amp_name)
+{};
+
 void set_decayJPC(int j, int p, int c)
 {
         qn_J = j; qn_P = p; qn_C = c;
@@ -65,7 +82,9 @@ void set_decayParticle(const char * n)
   decay_particle = n;
 };
 
+// Generic implementation-dependent function to set n free parameters
 void set_params(int n, const double *par);
+
 //-----------------------------------------------------------------------------
 // get functions to access protected data outside of the initial construction
 double get_decayMass()
@@ -80,8 +99,6 @@ string get_ampName()
 
 //-----------------------------------------------------------------------------
 // Kinematic Functions
-//-----------------------------------------------------------------------------
-
 double u_man(double s, double t); // Mandelstam u
 double Kallen(double x, double y, double z); // Kallen triangle function
 

@@ -10,7 +10,7 @@
 #ifndef _BW_
 #define _BW_
 
-#include "amplitude.hpp"
+#include "decay_kinematics.hpp"
 
 #include <cmath>
 #include <fstream>
@@ -21,7 +21,7 @@ using std::setw;
 // ---------------------------------------------------------------------------
 // Relativisitic Breit-Wigner with a constant imaginary part.
 // ---------------------------------------------------------------------------
-class breit_wigner_simple : public amplitude
+class breit_wigner_simple : public decay_kinematics
 {
 protected:
   double res_mass, res_width;
@@ -44,7 +44,7 @@ public:
 // Reltivistic Breit-Wigner from the KLOE analysis [hep-ex/0204013]
 // with finite-width corrections to VMD model of Rho decay
 // ---------------------------------------------------------------------------
-class breit_wigner: public amplitude
+class breit_wigner: public decay_kinematics
 {
 protected:
   double res_mass, res_width;

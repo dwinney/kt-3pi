@@ -10,14 +10,13 @@
 #ifndef _POLY_
 #define _POLY_
 
-#include "amplitude.hpp"
+#include "decay_kinematics.hpp"
 #include <iomanip>
 
 using std::setw;
 
-class poly_exp : public amplitude
+class poly_exp : public decay_kinematics
 {
-
 protected:
   double alpha = 0., beta = 0., gamma = 0., delta = 0.;
   double Norm = 1.;

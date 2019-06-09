@@ -13,27 +13,25 @@
 #include <complex>
 #include <vector>
 #include <iterator>
-#include <cmath>    // complex pow
+#include <cmath> 
 #include <iostream>
+
+#include "Math/Interpolator.h"
 
 using std::vector;
 using std::complex;
 
 void gauleg(double x1, double x2, double x[], double w[], int n); // Gaussian-Legendre weights
 
+//-----------------------------------------------------------------------------
 // Utility functions that take in a vector of complex<doubles> and return vectors of the same size
 // containing only the real or imaginary parts.
-//-----------------------------------------------------------------------------
 std::vector<double> vec_real( std::vector<std::complex<double>> fx);
 std::vector<double> vec_imag( std::vector<std::complex<double>> fx);
-
-
-#include "Math/Interpolator.h"
 
 //-----------------------------------------------------------------------------
 // Wrapper class to better interface with ROOT's interpolation class
 // for both real and imaginary parts
-//-----------------------------------------------------------------------------
 class interpolation
 {
 protected:

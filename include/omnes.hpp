@@ -19,11 +19,11 @@
 #define _OMNES_
 
 #include "pipi.hpp"
-#include "amplitude.hpp"
+#include "decay_kinematics.hpp"
 #include "aux_math.hpp"
 
 //-----------------------------------------------------------------------------
-class omnes : public pipi, public amplitude
+class omnes : public pipi, public decay_kinematics
 //-----------------------------------------------------------------------------
 {
 protected:

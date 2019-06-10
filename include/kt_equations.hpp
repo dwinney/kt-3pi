@@ -15,30 +15,33 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#ifndef _CONFORMAL_
-#define _CONFORMAL_
+#ifndef _KT_EQ_
+#define _KT_EQ_
 
+#include "kt_iteration.hpp"
 #include "aux_math.hpp"
 #include "omnes.hpp"
 
-class conformal_int
+// TODO: figure out how to only have to generate Gaussian weights once
+
+class kt_equations
 {
+private:
+  decay_kinematics kinematics;
+  double mDec = kinematics.get_decayMass();
+
+  iteration * previous;
+
 protected:
   int N_integ = 60;
   double LamDisp = 1.; // Dispersion cutoff.
-
-  omnes omega;
-  interpolation interp_above, interp_below;
 
   complex<double> k(double s); //Analytically continued k-momentum function
   complex<double> z_s(double s, double t); // Scattering angle in s-channel
   complex<double> kernel(double s, double t);
 
   // the threshold and psuedo_threshold points for the 2 -> 2 scattering process
-  double mDec;
-  double threshold = (mDec + mPi) * (mDec + mPi);
-  double pseudo_thresh = (mDec - mPi) * (mDec - mPi);
-  double a0 = 0.5 *  (mDec * mDec - mPi * mPi);
+  double a0 = 0.5 *  (kinematics.get_decayMass() * kinematics.get_decayMass() - mPi * mPi);
 
   // Bounds of integration
   double t_minus(double s);
@@ -59,10 +62,12 @@ protected:
   complex<double> solution(double s, int ieps);
 
 public:
+  // TODO: KT equations depend on spin projection and helicity in general
   // Pass by reference to not make a copy of the interpolations.
-  conformal_int(double mass, omnes & on, interpolation & above, interpolation & below)
-  : mDec(mass), interp_above(above), interp_below(below), omega(on)
+  kt_equations(decay_kinematics dec)
+  : kinematics(dec)
   {};
+
 };
 
 #endif

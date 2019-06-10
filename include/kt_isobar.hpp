@@ -2,7 +2,7 @@
 // they inherite from the amplitude class because they describe the scattering dynamics
 // of a single spin and isospin-projected subchannel.
 //
-// Dependencies: amp.hpp, omnes.hpp, iteration.hpp
+// Dependencies: decay_kinematics.hpp, omnes.hpp, iteration.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -14,7 +14,9 @@
 
 #include <cmath>
 
+#include "decay_kinematics.hpp"
 #include "kt_iteration.hpp"
+#include "kt_equations.hpp"
 #include "iomanip"
 
 //-----------------------------------------------------------------------------
@@ -26,22 +28,25 @@
 class isobar
 {
 protected:
+  decay_kinematics kinematics;
+
   int spin_proj, iso_proj;
   omnes omega;
 
-  // Members related to iterating over the KT integral
+  // Vector storing each iteration of the KT equation
   vector<iteration> iters;
-  void start(double mass);
-  iteration next(iteration previous);
+
+  // Start() to populate the 0th vector entry with interpolations of the base omnes function
+  void start();
+
+  // TODO: add kt_equations object
 
 //-----------------------------------------------------------------------------
 
 public:
-  isobar(int isospin, int spin, double mass) :
-  spin_proj(spin), iso_proj(isospin), omega(isospin, spin)
-  {
-    start(mass);
-  };
+  isobar(int isospin, int spin, decay_kinematics & dec) :
+  spin_proj(spin), iso_proj(isospin), kinematics(dec), omega(isospin, spin)
+  { };
 
   ~isobar(){};
 

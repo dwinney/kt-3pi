@@ -13,7 +13,7 @@
 #include <complex>
 #include <vector>
 #include <iterator>
-#include <cmath> 
+#include <cmath>
 #include <iostream>
 
 #include "Math/Interpolator.h"
@@ -41,7 +41,8 @@ protected:
 public:
   // The number of interpolation points used  can be changed here
   const static int N_interp = 200;
-
+  interpolation(){};
+  
   interpolation(vector<double> x, vector<complex<double>> fx)
   : s(x), r_fx(vec_real(fx)), i_fx(vec_imag(fx)),
     r_inter(x, vec_real(fx), ROOT::Math::Interpolation::kCSPLINE),

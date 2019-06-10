@@ -11,9 +11,9 @@
 
 #include "kt_isobar.hpp"
 
+// ----------------------------------------------------------------------------
 // Populate the zeroth iteration with values directly from call to Omnes function
-// ---------------------------------------------------------------------------
-void isobar::start(double mass)
+void isobar::start()
 {
   vector<double> s;
 
@@ -44,7 +44,7 @@ void isobar::start(double mass)
     cout << " and I = " << iso_proj << ". \n";
   }
 
-  iteration zeroth(0, mass, omega, s, above_cut, below_cut);
-  iters.push_back(zeroth);
+  // iteration zeroth(0, mass, omega, s, above_cut, below_cut);
+  // iters.push_back(zeroth);
 
 };

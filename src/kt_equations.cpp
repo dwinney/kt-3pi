@@ -15,14 +15,15 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "kt_conformal.hpp"
+#include "kt_equations.hpp"
 
 // Analytically continued momentum k
 // ---------------------------------------------------------------------------
-complex<double> conformal_int::k(double s)
+complex<double> kt_equations::k(double s)
 {
   complex<double> temp1 = sqrt(xr * (s - sthPi) / s);
-  complex<double> temp2 = sqrt(xr * (threshold - s)) * sqrt(xr * (pseudo_thresh - s));
+  complex<double> temp2 = sqrt(xr * (kinematics.threshold() - s)) *
+                          sqrt(xr * (kinematics.pseudo_threshold() - s));
 
   return temp1 * temp2;
 };
@@ -30,7 +31,7 @@ complex<double> conformal_int::k(double s)
 // COM Scattering angle in the s-channel scattering subchannel
 // Complex in general because of the path of integration needed by analytic continuation
 // ---------------------------------------------------------------------------
-complex<double> conformal_int::z_s(double s, double t)
+complex<double> kt_equations::z_s(double s, double t)
 {
   complex<double> k_s = k(s);
   double temp1 = 2. * t + s - mDec * mDec - 3. * mPi * mPi;
@@ -40,7 +41,7 @@ complex<double> conformal_int::z_s(double s, double t)
 
 // Bounds of integration
 // ---------------------------------------------------------------------------
-double conformal_int::t_minus(double s)
+double kt_equations::t_minus(double s)
 {
   if (s < sthPi || s > (mDec + mPi) * (mDec + mPi))
   {
@@ -53,7 +54,7 @@ double conformal_int::t_minus(double s)
   }
 };
 
-double conformal_int::t_plus(double s)
+double kt_equations::t_plus(double s)
 {
   if (s < sthPi || s > (mDec + mPi) * (mDec + mPi))
   {
@@ -71,19 +72,19 @@ double conformal_int::t_plus(double s)
 //
 // Right now it only has the omega case of Lambda = 1, j = 1, I = I
 // ---------------------------------------------------------------------------
-complex<double> conformal_int::kernel(double s, double t)
+complex<double> kt_equations::kernel(double s, double t)
 {
   complex<double> zs, temp1, temp2;
   zs = z_s(s, t);
   temp1 = (xr - zs * zs);
-  temp2 = pow((pseudo_thresh - s), 1.5);
+  temp2 = pow((kinematics.pseudo_threshold() - s), 1.5);
 
   return 3. * temp1 * temp2 / k(s);
 };
 
 // Integration path in the complex plane
 // ---------------------------------------------------------------------------
-complex<double> conformal_int::integ_s0_a0(double s)
+complex<double> kt_equations::integ_s0_a0(double s)
 {
     if (s < sthPi || s > a0)
     {
@@ -97,15 +98,15 @@ complex<double> conformal_int::integ_s0_a0(double s)
     complex<double> sum = 0.;
     for (int i = 1; i < N_integ + 1; i++)
     {
-      complex<double> temp = kernel(s, x[i]) * interp_above(x[i]);
+      complex<double> temp = kernel(s, x[i]) * previous->interp_above(x[i]);
       sum += w[i] * temp;
     }
     return sum;
 };
 
-complex<double> conformal_int::integ_a0_a(double s)
+complex<double> kt_equations::integ_a0_a(double s)
 {
-  if (s < a0|| s > pseudo_thresh)
+  if (s < a0|| s > kinematics.pseudo_threshold())
   {
     cout << "integ_a0_a: Integration out of range! Quitting... \n";
     exit(1);
@@ -120,8 +121,8 @@ complex<double> conformal_int::integ_a0_a(double s)
   complex<double> sumP = 0., sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> tempM = kernel(s, xM[i]) * interp_below(xM[i]);
-    complex<double> tempP = kernel(s, xP[i]) * interp_above(xP[i]);
+    complex<double> tempM = kernel(s, xM[i]) * previous->interp_below(xM[i]);
+    complex<double> tempP = kernel(s, xP[i]) * previous->interp_above(xP[i]);
 
     sumM += wM[i] * tempM;
     sumP += wP[i] * tempP;
@@ -130,26 +131,26 @@ complex<double> conformal_int::integ_a0_a(double s)
   return sumM + sumP;
 };
 
-complex<double> conformal_int::integ_a_b(double s)
+complex<double> kt_equations::integ_a_b(double s)
 {
-  if (s < pseudo_thresh || s > threshold)
+  if (s < kinematics.pseudo_threshold() || s > kinematics.threshold())
   {
     cout << "integ_a_b: Integration out of range! Quitting... \n";
     exit(1);
   }
 
-  omega.set_ieps(0);
+  previous->omega.set_ieps(0);
   double wM[N_integ + 1], xM[N_integ + 1];
-  gauleg(t_minus(s), 2. * t_minus(threshold), wM, xM, N_integ);
+  gauleg(t_minus(s), 2. * t_minus(kinematics.threshold()), wM, xM, N_integ);
 
   double wP[N_integ + 1], xP[N_integ + 1];
-  gauleg(2. * t_plus(threshold), t_plus(s), wP, xP, N_integ);
+  gauleg(2. * t_plus(kinematics.threshold()), t_plus(s), wP, xP, N_integ);
 
   complex<double> sumP = 0., sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> tempM = kernel(s, xM[i]) * omega.eval(xM[i]);
-    complex<double> tempP = kernel(s, xP[i]) * omega.eval(xP[i]);
+    complex<double> tempM = kernel(s, xM[i]) * previous->omega.eval(xM[i]);
+    complex<double> tempP = kernel(s, xP[i]) * previous->omega.eval(xP[i]);
 
     sumM += wM[i] * tempM;
     sumP += wP[i] * tempP;
@@ -158,22 +159,22 @@ complex<double> conformal_int::integ_a_b(double s)
   return sumM + sumP;
 };
 
-complex<double> conformal_int::integ_b(double s)
+complex<double> kt_equations::integ_b(double s)
 {
-  if (s < threshold)
+  if (s < kinematics.threshold())
   {
     cout << "integ_s0_a0: Integration out of range! Quitting... \n";
     exit(1);
   }
 
-  omega.set_ieps(0);
+  previous->omega.set_ieps(0);
   double w[N_integ + 1], x[N_integ + 1];
   gauleg(t_minus(s), t_plus(s), w, x, N_integ);
 
   complex<double> sum = 0.;
   for (int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> temp = kernel(s, x[i]) * omega.eval(x[i]);
+    complex<double> temp = kernel(s, x[i]) * previous->omega.eval(x[i]);
     sum += w[i] * temp;
   }
   return sum;
@@ -181,42 +182,40 @@ complex<double> conformal_int::integ_b(double s)
 
 // Angular integral, F_hat
 // ---------------------------------------------------------------------------
-complex<double> conformal_int::Fhat(double s)
+complex<double> kt_equations::Fhat(double s)
 {
   if (abs(s - sthPi) < 0.0001)
   {
-    return 2. * interp_above(t_minus(sthPi)) * pow((pseudo_thresh - sthPi), 1.5);
+    return 2. * previous->interp_above(t_minus(sthPi)) * pow((kinematics.pseudo_threshold() - sthPi), 1.5);
   }
   else if (s > sthPi && s < a0)
   {
     return integ_s0_a0(s);
   }
-  else if (s >= a0 && s <= pseudo_thresh)
+  else if (s >= a0 && s <= kinematics.pseudo_threshold())
   {
     return integ_a0_a(s);
   }
-  else if (s > pseudo_thresh && s < threshold)
+  else if (s > kinematics.pseudo_threshold() && s < kinematics.threshold())
   {
     return integ_a_b(s);
   }
-  else if (s >= threshold)
+  else if (s >= kinematics.threshold())
   {
     return integ_b(s);
   }
 };
 
-complex<double> conformal_int::Mtilde(double s)
+complex<double> kt_equations::Mtilde(double s)
 {
-  double absOmnes = abs(omega.eval(s));
-  double sinDelta = sin(omega.extrap_phase(s));
+  double absOmnes = abs(previous->omega.eval(s));
+  double sinDelta = sin(previous->omega.extrap_phase(s));
 
   return sinDelta * Fhat(s) / absOmnes;
 };
 
-complex<double> conformal_int::solution(double s, int ieps = +1)
+complex<double> kt_equations::solution(double s, int ieps = +1)
 {
-  omega.set_ieps(ieps);
-  complex<double> Omnes = omega.eval(s);
-
-  complex<double> s_integral = 
+  previous->omega.set_ieps(ieps);
+  complex<double> Omnes = previous->omega.eval(s);
 };

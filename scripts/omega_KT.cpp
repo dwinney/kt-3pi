@@ -1,9 +1,4 @@
-#include "dalitz_fit.cpp"
-#include "dalitz.cpp"
-#include "breit_wigner.hpp"
-#include "omnes.hpp"
-#include "kt_isobar.hpp"
-#include "kt_conformal.hpp"
+#include "kt_amplitude.hpp"
 
 #include <iostream>
 #include <complex>
@@ -17,7 +12,11 @@ using std::endl;
 int main()
 {
 
-// isobar test(1 ,1, .78);
-
- return 1.;
+decay_kinematics omega;
+  omega.set_decayJPC(1, 1, 1);
+  omega.set_decayMass(1.1);
+  omega.set_decayIsospin(0);
+  omega.set_decayParticle("Omega");
+  
+return 1.;
 };

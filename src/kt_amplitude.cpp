@@ -5,13 +5,6 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "kt.hpp"
+#include "kt_amplitude.hpp"
 
-// void kt_amplitude::start()
-// {
-//   complex<double> f0[N_points];
-//   for (int i = 0; i < N_points; i++){
-//     f0[i] = ini_lineshape(i, 1);
-//   }
-//   interp_val.push_back(f0);
-// }
+// complex<double> operator ()(double s, double t);

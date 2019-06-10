@@ -17,7 +17,7 @@ endif()
 
 add_executable( omega_BW
 scripts/omega_BW.cpp
-src/amplitude.cpp
+src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
 src/aux_math.cpp
@@ -30,7 +30,7 @@ target_link_libraries( omega_BW ${ROOT_LIBRARIES})
 
 add_executable( omega_KT
 scripts/omega_KT.cpp
-src/amplitude.cpp
+src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
 src/aux_math.cpp
@@ -39,7 +39,7 @@ src/dalitz.cpp
 src/dalitz_fit.cpp
 src/poly_exp.cpp
 src/kt_isobar.cpp
-src/kt_iteration.cpp
-src/kt.cpp
+src/kt_equations.cpp
+src/kt_amplitude.cpp
 )
 target_link_libraries( omega_KT ${ROOT_LIBRARIES})

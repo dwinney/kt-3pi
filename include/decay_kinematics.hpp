@@ -13,6 +13,7 @@
 #define _DECAY_
 
 #include "constants.hpp"
+
 #include <iostream>
 #include <complex>
 #include <string>
@@ -26,6 +27,7 @@ class decay_kinematics
 //-----------------------------------------------------------------------------
 {
 protected:
+  // Quantum Numbers
   int qn_J, qn_C, qn_P, qn_I, qn_H;
   double mDec;
 
@@ -38,14 +40,16 @@ public:
 // Default Constructor
 // For clarity and keeping track of which numbers go where in a script
 // instead of having a parameterized constructor,
-// I prefer the data members be set with the set functions
+// I prefer the data members be set with the set and get functions.
 decay_kinematics()
 {};
 
 // Copy Constructor
 decay_kinematics(const decay_kinematics & old) :
-qn_J(old.qn_J), qn_C(old.qn_C), qn_P(old.qn_P), qn_H(old.qn_H), qn_I(old.qn_I),
-mDec(old.mDec), decay_particle(old.decay_particle), amp_name(old.amp_name)
+qn_J(old.qn_J), qn_C(old.qn_C), qn_P(old.qn_P),
+qn_H(old.qn_H), qn_I(old.qn_I),
+mDec(old.mDec),
+ decay_particle(old.decay_particle), amp_name(old.amp_name)
 {};
 
 void set_decayJPC(int j, int p, int c)
@@ -63,13 +67,6 @@ void set_decayHelicity(int lambda)
 void set_decayMass(double m)
 {
         mDec = m;
-        //
-        // if (amp_name != "")
-        // {
-        //   cout << amp_name + ": ";
-        // }
-        // cout << "Decay Mass set to: " << mDec << "\n";
-        // cout << endl;
 };
 
 void set_ampName(const char * n)
@@ -110,6 +107,16 @@ complex<double> com_E3(double s);
 complex<double> com_P2(double s);
 complex<double> com_P3(double s);
 
+// Threshold
+double threshold(){
+  return (mDec + mPi) * (mDec + mPi);
+};
+
+double pseudo_threshold()
+{
+  return  (mDec - mPi) * (mDec - mPi);
+};
+
 //-----------------------------------------------------------------------------
 // Dalitz region limits
 double smin()
@@ -134,7 +141,7 @@ double t_c()
 };
 
 //-----------------------------------------------------------------------------
-// Lorentz Invariant dimensionless parameters X and Y
+// Lorentz Invariant dimensionless variables X and Y
 double d_norm(){
   return 1. / (2. * mDec * (mDec - 3. * mPi));
 }

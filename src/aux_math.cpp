@@ -14,7 +14,7 @@
    (Cambridge Univ. Press) by W.H. Press, S.A. Teukolsky, W.T. Vetterling, and
    B.P. Flannery
 *******************************************************************************/
-#define EPS 3.0e-11 /* EPS is the relative precision. */
+#define EPSS 3.0e-11 /* EPSS is the relative precision. */
 /******************************************************************************/
 void gauleg(double x1, double x2, double x[], double w[], int n)
 /*******************************************************************************
@@ -46,7 +46,7 @@ void gauleg(double x1, double x2, double x[], double w[], int n)
                         pp=n*(z*p1-p2)/(z*z-1.0);
                         z1=z;
                         z=z1-p1/pp; /* Newton's method. */
-                } while (fabs(z-z1) > EPS);
+                } while (fabs(z-z1) > EPSS);
                 x[i]=xm-xl*z; /* Scale the root to the desired interval, */
                 x[n+1-i]=xm+xl*z; /* and put in its symmetric counterpart.   */
                 w[i]=2.0*xl/((1.0-z*z)*pp*pp); /* Compute the weight             */

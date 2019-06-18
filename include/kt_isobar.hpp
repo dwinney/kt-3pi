@@ -13,11 +13,20 @@
 #define _ISOBAR_
 
 #include <cmath>
+#include <fstream>
+
+#include "TCanvas.h"
+#include "TGraph.h"
+#include "TLegend.h"
+#include <TStyle.h>
+#include "TError.h"
 
 #include "decay_kinematics.hpp"
 #include "kt_iteration.hpp"
 #include "kt_equations.hpp"
 #include "iomanip"
+
+using std::setw;
 
 //-----------------------------------------------------------------------------
 // Each isobar should contain the quantum numbers of the whole ampltidue
@@ -38,7 +47,7 @@ protected:
 
   // Start() to populate the 0th vector entry with interpolations of the base omnes function
   void start();
-  
+
   // KT equations object
   kt_equations kt;
 //-----------------------------------------------------------------------------
@@ -52,7 +61,7 @@ public:
 
   void iterate(int n);
 
-  //Print a
+  //Print the nth iteration
   void print(int n);
 };
 //-----------------------------------------------------------------------------

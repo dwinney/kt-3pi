@@ -26,7 +26,7 @@
 class iteration
 {
 protected:
-  int N_iteration;
+
 
 //-----------------------------------------------------------------------------
 public:
@@ -53,6 +53,7 @@ public:
   // Destructor
   ~iteration(){};
 
+  int N_iteration;
   interpolation interp_above, interp_below;
   omnes omega;
 

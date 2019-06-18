@@ -23,16 +23,14 @@
 #include "omnes.hpp"
 
 // TODO: figure out how to only have to generate Gaussian weights once
-
 class kt_equations
 {
 private:
   decay_kinematics kinematics;
   double mDec = kinematics.get_decayMass();
 
-  iteration * previous;
-
 protected:
+  iteration * previous;
   int N_integ = 60;
   double LamDisp = 1.; // Dispersion cutoff.
 
@@ -66,8 +64,17 @@ public:
   // Pass by reference to not make a copy of the interpolations.
   kt_equations(decay_kinematics dec)
   : kinematics(dec)
-  {};
+  {
+    cout << "Using KT equations for ";
+    if (dec.get_decayParticle() != "")
+    {
+      cout << dec.get_decayParticle() << ", ";
+    }
+    cout << "Mass = " << dec.get_decayMass() << " GeV, ";
+    cout << "J^PC = " << dec.get_JPC() << endl;
+   };
 
+  iteration iterate(iteration * prev);
 };
 
 #endif

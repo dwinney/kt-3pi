@@ -15,9 +15,11 @@
 // Populate the zeroth iteration with values directly from call to Omnes function
 void isobar::start()
 {
+  cout << endl;
+  cout << "Storing initial Omnes amplitude... ";
   vector<double> s;
 
-  // Need to store values of the Omens amplitude around the unitarity cut for the
+  // Need to store values of the Omnes amplitude around the unitarity cut for the
   // analytic continuation of the angular integral.
   vector< complex<double> > above_cut, below_cut;
   complex<double> ab, be;
@@ -44,7 +46,23 @@ void isobar::start()
     cout << " and I = " << iso_proj << ". \n";
   }
 
-  // iteration zeroth(0, mass, omega, s, above_cut, below_cut);
-  // iters.push_back(zeroth);
+  iteration zeroth(0, omega, s, above_cut, below_cut);
+  iters.push_back(zeroth);
+  cout << "Done." << endl;
+};
 
+// ----------------------------------------------------------------------------
+// Iterate through the KT equations n times, storing each iteration for comparison
+void isobar::iterate(int n)
+{
+  start();
+
+  for (int i = 1; i < n + 1; i++)
+  {
+  cout << "Calculating iteration (" << i << "/" << n << ")... ";
+  iteration * ptr = &iters[0];
+  iteration first = kt.iterate(ptr);
+  iters.push_back(first);
+  cout << "Done. \n";
+  }
 };

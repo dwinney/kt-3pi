@@ -38,18 +38,22 @@ protected:
 
   // Start() to populate the 0th vector entry with interpolations of the base omnes function
   void start();
-
-  // TODO: add kt_equations object
-
+  
+  // KT equations object
+  kt_equations kt;
 //-----------------------------------------------------------------------------
 
 public:
   isobar(int isospin, int spin, decay_kinematics & dec) :
-  spin_proj(spin), iso_proj(isospin), kinematics(dec), omega(isospin, spin)
+  spin_proj(spin), iso_proj(isospin), kinematics(dec), omega(isospin, spin), kt(dec)
   { };
 
   ~isobar(){};
 
+  void iterate(int n);
+
+  //Print a
+  void print(int n);
 };
 //-----------------------------------------------------------------------------
 

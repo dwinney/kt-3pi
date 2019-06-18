@@ -18,6 +18,7 @@ using std::complex;
 //-----------------------------------------------------------------------------
 const double conv = (M_PI / 180.);
 const double elastic_cutoff = 0.95;
+const double EPS = 1.e-4;
 
 //Masses
 const double mPi = 0.1396;

@@ -57,7 +57,8 @@ omnes(int i, int j, const char * n = "") : pipi(i), wave(j)
 
 // Copy constructor
 omnes(const omnes &previous):
-  pipi(previous.pipi::pipi_qn_I), wave(previous.wave)
+  pipi(previous.pipi::pipi_qn_I), wave(previous.wave),
+  wgt(previous.wgt), abs(previous.abs), WG_GENERATED(previous.WG_GENERATED)
 {};
 
 std::complex<double> operator ()(double s, double t);

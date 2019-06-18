@@ -87,7 +87,7 @@ std::complex<double> omnes::eval(double s)
         {
                 double weights[N_omnes + 1], abscissas[N_omnes + 1];
                 gauleg(s0, LamSq, abscissas, weights, N_omnes + 1);
-                std::cout << "omnes: Generating Gaussian-Legendre Quandrature weights and abscissas... \n";
+                // std::cout << "omnes: Generating Gaussian-Legendre Quandrature weights and abscissas... \n";
 
                 for (int i = 1; i < N_omnes + 1; i++)
                 {

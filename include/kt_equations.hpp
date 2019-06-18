@@ -61,7 +61,6 @@ protected:
 
 public:
   // TODO: KT equations depend on spin projection and helicity in general
-  // Pass by reference to not make a copy of the interpolations.
   kt_equations(decay_kinematics dec)
   : kinematics(dec)
   {

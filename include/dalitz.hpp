@@ -31,8 +31,8 @@ using std::endl;
 
 //-----------------------------------------------------------------------------
 // Define a Dalitz plot object with some other amplitude object containing a model.
-// Object argument must inherit from 'amplitude' class and be callable with the signature:
-// with the signature:
+// Object argument must have a decay_kinematics object named kinematics as a public member or have dalitz as a friend class
+// and be callable with the signature:
 //
 //  complex<double> operator() (double, double)
 //  or
@@ -48,7 +48,7 @@ class dalitz
 {
 protected:
   T amp;
-  double normalization = 32. * pow(2.* M_PI * amp.get_decayMass(), 3.);
+  double normalization = 32. * pow(2.* M_PI * amp.kinematics.get_decayMass(), 3.);
   double offset = 0.00001;
 //-----------------------------------------------------------------------------
 // For integration

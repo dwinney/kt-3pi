@@ -16,7 +16,7 @@
 // (NOTE: does not have the kinematic prefators associated with spin)
 complex<double> breit_wigner::operator ()(double s, double t)
 {
-  double u = u_man(s,t);
+  double u = kinematics.u_man(s,t);
   complex<double> temp = F(s) + F(t) + F(u);
   return temp;
 }
@@ -108,5 +108,5 @@ complex<double> breit_wigner_simple::f(double s)
 
 complex<double> breit_wigner_simple::operator ()(double s, double t)
 {
-  return f(s) + f(t) + f(u_man(s,t));
+  return f(s) + f(t) + f(kinematics.u_man(s,t));
 }

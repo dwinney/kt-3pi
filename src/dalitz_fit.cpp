@@ -16,8 +16,8 @@ template <class T, class F>
 double dalitz_fit<T, F>::kin_kernel(double s, double t)
 {
   complex<double> temp1, temp2;
-  temp1 = dalitz<T>::amp.Kibble(s,t);
-  temp2 = dalitz<T>::amp.Kibble( dalitz<T>::amp.s_c(), dalitz<T>::amp.t_c()); // Normalized to the center of the Dalitz region
+  temp1 = dalitz<T>::amp.kinematics.Kibble(s,t);
+  temp2 = dalitz<T>::amp.kinematics.Kibble( dalitz<T>::amp.kinematics.s_c(), dalitz<T>::amp.kinematics.t_c()); // Normalized to the center of the Dalitz region
   return abs(temp1 / temp2);
 };
 
@@ -88,9 +88,9 @@ F dalitz_fit<T, F>::extract_params(double N)
   minuit->SetFunction(fcn);
   cout << "dalitz_fit: Fitting";
 
-  if (dalitz<T>::amp.get_ampName() != "")
+  if (dalitz<T>::amp.kinematics.get_ampName() != "")
   {
-    cout << " " + dalitz<T>::amp.get_ampName();
+    cout << " " + dalitz<T>::amp.kinematics.get_ampName();
   }
    cout << " with " << N << " free parameters... \n";
 

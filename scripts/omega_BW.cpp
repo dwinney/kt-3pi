@@ -12,10 +12,17 @@ using std::endl;
 
 int main()
 {
+
+  // Set up the decay kinematics for the amplitude
+  decay_kinematics vector;
+    vector.set_decayJPC(1, 1, 1);
+    vector.set_decayMass(.780);
+    vector.set_decayIsospin(0);
+    vector.set_decayParticle("Omega");
+
   //----------------------------------------------------------------------------
   // Theoretical amplitude is a Breit-Wigner for the rho meson
-  breit_wigner rho(.770, .150, "BW_physical_rho");
-  rho.set_decayMass(.780);
+  breit_wigner rho(.770, .150, vector, "BW_physical_rho");
   rho.plot();
 
   dalitz<breit_wigner> plot_bw(rho);
@@ -35,8 +42,7 @@ int main()
   // Additionally we can start with the best fit BESIII values and calculate
   // the mass and width of and effective (rescattered) rho BW amplitude.
   double BES_params[3] = {4.78, 120.2, 29.5};
-  poly_exp BES_fit(3, BES_params);
-  BES_fit.set_decayMass(.780);
+  poly_exp BES_fit(3, BES_params, vector);
 
   dalitz_fit<poly_exp, breit_wigner> fitter2(BES_fit);
   breit_wigner rho_eff = fitter2.extract_params(2);
@@ -45,18 +51,6 @@ int main()
 
   cout << "-------------------------------------------------------------------- \n";
   cout << endl;
-  //----------------------------------------------------------------------------
-  // We can do this with an arbitrary input function.
-  // Here we compare with the pure Omnes function, extracting Dalitz plot parameters.
-  omnes pwave(1., 1., "Omnes_pwave"); // isospin 1, spin 1
-  pwave.set_decayMass(.780);
 
-  dalitz<omnes> plot_omnes(pwave);
-  plot_omnes.plot();
-
-  dalitz_fit<omnes, poly_exp> fitter3(pwave);
-  poly_exp Omnes_fit = fitter3.extract_params(2);
-  Omnes_fit.print_params();
-  //----------------------------------------------------------------------------
   return 0;
 };

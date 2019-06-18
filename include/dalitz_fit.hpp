@@ -50,7 +50,7 @@ protected:
 // ---------------------------------------------------------------------------
 public:
   dalitz_fit(T my_amp) : dalitz<T>(my_amp){
-    fit_amp.set_decayMass(my_amp.get_decayMass());
+    fit_amp.kinematics = my_amp.kinematics;
   };
 
   void print_params(int a = 0);

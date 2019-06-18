@@ -27,7 +27,6 @@ class iteration
 {
 protected:
 
-
 //-----------------------------------------------------------------------------
 public:
   // Default constructor with no parameters passed

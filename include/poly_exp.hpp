@@ -15,7 +15,7 @@
 
 using std::setw;
 
-class poly_exp : public decay_kinematics
+class poly_exp
 {
 protected:
   double alpha = 0., beta = 0., gamma = 0., delta = 0.;
@@ -26,15 +26,15 @@ public:
   // Default constructor
   poly_exp(){};
 
-  // Constructor specifying parameters
-  poly_exp(double norm, double alp, double bet, double gam, double del)
-          : Norm(norm), alpha(alp), beta(bet), gamma(gam), delta(del) {};
-
   // Constructor with number of params and an array
-  poly_exp(int n, const double * par)
+  poly_exp(int n, const double * par, decay_kinematics dec)
+  : kinematics(dec)
   {
     set_params(n, par);
-  }
+  };
+
+  decay_kinematics kinematics;
+
   // Evaluate amplitude squared
   complex<double> operator ()(double s, double t);
 

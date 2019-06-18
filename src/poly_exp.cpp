@@ -11,8 +11,8 @@
 
 complex<double> poly_exp::operator ()(double s, double t)
   {
-    double zs = z(s,t);
-    double thetas = theta(s,t);
+    double zs = kinematics.z(s,t);
+    double thetas =  kinematics.theta(s,t);
 
     complex<double> temp = 1.
                 + 2. * alpha * zs * scale

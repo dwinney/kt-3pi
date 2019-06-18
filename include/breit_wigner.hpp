@@ -21,18 +21,21 @@ using std::setw;
 // ---------------------------------------------------------------------------
 // Relativisitic Breit-Wigner with a constant imaginary part.
 // ---------------------------------------------------------------------------
-class breit_wigner_simple : public decay_kinematics
+class breit_wigner_simple
 {
 protected:
   double res_mass, res_width;
   double s_res(){ return res_mass * res_mass;};
 // ---------------------------------------------------------------------------
 public:
-  breit_wigner_simple(double mass, double width)
+  breit_wigner_simple(double mass, double width, decay_kinematics dec)
+  : kinematics(dec)
   {
   res_mass = mass;
   res_width = width;
   };
+
+  decay_kinematics kinematics;
 
   complex<double> operator ()(double s, double t);
   complex<double> f(double s);
@@ -55,10 +58,10 @@ protected:
 // ---------------------------------------------------------------------------
 public:
   breit_wigner(){};
-  breit_wigner(double mass, double width, const char * n = "")
-    : res_mass(mass), res_width(width)
+  breit_wigner(double mass, double width, decay_kinematics dec, const char * n = "")
+    : res_mass(mass), res_width(width), kinematics(dec)
   {
-    set_ampName(n);
+    kinematics.set_ampName(n);
     cout << endl;
     if (amp_name != "")
         {
@@ -66,6 +69,8 @@ public:
     }
     cout << "Breit-Wigner with M = " << mass << " and Gamma_0 = " << width << " created. \n";
   };
+
+  decay_kinematics kinematics;
 
   complex<double> F(double x);
   complex<double> operator ()(double s, double t);

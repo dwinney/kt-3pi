@@ -113,10 +113,10 @@ complex<double> kt_equations::integ_a0_a(double s)
   }
 
   double wM[N_integ + 1], xM[N_integ + 1];
-  gauleg(t_minus(s), sthPi - 1.e-5, wM, xM, N_integ);
+  gauleg(t_minus(s), sthPi - EPS, wM, xM, N_integ);
 
   double wP[N_integ + 1], xP[N_integ + 1];
-  gauleg(sthPi - 1.e-5, t_plus(s), wP, xP, N_integ);
+  gauleg(sthPi - EPS, t_plus(s), wP, xP, N_integ);
 
   complex<double> sumP = 0., sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
@@ -221,10 +221,10 @@ complex<double> kt_equations::solution(double s, int ieps = +1)
 
   //integrate from thresh to p-thresh
   double w1[N_integ + 1], x1[N_integ / 2 + 1];
-  gauleg(sthPi + 0.001, kinematics.pseudo_threshold() - 0.001, w1, x1, N_integ / 2);
+  gauleg(sthPi + EPS, kinematics.pseudo_threshold() - EPS, w1, x1, N_integ / 2);
   //then from p-thresh to disperive cutoff
   double w2[N_integ/2 + 1], x2[N_integ / 2 + 1];
-  gauleg(kinematics.pseudo_threshold() + 0.001, LamDisp, w2, x2, N_integ / 2);
+  gauleg(kinematics.pseudo_threshold() + EPS, LamDisp, w2, x2, N_integ / 2);
 
   complex<double> sum1, sum2, integral;
   for (int i = 1; i < N_integ / 2 + 1; i++)
@@ -252,7 +252,7 @@ iteration kt_equations::iterate(iteration * prev)
   vector<complex<double>> above, below;
   for (int i = 0; i < interpolation::N_interp; i++)
   {
-    double s_i = sthPi + 0.0001 + double(i) * (elastic_cutoff - sthPi - 0.0001) / double(interpolation::N_interp);
+    double s_i = sthPi + EPS + double(i) * (elastic_cutoff - sthPi - EPS) / double(interpolation::N_interp);
     s.push_back(s_i);
 
     complex<double> ab = solution(s_i, 1);
@@ -263,6 +263,6 @@ iteration kt_equations::iterate(iteration * prev)
   }
 
   iteration next(previous->N_iteration + 1, previous->omega, s, above, below);
-
+  
   return next;
 };

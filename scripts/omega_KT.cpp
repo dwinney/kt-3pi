@@ -23,7 +23,7 @@ isobar pwave(1, 1, vector_meson);
 pwave.iterate(3); // Calculate three iterations of the KT equation
 
 // Print the results
-pwave.print(3);
+pwave.print(1);
 
 
 return 1.;

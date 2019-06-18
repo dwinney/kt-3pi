@@ -52,6 +52,18 @@ mDec(old.mDec),
  decay_particle(old.decay_particle), amp_name(old.amp_name)
 {};
 
+// Equality operator to make copies as well
+void operator = (const decay_kinematics &old)
+{
+  qn_J = old.qn_J;
+  qn_C = old.qn_C;
+  qn_P = old.qn_P;
+  qn_H = old.qn_H;
+  qn_I = old.qn_I;
+  mDec = old.mDec;
+  decay_particle = old.decay_particle;
+  amp_name = old.amp_name;
+}
 void set_decayJPC(int j, int p, int c)
 {
         qn_J = j; qn_P = p; qn_C = c;

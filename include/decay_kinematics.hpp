@@ -94,6 +94,35 @@ string get_ampName()
   return amp_name;
 };
 
+string get_decayParticle()
+{
+  return decay_particle;
+};
+
+string get_JPC()
+{
+  string result = std::to_string(qn_J);
+
+  if (qn_P = 1)
+  {
+    result += "+";
+  }
+  else if (qn_P = -1)
+  {
+    result += "-";
+  }
+
+  if (qn_C = 1)
+  {
+    result += "+";
+  }
+  else if (qn_C = -1)
+  {
+    result += "-";
+  }
+
+  return result;
+};
 //-----------------------------------------------------------------------------
 // Kinematic Functions
 double u_man(double s, double t); // Mandelstam u

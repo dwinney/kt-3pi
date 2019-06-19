@@ -38,7 +38,9 @@ Mass and quantum numbers of decaying particle which define the amplitude ( ``` k
 
  -> Number of subtractions in the dispersion relation and iterations of the rescattering ladder ( ```iteration``` )
 
- -> Method of evaluating the KT-equations ( currently only ```conformal_int``` which uses the method in [[Dan14a]](https://arxiv.org/abs/1409.7708) but a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can easily be implemented).
+ -> Method of evaluating the KT-equations ( ```kt_equations``` )
+
+ [__NOTE__: Currently the only dispersion method is that in [[Dan14a]](https://arxiv.org/abs/1409.7708) but different methods such as a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can easily be implemented with a new namespace].
 
  #### Example
 The __omega_KT.cpp__ script gives an example calculation of the _unsubtracted_ KT equations for the omega meson case for arbitrary iterations of the integral equation. To build use see the example above with __omega_KT__ instead of __omega_BW__.

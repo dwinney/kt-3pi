@@ -41,5 +41,6 @@ src/poly_exp.cpp
 src/kt_isobar.cpp
 src/kt_equations.cpp
 src/kt_amplitude.cpp
+src/kt_ang_integral.cpp
 )
 target_link_libraries( omega_KT ${ROOT_LIBRARIES})

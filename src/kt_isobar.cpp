@@ -73,7 +73,12 @@ void isobar::print(int n)
 {
 
   cout << endl;
-  cout << "Printing the " << std::to_string(n) << "th Iteration..." << endl;
+  cout << "Printing the " << std::to_string(n);
+  if (n == 1) {cout << "st Iteration..." << endl;}
+  else if (n == 2) {cout << "nd Iteration..." << endl;}
+  else if (n == 3) {cout << "rd Iteration..." << endl;}
+  else {cout << "th Iteration..." << endl;}
+
   //Surpress ROOT messages
   gErrorIgnoreLevel = kWarning;
 

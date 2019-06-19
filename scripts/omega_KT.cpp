@@ -22,8 +22,9 @@ decay_kinematics vector_meson;
 isobar pwave(1, 1, vector_meson);
 pwave.iterate(3); // Calculate three iterations of the KT equation
 
-// Print the results
+// Print the results compared to the no-3body-effects case.
 pwave.print(1);
+pwave.print(3);
 
 
 return 1.;

@@ -1,6 +1,6 @@
 // Functions for Omnes function procedures.
 //
-// Dependencies: pipi, aux_math, amp
+// Dependencies: pipi, aux_math
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)

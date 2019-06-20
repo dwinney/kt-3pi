@@ -48,7 +48,7 @@ void breit_wigner::plot()
 {
   std::ofstream output;
 
-  std::string filename = "./BW_" + amp_name + ".dat";
+  std::string filename = "./BW_" + kinematics.get_ampName() + ".dat";
   output.open(filename.c_str());
 
   double s[100], re[100], im[100];
@@ -83,9 +83,9 @@ void breit_wigner::set_params(int n, const double * par)
 
 void breit_wigner::print_params()
 {
-  if (amp_name != "")
+  if (kinematics.get_ampName() != "")
   {
-    cout << amp_name + ":";
+    cout << kinematics.get_ampName() + ":";
   }
   cout << "Printing Breit-Wigner parameters... \n";
   cout << "---------------------------------------- \n";

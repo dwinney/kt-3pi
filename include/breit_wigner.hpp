@@ -1,6 +1,6 @@
 // Class for different Breit-Wigner parameterizations of amplitudes
 //
-// Dependencies: amp.cpp
+// Dependencies: decay_kinematics.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -20,7 +20,6 @@ using std::setw;
 
 // ---------------------------------------------------------------------------
 // Relativisitic Breit-Wigner with a constant imaginary part.
-// ---------------------------------------------------------------------------
 class breit_wigner_simple
 {
 protected:
@@ -47,7 +46,7 @@ public:
 // Reltivistic Breit-Wigner from the KLOE analysis [hep-ex/0204013]
 // with finite-width corrections to VMD model of Rho decay
 // ---------------------------------------------------------------------------
-class breit_wigner: public decay_kinematics
+class breit_wigner
 {
 protected:
   double res_mass, res_width;
@@ -63,9 +62,9 @@ public:
   {
     kinematics.set_ampName(n);
     cout << endl;
-    if (amp_name != "")
+    if (kinematics.get_ampName() != "")
         {
-      cout << amp_name + ": ";
+      cout << kinematics.get_ampName()  + ": ";
     }
     cout << "Breit-Wigner with M = " << mass << " and Gamma_0 = " << width << " created. \n";
   };

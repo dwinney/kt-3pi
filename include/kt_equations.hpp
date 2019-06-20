@@ -8,6 +8,7 @@
 // The angular integral is done by explicitly by analytical continuing the momenta and integrating over
 // the complex plane see "kt_ang_integral.hpp"
 //
+// Dependencies: kt_iteration, kt_ang_integral, aux_math, omnes
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)

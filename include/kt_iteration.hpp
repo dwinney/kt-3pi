@@ -1,5 +1,6 @@
-// Internal classes used by the isobar class to incorporate 3-body effects.
-// The iteration object contains the actual content of the KT equations
+// Container class used by the isobar class to store successive iterations of the kt equations.
+// The iteration object contains interpolations of the amplitude above and below the unitarity cut
+// and a copy of the omnes function for evaluting on the real axis.
 //
 // Dependencies: aux_math.hpp, omnes.hpp, decay_kinematics.hpp
 //
@@ -25,13 +26,13 @@
 //-----------------------------------------------------------------------------
 class iteration
 {
-protected:
-
 //-----------------------------------------------------------------------------
 public:
   // Default constructor with no parameters passed
   // Needed for kt_equations to be defined only by decay_kinematics
-  iteration(){};
+  iteration()
+  : N_iteration(-1)
+  {};
 
   // Constructor for the 0th iteration. Takes values of the bare Omnes function
   iteration(int n, omnes omeg,  vector<double> s,
@@ -52,7 +53,8 @@ public:
   // Destructor
   ~iteration(){};
 
-  int N_iteration;
+  const int N_iteration; // iteration ID
+
   interpolation interp_above, interp_below;
   omnes omega;
 

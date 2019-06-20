@@ -1,4 +1,5 @@
-// Routines to fit a lineshape to a polynomial (z, theta) expansion around center of dalitz plot.
+// Routines to fit a lineshape to another lineshape by minimizing a chi2-type integral over
+// the entire dalitz region
 //
 // Dependencies: dalitz.cpp, poly_exp.hpp
 //
@@ -76,15 +77,15 @@ double dalitz_fit<T, F>::chi_squared(const double *par)
 // ---------------------------------------------------------------------------
 // Minimize the above chi_squared by calling Minuit2 in the ROOT::Math::Minimizer class
 template <class T, class F>
-F dalitz_fit<T, F>::extract_params(double N)
+F dalitz_fit<T, F>::extract_params(double eN)
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
   minuit->SetMaxFunctionCalls(10000000);
   minuit->SetTolerance(0.001);
   minuit->SetPrintLevel(nError);
 
-  n_params = N;
-  ROOT::Math::Functor fcn(this, &dalitz_fit::chi_squared, N);
+  n_params = eN;
+  ROOT::Math::Functor fcn(this, &dalitz_fit::chi_squared, n_params);
   minuit->SetFunction(fcn);
   cout << "dalitz_fit: Fitting";
 
@@ -92,9 +93,9 @@ F dalitz_fit<T, F>::extract_params(double N)
   {
     cout << " " + dalitz<T>::amp.kinematics.get_ampName();
   }
-   cout << " with " << N << " free parameters... \n";
+   cout << " with " << n_params << " free parameters... \n";
 
-  for (int a = 0; a < N ; a++)
+  for (int a = 0; a < n_params ; a++)
   {
     string var_name = "par[" + std::to_string(a) + "]";
     minuit->SetVariable(a, var_name.c_str(), 1., 0.1);

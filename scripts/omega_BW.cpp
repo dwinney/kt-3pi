@@ -1,5 +1,6 @@
 #include "dalitz_fit.cpp"
 #include "dalitz.cpp"
+#include "poly_exp.hpp"
 #include "breit_wigner.hpp"
 #include "omnes.hpp"
 

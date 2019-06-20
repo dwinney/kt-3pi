@@ -1,7 +1,7 @@
 // These are methods for evaluating the KT angular (t) integral (i.e. the angular projection of cross subchannel
 // isobars). This is seperated to allow the possibility of testing different methods of evaluating dispersion (s) integral.
 //
-// Dependencies: omnes.hpp, aux_math.hpp, deay_kinematics.hpp
+// Dependencies: kt_iteration.hpp, decay_kinematics.hpp, aux_math.hpp, omnes.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -12,7 +12,7 @@
 
 // ---------------------------------------------------------------------------
 // Analytically continued momentum k
-complex<double> inhomogeneity::k(double s)
+complex<double> angular_integral::k(double s)
 {
   complex<double> temp1 = sqrt(xr * (s - sthPi) / s);
   complex<double> temp2 = sqrt(xr * (kinematics.threshold() - s)) *
@@ -24,7 +24,7 @@ complex<double> inhomogeneity::k(double s)
 // ---------------------------------------------------------------------------
 // COM Scattering angle in the s-channel scattering subchannel
 // Complex in general because of the path of integration needed by analytic continuation
-complex<double> inhomogeneity::z_s(double s, double t)
+complex<double> angular_integral::z_s(double s, double t)
 {
   complex<double> k_s = k(s);
   double temp1 = 2. * t + s - mDec * mDec - 3. * mPi * mPi;
@@ -34,7 +34,7 @@ complex<double> inhomogeneity::z_s(double s, double t)
 
 // ---------------------------------------------------------------------------
 // Bounds of integration
-double inhomogeneity::t_minus(double s)
+double angular_integral::t_minus(double s)
 {
   if (s < sthPi || s > (mDec + mPi) * (mDec + mPi))
   {
@@ -47,7 +47,7 @@ double inhomogeneity::t_minus(double s)
   }
 };
 
-double inhomogeneity::t_plus(double s)
+double angular_integral::t_plus(double s)
 {
   if (s < sthPi || s > (mDec + mPi) * (mDec + mPi))
   {
@@ -65,7 +65,7 @@ double inhomogeneity::t_plus(double s)
 // on the helicity and spin of the isobar.
 //
 // Right now it only has the omega case of Lambda = 1, j = 1, I = I
-complex<double> inhomogeneity::kernel(double s, double t)
+complex<double> angular_integral::kernel(double s, double t)
 {
   complex<double> zs, temp1, temp2;
   zs = z_s(s, t);
@@ -77,7 +77,7 @@ complex<double> inhomogeneity::kernel(double s, double t)
 
 // ---------------------------------------------------------------------------
 // Integration path in the complex plane
-complex<double> inhomogeneity::integ_s0_a0(double s)
+complex<double> angular_integral::integ_s0_a0(double s)
 {
     if (s < sthPi || s > a0)
     {
@@ -97,7 +97,7 @@ complex<double> inhomogeneity::integ_s0_a0(double s)
     return sum;
 };
 
-complex<double> inhomogeneity::integ_a0_a(double s)
+complex<double> angular_integral::integ_a0_a(double s)
 {
   if (s < a0|| s > kinematics.pseudo_threshold())
   {
@@ -124,7 +124,7 @@ complex<double> inhomogeneity::integ_a0_a(double s)
   return sumM + sumP;
 };
 
-complex<double> inhomogeneity::integ_a_b(double s)
+complex<double> angular_integral::integ_a_b(double s)
 {
   if (s < kinematics.pseudo_threshold() || s > kinematics.threshold())
   {
@@ -152,7 +152,7 @@ complex<double> inhomogeneity::integ_a_b(double s)
   return sumM + sumP;
 };
 
-complex<double> inhomogeneity::integ_b(double s)
+complex<double> angular_integral::integ_b(double s)
 {
   if (s < kinematics.threshold())
   {
@@ -175,7 +175,7 @@ complex<double> inhomogeneity::integ_b(double s)
 
 // ---------------------------------------------------------------------------
 // Angular integral, F_hat
-complex<double> inhomogeneity::operator()(double s)
+complex<double> angular_integral::operator()(double s)
 {
   if (abs(s - sthPi) < EPS)
   {

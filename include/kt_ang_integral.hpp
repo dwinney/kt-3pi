@@ -2,6 +2,7 @@
 // isobars).
 // This is seperated to allow the possibility of testing different methods of evaluating dispersion (s) integral.
 //
+// Dependencies: kt_iteration.hpp, decay_kinematics.hpp, aux_math.hpp, omnes.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -16,7 +17,7 @@
 #include "aux_math.hpp"
 #include "omnes.hpp"
 
-class inhomogeneity
+class angular_integral
 {
 private:
   friend class kt_equations;
@@ -36,7 +37,7 @@ protected:
   complex<double> kernel(double s, double t);
 
   // the threshold and psuedo_threshold points for the 2 -> 2 scattering process
-  double a0 = 0.5 *  (kinematics.get_decayMass() * kinematics.get_decayMass() - mPi * mPi);
+  double a0 = 0.5 *  (mDec * mDec - mPi * mPi);
 
   // Bounds of integration
   double t_minus(double s);
@@ -53,12 +54,11 @@ protected:
 
 public:
   // Default constructor
-  inhomogeneity(decay_kinematics dec)
+   angular_integral(decay_kinematics dec)
   : kinematics(dec) {};
 
   // Evaluate the inhomogenous contribution at a given energy
   complex<double> operator() (double s);
-
 };
 
 #endif

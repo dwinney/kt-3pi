@@ -1,7 +1,7 @@
 // Routines to fit a lineshape to another lineshape by minimizing a chi2-type integral over
 // the entire dalitz region
 //
-// Dependencies: dalitz.cpp, poly_exp.hpp
+// Dependencies: dalitz.cpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)

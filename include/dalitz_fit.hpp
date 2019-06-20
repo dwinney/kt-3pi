@@ -1,7 +1,7 @@
 // Routines to fit a lineshape to another lineshape by minimizing a chi2-type integral over
 // the entire dalitz region
 //
-// Dependencies: dalitz.hpp, poly_exp.hpp, ROOT
+// Dependencies: dalitz.hpp, ROOT
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -12,13 +12,14 @@
 #define _POLY_FIT_
 
 #include "dalitz.hpp"
-#include "poly_exp.hpp"
+
+#include <string>
 
 #include "Math/Minimizer.h"
 #include "Math/Factory.h"
 #include "Math/Functor.h"
 
-
+using std::string;
 
 // ---------------------------------------------------------------------------
 // The dalitz_fit class allows two amplitudes to be fit to each other by minimizing a chi_squared type integral

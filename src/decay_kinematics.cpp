@@ -1,6 +1,8 @@
-// Classes for General Amplitude Stuff including kinematic functions such as momenta.
+// Generic kinematics class for the reaction of J^PC -> 3 pi.
+// The reaction is defined by the mass and the quantum numbers of the decaying particle.
+// This allows passing all relevant kinematic quantities easily into other classes.
 //
-// Dependencies: amp.hpp
+// Dependencies: constants.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)

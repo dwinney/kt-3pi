@@ -1,7 +1,7 @@
 // General purpose classes for Dalitz plot generation.
 // for fitting to polynomial expansion see param_fit.hpp
 //
-// Dependencies: constants.hpp aux_math.hpp
+// Dependencies: constants.hpp aux_math.hpp, ROOT
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -59,11 +59,12 @@ protected:
 
   bool S_WG_GENERATED, T_WG_GENERATED;
   vector<double> s_wgt, s_abs;
-  vector< vector<double> > t_wgt, t_abs; //"two-dimensional" vectors
+  vector<vector<double>> t_wgt, t_abs; //"two-dimensional" vectors
   void generate_s_weights();
   void generate_t_weights(vector<double> s);
   void generate_weights();
 
+  // Calculate the area of the dalitz region
   double dalitz_area();
 //-----------------------------------------------------------------------------
 public:
@@ -75,6 +76,7 @@ public:
   double d2Gamma(double s, double t);
 
 //--------------------------------------------------------------------------
+// Misc Utilities
   void plot();
   void set_integration_points(int n);
 };

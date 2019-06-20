@@ -1,6 +1,6 @@
 // General routines for Dalitz plot generation
 //
-// Dependencies: constants.pp
+// Dependencies: constants.hpp, ROOT
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -8,6 +8,7 @@
 // ---------------------------------------------------------------------------
 
 #include "dalitz.hpp"
+
 //-----------------------------------------------------------------------------
 // Routines related to integrating over dalitz region
 template <class T>

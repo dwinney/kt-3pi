@@ -1,6 +1,6 @@
 // Simple class with a polynomial amplitude mimicing the expansion around center of dalitz plot to test fitting and parameter extraction.
 //
-// Dependencies: amp.cpp
+// Dependencies: decay_kinematics
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)

@@ -2,7 +2,7 @@
 // they inherite from the amplitude class because they describe the scattering dynamics
 // of a single spin and isospin-projected subchannel.
 //
-// Dependencies: decay_kinematics.hpp, omnes.hpp, iteration.hpp
+// Dependencies: decay_kinematics.hpp, iteration.hpp, kt_equation.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)

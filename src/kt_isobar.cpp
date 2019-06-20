@@ -2,7 +2,7 @@
 // they inherite from the amplitude class because they describe the scattering dynamics
 // of a single spin and isospin-projected subchannel.
 //
-// Dependencies: amp.hpp, omnes.hpp, iteration.hpp
+// Dependencies: decay_kinematics.hpp, iteration.hpp, kt_equation.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -60,15 +60,19 @@ void isobar::iterate(int n)
   for (int i = 1; i < n + 1; i++)
   {
   cout << "Calculating iteration (" << i << "/" << n << ")... ";
+
+  // Pass a pointer to the kt_equations
   iteration * ptr = &iters[i-1];
   iteration next = kt.iterate(ptr);
-  iters.push_back(next);
+  iters.push_back(next); // Save result in the vector iters
+
   cout << "Done. \n";
   }
 };
 
 // ----------------------------------------------------------------------------
-// Iterate through the KT equations n times, storing each iteration for comparison
+// Print the nth iteration into a dat file.
+// Additionally make a PDF plot comparing the 0th (no rescattering) and the nth iterations.
 void isobar::print(int n)
 {
 

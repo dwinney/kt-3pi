@@ -5,7 +5,7 @@ Requires ROOT (tested with version 6.17) with the ROOT::Minuit2 and MathMore lib
 MathMore additionally requires a distribution of GSL (version >= 1.8) linked with ROOT.
 
 ## Dalitz Plot Parameter Extraction
-The `param_fit` object allows an arbitrary amplitude to be fit to the a polynomial expansion around the center of the Dalitz plot. __omega_BW.cpp__ has an example with a Breit-Wigner amplitude used to extract plot parameters for the omega meson decaying to three pions.   
+The `dalitz_fit` object allows an arbitrary amplitude to be fit to the a polynomial expansion around the center of the Dalitz plot. __omega_BW.cpp__ has an example with a Breit-Wigner amplitude used to extract plot parameters for the omega meson decaying to three pions.   
 
 To build in command-line use:
 ```
@@ -14,7 +14,7 @@ cmake ..
 make omega_BW && ./omega_BW
 ```
 
-Additionally you can make your own amplitude and use the `param_fit` and `dalitz` objects to extract parameters. Any object can be used so long as has a `decay_kinematics` object named "kinematics" as a publicly accessible data member and is callable with the right signature (```double ()(double, double)```
+Additionally you can make your own amplitude and use the `dalitz` and `dalitz_fit` objects to extract parameters. Any object can be used so long as has a `decay_kinematics` object named "kinematics" as a publicly accessible data member and is callable with the right signature (```double ()(double, double)```
 or
 ```std::complex<double> ()(double, double)```)
 to evaluate the user-defined amplitude at some values of Mandelstam s and t. Then an 'output_amp' object with 'num_param' free fitting parameters is output with:

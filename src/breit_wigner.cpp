@@ -1,6 +1,6 @@
 // Class for different Breit-Wigner parameterizations of amplitudes
 //
-// Dependencies: amp.cpp
+// Dependencies: decay_kinematics.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)

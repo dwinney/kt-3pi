@@ -34,7 +34,7 @@ private:
   const double mDec = kinematics.get_decayMass();
 
   // Evaluation of the angular integral in the complex plane
-  inhomogeneity inhom;
+  angular_integral inhom;
 
 protected:
   // Pointer to the previous iteration used to evaluate the next one

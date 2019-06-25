@@ -8,21 +8,18 @@
 // -----------------------------------------------------------------------------
 
 #include "omnes.hpp"
-//-----------------------------------------------------------------------------
-std::complex<double> omnes::operator ()(double s, double t)
-{
-  double u = u_man(s,t);
-  return eval(s) + eval(t) + eval(u);
-}
+
+constexpr double omnes::LamOmnes;
+
 //-----------------------------------------------------------------------------
 // Set the i epsilon persription for the integration kernal in Omnes function
 // Default is + 1e-9
 void omnes::set_ieps(int sig)
 {
         sign = sig;
-        if (sig != 1 && sig !=-1 && sig != 0)
+        if (sig != 1 && sig != -1 && sig != 0)
         {
-                std::cout << "omnes: Invalid i*eps presription. Allowed sig values = -1, 0, +1"
+                cout << "omnes: Invalid i*eps presription. Allowed sig values = -1, 0, +1"
                           << "\n";
                 exit(1);
         }
@@ -32,7 +29,7 @@ void omnes::set_ieps(int sig)
 void omnes::set_N_omnes(int i)
 {
         N_omnes = i;
-        std::cout << "omnes: Number of integration points set to " << N_omnes << "...\n";
+        cout << "omnes: Number of integration points set to " << N_omnes << "...\n";
 };
 //-----------------------------------------------------------------------------
 // Smoothly extrapolated Phase-shift shift matched at Lambda_phase^2
@@ -67,60 +64,100 @@ double omnes::extrap_phase(double s)
 
         return result;
 };
+
 //-----------------------------------------------------------------------------
-double omnes::kernel(double s, double sp)
+complex<double> omnes::kernel(complex<double> s, double sp)
 {
-        double result;
-        if ((sign == 0) || (s <= sthPi) || (s > LamSq))
+        complex<double> result;
+        if (sign == 0)
         {
                 result = extrap_phase(sp) / (sp * (sp - s));
         }
         else
         {
-                result = (extrap_phase(sp) - extrap_phase(s)) / (sp * (sp - s));
+          double s_real = real(s);
+          if ((s_real <= sthPi) || (s_real > LamSq))
+          {
+                result = extrap_phase(sp) / (sp * (sp - s_real));
+          }
+          else
+          {
+                result = (extrap_phase(sp) - extrap_phase(s_real)) / (sp * (sp - s_real));
+          }
         }
+
+        return result;
 };
+
 //-----------------------------------------------------------------------------
-std::complex<double> omnes::eval(double s)
+complex<double> omnes::omega_0(complex<double> s)
 {
-        if (WG_GENERATED == false)
-        {
-                double weights[N_omnes + 1], abscissas[N_omnes + 1];
-                gauleg(s0, LamSq, abscissas, weights, N_omnes + 1);
-                // std::cout << "omnes: Generating Gaussian-Legendre Quandrature weights and abscissas... \n";
+  if (WG_GENERATED == false)
+  {
+          double weights[N_omnes + 1], abscissas[N_omnes + 1];
+          gauleg(s0, LamSq, abscissas, weights, N_omnes + 1);
+          // cout << "omnes: Generating Gaussian-Legendre Quandrature weights and abscissas... \n";
 
-                for (int i = 1; i < N_omnes + 1; i++)
+          for (int i = 1; i < N_omnes + 1; i++)
+          {
+                  wgt.push_back(weights[i]);
+                  abs.push_back(abscissas[i]);
+          }
+
+          WG_GENERATED = true;
+  }
+
+  complex<double> sum = 0.;
+  for (int i = 0; i < N_omnes; i++)
+  {
+          sum += kernel(s, abs[i]) * wgt[i];
+  }
+
+  return exp((s /M_PI) * sum);
+};
+
+//-----------------------------------------------------------------------------
+complex<double> omnes::operator ()(complex<double> s, int ieps)
+{
+        set_ieps(ieps);
+
+        // if evaluating on the cut or with an imaginary s
+        if (sign == 0 && ieps == 0)
+        {
+                complex<double> alpha_0 = extrap_phase(LamOmnes) / M_PI;
+                return omega_0(s) / pow(LamOmnes - s, alpha_0);
+        }
+        else if (sign == -1 || sign == 1)
+        {
+          double s_real = real(s);
+
+          complex<double> alpha = extrap_phase(s_real) / M_PI;
+          complex<double> alpha_0 = extrap_phase(LamOmnes) / M_PI;
+
+          // unphysical values
+          if (s_real <= sthPi || s_real > LamOmnes)
+          {
+            return omega_0(s_real) / pow(LamOmnes - s_real - double(sign) * xi * EPS, alpha_0);
+          }
+
+          // physical values
+          else
+          {
+                complex<double> result;
+                result = pow(s0, alpha) * pow(std::abs(LamOmnes * (s_real - sthPi)), - alpha);
+                result *= omega_0(s);
+                result *= exp(xi * double(sign) * extrap_phase(s_real));
+                if ( std::abs(s_real - LamOmnes) > 0.001)
                 {
-                        wgt.push_back(weights[i]);
-                        abs.push_back(abscissas[i]);
+                        result *= pow( std::abs(LamOmnes - s_real), alpha - alpha_0);
                 }
-
-                WG_GENERATED = true;
-        }
-
-        std::complex<double> result;
-        double sum = 0.;
-        std::complex<double> alpha = extrap_phase(s) / M_PI;
-
-        for (int i = 0; i < N_omnes; i++)
-        {
-                sum += kernel(s, abs[i]) * wgt[i];
-        }
-
-        if (sign == 0)
-        {
-                result = exp((s/M_PI) * sum) / pow(LamSq - s, alpha);
+                return result;
+          }
         }
         else
         {
-                result = pow(s0, alpha) * pow(std::abs(LamSq * (s - sthPi)), -alpha);
-                result *= exp( (s/ M_PI) * sum);
-                result *= exp(xi * double(sign) * extrap_phase(s));
-                if (std::abs(s - LamSq) < 0.001)
-                {
-                        result *= pow(std::abs(LamSq - s), alpha - (extrap_phase(LamSq) / M_PI));
-                }
+          cout << "omnes: Cannot evaluate omnes function here... Quitting" << endl;
+          exit(1);
         }
-        return result;
 };
 //-----------------------------------------------------------------------------

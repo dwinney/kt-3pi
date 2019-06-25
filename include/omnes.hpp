@@ -23,7 +23,7 @@
 #include "aux_math.hpp"
 
 //-----------------------------------------------------------------------------
-class omnes : public pipi, public decay_kinematics
+class omnes : public pipi
 //-----------------------------------------------------------------------------
 {
 protected:
@@ -40,7 +40,7 @@ static constexpr double LamSq = Lambda_phase*Lambda_phase;
 static constexpr double hD = 0.0001;
 
 bool WG_GENERATED;
-std::vector<double> wgt, abs;
+vector<double> wgt, abs;
 
 //-----------------------------------------------------------------------------
 public:
@@ -50,10 +50,8 @@ omnes() : pipi()
 };
 
 // Parameterized constructor with quantum numbers
-omnes(int i, int j, const char * n = "") : pipi(i), wave(j)
-{
-  set_ampName(n);
-};
+omnes(int i, int j)
+: pipi(i), wave(j) {};
 
 // Copy constructor
 omnes(const omnes &previous):
@@ -61,14 +59,15 @@ omnes(const omnes &previous):
   wgt(previous.wgt), abs(previous.abs), WG_GENERATED(previous.WG_GENERATED)
 {};
 
-std::complex<double> operator ()(double s, double t);
+static constexpr double LamOmnes = 1.0;
 
 void set_ieps(int sig);
 void set_N_omnes(int i);
 
 double extrap_phase(double s);
-double kernel(double s, double sp);
-std::complex<double> eval(double s);
+complex<double> kernel(complex<double> s, double sp);
+complex<double> omega_0(complex<double> s);
+complex<double> operator ()(complex<double> s, int ieps);
 
 };
 //-----------------------------------------------------------------------------

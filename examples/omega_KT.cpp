@@ -20,11 +20,11 @@ decay_kinematics vector_meson;
 // Omega dominated by single isobar, in general this would be a KT object that is
 // defined with a Jmax and helicity / isospin dependence.
 isobar pwave(1, 1, vector_meson);
-pwave.iterate(3); // Calculate three iterations of the KT equation
+pwave.iterate(1); // Calculate three iterations of the KT equation
 
 // Print the results compared to the no-3body-effects case.
-pwave.print(1);
-pwave.print(3);
+// pwave.print(1);
+// pwave.print(3);
 
 
 return 1.;

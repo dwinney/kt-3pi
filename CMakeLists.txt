@@ -16,7 +16,7 @@ else()
 endif()
 
 add_executable( omega_BW
-scripts/omega_BW.cpp
+examples/omega_BW.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
@@ -29,7 +29,7 @@ src/poly_exp.cpp
 target_link_libraries( omega_BW ${ROOT_LIBRARIES})
 
 add_executable( omega_KT
-scripts/omega_KT.cpp
+examples/omega_KT.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp

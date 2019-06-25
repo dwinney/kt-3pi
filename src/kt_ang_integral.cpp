@@ -15,49 +15,31 @@
 complex<double> angular_integral::k(double s)
 {
   complex<double> temp1 = sqrt(xr * (s - sthPi) / s);
-  complex<double> temp2 = sqrt(xr * (kinematics.threshold() - s)) *
-                          sqrt(xr * (kinematics.pseudo_threshold() - s));
+  temp1 *= sqrt(xr * (b - s)) * sqrt(xr * (a - s));
 
-  return temp1 * temp2;
+  return temp1;
 };
 
 // ---------------------------------------------------------------------------
 // COM Scattering angle in the s-channel scattering subchannel
 // Complex in general because of the path of integration needed by analytic continuation
-complex<double> angular_integral::z_s(double s, double t)
+complex<double> angular_integral::z_s(double s, complex<double> t)
 {
-  complex<double> k_s = k(s);
-  double temp1 = 2. * t + s - mDec * mDec - 3. * mPi * mPi;
+  complex<double> temp1 = 2. * t + s - mDec * mDec - 3. * mPi * mPi;
 
-  return temp1 * xr / k_s;
+  return temp1 / k(s);
 };
 
 // ---------------------------------------------------------------------------
 // Bounds of integration
-double angular_integral::t_minus(double s)
+complex<double> angular_integral::t_minus(double s)
 {
-  if (s < sthPi || s > (mDec + mPi) * (mDec + mPi))
-  {
-    cout << "t_minus: Energy outside the physical decay region! Quitting... \n";
-    exit(1);
-  }
-  else
-  {
-    return (mDec * mDec + 3. * mPi * mPi - s) / 2. + real(k(s)) / 2.;
-  }
+    return (mDec * mDec + 3. * mPi * mPi - s) / 2. - k(s) / 2.;
 };
 
-double angular_integral::t_plus(double s)
+complex<double> angular_integral::t_plus(double s)
 {
-  if (s < sthPi || s > (mDec + mPi) * (mDec + mPi))
-  {
-    cout << "t_plus: Energy outside the physical decay region! Quitting... \n";
-    exit(1);
-  }
-  else
-  {
-    return (mDec * mDec + 3. * mPi * mPi - s) / 2. - real(k(s)) / 2.;
-  }
+    return (mDec * mDec + 3. * mPi * mPi - s) / 2. + k(s) / 2.;
 };
 
 // ---------------------------------------------------------------------------
@@ -65,28 +47,31 @@ double angular_integral::t_plus(double s)
 // on the helicity and spin of the isobar.
 //
 // Right now it only has the omega case of Lambda = 1, j = 1, I = I
-complex<double> angular_integral::kernel(double s, double t)
+complex<double> angular_integral::kernel(double s, complex<double> t)
 {
-  complex<double> zs, temp1, temp2;
+  complex<double> zs, temp1;
   zs = z_s(s, t);
   temp1 = (xr - zs * zs);
-  temp2 = pow((kinematics.pseudo_threshold() - s), 1.5);
+  temp1 *= pow( xr * (a - s), 1.5);
 
-  return 3. * temp1 * temp2 / k(s);
+  return 3. * temp1 / k(s);
 };
 
 // ---------------------------------------------------------------------------
 // Integration path in the complex plane
-complex<double> angular_integral::integ_s0_a0(double s)
+
+// check = 1
+// Both limits are real and above the unitarity cut
+complex<double> angular_integral::integ_sthPi_a0(double s)
 {
-    if (s < sthPi || s > a0)
+    if (s <= sthPi || s >= a0)
     {
       cout << "integ_s0_a0: Integration out of range! Quitting... \n";
       exit(1);
     }
 
     double w[N_integ + 1], x[N_integ + 1];
-    gauleg(t_minus(s), t_plus(s), w, x, N_integ);
+    gauleg(real(t_minus(s)), real(t_plus(s)), x, w, N_integ);
 
     complex<double> sum = 0.;
     for (int i = 1; i < N_integ + 1; i++)
@@ -94,22 +79,25 @@ complex<double> angular_integral::integ_s0_a0(double s)
       complex<double> temp = kernel(s, x[i]) * previous->interp_above(x[i]);
       sum += w[i] * temp;
     }
+
     return sum;
 };
 
+// check = 2
+// both limits are purely real but one is above the other below
 complex<double> angular_integral::integ_a0_a(double s)
 {
-  if (s < a0|| s > kinematics.pseudo_threshold())
+  if (s < a0|| s > a)
   {
     cout << "integ_a0_a: Integration out of range! Quitting... \n";
     exit(1);
   }
 
   double wM[N_integ + 1], xM[N_integ + 1];
-  gauleg(t_minus(s), sthPi - EPS, wM, xM, N_integ);
+  gauleg(real(t_minus(s)), sthPi + EPS, xM, wM, N_integ);
 
   double wP[N_integ + 1], xP[N_integ + 1];
-  gauleg(sthPi - EPS, t_plus(s), wP, xP, N_integ);
+  gauleg(sthPi + EPS, real(t_plus(s)), xP, wP, N_integ);
 
   complex<double> sumP = 0., sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
@@ -124,77 +112,168 @@ complex<double> angular_integral::integ_a0_a(double s)
   return sumM + sumP;
 };
 
+// check = 3
+// this is the unphysical region, the bounds of integration are complex to avoid singularities
 complex<double> angular_integral::integ_a_b(double s)
 {
-  if (s < kinematics.pseudo_threshold() || s > kinematics.threshold())
+  if (s < a || s > b)
   {
     cout << "integ_a_b: Integration out of range! Quitting... \n";
     exit(1);
   }
 
-  previous->omega.set_ieps(0);
-  double wM[N_integ + 1], xM[N_integ + 1];
-  gauleg(t_minus(s), 2. * t_minus(kinematics.threshold()), wM, xM, N_integ);
-
-  double wP[N_integ + 1], xP[N_integ + 1];
-  gauleg(2. * t_plus(kinematics.threshold()), t_plus(s), wP, xP, N_integ);
+  double w[N_integ + 1], x[N_integ + 1];
+  gauleg(0., 1., x, w, N_integ);
 
   complex<double> sumP = 0., sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> tempM = kernel(s, xM[i]) * previous->omega.eval(xM[i]);
-    complex<double> tempP = kernel(s, xP[i]) * previous->omega.eval(xP[i]);
+    complex<double> z1_i = (1. - x[i]) * t_minus(s) + x[i] * (2. * t_minus(b));
+    complex<double> tempM = kernel(s, z1_i) * previous->omega(z1_i, 0);
 
-    sumM += wM[i] * tempM;
-    sumP += wP[i] * tempP;
+    tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
+    sumM +=  - w[i] * tempM;
+
+    complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
+    complex<double> tempP = kernel(s, z2_i) * previous->omega(z2_i, 0);
+
+    tempP *= t_plus(s) - 2. * t_plus(b);
+    sumP +=  - w[i] * tempP;
   }
 
-  return sumM + sumP;
+  return  sumP + sumM;
 };
 
+// check = 4
+// t-channel scattering region, limits are real again
 complex<double> angular_integral::integ_b(double s)
 {
-  if (s < kinematics.threshold())
+  if (s < b)
   {
-    cout << "integ_s0_a0: Integration out of range! Quitting... \n";
+    cout << "integ_b: Integration out of range! Quitting... \n";
     exit(1);
   }
 
-  previous->omega.set_ieps(0);
   double w[N_integ + 1], x[N_integ + 1];
-  gauleg(t_minus(s), t_plus(s), w, x, N_integ);
+  gauleg(real(t_minus(s)), real(t_plus(s)), x, w, N_integ);
 
   complex<double> sum = 0.;
   for (int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> temp = kernel(s, x[i]) * previous->omega.eval(x[i]);
-    sum += w[i] * temp;
+    complex<double> temp = kernel(s, x[i]) * previous->omega(x[i], 0);
+    sum += - w[i] * temp;
   }
+
   return sum;
 };
 
 // ---------------------------------------------------------------------------
 // Angular integral, F_hat
-complex<double> angular_integral::operator()(double s)
+complex<double> angular_integral::operator() (double s)
 {
-  if (abs(s - sthPi) < EPS)
-  {
-    return 2. * previous->interp_above(t_minus(sthPi)) * pow((kinematics.pseudo_threshold() - sthPi), 1.5);
+  int check = -1;
+  complex<double> integ;
+
+  if (std::abs(s - sthPi) < 2. * EPS) {
+    check = 0;
+    integ = 2. * previous->interp_above(real(t_minus(sthPi))) * pow(xr * (a - sthPi), 1.5);
   }
-  else if (s > sthPi && s < a0)
-  {
-    return integ_s0_a0(s);
+
+  else if (s > sthPi + EPS && s < a0) {
+    check = 1;
+    integ = integ_sthPi_a0(s);
   }
-  else if (s >= a0 && s <= kinematics.pseudo_threshold())
-  {
-    return integ_a0_a(s);
+
+  else if (s >= a0 && s <= a)  {
+    check = 2;
+    integ =  integ_a0_a(s);
   }
-  else if (s > kinematics.pseudo_threshold() && s < kinematics.threshold())
-  {
-    return integ_a_b(s);
+
+  else if (s > a && s < b)  {
+    check = 3;
+    integ = integ_a_b(s);
   }
-  else if (s >= kinematics.threshold())
-  {
-    return integ_b(s);
+
+  else if (s >= b)  {
+    check = 4;
+    integ = integ_b(s);
   }
+
+  else  {
+    cout << "AAAAA wtf hella error" << endl;
+    exit(1);
+  }
+
+  // if (check == 4)
+  // {
+  // cout << std::left << setw(10) << s << setw(5) << check << setw(30) << imag(integ) <<  endl;
+  // }
+
+  return integ;
+};
+
+// ---------------------------------------------------------------------------
+// Utitlity function to print out the values of the above integral for testing
+void angular_integral::print(double low, double high)
+{
+  if (low < sthPi || high > omnes::LamOmnes)
+  {
+    cout << "angular_integral::print: Error in ploting range. Quitting..." << endl;
+    exit(1);
+  }
+
+  //Surpress ROOT messages
+  gErrorIgnoreLevel = kWarning;
+
+  string name;
+  name = "angular_integral";
+
+  // Output to a datfile
+  std::ofstream output;
+  string namedat = name + ".dat";
+  output.open(namedat.c_str());
+
+  vector<double> s;
+  vector<double> refx, imfx;
+
+  for (int i = 0; i < 60; i++)
+  {
+      double s_i = low  + double(i) * (high - low) / 60.;
+      complex<double> fx_i = operator()(s_i);
+
+    s.push_back(s_i);
+    refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
+
+    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+  }
+  output.close();
+
+  cout << "Output to: " << namedat << "." << endl;
+
+  // Print real part
+  TCanvas *c = new TCanvas("c", "c");
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+
+  gRe->SetTitle("Real Part");
+  gRe->Draw("AL");
+
+  c->Modified();
+  string namepdfre = name + "_real.pdf";
+  c->Print(namepdfre.c_str());
+
+  delete c, gRe;
+
+  //And the Imaginary part
+  TCanvas *c2 = new TCanvas("c2", "c2");
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  gIm->SetTitle("Imaginary Part");
+  gIm->Draw("AL");
+
+  c2->Modified();
+  string namepdfim = name + "_imaginary.pdf";
+  c2->Print(namepdfim.c_str());
+
+  cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
+  delete c2, gIm;
 };

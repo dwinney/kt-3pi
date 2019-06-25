@@ -1,4 +1,5 @@
-// Header file with global phyiscal constants. Everything is in GeV unless explicitly stated otherwise.
+// Header file with global phyiscal constants.
+// Everything is in GeV unless explicitly stated otherwise.
 //
 // Dependencies: None
 //
@@ -14,11 +15,11 @@
 #include <complex>
 
 using std::complex;
+using std::abs;
 
 //-----------------------------------------------------------------------------
 const double conv = (M_PI / 180.);
-const double elastic_cutoff = 0.95;
-const double EPS = 1.e-4;
+const double EPS = 1.e-6;
 
 //Masses
 const double mPi = 0.1396;

@@ -16,7 +16,7 @@
 void isobar::start()
 {
   cout << endl;
-  cout << "Storing initial Omnes amplitude... ";
+  cout << "Storing initial Omnes amplitude... " << endl;
   vector<double> s;
 
   // Need to store values of the Omnes amplitude around the unitarity cut for the
@@ -26,15 +26,15 @@ void isobar::start()
 
   for (int i = 0; i < interpolation::N_interp; i++)
   {
-    double s_i = sthPi + EPS + double(i) * (elastic_cutoff - sthPi - EPS) / double(interpolation::N_interp);
+    double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / double(interpolation::N_interp);
     s.push_back(s_i);
 
-    omega.set_ieps(1); // above the unitarity cut (+ i epsilon)
-    ab = omega.eval(s_i);
+    // above the unitarity cut (+ i epsilon)
+    ab = omega(s_i, 1);
     above_cut.push_back(ab);
 
-    omega.set_ieps(-1); // below the cut (- i epsilon)
-    be = omega.eval(s_i);
+    // below the cut (- i epsilon)
+    be = omega(s_i, -1);
     below_cut.push_back(be);
   }
 
@@ -48,7 +48,6 @@ void isobar::start()
 
   iteration zeroth(0, omega, s, above_cut, below_cut);
   iters.push_back(zeroth);
-  cout << "Done." << endl;
 };
 
 // ----------------------------------------------------------------------------
@@ -59,14 +58,16 @@ void isobar::iterate(int n)
 
   for (int i = 1; i < n + 1; i++)
   {
-  cout << "Calculating iteration (" << i << "/" << n << ")... ";
+    cout << "Calculating iteration (" << i << "/" << n << ")... " << endl;
 
-  // Pass a pointer to the kt_equations
-  iteration * ptr = &iters[i-1];
-  iteration next = kt.iterate(ptr);
-  iters.push_back(next); // Save result in the vector iters
+    // Pass a pointer to the kt_equations
+    if (iters.size() >= 1)
+    {
+      iteration * ptr = &iters[i - 1];
+      iteration next = kt.iterate(ptr);
+      iters.push_back(next); // Save result in the vector iters
 
-  cout << "Done. \n";
+    }
   }
 };
 
@@ -75,7 +76,6 @@ void isobar::iterate(int n)
 // Additionally make a PDF plot comparing the 0th (no rescattering) and the nth iterations.
 void isobar::print(int n)
 {
-
   cout << endl;
   cout << "Printing the " << std::to_string(n);
   if (n == 1) {cout << "st Iteration..." << endl;}
@@ -98,7 +98,7 @@ void isobar::print(int n)
   vector<double> refx, imfx, ref0, imf0;
   for (int i = 0; i < 60; i++)
   {
-    double s_i = sthPi + EPS + double(i) * (.95 - sthPi) / 60.;
+    double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
     complex<double> fx_i = iters[n].interp_above(s_i);
     complex<double> f0_i = iters[0].interp_above(s_i);
 

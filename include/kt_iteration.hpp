@@ -28,12 +28,6 @@ class iteration
 {
 //-----------------------------------------------------------------------------
 public:
-  // Default constructor with no parameters passed
-  // Needed for kt_equations to be defined only by decay_kinematics
-  iteration()
-  : N_iteration(-1)
-  {};
-
   // Constructor for the 0th iteration. Takes values of the bare Omnes function
   iteration(int n, omnes omeg,  vector<double> s,
                                 vector<complex<double>> above,
@@ -54,6 +48,7 @@ public:
   ~iteration(){};
 
   const int N_iteration; // iteration ID
+
 
   interpolation interp_above, interp_below;
   omnes omega;

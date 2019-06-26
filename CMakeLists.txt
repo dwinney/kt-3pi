@@ -34,10 +34,6 @@ src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
 src/aux_math.cpp
-src/breit_wigner.cpp
-src/dalitz.cpp
-src/dalitz_fit.cpp
-src/poly_exp.cpp
 src/kt_isobar.cpp
 src/kt_equations.cpp
 src/kt_amplitude.cpp

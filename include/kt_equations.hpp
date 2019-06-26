@@ -20,36 +20,32 @@
 
 #include "kt_iteration.hpp"
 #include "kt_ang_integral.hpp"
+#include "kt_disp_integral.hpp"
 #include "aux_math.hpp"
 #include "omnes.hpp"
 
-// TODO: figure out how to only have to generate Gaussian weights once
+// ---------------------------------------------------------------------------
+// Each isobar (i.e. each spin and isospin projected partial wave) will have its own
+// instance of the kt_equations object. This object allows the calculation of each next iterations
+// of the rescattering ladder. Specific to those quantum numbers.
+//
+// Not callable, instead use kt_equations::iterate with some pointer to an iteration
+// to output the next iteration (i.e. interpolations above and below unitarity cut and a copy of the original omnes function)
+// ---------------------------------------------------------------------------
+
 class kt_equations
 {
 private:
-  int N_integ = 60;
-
-  // This object holds all the relevant kinematic quantities such as masses and quantu n
+  // This object holds all the relevant kinematic quantities such as masses and QN's
   decay_kinematics kinematics;
-  const double pthresh = kinematics.pseudo_threshold();
-  const double mDec = kinematics.get_decayMass();
 
-  // Evaluation of the angular integral in the complex plane
-  angular_integral inhom;
-
-protected:
-  // Pointer to the previous iteration used to evaluate the next one
-  iteration * previous;
-
-  double LamDisp = 1.; // Dispersion cutoff.
-  complex<double> disp_inhom(double s, int ieps); // Disperson integral of inhomogeneity
-  complex<double> log_reg(double s, int ieps); //Log term to regularize elastic cuttoff
-  complex<double> solution(double s, int ieps);
+  // A method for evaluating the unitarity correction, i.e. the dispersion integral over the discontinuity.
+  dispersion_integral disp;
 
 public:
   // TODO: KT equations depend on spin projection and helicity in general
   kt_equations(decay_kinematics dec)
-  : kinematics(dec), inhom(dec)
+  : kinematics(dec), disp(dec)
   {
     cout << "Using KT equations for ";
     if (dec.get_decayParticle() != "")
@@ -62,6 +58,7 @@ public:
 
   // Calculate the next iteration from the previous one
   iteration iterate(iteration * prev);
+
 };
 
 #endif

@@ -115,20 +115,20 @@ string get_JPC()
 {
   string result = std::to_string(qn_J);
 
-  if (qn_P = 1)
+  if (qn_P == 1)
   {
     result += "+";
   }
-  else if (qn_P = -1)
+  else if (qn_P == -1)
   {
     result += "-";
   }
 
-  if (qn_C = 1)
+  if (qn_C == 1)
   {
     result += "+";
   }
-  else if (qn_C = -1)
+  else if (qn_C == -1)
   {
     result += "-";
   }

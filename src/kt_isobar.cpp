@@ -66,7 +66,11 @@ void isobar::iterate(int n)
       iteration * ptr = &iters[i - 1];
       iteration next = kt.iterate(ptr);
       iters.push_back(next); // Save result in the vector iters
-
+    }
+    else
+    {
+      cout << "iterate: Trying to access iteration that is not there. Quitting..." << endl;
+      exit(1);
     }
   }
 };
@@ -95,16 +99,14 @@ void isobar::print(int n)
   output.open(namedat.c_str());
 
   vector<double> s;
-  vector<double> refx, imfx, ref0, imf0;
+  vector<double> refx, imfx;
   for (int i = 0; i < 60; i++)
   {
     double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
     complex<double> fx_i = iters[n].interp_above(s_i);
-    complex<double> f0_i = iters[0].interp_above(s_i);
 
     s.push_back(s_i);
     refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
-    ref0.push_back(real(f0_i)); imf0.push_back(imag(f0_i));
 
     output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
@@ -115,40 +117,31 @@ void isobar::print(int n)
   //Print the Real part compared to no rescattering
   TCanvas *c = new TCanvas("c", "c");
   TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-  TGraph *gRe0  = new TGraph(s.size(), &(s[0]), &(ref0[0]));
 
   string label = std::to_string(n) + " Iterations";
   gRe->SetTitle(label.c_str());
   gRe->SetLineStyle(2);
   gRe->Draw("AL");
 
-  gRe0->Draw("Same");
-  gRe0->SetTitle("No Rescattering");
 
   c->Modified();
-  c->BuildLegend();
   string namepdfre = name + "_real.pdf";
   c->Print(namepdfre.c_str());
 
-  delete c, gRe, gRe0;
+  delete c, gRe;
 
   //And the Imaginary part
   TCanvas *c2 = new TCanvas("c2", "c2");
   TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-  TGraph *gIm0  = new TGraph(s.size(), &(s[0]), &(imf0[0]));
 
   gIm->SetTitle(label.c_str());
   gIm->SetLineStyle(2);
   gIm->Draw("AL");
 
-  gIm0->Draw("Same");
-  gIm0->SetTitle("No Rescattering");
-
   c2->Modified();
-  c2->BuildLegend();
   string namepdfim = name + "_imaginary.pdf";
   c2->Print(namepdfim.c_str());
 
   cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
-  delete c2, gIm, gIm0;
+  delete c2, gIm;
 };

@@ -72,10 +72,6 @@ public:
   complex<double> operator() (double s, int ieps);
 
   void pass_iteration(iteration * prev);
-
-  // Numerical Check Utility to print values of the dispersion integrand to file
-  // prints values in the range [sthPi, LamOmnes]
-  void print();
 };
 
 #endif

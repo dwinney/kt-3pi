@@ -79,23 +79,15 @@ complex<double> dispersion_integral::integ_a_Lam(double s, int ieps)
 // Disperson integral of inhomogeneity
 complex<double> dispersion_integral::disp_inhom(double s, int ieps)
 {
-  if (s > sthPi && s <= a - interval)
-  {
-    return integ_sthPi_a(s, ieps);
-  }
-  else if (s > a - interval && s < a + interval)
-  {
-    return 0.;
-  }
-  else if (s >= a + interval && s <= LamOmnes)
-  {
-    return integ_a_Lam(s, ieps);
-  }
-  else
+  complex<double> result =  integ_sthPi_a(s, ieps) + integ_a_Lam(s, ieps);
+
+  if (s > LamOmnes || s <= sthPi)
   {
     cout << "dispersion_integral: Trying to evaluate outside of Omnes range! Quitting..." << endl;
     exit(1);
   }
+
+  return result;
 };
 
 // ----------------------------------------------------------------------------
@@ -129,64 +121,3 @@ complex<double> dispersion_integral::operator() (double s, int ieps)
 
   return disp_inhom(s, ieps) - log_reg(s, ieps);
 };
-
-
-// // ---------------------------------------------------------------------------
-// // Utitlity function to print out the values of the above integrand for testing
-// void dispersion_integral::print()
-// {
-//   //Surpress ROOT messages
-//   gErrorIgnoreLevel = kWarning;
-//
-//   string name;
-//   name = "dispersion_integrand";
-//
-//   // Output to a datfile
-//   std::ofstream output;
-//   string namedat = name + ".dat";
-//   output.open(namedat.c_str());
-//
-//   vector<double> s;
-//   vector<double> refx, imfx;
-//
-//   for (int i = 0; i < 60; i++)
-//   {
-//       double s_i = sthPi + EPS + double(i) * (LamOmnes - sthPi - EPS) / 60.;
-//       complex<double> fx_i = integrand(0.2, s_i, +1);
-//
-//     s.push_back(s_i);
-//     refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
-//
-//     output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
-//   }
-//   output.close();
-//
-//   cout << "Output to: " << namedat << "." << endl;
-//
-//   // Print real part
-//   TCanvas *c = new TCanvas("c", "c");
-//   TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-//
-//   gRe->SetTitle("Real Part");
-//   gRe->Draw("AL");
-//
-//   c->Modified();
-//   string namepdfre = name + "_real.pdf";
-//   c->Print(namepdfre.c_str());
-//
-//   delete c, gRe;
-//
-//   //And the Imaginary part
-//   TCanvas *c2 = new TCanvas("c2", "c2");
-//   TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-//
-//   gIm->SetTitle("Imaginary Part");
-//   gIm->Draw("AL");
-//
-//   c2->Modified();
-//   string namepdfim = name + "_imaginary.pdf";
-//   c2->Print(namepdfim.c_str());
-//
-//   cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
-//   delete c2, gIm;
-// };

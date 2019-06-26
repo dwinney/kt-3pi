@@ -28,11 +28,21 @@
 
 using std::setw;
 
+// ---------------------------------------------------------------------------
+// Internal class used by dispersion_integral. Callable through operator().
+// Outputs the angular average of the previous iteration as a fixed value of
+// (real) energy s.
+//
+// The path of integration is distorted in the complex plane and integration is done
+// in regions split according to the analytic continuation of the momentum k(s).
+// ---------------------------------------------------------------------------
+
 class angular_integral
 {
 private:
-  friend class kt_equations;
-  iteration * previous;
+  friend class dispersion_integral;
+
+  iteration * previous; // Pointer to current iteration
 
   int N_integ = 60;
 
@@ -56,7 +66,6 @@ protected:
   complex<double> t_plus(double s);
 
   // Integration regions. Naming convention match Igor Danilkin's mathematica notebook for clarity
-  // s0 = sthPi
   // a = pseudo_thresh
   // b = threshold
   complex<double> integ_sthPi_a0(double s);
@@ -71,6 +80,8 @@ public:
 
   // Evaluate the inhomogenous contribution at a given energy
   complex<double> operator() (double s);
+
+  void pass_iteration(iteration * prev);
 
   // Numerical Check Utility to print values to file
   // prints values in the range [low, high]

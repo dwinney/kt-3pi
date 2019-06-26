@@ -93,6 +93,11 @@ complex<double> angular_integral::integ_a0_a(double s)
     exit(1);
   }
 
+  if (std::abs(t_minus(s) - sthPi + EPS) < 0.0001)
+  {
+    return 0.;
+  }
+
   double wM[N_integ + 1], xM[N_integ + 1];
   gauleg(real(t_minus(s)), sthPi + EPS, xM, wM, N_integ);
 
@@ -132,16 +137,16 @@ complex<double> angular_integral::integ_a_b(double s)
     complex<double> tempM = kernel(s, z1_i) * previous->omega(z1_i, 0);
 
     tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
-    sumM +=  - w[i] * tempM;
+    sumM +=  w[i] * tempM;
 
     complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
     complex<double> tempP = kernel(s, z2_i) * previous->omega(z2_i, 0);
 
     tempP *= t_plus(s) - 2. * t_plus(b);
-    sumP +=  - w[i] * tempP;
+    sumP +=  w[i] * tempP;
   }
 
-  return  sumP + sumM;
+  return  (sumP + sumM);
 };
 
 // check = 4
@@ -161,41 +166,35 @@ complex<double> angular_integral::integ_b(double s)
   for (int i = 1; i < N_integ + 1; i++)
   {
     complex<double> temp = kernel(s, x[i]) * previous->omega(x[i], 0);
-    sum += - w[i] * temp;
+    sum += w[i] * temp;
   }
 
-  return sum;
+  return  sum;
 };
 
 // ---------------------------------------------------------------------------
 // Angular integral, F_hat
 complex<double> angular_integral::operator() (double s)
 {
-  int check = -1;
   complex<double> integ;
 
   if (std::abs(s - sthPi) < 2. * EPS) {
-    check = 0;
     integ = 2. * previous->interp_above(real(t_minus(sthPi))) * pow(xr * (a - sthPi), 1.5);
   }
 
   else if (s > sthPi + EPS && s < a0) {
-    check = 1;
     integ = integ_sthPi_a0(s);
   }
 
   else if (s >= a0 && s <= a)  {
-    check = 2;
     integ =  integ_a0_a(s);
   }
 
   else if (s > a && s < b)  {
-    check = 3;
     integ = integ_a_b(s);
   }
 
   else if (s >= b)  {
-    check = 4;
     integ = integ_b(s);
   }
 
@@ -204,12 +203,16 @@ complex<double> angular_integral::operator() (double s)
     exit(1);
   }
 
-  // if (check == 4)
-  // {
-  // cout << std::left << setw(10) << s << setw(5) << check << setw(30) << imag(integ) <<  endl;
-  // }
-
   return integ;
+};
+
+// ---------------------------------------------------------------------------
+// Utitlity function to print out the values of the above integral for testing
+void angular_integral::pass_iteration(iteration * prev)
+{
+    previous = NULL; //reset the pointer for posterity
+
+    previous = prev;
 };
 
 // ---------------------------------------------------------------------------

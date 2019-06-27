@@ -28,8 +28,8 @@ src/poly_exp.cpp
 )
 target_link_libraries( omega_BW ${ROOT_LIBRARIES})
 
-add_executable( omega_KT
-examples/omega_KT.cpp
+add_executable( KT_omega_unsubtracted
+examples/KT_omega_unsubtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
@@ -39,5 +39,9 @@ src/kt_equations.cpp
 src/kt_amplitude.cpp
 src/kt_ang_integral.cpp
 src/kt_disp_integral.cpp
+src/dalitz.cpp
+src/dalitz_fit.cpp
+src/poly_exp.cpp
+src/breit_wigner.cpp
 )
-target_link_libraries( omega_KT ${ROOT_LIBRARIES})
+target_link_libraries( KT_omega_unsubtracted ${ROOT_LIBRARIES})

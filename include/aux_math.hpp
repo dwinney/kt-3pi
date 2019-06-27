@@ -21,7 +21,15 @@
 using std::vector;
 using std::complex;
 
-void gauleg(double x1, double x2, double x[], double w[], int n); // Gaussian-Legendre weights
+//-----------------------------------------------------------------------------
+// Not really math but given int n, outputs right english string
+// "1st" vs "2nd" vs "3rd" etc...
+// :)
+std::string st_nd_rd(int n);
+
+//-----------------------------------------------------------------------------
+// Numerical integration routine. Generates Gauss-Legendre weights and abscissas
+void gauleg(double x1, double x2, double x[], double w[], int n);
 
 //-----------------------------------------------------------------------------
 // Utility functions that take in a vector of complex<doubles> and return vectors of the same size
@@ -42,7 +50,7 @@ public:
   // The number of interpolation points used  can be changed here
   const static int N_interp = 200;
   interpolation(){};
-  
+
   interpolation(vector<double> x, vector<complex<double>> fx)
   : s(x), r_fx(vec_real(fx)), i_fx(vec_imag(fx)),
     r_inter(x, vec_real(fx), ROOT::Math::Interpolation::kCSPLINE),

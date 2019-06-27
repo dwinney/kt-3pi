@@ -9,7 +9,7 @@
 
 #include "poly_exp.hpp"
 
-complex<double> poly_exp::operator ()(double s, double t)
+complex<double> poly_exp::eval(double s, double t)
   {
     double zs = kinematics.z(s,t);
     double thetas =  kinematics.theta(s,t);

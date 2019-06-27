@@ -62,7 +62,7 @@ complex<double> angular_integral::kernel(double s, complex<double> t)
 
 // check = 1
 // Both limits are real and above the unitarity cut
-complex<double> angular_integral::integ_sthPi_a0(double s)
+complex<double> angular_integral::integ_sthPi_a0(int n, double s)
 {
     if (s <= sthPi || s >= a0)
     {
@@ -76,7 +76,7 @@ complex<double> angular_integral::integ_sthPi_a0(double s)
     complex<double> sum = 0.;
     for (int i = 1; i < N_integ + 1; i++)
     {
-      complex<double> temp = kernel(s, x[i]) * previous->interp_above(x[i]);
+      complex<double> temp = kernel(s, x[i]) * previous->subtractions[n].interp_above(x[i]);
       sum += w[i] * temp;
     }
 
@@ -85,7 +85,7 @@ complex<double> angular_integral::integ_sthPi_a0(double s)
 
 // check = 2
 // both limits are purely real but one is above the other below
-complex<double> angular_integral::integ_a0_a(double s)
+complex<double> angular_integral::integ_a0_a(int n, double s)
 {
   if (s < a0|| s > a)
   {
@@ -107,8 +107,8 @@ complex<double> angular_integral::integ_a0_a(double s)
   complex<double> sumP = 0., sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> tempM = kernel(s, xM[i]) * previous->interp_below(xM[i]);
-    complex<double> tempP = kernel(s, xP[i]) * previous->interp_above(xP[i]);
+    complex<double> tempM = kernel(s, xM[i]) * previous->subtractions[n].interp_below(xM[i]);
+    complex<double> tempP = kernel(s, xP[i]) * previous->subtractions[n].interp_above(xP[i]);
 
     sumM += wM[i] * tempM;
     sumP += wP[i] * tempP;
@@ -174,20 +174,20 @@ complex<double> angular_integral::integ_b(double s)
 
 // ---------------------------------------------------------------------------
 // Angular integral, F_hat
-complex<double> angular_integral::operator() (double s)
+complex<double> angular_integral::operator() (int n, double s)
 {
   complex<double> integ;
 
   if (std::abs(s - sthPi) < 2. * EPS) {
-    integ = 2. * previous->interp_above(real(t_minus(sthPi))) * pow(xr * (a - sthPi), 1.5);
+    integ = 2. * previous->subtractions[n].interp_above(real(t_minus(sthPi))) * pow(xr * (a - sthPi), 1.5);
   }
 
   else if (s > sthPi + EPS && s < a0) {
-    integ = integ_sthPi_a0(s);
+    integ = integ_sthPi_a0(n, s);
   }
 
   else if (s >= a0 && s <= a)  {
-    integ =  integ_a0_a(s);
+    integ =  integ_a0_a(n, s);
   }
 
   else if (s > a && s < b)  {
@@ -215,68 +215,68 @@ void angular_integral::pass_iteration(iteration * prev)
     previous = prev;
 };
 
-// ---------------------------------------------------------------------------
-// Utitlity function to print out the values of the above integral for testing
-void angular_integral::print(double low, double high)
-{
-  if (low < sthPi || high > omnes::LamOmnes)
-  {
-    cout << "angular_integral::print: Error in ploting range. Quitting..." << endl;
-    exit(1);
-  }
-
-  //Surpress ROOT messages
-  gErrorIgnoreLevel = kWarning;
-
-  string name;
-  name = "angular_integral";
-
-  // Output to a datfile
-  std::ofstream output;
-  string namedat = name + ".dat";
-  output.open(namedat.c_str());
-
-  vector<double> s;
-  vector<double> refx, imfx;
-
-  for (int i = 0; i < 60; i++)
-  {
-      double s_i = low  + double(i) * (high - low) / 60.;
-      complex<double> fx_i = operator()(s_i);
-
-    s.push_back(s_i);
-    refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
-
-    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
-  }
-  output.close();
-
-  cout << "Output to: " << namedat << "." << endl;
-
-  // Print real part
-  TCanvas *c = new TCanvas("c", "c");
-  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-
-  gRe->SetTitle("Real Part");
-  gRe->Draw("AL");
-
-  c->Modified();
-  string namepdfre = name + "_real.pdf";
-  c->Print(namepdfre.c_str());
-
-  delete c, gRe;
-
-  //And the Imaginary part
-  TCanvas *c2 = new TCanvas("c2", "c2");
-  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-
-  gIm->SetTitle("Imaginary Part");
-  gIm->Draw("AL");
-
-  c2->Modified();
-  string namepdfim = name + "_imaginary.pdf";
-  c2->Print(namepdfim.c_str());
-
-  cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
-  delete c2, gIm;
-};
+// // ---------------------------------------------------------------------------
+// // Utitlity function to print out the values of the above integral for testing
+// void angular_integral::print(double low, double high)
+// {
+//   if (low < sthPi || high > omnes::LamOmnes)
+//   {
+//     cout << "angular_integral::print: Error in ploting range. Quitting..." << endl;
+//     exit(1);
+//   }
+//
+//   //Surpress ROOT messages
+//   gErrorIgnoreLevel = kWarning;
+//
+//   string name;
+//   name = "angular_integral";
+//
+//   // Output to a datfile
+//   std::ofstream output;
+//   string namedat = name + ".dat";
+//   output.open(namedat.c_str());
+//
+//   vector<double> s;
+//   vector<double> refx, imfx;
+//
+//   for (int i = 0; i < 60; i++)
+//   {
+//       double s_i = low  + double(i) * (high - low) / 60.;
+//       complex<double> fx_i = operator()(s_i);
+//
+//     s.push_back(s_i);
+//     refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
+//
+//     output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+//   }
+//   output.close();
+//
+//   cout << "Output to: " << namedat << "." << endl;
+//
+//   // Print real part
+//   TCanvas *c = new TCanvas("c", "c");
+//   TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+//
+//   gRe->SetTitle("Real Part");
+//   gRe->Draw("AL");
+//
+//   c->Modified();
+//   string namepdfre = name + "_real.pdf";
+//   c->Print(namepdfre.c_str());
+//
+//   delete c, gRe;
+//
+//   //And the Imaginary part
+//   TCanvas *c2 = new TCanvas("c2", "c2");
+//   TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+//
+//   gIm->SetTitle("Imaginary Part");
+//   gIm->Draw("AL");
+//
+//   c2->Modified();
+//   string namepdfim = name + "_imaginary.pdf";
+//   c2->Print(namepdfim.c_str());
+//
+//   cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
+//   delete c2, gIm;
+// };

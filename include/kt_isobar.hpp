@@ -34,15 +34,16 @@ using std::setw;
 //
 // The isobar class is the actual object that is called and combined by the KT amplitude.
 //-----------------------------------------------------------------------------
+
 class isobar
 {
 protected:
-  decay_kinematics kinematics;
-
   int spin_proj, iso_proj;
   omnes omega;
 
   // Vector storing each iteration of the KT equation
+  int num_subtractions;
+  vector<double> coefficients;
   vector<iteration> iters;
 
   // Start() to populate the 0th vector entry with interpolations of the base omnes function
@@ -53,16 +54,24 @@ protected:
 //-----------------------------------------------------------------------------
 
 public:
-  isobar(int isospin, int spin, decay_kinematics & dec) :
-  spin_proj(spin), iso_proj(isospin), kinematics(dec), omega(isospin, spin), kt(dec)
+  isobar(int isospin, int spin, int subtracts, decay_kinematics & dec) :
+  spin_proj(spin), iso_proj(isospin), num_subtractions(subtracts),
+  kinematics(dec), omega(isospin, spin), kt(dec)
   { };
 
-  ~isobar(){};
+  decay_kinematics kinematics;
 
   void iterate(int n);
 
-  //Print the nth iteration
-  void print(int n);
+  // Print the nth iteration
+  void print(int n, int m);
+
+  // These functions are to interface with dalitz_fit
+  void set_params(int n_params, const double *par);
+
+  // Evaluate the isobar in one channel or the total amplitude
+  complex<double> subtracted_isobar(double s);
+  complex<double> eval(double s, double t);
 };
 //-----------------------------------------------------------------------------
 

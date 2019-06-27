@@ -14,7 +14,7 @@
 // ---------------------------------------------------------------------------
 // Outputs the full amplitude, i.e. the sum of the pole in each sub-channel
 // (NOTE: does not have the kinematic prefators associated with spin)
-complex<double> breit_wigner::operator ()(double s, double t)
+complex<double> breit_wigner::eval(double s, double t)
 {
   double u = kinematics.u_man(s,t);
   complex<double> temp = F(s) + F(t) + F(u);
@@ -106,7 +106,7 @@ complex<double> breit_wigner_simple::f(double s)
   return 1. / (real_part * xr - imag_part * xi);
 };
 
-complex<double> breit_wigner_simple::operator ()(double s, double t)
+complex<double> breit_wigner_simple::eval(double s, double t)
 {
   return f(s) + f(t) + f(kinematics.u_man(s,t));
 }

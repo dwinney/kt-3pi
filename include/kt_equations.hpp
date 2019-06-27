@@ -41,6 +41,7 @@ private:
 
   // A method for evaluating the unitarity correction, i.e. the dispersion integral over the discontinuity.
   dispersion_integral disp;
+  subtraction_polynomial poly;
 
 public:
   // TODO: KT equations depend on spin projection and helicity in general
@@ -58,7 +59,6 @@ public:
 
   // Calculate the next iteration from the previous one
   iteration iterate(iteration * prev);
-
 };
 
 #endif

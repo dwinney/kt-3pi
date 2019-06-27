@@ -25,7 +25,9 @@ protected:
 
 public:
   // Default constructor
-  poly_exp(){};
+  poly_exp(decay_kinematics dec)
+  : kinematics(dec)
+  {};
 
   // Constructor with number of params and an array
   poly_exp(int n, const double * par, decay_kinematics dec)
@@ -37,7 +39,7 @@ public:
   decay_kinematics kinematics;
 
   // Evaluate amplitude squared
-  complex<double> operator ()(double s, double t);
+  complex<double> eval(double s, double t);
 
   // Set and Print
   void set_params(int n, const double *par);

@@ -77,7 +77,7 @@ double dalitz_fit<T, F>::chi_squared(const double *par)
 // ---------------------------------------------------------------------------
 // Minimize the above chi_squared by calling Minuit2 in the ROOT::Math::Minimizer class
 template <class T, class F>
-F dalitz_fit<T, F>::extract_params(double eN)
+F dalitz_fit<T, F>::extract_params(int eN)
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
   minuit->SetMaxFunctionCalls(10000000);

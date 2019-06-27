@@ -38,8 +38,8 @@ void dalitz<T>::generate_s_weights()
           s_wgt.push_back(weights[i]);
           s_abs.push_back(abscissas[i]);
   }
-  cout << "param_fit: Gaussian weights for s in the Dalitz Region generated with "
-  << N_int() << " points... \n";
+  // cout << "param_fit: Gaussian weights for s in the Dalitz Region generated with "
+  // << N_int() << " points... \n";
   S_WG_GENERATED = true;
 };
 
@@ -69,8 +69,8 @@ void dalitz<T>::generate_t_weights(vector<double> s)
     t_wgt.push_back(t_wgt_temp);
     t_abs.push_back(t_abs_temp);
   }
-  cout << "param_fit: Gaussian weights for t in the Dalitz Region generated with "
-  << N_int() << " points... \n";
+  // cout << "param_fit: Gaussian weights for t in the Dalitz Region generated with "
+  // << N_int() << " points... \n";
   T_WG_GENERATED = true;
 };
 

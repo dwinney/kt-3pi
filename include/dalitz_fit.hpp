@@ -53,7 +53,7 @@ public:
 
   void print_params(int a = 0);
 
-  F extract_params(double N);
+  F extract_params(int N);
 
   //Utility to change print level in TMinuit, default is to surpress all messages
   void set_printLevel(int n){nError = n;};

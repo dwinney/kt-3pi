@@ -121,3 +121,29 @@ complex<double> dispersion_integral::operator() (int n, double s, int ieps)
 
   return disp_inhom(n, s, ieps) - log_reg(n, s, ieps);
 };
+
+// ----------------------------------------------------------------------------
+// Conformal variable which maps the cut plane in complex s to the unit disk
+complex<double> subtraction_polynomial::conformal(double s)
+{
+  complex<double> numerator, denominator;
+
+  numerator = sqrt(s_inelastic - s_expand) - sqrt(s_inelastic - s);
+  denominator = sqrt(s_inelastic - s_expand) + sqrt(s_inelastic - s);
+
+  return numerator / denominator;
+};
+
+// ----------------------------------------------------------------------------
+// Outputs a polynomial of order n with unit coefficients in the above conformal variable
+complex<double> subtraction_polynomial::operator() (int n, double s)
+{
+  complex<double> result = xr;
+
+  for (int i = 1; i < n + 1; i++)
+  {
+    result += pow(conformal(s), double(i));
+  }
+
+  return result;
+};

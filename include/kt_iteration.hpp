@@ -14,42 +14,6 @@
 #include "decay_kinematics.hpp"
 #include "omnes.hpp"
 
-
-//-----------------------------------------------------------------------------
-// Each iteration contains a vector containing the current interpolated values of
-// the fundamental solutions for each subtration of the KT equations.
-// Additionally it has a copy of the original omnes object for ease of access.
-//-----------------------------------------------------------------------------
-class iteration
-{
-public:
-  iteration(int n, int m, omnes omeg,  vector<subtraction> subs)
-   : N_iteration(n), max_subs(m), omega(omeg), subtractions(subs)
-    {
-      if (subs.size() > m)
-      {
-        cout << "iteration: Number of subtractions greater than max in iteration decleration. Quittng..." << endl;
-        exit(1);
-      }
-    };
-
-  iteration(const iteration &previous)
-  : N_iteration(previous.N_iteration),
-    omega(previous.omega),
-    interp_above(previous.interp_above),
-    interp_below(previous.interp_below)
-  {};
-
-  // Destructor
-  ~iteration(){};
-
-  const int N_iteration; // iteration ID
-
-  const int max_subs; //
-  vector<subtraction> subtractions;
-  omnes omega;
-};
-
 //-----------------------------------------------------------------------------
 // The subtraction object contains an interpolation of the current iteration of the
 // KT equations for a given order of subtraction polynomial
@@ -70,6 +34,41 @@ public:
 
   const int N_subtraction; // subtraction ID
   interpolation interp_above, interp_below;
+};
+
+//-----------------------------------------------------------------------------
+// Each iteration contains a vector containing the current interpolated values of
+// the fundamental solutions for each subtration of the KT equations.
+// Additionally it has a copy of the original omnes object for ease of access.
+//-----------------------------------------------------------------------------
+class iteration
+{
+public:
+  iteration(int n, int m, omnes omeg,  vector<subtraction> subs)
+   : N_iteration(n), max_subs(m), omega(omeg), subtractions(subs)
+    {
+      if (subs.size() > m + 1)
+      {
+        cout << "iteration: Number of subtractions greater than max in iteration decleration. Quittng..." << endl;
+        exit(1);
+      }
+    };
+
+  iteration(const iteration &previous)
+  : N_iteration(previous.N_iteration),
+    max_subs(previous.max_subs),
+    omega(previous.omega),
+    subtractions(previous.subtractions)
+  {};
+
+  // Destructor
+  ~iteration(){};
+
+  const int N_iteration; // iteration ID
+
+  const int max_subs; //
+  vector<subtraction> subtractions;
+  omnes omega;
 };
 
 #endif

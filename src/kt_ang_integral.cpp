@@ -206,15 +206,15 @@ complex<double> angular_integral::operator() (int n, double s)
   return integ;
 };
 
-// // ---------------------------------------------------------------------------
-// // Utitlity function to print out the values of the above integral for testing
-// void angular_integral::pass_iteration(iteration * prev)
-// {
-//     previous = NULL; //reset the pointer for posterity
-//
-//     previous = prev;
-// };
-//
+// ---------------------------------------------------------------------------
+// Utitlity function to print out the values of the above integral for testing
+void angular_integral::pass_iteration(iteration * prev)
+{
+    previous = NULL; //reset the pointer for posterity
+
+    previous = prev;
+};
+
 // // ---------------------------------------------------------------------------
 // // Utitlity function to print out the values of the above integral for testing
 // void angular_integral::print(double low, double high)

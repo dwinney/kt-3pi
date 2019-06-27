@@ -41,12 +41,7 @@ private:
 
   // A method for evaluating the unitarity correction, i.e. the dispersion integral over the discontinuity.
   dispersion_integral disp;
-
-  // TODO: move these functions to dispersion_integral or their own class
-  constexpr complex<double> s_inelastic = xr;
-  constexpr complex<double> s_expand = 0.;
-  complex<double> conformal(double s);
-  complex<double> subtraction_polynomial(int n, double s);
+  subtraction_polynomial poly;
 
 public:
   // TODO: KT equations depend on spin projection and helicity in general
@@ -64,7 +59,6 @@ public:
 
   // Calculate the next iteration from the previous one
   iteration iterate(iteration * prev);
-
 };
 
 #endif

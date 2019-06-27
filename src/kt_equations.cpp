@@ -19,7 +19,7 @@ iteration kt_equations::iterate(iteration * prev)
 
   vector<subtraction> subs;
 
-  for (int n = 0; n < prev->max_subs; n++)
+  for (int n = 0; n < prev->max_subs + 1; n++)
   {
       vector<double> s;
       vector<complex<double>> above, below;
@@ -28,10 +28,10 @@ iteration kt_equations::iterate(iteration * prev)
         double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi - EPS) / double(interpolation::N_interp);
         s.push_back(s_i);
 
-        complex<double> ab = prev->omega(s_i, +1) * (subtraction_polynomial(n, s_i) + disp(n, s_i, +1));
+        complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i) + disp(n, s_i, +1));
         above.push_back(ab);
 
-        complex<double> be = prev->omega(s_i, -1) * (subtraction_polynomial(n, s_i) + disp(n, s_i, -1));
+        complex<double> be = prev->omega(s_i, -1) * (poly(n, s_i) + disp(n, s_i, -1));
         below.push_back(be);
       }
 
@@ -43,30 +43,4 @@ iteration kt_equations::iterate(iteration * prev)
   iteration next(prev->N_iteration + 1, prev->max_subs, prev->omega, subs);
 
   return next;
-};
-
-// ----------------------------------------------------------------------------
-// Conformal variable which maps the cut plane in complex s to the unit disk
-complex<double> kt_equations::conformal(double s)
-{
-  complex<double> numerator, denominator;
-
-  numerator = sqrt(s_inelastic - s_expand) - sqrt(s_inelastic - s);
-  denominator = sqrt(s_inelastic - s_expand) + sqrt(s_inelastic - s);
-
-  return numerator / denominator;
-};
-
-// ----------------------------------------------------------------------------
-// Outputs a polynomial of order n with unit coefficients in the above conformal variable
-complex<double> kt_equations::subtraction_polynomial(int n, double s)
-{
-  complex<double> result = xr;
-
-  for (int i = 1; i < n + 1; i++)
-  {
-    result += pow(conformal(s), double(i));
-  }
-
-  return result;
 };

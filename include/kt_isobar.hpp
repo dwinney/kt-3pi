@@ -59,8 +59,6 @@ public:
   kinematics(dec), omega(isospin, spin), kt(dec)
   { };
 
-  ~isobar(){};
-
   decay_kinematics kinematics;
 
   void iterate(int n);
@@ -72,8 +70,8 @@ public:
   void set_params(int n_params, const double *par);
 
   // Evaluate the isobar in one channel or the total amplitude
-  complex<double> eval(double s);
-  complex<double> operator () (double s, double t);
+  complex<double> subtracted_isobar(double s);
+  complex<double> eval(double s, double t);
 };
 //-----------------------------------------------------------------------------
 

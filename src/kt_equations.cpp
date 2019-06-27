@@ -21,6 +21,8 @@ iteration kt_equations::iterate(iteration * prev)
 
   for (int n = 0; n < prev->max_subs + 1; n++)
   {
+      cout << " -> Calculating subtraction (" << n << "/" << prev->max_subs << ")... " << endl;
+
       vector<double> s;
       vector<complex<double>> above, below;
       for (int i = 0; i < interpolation::N_interp; i++)

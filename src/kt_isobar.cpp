@@ -17,6 +17,7 @@ void isobar::start()
 {
   cout << endl;
   cout << "Storing initial Omnes amplitude... " << endl;
+
   vector<double> s;
 
   // Need to store values of the Omnes amplitude around the unitarity cut for the
@@ -56,6 +57,9 @@ void isobar::start()
 
   iteration zeroth(0, num_subtractions, omega, subtractions);
   iters.push_back(zeroth);
+
+  cout << "Done." << endl;
+  cout << endl;
 };
 
 // ----------------------------------------------------------------------------
@@ -80,6 +84,9 @@ void isobar::iterate(int n)
       cout << "iterate: Trying to access iteration that is not there. Quitting..." << endl;
       exit(1);
     }
+
+    cout << "Done." << endl;
+    cout << endl;
   }
 };
 
@@ -90,6 +97,8 @@ void isobar::print(int n, int m)
 {
   //Surpress ROOT messages
   gErrorIgnoreLevel = kWarning;
+
+  cout << "Printing the " + st_nd_rd(n) << " iteration with " << std::to_string(m) << " subtractions..." << endl;
 
   string name;
   name = "isobar_" + std::to_string(n) + "_" + std::to_string(m);
@@ -144,6 +153,8 @@ void isobar::print(int n, int m)
   c2->Print(namepdfim.c_str());
 
   cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
+  cout << endl;
+
   delete c2, gIm;
 };
 
@@ -175,7 +186,7 @@ void isobar::set_params(int n_params, const double *par)
 // ----------------------------------------------------------------------------
 // Evaluate the isobar partial wave at some energy s
 // Sums subtractions with their coefficients
-complex<double> isobar::eval(double s)
+complex<double> isobar::subtracted_isobar(double s)
 {
   if (coefficients.size() != num_subtractions + 1)
   {
@@ -222,9 +233,9 @@ complex<double> isobar::eval(double s)
 
 // ----------------------------------------------------------------------------
 // Evaluate the full isobar amplitude by inserting partial wave in each subchannel
-complex<double> isobar::operator () (double s, double t)
+complex<double> isobar::eval(double s, double t)
 {
   double u = kinematics.u_man(s,t);
 
-  return eval(s) + eval(t) + eval(u);
+  return subtracted_isobar(s) + subtracted_isobar(t) + subtracted_isobar(u);
 };

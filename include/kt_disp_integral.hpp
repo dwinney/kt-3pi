@@ -57,6 +57,7 @@ protected:
   complex<double> integ_sthPi_a(double s, int ieps); // 1
   complex<double> integ_a_Lam(double s, int ieps); // 3
 
+  // TODO: integral 2
 
   complex<double> disp_inhom(double s, int ieps);
 
@@ -67,7 +68,7 @@ public:
   // Default constructor
   dispersion_integral(decay_kinematics dec)
     : inhom(dec), kinematics(dec)
-  {};
+  { };
 
   complex<double> operator() (double s, int ieps);
 

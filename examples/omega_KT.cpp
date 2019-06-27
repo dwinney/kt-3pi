@@ -9,7 +9,6 @@ using std::endl;
 
 int main()
 {
-
   cout << endl;
 
   // Set up the decay kinematics for the amplitude

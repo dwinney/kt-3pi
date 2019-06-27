@@ -1,6 +1,4 @@
-// Container class used by the isobar class to store successive iterations of the kt equations.
-// The iteration object contains interpolations of the amplitude above and below the unitarity cut
-// and a copy of the omnes function for evaluting on the real axis.
+// Container classes used by the isobar class to store successive iterations of the kt equations.
 //
 // Dependencies: aux_math.hpp, omnes.hpp, decay_kinematics.hpp
 //
@@ -18,25 +16,23 @@
 
 
 //-----------------------------------------------------------------------------
-// Each iteration contains the values of the current function and an interpolation
-// of the KT solution above and below the unitarity cut in the complex plane.
-//
-// For in between threshold and pseudo-threshold on the real axis, we also save a copy of
-// the omnes function (TODO: Save an interpolation instead of the whole thing)
+// Each iteration contains a vector containing the current interpolated values of
+// the fundamental solutions for each subtration of the KT equations.
+// Additionally it has a copy of the original omnes object for ease of access.
 //-----------------------------------------------------------------------------
 class iteration
 {
-//-----------------------------------------------------------------------------
 public:
-  // Constructor for the 0th iteration. Takes values of the bare Omnes function
-  iteration(int n, omnes omeg,  vector<double> s,
-                                vector<complex<double>> above,
-                                vector<complex<double>> below)
-   : N_iteration(n), omega(omeg), interp_above(s, above), interp_below(s, below)
-    {};
+  iteration(int n, int m, omnes omeg,  vector<subtraction> subs)
+   : N_iteration(n), max_subs(m), omega(omeg), subtractions(subs)
+    {
+      if (subs.size() > m)
+      {
+        cout << "iteration: Number of subtractions greater than max in iteration decleration. Quittng..." << endl;
+        exit(1);
+      }
+    };
 
-  // Copy constructor needed to define vector<iterations>
-  // Additionally is the constructor for the N > 0 th iteration whih takes the previous
   iteration(const iteration &previous)
   : N_iteration(previous.N_iteration),
     omega(previous.omega),
@@ -49,11 +45,31 @@ public:
 
   const int N_iteration; // iteration ID
 
-
-  interpolation interp_above, interp_below;
+  const int max_subs; //
+  vector<subtraction> subtractions;
   omnes omega;
+};
 
+//-----------------------------------------------------------------------------
+// The subtraction object contains an interpolation of the current iteration of the
+// KT equations for a given order of subtraction polynomial
+//-----------------------------------------------------------------------------
+class subtraction
+{
+public:
+  subtraction(int n, vector<double> s,
+                      vector<complex<double>> above,
+                      vector<complex<double>> below)
+    : N_subtraction(n), interp_above(s, above), interp_below(s, below)
+    {};
 
+  subtraction(const subtraction &previous)
+  : N_subtraction(previous.N_subtraction), interp_above(previous.interp_above),
+                                           interp_below(previous.interp_below)
+  {};
+
+  const int N_subtraction; // subtraction ID
+  interpolation interp_above, interp_below;
 };
 
 #endif

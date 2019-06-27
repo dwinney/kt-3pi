@@ -28,6 +28,8 @@
 
 using std::setw;
 
+// TODO: Evaluation of the isobar requires subtractions coefficients and summing each subtraction
+
 //-----------------------------------------------------------------------------
 // Each isobar should contain the quantum numbers of the whole ampltidue
 // and information on its isospin and spin projections.
@@ -43,6 +45,7 @@ protected:
   omnes omega;
 
   // Vector storing each iteration of the KT equation
+  int num_subtractions = 1;
   vector<iteration> iters;
 
   // Start() to populate the 0th vector entry with interpolations of the base omnes function

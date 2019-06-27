@@ -26,7 +26,7 @@ int main()
 
   // Print the results compared to the no-3body-effects case.
   pwave.print(0); // No rescattering
-  pwave.print(1);
+  pwave.print(1); 
   pwave.print(3); // 3rd iterations
 
 

@@ -39,5 +39,9 @@ src/kt_equations.cpp
 src/kt_amplitude.cpp
 src/kt_ang_integral.cpp
 src/kt_disp_integral.cpp
+src/dalitz.cpp
+src/dalitz_fit.cpp
+src/poly_exp.cpp
+src/breit_wigner.cpp
 )
 target_link_libraries( omega_KT ${ROOT_LIBRARIES})

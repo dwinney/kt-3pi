@@ -27,10 +27,10 @@ int main()
   // defined with a Jmax and helicity / isospin dependence.
   int n_subtractions = 0;
   isobar kt_pwave(1, 1, n_subtractions, vector_meson);
-  kt_pwave.iterate(1); // Calculate three iterations of the KT equation
+  kt_pwave.iterate(3); // Calculate three iterations of the KT equation
 
   kt_pwave.print(0, 0); // No rescattering
-  kt_pwave.print(1, 0);
+  kt_pwave.print(3, 0);
 
   cout << endl;
   cout << "Extracting Dalitz Plot Parameters..." << endl;

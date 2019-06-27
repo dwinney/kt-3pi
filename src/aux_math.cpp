@@ -9,6 +9,25 @@
 
 #include "aux_math.hpp"
 
+//-----------------------------------------------------------------------------
+// Not really math but given int n, outputs right english string
+// "1st" vs "2nd" vs "3rd" etc...
+// :)
+std::string st_nd_rd(int n)
+{
+  std::string en = std::to_string(n);
+
+  switch (n)
+  {
+    case 1: en += "st"; break;
+    case 2: en += "nd"; break;
+    case 3: en += "rd"; break;
+    default: en += "th"; break;
+  }
+
+  return en;
+};
+
 /*******************************************************************************
    Gauss-Legendre integration function, gauleg, from "Numerical Recipes in C"
    (Cambridge Univ. Press) by W.H. Press, S.A. Teukolsky, W.T. Vetterling, and

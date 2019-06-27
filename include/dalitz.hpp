@@ -32,15 +32,15 @@ using std::endl;
 //-----------------------------------------------------------------------------
 // Define a Dalitz plot object with some other amplitude object containing a model.
 // Object argument must have a decay_kinematics object named kinematics as a public member or have dalitz as a friend class
-// and be callable with the signature:
+// and be callable with the function eval:
 //
-//  complex<double> operator() (double, double)
+//  complex<double> eval (double, double)
 //  or
-//  double operator() (double,double)
+//  double eval(double,double)
 //
 // Initiate a dalitz plot object with:
 // model_amp my_model;
-// dalitz<model_amp> my_dalitz(my_model);
+// dalitz<model_amp> my_dalitz(&my_model);
 //-----------------------------------------------------------------------------
 
 template <class T>

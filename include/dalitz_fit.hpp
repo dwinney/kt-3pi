@@ -25,12 +25,13 @@ using std::string;
 // The dalitz_fit class allows two amplitudes to be fit to each other by minimizing a chi_squared type integral
 // over the entire allowed decay region.
 //
-// my_amp data_amp(&my_inputs);
-// dalitz_fit<my_amp, fitting_amp> fit(data_amp);
-// fitting_amp finished_fit = fit.extract_params(number_of_variables);
+// The amplitudes for both data and fitting must contain a decay_kinematics object as a
+// publically accessable data member.
 //
-// The user must define the function amplitude::set_params(int n, const double *par)
-// to properly set the n fitting parameters in the model.
+// The user must define the function
+// void set_params(int n, const double *par) [to properly set the n fitting parameters in the model]
+// and
+// complex<double> eval(doube s, double t) [evaluate amplitude at mandelstam s and t]
 // ---------------------------------------------------------------------------
 template <class T, class F>
 class dalitz_fit : public dalitz<T>

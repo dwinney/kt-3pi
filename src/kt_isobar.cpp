@@ -38,6 +38,14 @@ void isobar::start()
     below_cut.push_back(be);
   }
 
+  // Make a vector with copies = number of total subtractions
+  vector<subtraction> subtractions;
+  for (int i = 0; i < num_subtractions + 1; i ++)
+  {
+    subtraction not_actually_subtracted(i, s, above_cut, below_cut);
+    subtractions.push_back(not_actually_subtracted);
+  }
+
   // If there are previously stored iterations for some reason, clear it when start() is called.
   if (iters.size() != 0)
   {
@@ -46,15 +54,8 @@ void isobar::start()
     cout << " and I = " << iso_proj << ". \n";
   }
 
-  // Make a vector with copies = number of total subtractions
-  vector<subtraction> subtractions;
-  for (int i = 0; i < num_subtractions; i ++)
-  {
-    subtraction not_actually_subtracted(i, s, above_cut, below_cut);
-    subtractions.pushback(not_actually_subtracted);
-  }
-
-  iteration zeroth(0, num_subtractions, omega, subtrations)
+  iteration zeroth(0, num_subtractions, omega, subtractions);
+  iters.push_back(zeroth);
 };
 
 // ----------------------------------------------------------------------------
@@ -82,73 +83,148 @@ void isobar::iterate(int n)
   }
 };
 
-// // ----------------------------------------------------------------------------
-// // Print the nth iteration into a dat file.
-// // Additionally make a PDF plot comparing the 0th (no rescattering) and the nth iterations.
-// void isobar::print(int n)
-// {
-//   cout << endl;
-//   cout << "Printing the " << std::to_string(n);
-//   if (n == 1) {cout << "st Iteration..." << endl;}
-//   else if (n == 2) {cout << "nd Iteration..." << endl;}
-//   else if (n == 3) {cout << "rd Iteration..." << endl;}
-//   else {cout << "th Iteration..." << endl;}
-//
-//   //Surpress ROOT messages
-//   gErrorIgnoreLevel = kWarning;
-//
-//   string name;
-//   name = "isobar_iteration_" + std::to_string(n);
-//
-//   // Output to a datfile
-//   std::ofstream output;
-//   string namedat = name + ".dat";
-//   output.open(namedat.c_str());
-//
-//   vector<double> s;
-//   vector<double> refx, imfx;
-//   for (int i = 0; i < 60; i++)
-//   {
-//     double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
-//     complex<double> fx_i = iters[n].interp_above(s_i);
-//
-//     s.push_back(s_i);
-//     refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
-//
-//     output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
-//   }
-//   output.close();
-//
-//   cout << "Output to: " << namedat << "." << endl;
-//
-//   //Print the Real part compared to no rescattering
-//   TCanvas *c = new TCanvas("c", "c");
-//   TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-//
-//   string label = std::to_string(n) + " Iterations";
-//   gRe->SetTitle(label.c_str());
-//   gRe->SetLineStyle(2);
-//   gRe->Draw("AL");
-//
-//
-//   c->Modified();
-//   string namepdfre = name + "_real.pdf";
-//   c->Print(namepdfre.c_str());
-//
-//   delete c, gRe;
-//
-//   //And the Imaginary part
-//   TCanvas *c2 = new TCanvas("c2", "c2");
-//   TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-//
-//   gIm->SetTitle(label.c_str());
-//   gIm->SetLineStyle(2);
-//   gIm->Draw("AL");
-//
-//   c2->Modified();
-//   string namepdfim = name + "_imaginary.pdf";
-//   c2->Print(namepdfim.c_str());
-//
-//   cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
-//   delete c2, gIm;
-// };
+// ----------------------------------------------------------------------------
+// Print the nth iteration into a dat file.
+// Additionally make a PDF plot comparing the 0th (no rescattering) and the nth iterations.
+void isobar::print(int n, int m)
+{
+  //Surpress ROOT messages
+  gErrorIgnoreLevel = kWarning;
+
+  string name;
+  name = "isobar_" + std::to_string(n) + "_" + std::to_string(m);
+
+  // Output to a datfile
+  std::ofstream output;
+  string namedat = name + ".dat";
+  output.open(namedat.c_str());
+
+  vector<double> s;
+  vector<double> refx, imfx;
+  for (int i = 0; i < 60; i++)
+  {
+    double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
+    complex<double> fx_i = iters[n].subtractions[m].interp_above(s_i);
+
+    s.push_back(s_i);
+    refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
+
+    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+  }
+  output.close();
+
+  cout << "Output to: " << namedat << "." << endl;
+
+  //Print the Real part compared to no rescattering
+  TCanvas *c = new TCanvas("c", "c");
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+
+  string label = std::to_string(n) + " Iterations " + std::to_string(m) + " Subtractions";
+  gRe->SetTitle(label.c_str());
+  gRe->SetLineStyle(2);
+  gRe->Draw("AL");
+
+
+  c->Modified();
+  string namepdfre = name + "_real.pdf";
+  c->Print(namepdfre.c_str());
+
+  delete c, gRe;
+
+  //And the Imaginary part
+  TCanvas *c2 = new TCanvas("c2", "c2");
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  gIm->SetTitle(label.c_str());
+  gIm->SetLineStyle(2);
+  gIm->Draw("AL");
+
+  c2->Modified();
+  string namepdfim = name + "_imaginary.pdf";
+  c2->Print(namepdfim.c_str());
+
+  cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
+  delete c2, gIm;
+};
+
+// ----------------------------------------------------------------------------
+// Set the subtraction coefficients for fitting routines
+void isobar::set_params(int n_params, const double *par)
+{
+  if (n_params != num_subtractions + 1)
+  {
+    cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
+    exit(1);
+  }
+
+  // clear existing coefficients
+  coefficients.clear();
+  for (int i = 0; i < n_params; i++)
+  {
+    coefficients.push_back(par[i]);
+  }
+
+  // check again for good measure
+  if (coefficients.size() != n_params)
+  {
+  cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
+  exit(1);
+  }
+};
+
+// ----------------------------------------------------------------------------
+// Evaluate the isobar partial wave at some energy s
+// Sums subtractions with their coefficients
+complex<double> isobar::eval(double s)
+{
+  if (coefficients.size() != num_subtractions + 1)
+  {
+    // cout << "isobar: Number of coefficients and subtrations don't match! Quitting..." << endl;
+    // exit(1);
+    coefficients.clear();
+    for (int i = 0; i < num_subtractions + 1; i++)
+    {
+      coefficients.push_back(1.);
+    }
+  }
+  if (iters.size() == 0)
+  {
+    cout << "isobar: Need to iterate / start before can evaluate. Quitting..." << endl;
+    exit(1);
+  };
+
+  complex<double> result = 0.;
+  if (s > sthPi + EPS && s <= omega.LamOmnes)
+  {
+    for (int i = 0; i < num_subtractions + 1; i++)
+    {
+      result += coefficients[i] * iters.back().subtractions[i].interp_above(s);
+    }
+  }
+
+  // on the negative real axis (no imaginary part)
+  else if (s < sthPi)
+  {
+    for (int i = 0; i < num_subtractions + 1; i++)
+    {
+      result += coefficients[i] * omega(s, 0);
+    }
+  }
+
+  else
+  {
+    cout << "isobar: Attempting to evaluate outside of interpolation range. Quitting..." << endl;
+    exit(1);
+  }
+
+  return result;
+};
+
+// ----------------------------------------------------------------------------
+// Evaluate the full isobar amplitude by inserting partial wave in each subchannel
+complex<double> isobar::operator () (double s, double t)
+{
+  double u = kinematics.u_man(s,t);
+
+  return eval(s) + eval(t) + eval(u);
+};

@@ -25,7 +25,7 @@ using std::string;
 // The dalitz_fit class allows two amplitudes to be fit to each other by minimizing a chi_squared type integral
 // over the entire allowed decay region.
 //
-// my_amp data_amp(my_inputs);
+// my_amp data_amp(&my_inputs);
 // dalitz_fit<my_amp, fitting_amp> fit(data_amp);
 // fitting_amp finished_fit = fit.extract_params(number_of_variables);
 //
@@ -40,20 +40,20 @@ protected:
   int n_params;
   int nError = 0; // Default print level for info messages in Minuit (0 - 4)
 
-  F fit_amp;
+  F * fit_amp;
 
   double kin_kernel(double s, double t); // Kinematic Kernel in dalitz region integral
   double chi_squared(const double *par); // Chi-squared between input line-shape and polynomial.
 
 // ---------------------------------------------------------------------------
 public:
-  dalitz_fit(T my_amp) : dalitz<T>(my_amp){
-    fit_amp.kinematics = my_amp.kinematics;
-  };
+  dalitz_fit(T * my_amp, F * fit_obj)
+  : dalitz<T>(my_amp), fit_amp(fit_obj)
+  {};
 
   void print_params(int a = 0);
 
-  F extract_params(int N);
+  void extract_params(int N);
 
   //Utility to change print level in TMinuit, default is to surpress all messages
   void set_printLevel(int n){nError = n;};

@@ -47,8 +47,8 @@ template <class T>
 class dalitz
 {
 protected:
-  T amp;
-  double normalization = 32. * pow(2.* M_PI * amp.kinematics.get_decayMass(), 3.);
+  T * amp;
+  double normalization = 32. * pow(2.* M_PI * amp->kinematics.get_decayMass(), 3.);
   double offset = 0.00001;
 //-----------------------------------------------------------------------------
 // For integration
@@ -69,7 +69,7 @@ protected:
 //-----------------------------------------------------------------------------
 public:
   // Default Constructor
-  dalitz(T& my_amp) : amp(my_amp){};
+  dalitz(T * my_amp) : amp(my_amp){};
 
 //--------------------------------------------------------------------------
   // Double differential cross section

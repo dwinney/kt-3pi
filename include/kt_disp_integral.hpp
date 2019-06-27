@@ -42,8 +42,8 @@ protected:
   iteration * previous;
 
   //Explicitly factor out the factors of k(s) give singularities
-  complex<double> Mtilde(double s, int ieps);
-  complex<double> reg_integrand(double s, int ieps); //the regular piece of the integrand.
+  complex<double> Mtilde(int n, double s, int ieps);
+  complex<double> reg_integrand(int n, double s, int ieps); //the regular piece of the integrand.
 
   // Integral from s = [sthPi, LamOmnes] split into three pieces:
   // 1: from [sthPi, a - interval]
@@ -54,15 +54,15 @@ protected:
   double interval = 0.005; // Interval on either side of a to integrate
 
   // End cap integrals
-  complex<double> integ_sthPi_a(double s, int ieps); // 1
-  complex<double> integ_a_Lam(double s, int ieps); // 3
+  complex<double> integ_sthPi_a(int n, double s, int ieps); // 1
+  complex<double> integ_a_Lam(int n, double s, int ieps); // 3
 
   // TODO: integral 2
 
-  complex<double> disp_inhom(double s, int ieps);
+  complex<double> disp_inhom(int n, double s, int ieps);
 
   // Log term subtracted to regularize the cut off at LamOmnes
-  complex<double> log_reg(double s, int ieps);
+  complex<double> log_reg(int n, double s, int ieps);
 
 public:
   // Default constructor
@@ -70,7 +70,7 @@ public:
     : inhom(dec), kinematics(dec)
   { };
 
-  complex<double> operator() (double s, int ieps);
+  complex<double> operator() (int n, double s, int ieps);
 
   void pass_iteration(iteration * prev);
 };

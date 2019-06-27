@@ -27,6 +27,10 @@ protected:
   double s_res(){ return res_mass * res_mass;};
 // ---------------------------------------------------------------------------
 public:
+  breit_wigner_simple(decay_kinematics dec)
+  : kinematics(dec)
+  {};
+
   breit_wigner_simple(double mass, double width, decay_kinematics dec)
   : kinematics(dec)
   {
@@ -36,7 +40,7 @@ public:
 
   decay_kinematics kinematics;
 
-  complex<double> operator ()(double s, double t);
+  complex<double> eval(double s, double t);
   complex<double> f(double s);
 
 // ---------------------------------------------------------------------------
@@ -56,7 +60,10 @@ protected:
   complex<double> mom_pi(double s);
 // ---------------------------------------------------------------------------
 public:
-  breit_wigner(){};
+  breit_wigner(decay_kinematics dec)
+  : kinematics(dec)
+  {};
+
   breit_wigner(double mass, double width, decay_kinematics dec, const char * n = "")
     : res_mass(mass), res_width(width), kinematics(dec)
   {
@@ -72,7 +79,7 @@ public:
   decay_kinematics kinematics;
 
   complex<double> F(double x);
-  complex<double> operator ()(double s, double t);
+  complex<double> eval(double s, double t);
 
   void set_params(int n, const double * par);
   void print_params();

@@ -45,3 +45,21 @@ src/poly_exp.cpp
 src/breit_wigner.cpp
 )
 target_link_libraries( KT_omega_unsubtracted ${ROOT_LIBRARIES})
+
+add_executable( KT_omega_subtracted
+examples/KT_omega_subtracted.cpp
+src/decay_kinematics.cpp
+src/pipi.cpp
+src/omnes.cpp
+src/aux_math.cpp
+src/kt_isobar.cpp
+src/kt_equations.cpp
+src/kt_amplitude.cpp
+src/kt_ang_integral.cpp
+src/kt_disp_integral.cpp
+src/dalitz.cpp
+src/dalitz_fit.cpp
+src/poly_exp.cpp
+src/breit_wigner.cpp
+)
+target_link_libraries( KT_omega_subtracted ${ROOT_LIBRARIES})

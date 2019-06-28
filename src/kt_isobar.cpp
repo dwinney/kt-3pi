@@ -95,6 +95,13 @@ void isobar::iterate(int n)
 // Additionally make a PDF plot comparing the 0th (no rescattering) and the nth iterations.
 void isobar::print(int n, int m)
 {
+
+  if (n > iters.size() - 1 ||  m > iters[n].subtractions.size() - 1)
+  {
+      cout << "isobar: Trying to print iteration that doesnt exist. Quitting..." << endl;
+      exit(1);
+  };
+
   //Surpress ROOT messages
   gErrorIgnoreLevel = kWarning;
 
@@ -181,6 +188,19 @@ void isobar::set_params(int n_params, const double *par)
   cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
   exit(1);
   }
+};
+
+void isobar::print_params()
+{
+    cout << "Printing Subtraction Coefficients... \n";
+    cout << "---------------------------------------- \n";
+    for (int i = 0; i < num_subtractions + 1; i++)
+    {
+      cout << std::left <<  setw(20) << "a_" + std::to_string(i) + ":" <<
+      setw(20) << coefficients[i] << "\n";
+    }
+    cout << "---------------------------------------- \n";
+    cout << "\n";
 };
 
 // ----------------------------------------------------------------------------

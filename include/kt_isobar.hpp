@@ -68,6 +68,7 @@ public:
 
   // These functions are to interface with dalitz_fit
   void set_params(int n_params, const double *par);
+  void print_params();
 
   // Evaluate the isobar in one channel or the total amplitude
   complex<double> subtracted_isobar(double s);

@@ -45,8 +45,10 @@ Mass and quantum numbers of decaying particle which define the amplitude ( ``` k
  [__NOTE__: Currently the only dispersion method is that in [[Dan14a]](https://arxiv.org/abs/1409.7708) but different methods such as a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can easily be implemented with a new namespace].
 
  #### Examples
-The __KT_omega_unsubtracted.cpp__ script gives an example calculation of the _unsubtracted_ KT equations for the omega meson case for arbitrary iterations of the integral equation. Building is identical to above.
+To build any of these scripts simply use ``make`` in above.
 
-Because there is only one relevent isobar and no isospin dependence, we use the `isobar` class directly but for more complicated cases we will use a combination of `isobar` objects in the `kt_amplitude` class.
+__KT_omega_unsubtracted.cpp__ contains an example calculation of the _unsubtracted_ KT equations for the omega meson case for arbitrary iterations of the integral equation to compare the effects of rescattering versus a regular Breit-Wigner parameterization or to see the effects of iterating the KT kernel on Dalitz plot parameters.
 
-Subtracted dispersion relations will soon be fittable to data using the above `dalitz_fit` class.
+__KT_omega_subtracted.cpp__ allows calculation of arbitrary number of subtractions and iterations of the KT equations. The solutions to the KT equations are saved and interpolated and can be fit to another amplitude to determine subtraction constants.
+
+Because there is only one relevent isobar and no isospin dependence, both of the above use the `isobar` class directly but for more complicated cases we will use the `kt_amplitude` class which will combine isobars of different quantum numbers. Future update will allow use this structure to incorporate the F-wave in the calculation of the omega solution.

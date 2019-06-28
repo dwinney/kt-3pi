@@ -45,7 +45,7 @@ Mass and quantum numbers of decaying particle which define the amplitude ( ``` k
  [__NOTE__: Currently the only dispersion method is that in [[Dan14a]](https://arxiv.org/abs/1409.7708) but different methods such as a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can easily be implemented with a new namespace].
 
  #### Examples
-The __kt_omega_unsubtracted.cpp__ script gives an example calculation of the _unsubtracted_ KT equations for the omega meson case for arbitrary iterations of the integral equation. Building is identical to above.
+The __KT_omega_unsubtracted.cpp__ script gives an example calculation of the _unsubtracted_ KT equations for the omega meson case for arbitrary iterations of the integral equation. Building is identical to above.
 
 Because there is only one relevent isobar and no isospin dependence, we use the `isobar` class directly but for more complicated cases we will use a combination of `isobar` objects in the `kt_amplitude` class.
 

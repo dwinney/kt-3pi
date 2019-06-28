@@ -31,7 +31,7 @@ int main()
     kt_pwave.print(3, 1);
 
     // Start with the BESIII results
-    double BES_params[3] = {4.78, 120.2, 29.5};
+    double BES_params[3] = {1., 120.2, 29.5};
     poly_exp BES_fit(3, BES_params, vector_meson);
 
     // Now we fit!!

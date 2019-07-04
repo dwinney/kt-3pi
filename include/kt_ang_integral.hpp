@@ -12,6 +12,7 @@
 #ifndef _T_INT_
 #define _T_INT_
 
+#include "kt_sub_polynomial.hpp"
 #include "kt_iteration.hpp"
 #include "decay_kinematics.hpp"
 #include "aux_math.hpp"
@@ -70,8 +71,8 @@ protected:
   // b = threshold
   complex<double> integ_sthPi_a0(int n, double s);
   complex<double> integ_a0_a(int n, double s);
-  complex<double> integ_a_b(double s);
-  complex<double> integ_b(double s);
+  complex<double> integ_a_b(int n, double s);
+  complex<double> integ_b(int n, double s);
 
 public:
   // Default constructor

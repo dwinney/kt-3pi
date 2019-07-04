@@ -75,20 +75,4 @@ public:
   void pass_iteration(iteration * prev);
 };
 
-// ---------------------------------------------------------------------------
-// Super simple class to output an nth order polynomial in a conformal variable
-// ---------------------------------------------------------------------------
-
-class subtraction_polynomial
-{
-protected:
-  const complex<double> s_inelastic = xr;
-  const complex<double> s_expand = 0.;
-public:
-  subtraction_polynomial(){};
-
-  complex<double> conformal(double s);
-  complex<double> operator() (int n, double s);
-};
-
 #endif

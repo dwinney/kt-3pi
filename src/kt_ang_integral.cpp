@@ -119,7 +119,7 @@ complex<double> angular_integral::integ_a0_a(int n, double s)
 
 // check = 3
 // this is the unphysical region, the bounds of integration are complex to avoid singularities
-complex<double> angular_integral::integ_a_b(double s)
+complex<double> angular_integral::integ_a_b(int n, double s)
 {
   if (s < a || s > b)
   {
@@ -130,17 +130,18 @@ complex<double> angular_integral::integ_a_b(double s)
   double w[N_integ + 1], x[N_integ + 1];
   gauleg(0., 1., x, w, N_integ);
 
+  subtraction_polynomial sub_poly;
   complex<double> sumP = 0., sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
   {
     complex<double> z1_i = (1. - x[i]) * t_minus(s) + x[i] * (2. * t_minus(b));
-    complex<double> tempM = kernel(s, z1_i) * previous->omega(z1_i, 0);
+    complex<double> tempM = kernel(s, z1_i) * previous->omega(z1_i, 0) * sub_poly(n, z1_i, 0);
 
     tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
     sumM +=  w[i] * tempM;
 
     complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
-    complex<double> tempP = kernel(s, z2_i) * previous->omega(z2_i, 0);
+    complex<double> tempP = kernel(s, z2_i) * previous->omega(z2_i, 0) * sub_poly(n, z2_i, 0);
 
     tempP *= t_plus(s) - 2. * t_plus(b);
     sumP +=  w[i] * tempP;
@@ -151,7 +152,7 @@ complex<double> angular_integral::integ_a_b(double s)
 
 // check = 4
 // t-channel scattering region, limits are real again
-complex<double> angular_integral::integ_b(double s)
+complex<double> angular_integral::integ_b(int n, double s)
 {
   if (s < b)
   {
@@ -162,10 +163,11 @@ complex<double> angular_integral::integ_b(double s)
   double w[N_integ + 1], x[N_integ + 1];
   gauleg(real(t_minus(s)), real(t_plus(s)), x, w, N_integ);
 
+  subtraction_polynomial sub_poly;
   complex<double> sum = 0.;
   for (int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> temp = kernel(s, x[i]) * previous->omega(x[i], 0);
+    complex<double> temp = kernel(s, x[i]) * previous->omega(x[i], 0) * sub_poly(n, x[i], 0);
     sum += w[i] * temp;
   }
 
@@ -191,11 +193,11 @@ complex<double> angular_integral::operator() (int n, double s)
   }
 
   else if (s > a && s < b)  {
-    integ = integ_a_b(s);
+    integ = integ_a_b(n, s);
   }
 
   else if (s >= b)  {
-    integ = integ_b(s);
+    integ = integ_b(n, s);
   }
 
   else  {

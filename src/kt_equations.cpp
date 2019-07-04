@@ -30,10 +30,10 @@ iteration kt_equations::iterate(iteration * prev)
         double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi - EPS) / double(interpolation::N_interp);
         s.push_back(s_i);
 
-        complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i) + disp(n, s_i, +1));
+        complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i, +1) + disp(n, s_i, +1));
         above.push_back(ab);
 
-        complex<double> be = prev->omega(s_i, -1) * (poly(n, s_i) + disp(n, s_i, -1));
+        complex<double> be = prev->omega(s_i, -1) * (poly(n, s_i, -1) + disp(n, s_i, -1));
         below.push_back(be);
       }
 

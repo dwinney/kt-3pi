@@ -18,32 +18,33 @@ void isobar::start()
   cout << endl;
   cout << "Storing initial Omnes amplitude... " << endl;
 
-  vector<double> s;
+  subtraction_polynomial sub_poly;
+  vector<subtraction> subtractions;
 
-  // Need to store values of the Omnes amplitude around the unitarity cut for the
-  // analytic continuation of the angular integral.
-  vector< complex<double> > above_cut, below_cut;
-  complex<double> ab, be;
-
-  for (int i = 0; i < interpolation::N_interp; i++)
+  for (int n = 0; n < num_subtractions + 1; n++)
   {
-    double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / double(interpolation::N_interp);
-    s.push_back(s_i);
+    // Need to store values of the Omnes amplitude around the unitarity cut for the
+    // analytic continuation of the angular integral.
+    vector<double> s;
+    vector< complex<double> > above_cut, below_cut;
+    complex<double> ab, be;
 
-    // above the unitarity cut (+ i epsilon)
-    ab = omega(s_i, 1);
-    above_cut.push_back(ab);
+    for (int i = 0; i < interpolation::N_interp; i++)
+    {
+      double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / double(interpolation::N_interp);
+      s.push_back(s_i);
 
-    // below the cut (- i epsilon)
-    be = omega(s_i, -1);
-    below_cut.push_back(be);
-  }
+      // above the unitarity cut (+ i epsilon)
+      ab = omega(s_i, +1) * sub_poly(n, s_i, +1);
+      above_cut.push_back(ab);
+
+      // below the cut (- i epsilon)
+      be = omega(s_i, -1) * sub_poly(n, s_i, -1);
+      below_cut.push_back(be);
+    }
 
   // Make a vector with copies = number of total subtractions
-  vector<subtraction> subtractions;
-  for (int i = 0; i < num_subtractions + 1; i ++)
-  {
-    subtraction not_actually_subtracted(i, s, above_cut, below_cut);
+    subtraction not_actually_subtracted(n, s, above_cut, below_cut);
     subtractions.push_back(not_actually_subtracted);
   }
 

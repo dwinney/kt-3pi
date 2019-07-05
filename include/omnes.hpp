@@ -60,13 +60,19 @@ omnes(const omnes &previous):
 {};
 
 static constexpr double LamOmnes = 1.0;
+const bool CONFORML_CUTOFF = false;
 
 void set_ieps(int sig);
 void set_N_omnes(int i);
+void check_weights();
 
 double extrap_phase(double s);
-complex<double> kernel(complex<double> s, double sp);
-complex<double> omega_0(complex<double> s);
+complex<double> kernel(complex<double> s, double sp, int ieps);
+
+complex<double> omega_0(complex<double> s, int ieps);
+complex<double> omega_prime(complex<double> s, int ieps);
+complex<double> omega_el(complex<double> s, int ieps);
+
 complex<double> operator ()(complex<double> s, int ieps);
 
 };

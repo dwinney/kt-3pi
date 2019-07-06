@@ -61,6 +61,7 @@ public:
     cout << "-> with ";
     cout << options.max_iters << " Iterations, ";
     cout << options.max_subs << " Subtractions." << endl;
+    cout << std::boolalpha << "-> with USE_CONFORMAL = " << options.use_conformal << "." << endl;
    };
 
   // Calculate the next iteration from the previous one

@@ -19,6 +19,7 @@
 #define _KT_EQ_
 
 #include "kt_iteration.hpp"
+#include "kt_options.hpp"
 #include "kt_ang_integral.hpp"
 #include "kt_disp_integral.hpp"
 #include "aux_math.hpp"
@@ -38,6 +39,7 @@ class kt_equations
 private:
   // This object holds all the relevant kinematic quantities such as masses and QN's
   decay_kinematics kinematics;
+  kt_options options;
 
   // A method for evaluating the unitarity correction, i.e. the dispersion integral over the discontinuity.
   dispersion_integral disp;
@@ -45,8 +47,9 @@ private:
 
 public:
   // TODO: KT equations depend on spin projection and helicity in general
-  kt_equations(decay_kinematics dec)
-  : kinematics(dec), disp(dec)
+  kt_equations(decay_kinematics dec, kt_options ops)
+  : kinematics(dec), options(ops), disp(ops, dec),
+    poly(options.use_conformal)
   {
     cout << "Using KT equations for ";
     if (dec.get_decayParticle() != "")
@@ -55,6 +58,9 @@ public:
     }
     cout << "Mass = " << dec.get_decayMass() << " GeV, ";
     cout << "J^PC = " << dec.get_JPC() << endl;
+    cout << "-> with ";
+    cout << options.max_iters << " Iterations, ";
+    cout << options.max_subs << " Subtractions." << endl;
    };
 
   // Calculate the next iteration from the previous one

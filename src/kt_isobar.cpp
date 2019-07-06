@@ -18,10 +18,10 @@ void isobar::start()
   cout << endl;
   cout << "Storing initial Omnes amplitude... " << endl;
 
-  subtraction_polynomial sub_poly;
+  subtraction_polynomial sub_poly(options.use_conformal);
   vector<subtraction> subtractions;
 
-  for (int n = 0; n < num_subtractions + 1; n++)
+  for (int n = 0; n < options.max_subs + 1; n++)
   {
     // Need to store values of the Omnes amplitude around the unitarity cut for the
     // analytic continuation of the angular integral.
@@ -56,7 +56,7 @@ void isobar::start()
     cout << " and I = " << iso_proj << ". \n";
   }
 
-  iteration zeroth(0, num_subtractions, omega, subtractions);
+  iteration zeroth(0, options.max_subs, omega, subtractions);
   iters.push_back(zeroth);
 
   cout << "Done." << endl;
@@ -65,13 +65,13 @@ void isobar::start()
 
 // ----------------------------------------------------------------------------
 // Iterate through the KT equations n times, storing each iteration for comparison
-void isobar::iterate(int n)
+void isobar::iterate()
 {
   start();
 
-  for (int i = 1; i < n + 1; i++)
+  for (int i = 1; i < options.max_iters + 1; i++)
   {
-    cout << "Calculating iteration (" << i << "/" << n << ")... " << endl;
+    cout << "Calculating iteration (" << i << "/" << options.max_iters << ")... " << endl;
 
     // Pass a pointer to the kt_equations
     if (iters.size() >= 1)
@@ -109,7 +109,11 @@ void isobar::print(int n, int m)
   cout << "Printing the " + st_nd_rd(n) << " iteration with " << std::to_string(m) << " subtractions..." << endl;
 
   string name;
-  name = "isobar_" + std::to_string(n) + "_" + std::to_string(m);
+  if (kinematics.get_decayParticle() != "")
+  {
+    name =  kinematics.get_decayParticle() + "_";
+  }
+  name += "isobar_" + std::to_string(n) + "_" + std::to_string(m);
 
   // Output to a datfile
   std::ofstream output;
@@ -134,43 +138,37 @@ void isobar::print(int n, int m)
 
   //Print the Real part compared to no rescattering
   TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
   TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-
-  string label = std::to_string(n) + " Iterations " + std::to_string(m) + " Subtractions";
-  gRe->SetTitle(label.c_str());
-  gRe->SetLineStyle(2);
-  gRe->Draw("AL");
-
-
-  c->Modified();
-  string namepdfre = name + "_real.pdf";
-  c->Print(namepdfre.c_str());
-
-  delete c, gRe;
-
-  //And the Imaginary part
-  TCanvas *c2 = new TCanvas("c2", "c2");
   TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
 
-  gIm->SetTitle(label.c_str());
+  string label = std::to_string(n) + " Iterations " + std::to_string(m) + " Subtractions";
+
+  c->cd(1);
+  gRe->SetTitle(label.c_str());
+  gRe->SetLineStyle(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+
+  c->cd(2);
+  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
   gIm->SetLineStyle(2);
+  gIm->SetLineColor(kRed);
   gIm->Draw("AL");
 
-  c2->Modified();
-  string namepdfim = name + "_imaginary.pdf";
-  c2->Print(namepdfim.c_str());
+  c->Modified();
+  string namepdf = name + ".pdf";
+  c->Print(namepdf.c_str());
 
-  cout << "Plot output to: " << namepdfre << ", " << namepdfim << "." << endl;
-  cout << endl;
-
-  delete c2, gIm;
+  delete c, gRe, gIm;
 };
 
 // ----------------------------------------------------------------------------
 // Set the subtraction coefficients for fitting routines
 void isobar::set_params(int n_params, const double *par)
 {
-  if (n_params != num_subtractions + 1)
+  if (n_params != options.max_subs + 1)
   {
     cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
     exit(1);
@@ -195,7 +193,7 @@ void isobar::print_params()
 {
     cout << "Printing Subtraction Coefficients... \n";
     cout << "---------------------------------------- \n";
-    for (int i = 0; i < num_subtractions + 1; i++)
+    for (int i = 0; i < options.max_subs + 1; i++)
     {
       cout << std::left <<  setw(20) << "a_" + std::to_string(i) + ":" <<
       setw(20) << coefficients[i] << "\n";
@@ -209,26 +207,26 @@ void isobar::print_params()
 // Sums subtractions with their coefficients
 complex<double> isobar::subtracted_isobar(double s)
 {
-  if (coefficients.size() != num_subtractions + 1)
+  if (coefficients.size() != options.max_subs + 1)
   {
     // cout << "isobar: Number of coefficients and subtrations don't match! Quitting..." << endl;
     // exit(1);
     coefficients.clear();
-    for (int i = 0; i < num_subtractions + 1; i++)
+    for (int i = 0; i < options.max_subs + 1; i++)
     {
       coefficients.push_back(1.);
     }
   }
+
   if (iters.size() == 0)
   {
-    cout << "isobar: Need to iterate / start before can evaluate. Quitting..." << endl;
-    exit(1);
+      iterate();
   };
 
   complex<double> result = 0.;
   if (s > sthPi + EPS && s <= omega.LamOmnes)
   {
-    for (int i = 0; i < num_subtractions + 1; i++)
+    for (int i = 0; i < options.max_subs + 1; i++)
     {
       result += coefficients[i] * iters.back().subtractions[i].interp_above(s);
     }
@@ -237,7 +235,7 @@ complex<double> isobar::subtracted_isobar(double s)
   // on the negative real axis (no imaginary part)
   else if (s < sthPi)
   {
-    for (int i = 0; i < num_subtractions + 1; i++)
+    for (int i = 0; i < options.max_subs + 1; i++)
     {
       result += coefficients[i] * omega(s, 0);
     }

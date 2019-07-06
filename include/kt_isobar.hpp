@@ -15,12 +15,13 @@
 #include <cmath>
 #include <fstream>
 
-#include "TCanvas.h"
-#include "TGraph.h"
-#include "TLegend.h"
+#include <TCanvas.h>
+#include <TGraph.h>
+#include <TLegend.h>
 #include <TStyle.h>
-#include "TError.h"
+#include <TError.h>
 
+#include "kt_options.hpp"
 #include "decay_kinematics.hpp"
 #include "kt_iteration.hpp"
 #include "kt_equations.hpp"
@@ -42,7 +43,7 @@ protected:
   omnes omega;
 
   // Vector storing each iteration of the KT equation
-  int num_subtractions;
+  kt_options options;
   vector<double> coefficients;
   vector<iteration> iters;
 
@@ -51,17 +52,17 @@ protected:
 
   // KT equations object
   kt_equations kt;
-//-----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
 public:
-  isobar(int isospin, int spin, int subtracts, decay_kinematics & dec) :
-  spin_proj(spin), iso_proj(isospin), num_subtractions(subtracts),
-  kinematics(dec), omega(isospin, spin), kt(dec)
-  { };
+  isobar(int isospin, int spin, kt_options opti, decay_kinematics dec) :
+  spin_proj(spin), iso_proj(isospin), options(opti),
+  kinematics(dec), omega(isospin, spin, options.use_conformal), kt(dec, opti)
+  {};
 
   decay_kinematics kinematics;
 
-  void iterate(int n);
+  void iterate();
 
   // Print the nth iteration
   void print(int n, int m);

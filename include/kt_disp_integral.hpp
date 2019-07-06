@@ -24,55 +24,49 @@
 // associated with rescattering at some real energy s, and either above or below
 // unitarity cut ieps = +1 or -1.
 //
-// Here we evaluate using the conformal mapping method used in [1409.7708].
+// Here we evaluate using the standard method integrating to infinity or
+// the conformal mapping method used in [1409.7708].
 //
-// The omnes function is only evaluated in the elastic region [4 m_pi^2 , ~1] GeV and inelastic contributions
-// are parameterized by a polynomial expansion in a conformal variable.
+// Depends on the value of use_conformal in kt_options
 // ---------------------------------------------------------------------------
+  class dispersion_integral
+  {
+  protected:
+    decay_kinematics kinematics;
+    kt_options options;
 
-class dispersion_integral
-{
-protected:
-  decay_kinematics kinematics;
-  const double LamOmnes = previous->omega.LamOmnes; // Dispersion cutoff
+    const double LamOmnes = previous->omega.LamOmnes; // Conformal dispersion cutoff
 
-  angular_integral inhom;
-  const double a = inhom.a; // Pseudo threshold, problematic point!
+    angular_integral inhom;
+    const double a = kinematics.pseudo_threshold(); // Pseudo threshold, problematic point!
 
-  iteration * previous;
+    iteration * previous;
 
-  //Explicitly factor out the factors of k(s) give singularities
-  complex<double> Mtilde(int n, double s, int ieps);
-  complex<double> reg_integrand(int n, double s, int ieps); //the regular piece of the integrand.
+    //Explicitly factor out the factors of k(s) give singularities
+    complex<double> Mtilde(int n, double s, int ieps);
+    complex<double> reg_integrand(int n, double s, int ieps); //the regular piece of the integrand.
 
-  // Integral from s = [sthPi, LamOmnes] split into three pieces:
-  // 1: from [sthPi, a - interval]
-  // 2: from [a - interval, a + interval]
-  // 3: from [a + interval, LamOmnes]
+    // Integrate around the singularity at a
+    const int N_integ = 30;
+    double interval = 0.005; // Interval on either side of a to integrate
 
-  const int N_integ = 60;
-  double interval = 0.005; // Interval on either side of a to integrate
+    // End cap integrals
+    complex<double> integ_sthPi_a(int n, double s, int ieps);
+    complex<double> integ_a_Lam(int n, double s, int ieps);
+    complex<double> integ_sthPi_Lam(int n, double s, int ieps);
 
-  // End cap integrals
-  complex<double> integ_sthPi_a(int n, double s, int ieps); // 1
-  complex<double> integ_a_Lam(int n, double s, int ieps); // 3
+    complex<double> disperse(int n, double s, int ieps);
+    complex<double> log_reg(int n, double s, int ieps);
 
-  // TODO: integral 2
+  public:
+    // Default constructor
+    dispersion_integral(kt_options ops, decay_kinematics dec)
+      : options(ops), inhom(ops, dec), kinematics(dec)
+    { };
 
-  complex<double> disp_inhom(int n, double s, int ieps);
+    complex<double> operator() (int n, double s, int ieps);
 
-  // Log term subtracted to regularize the cut off at LamOmnes
-  complex<double> log_reg(int n, double s, int ieps);
-
-public:
-  // Default constructor
-  dispersion_integral(decay_kinematics dec)
-    : inhom(dec), kinematics(dec)
-  { };
-
-  complex<double> operator() (int n, double s, int ieps);
-
-  void pass_iteration(iteration * prev);
-};
+    void pass_iteration(iteration * prev);
+  };
 
 #endif

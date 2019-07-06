@@ -96,7 +96,7 @@ void omnes::check_weights()
   {
     double upper_bound;
 
-    if (CONFORML_CUTOFF == true)
+    if (use_conformal == true)
     {
       upper_bound = LamSq;
     }
@@ -208,7 +208,7 @@ complex<double> omnes::omega_prime(complex<double> s, int ieps)
 //-----------------------------------------------------------------------------
 complex<double> omnes::operator ()(complex<double> s, int ieps)
 {
-  if (CONFORML_CUTOFF == true)
+  if (use_conformal == true)
   {
       return omega_el(s, ieps);
   }

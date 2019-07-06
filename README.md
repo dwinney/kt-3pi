@@ -32,17 +32,15 @@ fit.extract_params(num_params);
 __UNDER CONSTRUCTION__
 
 The ```kt_amplitude``` class will allow to create dispersive isobar amplitudes within the KT formalism for the three pion final state.
+
 The class structure will be laid out as:
 
-Mass and quantum numbers of decaying particle which define the amplitude ( ``` kt_amplitude``` )
-
+Mass and quantum numbers of decaying particle which define the amplitude ( ``` decay_kinematics``` )
  -> Number of partial waves to consider (each with a spin and isospin projection to be summed over) ( ``` isobar``` )
+ -> Number of subtractions in the dispersion relation and iterations of the rescattering ladder ( `iteration` & `subtraction` )
+ -> Method of evaluating the KT-equations ( `kt_equations` &  `kt_options` )
 
- -> Number of subtractions in the dispersion relation and iterations of the rescattering ladder ( ```iteration``` )
-
- -> Method of evaluating the KT-equations ( ```kt_equations``` )
-
- [__NOTE__: Currently the only dispersion method is that in [[Dan14a]](https://arxiv.org/abs/1409.7708) but different methods such as a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can easily be implemented with a new namespace].
+ [__NOTE__: Currently implemented is the "standard" method of evaluating the dispersion relation up to infinity with a smoothly extrapolated phase and the conformal mapping scheme used in [[Dan14a]](https://arxiv.org/abs/1409.7708). This is changed with the `use_conformal` flag in `kt_options`, see examples below. Different methods such as a Pasquier-inversion method of [[Guo14]](https://arxiv.org/abs/1412.3970) can be later implemented].
 
  #### Examples
 To build any of these scripts simply use ``make`` in above.

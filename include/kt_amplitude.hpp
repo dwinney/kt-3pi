@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "kt_isobar.hpp"
+#include "kt_options.hpp"
 
 //-----------------------------------------------------------------------------
 // The kt class combines isobars together.
@@ -22,7 +23,7 @@ class kt_amplitude
 {
 protected:
 // The maximum number of iterations of the KT integral and the maximal spin_projection
-int max_iter, max_spin;
+kt_options options;
 
 // Storing all the relevant info of the decay particle
 decay_kinematics kinematics;
@@ -32,8 +33,8 @@ vector<isobar> isobars;
 
 //-----------------------------------------------------------------------------
 public:
-kt_amplitude(int n, int j, decay_kinematics kine)
-  : max_iter(n), max_spin(j), kinematics(kine)
+kt_amplitude(kt_options ops,  decay_kinematics kine)
+  : options(ops)
   {};
 
 //-----------------------------------------------------------------------------

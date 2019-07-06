@@ -20,17 +20,23 @@ int main()
     vector_meson.set_decayJPC(1, -1, -1);
     vector_meson.set_decayMass(.780);
     vector_meson.set_decayIsospin(0);
-    vector_meson.set_decayParticle("Omega");
+    vector_meson.set_decayParticle("omega");
+
+    cout << vector_meson.pseudo_threshold() << endl;
+
+  // Options parameters for the KT euqations
+  kt_options options;
+  options.max_iters = 3;
+  options.max_subs = 0;
+  options.use_conformal = false;
 
   // Omega dominated by single isobar, j = 1, I = 1
   // in general this would be a KT object that is
   // defined with a Jmax and helicity / isospin dependence.
-  int n_subtractions = 0;
-  isobar kt_pwave(1, 1, n_subtractions, vector_meson);
-  kt_pwave.iterate(3); // Calculate three iterations of the KT equation
-
-  kt_pwave.print(0, 0); // No rescattering
-  kt_pwave.print(3, 0);
+  isobar kt_pwave(1, 1, options, vector_meson);
+  kt_pwave.iterate();
+  kt_pwave.print(0, 0);
+  kt_pwave.print(1, 0); // No rescattering
 
   cout << endl;
   cout << "Extracting Dalitz Plot Parameters..." << endl;
@@ -44,6 +50,9 @@ int main()
   fit_results.print_params();
 
   fitter1.extract_params(3);
+  fit_results.print_params();
+
+  fitter1.extract_params(4);
   fit_results.print_params();
 
   cout << "Extracting effective rho mass and width from a Breit-Wigner..." << endl;

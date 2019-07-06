@@ -66,7 +66,7 @@ double omnes::extrap_phase(double s)
 };
 
 //-----------------------------------------------------------------------------
-complex<double> omnes::kernel(complex<double> s, double sp)
+complex<double> omnes::kernel(complex<double> s, double sp, int ieps)
 {
         complex<double> result;
         if (sign == 0)
@@ -78,11 +78,11 @@ complex<double> omnes::kernel(complex<double> s, double sp)
           double s_real = real(s);
           if ((s_real <= sthPi) || (s_real > LamSq))
           {
-                result = extrap_phase(sp) / (sp * (sp - s_real));
+                result = extrap_phase(sp) / (sp * (sp - s_real - double(ieps) * xr * eps));
           }
           else
           {
-                result = (extrap_phase(sp) - extrap_phase(s_real)) / (sp * (sp - s_real));
+                result = (extrap_phase(sp) - extrap_phase(s_real)) / (sp * (sp - s_real - double(ieps) * xr * eps));
           }
         }
 
@@ -90,74 +90,130 @@ complex<double> omnes::kernel(complex<double> s, double sp)
 };
 
 //-----------------------------------------------------------------------------
-complex<double> omnes::omega_0(complex<double> s)
+void omnes::check_weights()
 {
   if (WG_GENERATED == false)
   {
-          double weights[N_omnes + 1], abscissas[N_omnes + 1];
-          gauleg(s0, LamSq, abscissas, weights, N_omnes + 1);
-          // cout << "omnes: Generating Gaussian-Legendre Quandrature weights and abscissas... \n";
+    double upper_bound;
 
-          for (int i = 1; i < N_omnes + 1; i++)
-          {
-                  wgt.push_back(weights[i]);
-                  abs.push_back(abscissas[i]);
-          }
+    if (use_conformal == true)
+    {
+      upper_bound = LamSq;
+    }
+    else
+    {
+      upper_bound = 1000.;
+    }
 
-          WG_GENERATED = true;
+    double weights[N_omnes + 1], abscissas[N_omnes + 1];
+    gauleg(s0, upper_bound, abscissas, weights, N_omnes + 1);
+    // cout << "omnes: Generating Gaussian-Legendre Quandrature weights and abscissas... \n";
+
+    for (int i = 1; i < N_omnes + 1; i++)
+    {
+            wgt.push_back(weights[i]);
+            abs.push_back(abscissas[i]);
+    }
+
+    WG_GENERATED = true;
   }
+};
+
+//-----------------------------------------------------------------------------
+complex<double> omnes::omega_0(complex<double> s, int ieps)
+{
+  check_weights();
 
   complex<double> sum = 0.;
   for (int i = 0; i < N_omnes; i++)
   {
-          sum += kernel(s, abs[i]) * wgt[i];
+          sum += kernel(s, abs[i], ieps) * wgt[i];
   }
 
   return exp((s /M_PI) * sum);
 };
 
 //-----------------------------------------------------------------------------
-complex<double> omnes::operator ()(complex<double> s, int ieps)
+// Evaluation of the omnes function with the cutoff at the elastic region
+complex<double> omnes::omega_el(complex<double> s, int ieps)
 {
-        set_ieps(ieps);
+    set_ieps(ieps);
 
-        // if evaluating on the cut or with an imaginary s
-        if (sign == 0 && ieps == 0)
+    // if evaluating on the cut or with an imaginary s
+    if (sign == 0 && ieps == 0)
+    {
+            complex<double> alpha_0 = extrap_phase(LamOmnes) / M_PI;
+            return omega_0(s, ieps) / pow(LamOmnes - s, alpha_0);
+    }
+    else if (sign == -1 || sign == 1)
+    {
+      double s_real = real(s);
+
+      complex<double> alpha = extrap_phase(s_real) / M_PI;
+      complex<double> alpha_0 = extrap_phase(LamOmnes) / M_PI;
+
+      // unphysical values
+      if (s_real <= sthPi || s_real > LamOmnes)
+      {
+        return omega_0(s_real, ieps) / pow(LamOmnes - s_real - double(sign) * xi * EPS, alpha_0);
+      }
+
+      // physical values
+      else
+      {
+        complex<double> result;
+        result = pow(s0, alpha) * pow(std::abs(LamOmnes * (s_real - sthPi)), - alpha);
+        result *= omega_0(s, ieps);
+        result *= exp(xi * double(sign) * extrap_phase(s_real));
+        if ( std::abs(s_real - LamOmnes) > 0.001)
         {
-                complex<double> alpha_0 = extrap_phase(LamOmnes) / M_PI;
-                return omega_0(s) / pow(LamOmnes - s, alpha_0);
+                result *= pow( std::abs(LamOmnes - s_real), alpha - alpha_0);
         }
-        else if (sign == -1 || sign == 1)
-        {
-          double s_real = real(s);
-
-          complex<double> alpha = extrap_phase(s_real) / M_PI;
-          complex<double> alpha_0 = extrap_phase(LamOmnes) / M_PI;
-
-          // unphysical values
-          if (s_real <= sthPi || s_real > LamOmnes)
-          {
-            return omega_0(s_real) / pow(LamOmnes - s_real - double(sign) * xi * EPS, alpha_0);
-          }
-
-          // physical values
-          else
-          {
-                complex<double> result;
-                result = pow(s0, alpha) * pow(std::abs(LamOmnes * (s_real - sthPi)), - alpha);
-                result *= omega_0(s);
-                result *= exp(xi * double(sign) * extrap_phase(s_real));
-                if ( std::abs(s_real - LamOmnes) > 0.001)
-                {
-                        result *= pow( std::abs(LamOmnes - s_real), alpha - alpha_0);
-                }
-                return result;
-          }
-        }
-        else
-        {
-          cout << "omnes: Cannot evaluate omnes function here... Quitting" << endl;
-          exit(1);
-        }
+        return result;
+      }
+    }
+    else
+    {
+      cout << "omnes: Cannot evaluate omnes function here... Quitting" << endl;
+      exit(1);
+    }
 };
 //-----------------------------------------------------------------------------
+complex<double> omnes::omega_prime(complex<double> s, int ieps)
+{
+  if (sign == 0 && ieps == 0)
+  {
+    return omega_0(s, ieps);
+  }
+  else if (sign == -1 || sign == 1)
+  {
+    double s_real = real(s);
+    // unphysical values
+    if (s_real <= sthPi || s_real > LamOmnes)
+    {
+        return omega_0(s_real, ieps);
+    }
+    else
+    {
+      complex<double> result;
+      result = omega_0(s, ieps);
+      result *= exp(log(s0 / (s - s0)) * extrap_phase(s_real) / M_PI);
+      result *= exp(double(ieps) * xi * extrap_phase(s_real));
+
+      return result;
+    }
+  }
+};
+
+//-----------------------------------------------------------------------------
+complex<double> omnes::operator ()(complex<double> s, int ieps)
+{
+  if (use_conformal == true)
+  {
+      return omega_el(s, ieps);
+  }
+  else
+  {
+    return omega_prime(s, ieps);
+  }
+};

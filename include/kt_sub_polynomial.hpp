@@ -12,8 +12,13 @@ class subtraction_polynomial
 protected:
   const complex<double> s_inelastic = xr;
   const complex<double> s_expand = 0.;
+
+  bool use_conformal = false;
+  
 public:
-  subtraction_polynomial(){};
+  subtraction_polynomial(bool conf)
+  : use_conformal(conf)
+  {};
 
   // ----------------------------------------------------------------------------
   // Conformal variable which maps the cut plane in complex s to the unit disk
@@ -31,7 +36,14 @@ public:
   // Outputs a polynomial of order n with unit coefficients in the above conformal variable
   complex<double> operator() (int n, complex<double> s, int ieps)
   {
-    return pow(conformal(s, ieps), double(n));
+    if (use_conformal == true)
+    {
+      return pow(conformal(s, ieps), double(n));
+    }
+    else
+    {
+      return pow(s * xr, double(n));
+    }
   };
 
 };

@@ -13,6 +13,7 @@
 #define _T_INT_
 
 #include "kt_sub_polynomial.hpp"
+#include "kt_options.hpp"
 #include "kt_iteration.hpp"
 #include "decay_kinematics.hpp"
 #include "aux_math.hpp"
@@ -45,11 +46,13 @@ private:
 
   iteration * previous; // Pointer to current iteration
 
-  int N_integ = 60;
+  int N_integ = 30;
 
   decay_kinematics kinematics;
+  kt_options options;
+  subtraction_polynomial sub_poly;
+
   double mDec = kinematics.get_decayMass();
-  // the threshold and psuedo_threshold points for the 2 -> 2 scattering process
   double a0 = 0.5 *  (mDec * mDec - mPi * mPi);
   double a = kinematics.pseudo_threshold();
   double b = kinematics.threshold();
@@ -76,17 +79,13 @@ protected:
 
 public:
   // Default constructor
-   angular_integral(decay_kinematics dec)
-  : kinematics(dec) {};
+   angular_integral(kt_options ops, decay_kinematics dec)
+  : options(ops), kinematics(dec), sub_poly(ops.use_conformal) {};
 
   // Evaluate the inhomogenous contribution at a given energy
   complex<double> operator() (int n, double s);
 
   void pass_iteration(iteration * prev);
-
-  // Numerical Check Utility to print values to file
-  // prints values in the range [low, high]
-  void print(double low, double high);
 };
 
 #endif

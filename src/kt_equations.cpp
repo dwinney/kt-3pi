@@ -17,8 +17,19 @@ iteration kt_equations::iterate(iteration * prev)
 {
   disp.pass_iteration(prev);
 
-  vector<subtraction> subs;
+  // Save and interpolate only in the Dalitz region as needed for fits
+  double interp_cutoff;
+  if (omnes::LamOmnes > kinematics.pseudo_threshold())
+  {
+    interp_cutoff = omnes::LamOmnes;
+  }
+  else
+  {
+    interp_cutoff = kinematics.pseudo_threshold();
+  }
 
+  // each iteration has n subtractions that need to be solved for independently
+  vector<subtraction> subs;
   for (int n = 0; n < prev->max_subs + 1; n++)
   {
       cout << " -> Calculating subtraction (" << n << "/" << prev->max_subs << ")... " << endl;
@@ -27,7 +38,7 @@ iteration kt_equations::iterate(iteration * prev)
       vector<complex<double>> above, below;
       for (int i = 0; i < interpolation::N_interp; i++)
       {
-        double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi - EPS) / double(interpolation::N_interp);
+        double s_i = sthPi + EPS + double(i) * (interp_cutoff - sthPi - EPS) / double(interpolation::N_interp);
         s.push_back(s_i);
 
         complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i, +1) + disp(n, s_i, +1));

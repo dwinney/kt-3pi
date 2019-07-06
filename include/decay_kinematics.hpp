@@ -24,7 +24,6 @@ using std::string;
 
 //-----------------------------------------------------------------------------
 class decay_kinematics
-//-----------------------------------------------------------------------------
 {
 protected:
   // Quantum Numbers
@@ -135,6 +134,7 @@ string get_JPC()
 
   return result;
 };
+
 //-----------------------------------------------------------------------------
 // Kinematic Functions
 double u_man(double s, double t); // Mandelstam u

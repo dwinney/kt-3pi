@@ -3,6 +3,8 @@ cmake_minimum_required (VERSION 2.9)
 project (KT-3P)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+
 include_directories("include")
 include_directories("src")
 include_directories("scripts")
@@ -13,6 +15,14 @@ if (ROOT_FOUND)
     link_directories(${ROOT_LIBRARY_DIRS})
 else()
     message(SEND_ERROR "Root not found!")
+endif()
+
+find_package(GSL REQUIRED)
+if (GSL_FOUND)
+    include_directories(${GSL_INCLUDE_DIRS})
+    link_directories(${GSL_LIBRARY_DIRS})
+else()
+    message(SEND_ERROR "GSL not found!")
 endif()
 
 add_executable( omega_BW
@@ -45,6 +55,7 @@ src/poly_exp.cpp
 src/breit_wigner.cpp
 )
 target_link_libraries( KT_omega_unsubtracted ${ROOT_LIBRARIES})
+target_link_libraries( KT_omega_unsubtracted ${GSL_LIBRARIES})
 
 add_executable( KT_omega_subtracted
 examples/KT_omega_subtracted.cpp
@@ -63,3 +74,4 @@ src/poly_exp.cpp
 src/breit_wigner.cpp
 )
 target_link_libraries( KT_omega_subtracted ${ROOT_LIBRARIES})
+target_link_libraries( KT_omega_subtracted ${GSL_LIBRARIES})

@@ -50,23 +50,31 @@ omnes() : pipi()
 };
 
 // Parameterized constructor with quantum numbers
-omnes(int i, int j)
-: pipi(i), wave(j) {};
+omnes(int i, int j, bool conformal)
+: pipi(i), wave(j), use_conformal(conformal) {};
 
 // Copy constructor
 omnes(const omnes &previous):
   pipi(previous.pipi::pipi_qn_I), wave(previous.wave),
-  wgt(previous.wgt), abs(previous.abs), WG_GENERATED(previous.WG_GENERATED)
+  wgt(previous.wgt), abs(previous.abs), WG_GENERATED(previous.WG_GENERATED),
+  use_conformal(previous.use_conformal)
 {};
 
 static constexpr double LamOmnes = 1.0;
+const bool use_conformal = false;
 
 void set_ieps(int sig);
 void set_N_omnes(int i);
+void check_weights();
 
 double extrap_phase(double s);
-complex<double> kernel(complex<double> s, double sp);
-complex<double> omega_0(complex<double> s);
+
+complex<double> kernel(complex<double> s, double sp, int ieps);
+complex<double> omega_0(complex<double> s, int ieps);
+
+complex<double> omega_prime(complex<double> s, int ieps);
+complex<double> omega_el(complex<double> s, int ieps);
+
 complex<double> operator ()(complex<double> s, int ieps);
 
 };

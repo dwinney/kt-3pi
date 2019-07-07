@@ -57,7 +57,7 @@ protected:
 public:
   isobar(int isospin, int spin, kt_options opti, decay_kinematics dec) :
   spin_proj(spin), iso_proj(isospin), options(opti),
-  kinematics(dec), omega(isospin, spin, options.use_conformal), kt(dec, opti)
+  kinematics(dec), omega(isospin, spin, opti.use_conformal), kt(dec, opti)
   {};
 
   decay_kinematics kinematics;

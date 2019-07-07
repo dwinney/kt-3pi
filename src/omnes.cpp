@@ -98,7 +98,7 @@ void omnes::check_weights()
 
     if (use_conformal == true)
     {
-      upper_bound = LamSq;
+      upper_bound = LamOmnes;
     }
     else
     {

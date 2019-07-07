@@ -71,6 +71,7 @@ double dalitz_fit<T, F>::chi_squared(const double *par)
   };
 
   chi2 = s_sum / d_area;
+  chi2 /= pow(par[0], 4.);
 
   return chi2;
 };
@@ -106,7 +107,7 @@ void dalitz_fit<T, F>::extract_params(int eN)
   cout << endl;
 
   double chi2 = minuit ->MinValue();
-  cout << "sqrt(chi2) = " << sqrt(chi2) << endl;
+  cout << "sqrt(chi2) = " << sqrt(chi2) * 1.e3 << endl;
   cout << endl;
 
 };

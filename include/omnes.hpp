@@ -51,7 +51,8 @@ omnes() : pipi()
 
 // Parameterized constructor with quantum numbers
 omnes(int i, int j, bool conformal)
-: pipi(i), wave(j), use_conformal(conformal) {};
+: pipi(i), wave(j), use_conformal(conformal)
+{};
 
 // Copy constructor
 omnes(const omnes &previous):
@@ -61,7 +62,7 @@ omnes(const omnes &previous):
 {};
 
 static constexpr double LamOmnes = 1.0;
-const bool use_conformal = false;
+bool use_conformal;
 
 void set_ieps(int sig);
 void set_N_omnes(int i);

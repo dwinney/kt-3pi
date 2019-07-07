@@ -39,6 +39,7 @@
 
     angular_integral inhom;
     const double a = kinematics.pseudo_threshold(); // Pseudo threshold, problematic point!
+    const double b = kinematics.threshold();
 
     iteration * previous;
 
@@ -47,16 +48,13 @@
     complex<double> reg_integrand(int n, double s, int ieps); //the regular piece of the integrand.
 
     // Integrate around the singularity at a
-    const int N_integ = 30;
+    const int N_integ = 15;
     double interval = 0.005; // Interval on either side of a to integrate
 
-    // End cap integrals
-    complex<double> integ_sthPi_a(int n, double s, int ieps);
-    complex<double> integ_a_Lam(int n, double s, int ieps);
-    complex<double> integ_sthPi_Lam(int n, double s, int ieps);
+    complex<double> integrate(int n, double s, int ieps, double low, double up);
 
     complex<double> disperse(int n, double s, int ieps);
-    complex<double> log_reg(int n, double s, int ieps);
+    complex<double> conformal_log_reg(int n, double s, int ieps);
 
   public:
     // Default constructor

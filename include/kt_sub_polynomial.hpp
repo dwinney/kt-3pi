@@ -13,8 +13,8 @@ protected:
   const complex<double> s_inelastic = xr;
   const complex<double> s_expand = 0.;
 
-  bool use_conformal = false;
-  
+  bool use_conformal;
+
 public:
   subtraction_polynomial(bool conf)
   : use_conformal(conf)

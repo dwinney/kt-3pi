@@ -46,7 +46,7 @@ private:
 
   iteration * previous; // Pointer to current iteration
 
-  int N_integ = 30;
+  int N_integ = 20;
 
   decay_kinematics kinematics;
   kt_options options;
@@ -80,7 +80,8 @@ protected:
 public:
   // Default constructor
    angular_integral(kt_options ops, decay_kinematics dec)
-  : options(ops), kinematics(dec), sub_poly(ops.use_conformal) {};
+  : options(ops), kinematics(dec), sub_poly(ops.use_conformal)
+   {};
 
   // Evaluate the inhomogenous contribution at a given energy
   complex<double> operator() (int n, double s);

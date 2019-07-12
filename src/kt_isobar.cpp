@@ -125,10 +125,11 @@ void isobar::print(int n, int m)
   for (int i = 0; i < 60; i++)
   {
     double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
-    complex<double> fx_i = iters[n].subtractions[m].interp_above(s_i);
+    complex<double> fx_i =  iters[n].subtractions[m].interp_above(s_i);
 
     s.push_back(s_i);
-    refx.push_back(real(fx_i)); imfx.push_back(imag(fx_i));
+    refx.push_back(real(fx_i));
+    imfx.push_back(imag(fx_i));
 
     output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
@@ -237,7 +238,8 @@ complex<double> isobar::subtracted_isobar(double s)
   {
     for (int i = 0; i < options.max_subs + 1; i++)
     {
-      result += coefficients[i] * omega(s, 0);
+      subtraction_polynomial sub_poly(options.use_conformal);
+      result += coefficients[i] * omega(s, 0) * sub_poly(i, s, 0);
     }
   }
 

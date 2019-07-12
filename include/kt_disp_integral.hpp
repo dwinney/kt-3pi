@@ -44,17 +44,23 @@
     iteration * previous;
 
     //Explicitly factor out the factors of k(s) give singularities
-    complex<double> Mtilde(int n, double s, int ieps);
     complex<double> reg_integrand(int n, double s, int ieps); //the regular piece of the integrand.
 
     // Integrate around the singularity at a
-    const int N_integ = 15;
-    double interval = 0.005; // Interval on either side of a to integrate
-
+    const int N_integ = 30;
+    double interval = 0.002; // Interval on either side of a to integrate
+    double cutoff = 1e9;
+    // Outputs the integral over the inhomogeneity as some s +i eps from low to up
+    // with n subtractions
     complex<double> integrate(int n, double s, int ieps, double low, double up);
 
+    // Logarith term to remove pole at s^prime = s
+    complex<double> sp_log(int n, double s, int ieps, double low, double up);
+
+    // Logarithm term that regularizes the cutoff point used in the conformal scheme
+    complex<double> cutoff_log(int n, double s, double c, int ieps);
+
     complex<double> disperse(int n, double s, int ieps);
-    complex<double> conformal_log_reg(int n, double s, int ieps);
 
   public:
     // Default constructor

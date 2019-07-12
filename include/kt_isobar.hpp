@@ -19,6 +19,7 @@
 #include <TGraph.h>
 #include <TLegend.h>
 #include <TStyle.h>
+#include <TLine.h>
 #include <TError.h>
 
 #include "kt_options.hpp"
@@ -58,7 +59,9 @@ public:
   isobar(int isospin, int spin, kt_options opti, decay_kinematics dec) :
   spin_proj(spin), iso_proj(isospin), options(opti),
   kinematics(dec), omega(isospin, spin, opti.use_conformal), kt(dec, opti)
-  {};
+  {
+    coefficients.push_back(1.);
+  };
 
   decay_kinematics kinematics;
 

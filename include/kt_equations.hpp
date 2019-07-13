@@ -45,6 +45,9 @@ private:
   dispersion_integral disp;
   subtraction_polynomial poly;
 
+  // In interpolalations exclude an interval around the pseudo_threshold
+  double exc = 0.05;
+
 public:
   // TODO: KT equations depend on spin projection and helicity in general
   kt_equations(decay_kinematics dec, kt_options ops)

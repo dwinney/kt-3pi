@@ -34,11 +34,31 @@ iteration kt_equations::iterate(iteration * prev)
   {
       cout << " -> Calculating subtraction (" << n << "/" << prev->max_subs << ")... " << endl;
 
+      // exclude a small interval around the singulartiy at pseudo_threshold
+      double a = kinematics.pseudo_threshold();
+      double frac = ((a - exc) - (sthPi + EPS )) / (interp_cutoff - sthPi + EPS);
+      int num = int(frac * double(interpolation::N_interp));
+
       vector<double> s;
       vector<complex<double>> above, below;
-      for (int i = 0; i < interpolation::N_interp; i++)
+
+      // store values from threshold to a
+      for(int i = 0; i < num; i ++)
       {
-        double s_i = sthPi + EPS + double(i) * (interp_cutoff - sthPi - EPS) / double(interpolation::N_interp);
+        double s_i = (sthPi + EPS) + double(i) * ((a - exc) - (sthPi + EPS)) / double(num - 1);
+        s.push_back(s_i);
+
+        complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i, +1) + disp(n, s_i, +1));
+        above.push_back(ab);
+
+        complex<double> be = prev->omega(s_i, -1) * (poly(n, s_i, -1) + disp(n, s_i, -1));
+        below.push_back(be);
+      }
+
+      // then from a to the cutoff
+      for (int i = 0; i < (interpolation::N_interp - num) ; i++)
+      {
+        double s_i = (a + exc) + double(i) * (interp_cutoff - (a + exc)) / double(interpolation::N_interp - num - 1);
         s.push_back(s_i);
 
         complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i, +1) + disp(n, s_i, +1));

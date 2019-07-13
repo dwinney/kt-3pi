@@ -51,11 +51,9 @@ complex<double> angular_integral::kernel(double s, complex<double> t)
 {
   complex<double> zs, temp1;
   zs = z_s(s, t);
-  temp1 = (xr - zs * zs);
+  temp1 = 3. * (xr - zs * zs);
   
-  temp1 *= pow(k(s), 3.);
-
-  return 3. * temp1 / k(s);
+  return  temp1 / k(s);
 };
 
 // ---------------------------------------------------------------------------
@@ -185,8 +183,9 @@ complex<double> angular_integral::operator () (int n, double s)
 {
   complex<double> integ;
 
-  if (std::abs(s - sthPi) < 2. * EPS) {
-    integ = 2. * previous->subtractions[n].interp_above(real(t_minus(sthPi))) * pow(xr * (a - sthPi), 1.5);
+  if (std::abs(s - sthPi) < 2. * EPS)
+  {
+    integ = 2. * previous->subtractions[n].interp_above(real(t_minus(sthPi)));
   }
 
   else if (s > sthPi + EPS && s < a0) {
@@ -198,7 +197,7 @@ complex<double> angular_integral::operator () (int n, double s)
   }
 
   else if (s > a && s < b)  {
-    integ = integ_a_b(n, s);
+    integ =  integ_a_b(n, s);
   }
 
   else if (s >= b)  {

@@ -43,28 +43,30 @@
 
     iteration * previous;
 
-    //Explicitly factor out the factors of k(s) give singularities
-    complex<double> integrand(int n, double s, int ieps); //the regular piece of the integrand.
+    // function being dispersed, ihomogeneity * sin(delta) / |Omega|
+    complex<double> disp_function(int n, double s, int ieps);
 
     // Integrate around the singularity at a
     const int N_integ = 30;
-    double interval = 0.0005; // Interval on either side of a to integrate
+    double interval = 0.0007; // Interval on either side of a to integrate
 
-    // Outputs the integral over the inhomogeneity as some s +i eps from low to up
-    // with n subtractions
-    complex<double> integrate(int n, double s, int ieps, double low, double up);
-    complex<double> integrate_inf(int n, double s, int ieps, double low);
+    // Integration functions for the conformal scheme
+    complex<double> con_integrate(int n, double s, int ieps, double low, double high); // integrate dispersion kernel from low to high
+    complex<double> con_sp_log(int n, double s, int ieps, double low, double high); // log term from subtracted pole at s = sprime
+    complex<double> cutoff_log(int n, double s, int ieps); // log term to regularie the cutoff at LamOmnes
 
-    // Logarith term to remove pole at s^prime = s
-    complex<double> sp_log(int n, double s, int ieps, double low, double up);
-
-    // Logarithm term that regularizes the cutoff point used in the conformal scheme
-    complex<double> cutoff_log(int n, double s, int ieps);
+    // integration for the standard scheme
+    // these need to take into account the number of subtractions in the integration kernel
+    // where the above do not
+    complex<double> std_integrate(int n, double s, int ieps, double low, double high);
+    complex<double> std_integrate_inf(int n, double s, int ieps, double low); // integrate from low up to inf
+    complex<double> std_sp_log(int n, double s, int ieps, double low, double high);
+    complex<double> std_sp_log_inf(int n, double s, int ieps, double low);
 
     // Evaluate the dispersion integral at some s
     complex<double> disperse(int n, double s, int ieps);
 
-    //
+    // utility to print a dat file and plot of the inhomogneity
     void angular_test(int n);
 
   public:

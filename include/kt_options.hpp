@@ -9,7 +9,8 @@ struct kt_options
   int max_iters; // Number of total iterations of KT equations
   int max_spin; // Maximal spin projection in sum (not currently implemented)
 
-  bool use_conformal; // Whether to use conformal mapping (if TRUE) or standard evaluation (FALSE)
+  bool use_conformal = false; // Whether to use conformal mapping (if TRUE) or standard evaluation (FALSE)
+  bool test_angular = false;
 
   kt_options(){};
 
@@ -20,7 +21,8 @@ struct kt_options
   kt_options(const kt_options &old)
   : max_subs(old.max_subs), max_spin(old.max_spin),
     max_iters(old.max_iters),
-    use_conformal(old.use_conformal)
+    use_conformal(old.use_conformal),
+    test_angular(old.test_angular)
   {};
 };
 

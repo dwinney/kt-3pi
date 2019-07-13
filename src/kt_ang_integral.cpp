@@ -51,10 +51,9 @@ complex<double> angular_integral::kernel(double s, complex<double> t)
 {
   complex<double> zs, temp1;
   zs = z_s(s, t);
-  temp1 = (xr - zs * zs);
-  temp1 *= pow( xr * (a - s), 1.5);
-
-  return 3. * temp1 / k(s);
+  temp1 = 3. * (xr - zs * zs);
+  
+  return  temp1 / k(s);
 };
 
 // ---------------------------------------------------------------------------
@@ -85,34 +84,36 @@ complex<double> angular_integral::integ_sthPi_a0(int n, double s)
 // both limits are purely real but one is above the other below
 complex<double> angular_integral::integ_a0_a(int n, double s)
 {
-  if (s < a0|| s > a)
+  if (s < a0|| s > a )
   {
     cout << "integ_a0_a: Integration out of range! Quitting... \n";
     exit(1);
   }
 
-  double wM[N_integ + 1], xM[N_integ + 1];
-  gauleg(real(t_minus(s)), sthPi + EPS, xM, wM, N_integ);
+  complex<double> sumM, sumP;
 
-  complex<double> sumM = 0.;
-  for(int i = 1; i < N_integ + 1; i++)
+  if (std::abs(t_minus(s) - (sthPi + EPS)) > 0.001)
   {
-    if (std::abs(t_minus(s) - sthPi + EPS) < 0.0001)
+    double wM[N_integ + 1], xM[N_integ + 1];
+    gauleg(real(t_minus(s)), sthPi + EPS, xM, wM, N_integ);
+
+    for(int i = 1; i < N_integ + 1; i++)
     {
-      continue;
+      complex<double> tempM = kernel(s, xM[i]) * previous->subtractions[n].interp_below(xM[i]);
+      sumM += wM[i] * tempM;
     }
-    complex<double> tempM = kernel(s, xM[i]) * previous->subtractions[n].interp_below(xM[i]);
-    sumM += wM[i] * tempM;
   }
 
-  double wP[N_integ + 1], xP[N_integ + 1];
-  gauleg(sthPi + EPS, real(t_plus(s)), xP, wP, N_integ);
-
-  complex<double> sumP = 0.;
-  for(int i = 1; i < N_integ + 1; i++)
+  if (std::abs(t_plus(s) - (sthPi + EPS)) > 0.001)
   {
-    complex<double> tempP = kernel(s, xP[i]) * previous->subtractions[n].interp_above(xP[i]);
-    sumP += wP[i] * tempP;
+    double wP[N_integ + 1], xP[N_integ + 1];
+    gauleg(sthPi + EPS, real(t_plus(s)), xP, wP, N_integ);
+
+    for(int i = 1; i < N_integ + 1; i++)
+    {
+      complex<double> tempP = kernel(s, xP[i]) * previous->subtractions[n].interp_above(xP[i]);
+      sumP += wP[i] * tempP;
+    }
   }
 
   return sumM + sumP;
@@ -130,7 +131,7 @@ complex<double> angular_integral::integ_a_b(int n, double s)
   double w[N_integ + 1], x[N_integ + 1];
   gauleg(0., 1., x, w, N_integ);
 
-  complex<double> sumP = 0., sumM = 0.;
+  complex<double> sumM = 0.;
   for(int i = 1; i < N_integ + 1; i++)
   {
     complex<double> z1_i = (1. - x[i]) * t_minus(s) + x[i] * (2. * t_minus(b));
@@ -138,7 +139,11 @@ complex<double> angular_integral::integ_a_b(int n, double s)
 
     tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
     sumM +=  w[i] * tempM;
+  }
 
+  complex<double> sumP = 0.;
+  for(int i = 1; i < N_integ + 1; i++)
+  {
     complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
     complex<double> tempP = kernel(s, z2_i) * previous->omega(z2_i, 0) * sub_poly(n, z2_i, 0);
 
@@ -174,12 +179,13 @@ complex<double> angular_integral::integ_b(int n, double s)
 // ---------------------------------------------------------------------------
 // Angular integral, F_hat.
 // This is the discontinuity or the inhomogeneity of the isobar
-complex<double> angular_integral::operator() (int n, double s)
+complex<double> angular_integral::operator () (int n, double s)
 {
   complex<double> integ;
 
-  if (std::abs(s - sthPi) < 2. * EPS) {
-    integ = 2. * previous->subtractions[n].interp_above(real(t_minus(sthPi))) * pow(xr * (a - sthPi), 1.5);
+  if (std::abs(s - sthPi) < 2. * EPS)
+  {
+    integ = 2. * previous->subtractions[n].interp_above(real(t_minus(sthPi)));
   }
 
   else if (s > sthPi + EPS && s < a0) {
@@ -191,7 +197,7 @@ complex<double> angular_integral::operator() (int n, double s)
   }
 
   else if (s > a && s < b)  {
-    integ = integ_a_b(n, s);
+    integ =  integ_a_b(n, s);
   }
 
   else if (s >= b)  {

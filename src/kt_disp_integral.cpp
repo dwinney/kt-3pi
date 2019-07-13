@@ -12,62 +12,28 @@
 
 #include "kt_disp_integral.hpp"
 
-// ---------------------------------------------------------------------------
-// Mtilde has the factors of k(s) in the inhomogeneitys explicitly factored out
-complex<double> dispersion_integral::Mtilde(int n, double s, int ieps)
+// ----------------------------------------------------------------------------
+// Evaluate the dispersion integral.
+// Method used depends on use_conformal in kt_options
+complex<double> dispersion_integral::operator() (int n, double s, int ieps)
 {
-  return inhom(n, s) * pow(inhom.k(s), 3.); // Power of three because I = 1
-};
-
-// ---------------------------------------------------------------------------
-// The regular (singularity-free) piece of the integrand
-// TODO: Here there would be a power of s to the number of subtractions in general
-complex<double> dispersion_integral::reg_integrand(int n, double s, int ieps)
-{
-  return sin(previous->omega.extrap_phase(s)) * Mtilde(n, s, ieps) / std::abs(previous->omega(s, ieps));;
-};
-
-
-complex<double> dispersion_integral::integrate(int n, double s, int ieps, double low, double up)
-{
-
-  complex<double> log_piece;
-  if (options.use_conformal == true)
+  // Error check
+  if (ieps != -1 && ieps != +1)
   {
-    log_piece = (reg_integrand(n, s, ieps) /  pow(inhom.k(s), 3.))
-            * log( (up - s - double(ieps) * xi * EPS)
-                  / (low - s - double(ieps) * xi * EPS) );
-  }
-  else
-  {
-    //TODO THIS LOG PIECE REQUIRES GENERALIZATION
-    log_piece = pow(s * xr, options.max_subs) * (reg_integrand(n, s, ieps) /  pow(inhom.k(s), 3.));
-    log_piece *= log( (up - s - double(ieps) * xi * EPS) / (low - s - double(ieps) * xi * EPS))
-                  - (options.max_subs + 1) * log(up / low);
+    cout << "dispersion_integral: Invalid ieps. Quitting..." << endl;
+    exit(1);
   }
 
-  double w[N_integ + 1], x[N_integ + 1];
-  gauleg(low, up, x, w, N_integ);
-
-  complex<double> sum = 0.;
-  for (int i = 1; i < N_integ + 1; i++)
+  // if testing the angular_integral print file
+  if (options.test_angular == true)
   {
-    complex<double> temp = reg_integrand(n, x[i], ieps) / pow(inhom.k(x[i]), 3.);
-    temp -= reg_integrand(n, s, ieps) / pow(inhom.k(s), 3.); // subtract away the pole at s = x[i];
-    temp /=  (x[i] - s - double(ieps) * xi * EPS);
-
-    // Here we add powers of s^prime from the subtractions in the standard scheme
-    if (options.use_conformal == false)
-    {
-      temp *= pow(s * xr, (options.max_subs + 1)) / pow(x[i] * xr, (options.max_subs + 1));
-    }
-
-    sum += w[i] * temp;
+    cout << " -> test_angular enabled. Printing inhomogeneity..." << endl;
+    angular_test(n);
+    cout << "Done." << endl;
+    exit(1);
   }
 
-  sum += log_piece;
-
-  return sum / M_PI;
+  return disperse(n, s, ieps);
 };
 
 // ---------------------------------------------------------------------------
@@ -75,41 +41,157 @@ complex<double> dispersion_integral::integrate(int n, double s, int ieps, double
 complex<double> dispersion_integral::disperse(int n, double s, int ieps)
 {
   complex<double> result;
-  // If pseudothreshold is outside of the cutoff integrate without worry
-  // no discontinuities
+
   if (options.use_conformal == true)
   {
     if (LamOmnes < a)
     {
-    result = integrate(n, s, ieps, sthPi + EPS, LamOmnes);
+    result = con_integrate(n, s, ieps, sthPi + EPS, LamOmnes) + con_sp_log(n, s, ieps, sthPi + EPS, LamOmnes);
+    result -= cutoff_log(n, s, ieps);
     }
     else
     {
-      result =  integrate(n, s, ieps, sthPi + EPS, a - interval);
-      result += integrate(n, s, ieps, a + interval, LamOmnes);
+      result =  con_integrate(n, s, ieps, sthPi + EPS, a - interval) + con_sp_log(n, s, ieps, sthPi + EPS, a - interval);
+      result += con_integrate(n, s, ieps, a + interval, LamOmnes) + con_sp_log(n, s, ieps, a + interval, LamOmnes);
+      result -= cutoff_log(n, s, ieps);
     }
   }
 
   else
   {
-    result =  integrate(n, s, ieps, sthPi + EPS, a - interval);
-    result += integrate(n, s, ieps, a + interval, 600.);
+    result =  std_integrate(n, s, ieps, sthPi + EPS, a - interval) + std_sp_log(n, s, ieps, sthPi + EPS, a - interval);
+    result += std_integrate_inf(n, s, ieps, a + interval) + std_sp_log_inf(n, s, ieps, a + interval);
   }
 
   return result;
 };
 
-// ----------------------------------------------------------------------------
-// Log term to regularize cut-off point in the conformal mapping scheme
-complex<double> dispersion_integral::conformal_log_reg(int n, double s, int ieps)
+// ---------------------------------------------------------------------------
+// The regular (singularity-free) piece of the integrand
+// TODO: Here there would be a power of s to the number of subtractions in general
+complex<double> dispersion_integral::disp_function(int n, double s, int ieps)
 {
-  complex<double> mtilde = sin(previous->omega.extrap_phase(LamOmnes)) * inhom(n, LamOmnes) / abs(previous->omega(LamOmnes, ieps));
-  complex<double> endpoint = mtilde / pow(a * xr - LamOmnes, 1.5);
-  endpoint *= log( (LamOmnes - s - xi * double(ieps) * EPS) / (LamOmnes - sthPi));
+  complex<double> result = inhom(n, s);
+  result *= sin(previous->omega.extrap_phase(s)) / std::abs(previous->omega(s, ieps));
 
-  return endpoint / M_PI;
+  return result;
 };
 
+// ---------------------------------------------------------------------------
+// INTEGRATION FUNCTIONS FOR CONFORMAL SCHEME
+
+// ---------------------------------------------------------------------------
+// integrate dispersion kernal from low to high
+complex<double> dispersion_integral::con_integrate(int n, double s, int ieps, double lower, double upper)
+{
+  double w[N_integ + 1], x[N_integ + 1];
+  gauleg(lower, upper, x, w, N_integ);
+
+  complex<double> sum = 0.;
+  for (int i = 1; i < N_integ + 1; i++)
+  {
+    complex<double> temp = disp_function(n, x[i], ieps) - disp_function(n, s, ieps);
+    temp /=  (x[i] - s - double(ieps) * xi * EPS);
+
+    sum += w[i] * temp;
+  }
+
+  return sum / M_PI;
+};
+
+// ---------------------------------------------------------------------------
+// Analytical Integral of the subtracted term which regularizes the singularity at s^prime = s
+complex<double> dispersion_integral::con_sp_log(int n, double s, int ieps, double lower, double upper)
+{
+  complex<double> result, log_term;
+  result = disp_function(n, s, ieps);
+
+  log_term = log(upper - s - double(ieps) * xi * EPS);
+  log_term -= log(lower - s - double(ieps) * xi * EPS);
+
+  return result * log_term / M_PI;
+};
+
+// ----------------------------------------------------------------------------
+// Log term to regularize cut-off point in the conformal mapping scheme
+complex<double> dispersion_integral::cutoff_log(int n, double s, int ieps)
+{
+  complex<double> result = disp_function(n, LamOmnes, ieps);
+  result /= pow(a * xr - LamOmnes, 1.5);
+  result *= log( (LamOmnes - s - xi * double(ieps) * EPS) / (LamOmnes - sthPi));
+
+  return result / M_PI;
+};
+
+// ---------------------------------------------------------------------------
+// INTEGRATION FUNCTIONS FOR STANDARD SCHEME
+
+// ---------------------------------------------------------------------------
+// integrate dispersion kernal from low to high
+complex<double> dispersion_integral::std_integrate(int n, double s, int ieps, double lower, double upper)
+{
+  double w[N_integ + 1], x[N_integ + 1];
+  gauleg(lower, upper, x, w, N_integ);
+
+  complex<double> sum = 0.;
+  for (int i = 1; i < N_integ + 1; i++)
+  {
+    complex<double> temp = disp_function(n, x[i], ieps) * pow(s * xr / x[i], options.max_subs);
+    temp -= disp_function(n, s, ieps);
+    temp *= s / x[i];
+    temp /= (x[i] - s - double(ieps) * xi * EPS);
+
+    sum += w[i] * temp;
+  }
+
+  return sum / M_PI;
+};
+
+complex<double> dispersion_integral::std_integrate_inf(int n, double s, int ieps, double low)
+{
+  double w[N_integ + 1], x[N_integ + 1];
+  gauleg(0., 1., x, w, N_integ);
+
+  complex<double> sum = 0.;
+  for (int i; i < N_integ + 1; i++)
+  {
+    double sp = low + tan(M_PI * x[i] / 2.);
+
+    complex<double> temp = disp_function(n, sp, ieps) * pow(s * xr/sp, options.max_subs);
+    temp -= disp_function(n, s, ieps); // subtract away the pole at s = x[i];
+    temp *= s / sp;
+    temp /=  (sp - s - double(ieps) * xi * EPS);
+
+    temp *=  (M_PI / 2.) / pow(cos(M_PI * x[i] / 2.), 2.); // jacobian
+    sum += w[i] * temp;
+  }
+
+  return sum / M_PI;
+};
+
+complex<double> dispersion_integral::std_sp_log(int n, double s, int ieps, double low, double high)
+{
+ complex<double> result = disp_function(n, s, ieps);
+
+ complex<double> log_term = log(xr * (high - s - double(ieps) * xi * EPS)) - log(xr * high);
+ log_term -= log(xr * (low - s - double(ieps) * xi * EPS)) - log(xr * low);
+
+ return result * log_term / M_PI;
+};
+
+complex<double> dispersion_integral::std_sp_log_inf(int n, double s, int ieps, double low)
+{
+ complex<double> result = disp_function(n, s, ieps);
+ complex<double> log_term = - (log(xr * (low - s - double(ieps) * xi * EPS)) - log(xr * low));
+
+ return result * log_term / M_PI;
+};
+
+//----------------------------------------------------------------------------
+// UTILITY FUNCTIONS
+
+// ----------------------------------------------------------------------------
+// utility function that updates the stored pointer to the current iteration
 void dispersion_integral::pass_iteration(iteration * prev)
 {
     previous = NULL;
@@ -118,24 +200,63 @@ void dispersion_integral::pass_iteration(iteration * prev)
     inhom.pass_iteration(prev);
 };
 
-// ----------------------------------------------------------------------------
-// Evaluate the dispersion integral.
-// Method used depends on use_conformal in kt_options
-complex<double> dispersion_integral::operator() (int n, double s, int ieps)
+//----------------------------------------------------------------------------
+// Print the inhomogeneity
+void dispersion_integral::angular_test(int n)
 {
-  if (ieps != -1 && ieps != +1)
-  {
-    cout << "dispersion_integral: Invalid ieps. Quitting..." << endl;
-    exit(1);
-  }
+  //Surpress ROOT messages
+  gErrorIgnoreLevel = kWarning;
 
-  if (options.use_conformal == true)
-  {
-  return disperse(n, s, ieps) - conformal_log_reg(n, s, ieps);
-  }
+  // Output to a datfile
+  std::ofstream output;
+  string namedat = "inhomogeneity.dat";
+  output.open(namedat.c_str());
 
-  else
+  vector<double> s;
+  vector<double> refx, imfx;
+  for (int i = 0; i < 60; i++)
   {
-    return disperse(n, s, ieps);
+    double s_i = sthPi + 2. * EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
+    complex<double> fx_i = inhom(n, s_i);
+
+    if (abs(s_i - a) < 0.005)
+    {
+      continue;
+    }
+
+    s.push_back(s_i);
+    refx.push_back(real(fx_i));
+    imfx.push_back(imag(fx_i));
+
+    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
+  output.close();
+
+  TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  string label = "Inhomogeneity with " + std::to_string(n) + " Subtractions";
+
+  c->cd(1);
+  gRe->SetTitle(label.c_str());
+  gRe->SetLineStyle(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+
+  c->cd(2);
+  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  gIm->SetLineStyle(2);
+  gIm->SetLineColor(kRed);
+  gIm->Draw("AL");
+
+  c->Modified();
+  string namepdf = "inhomogeneity.pdf";
+  c->Print(namepdf.c_str());
+
+  delete c, gRe, gIm;
+
+  options.test_angular = false;
 };

@@ -28,7 +28,6 @@ class omnes : public pipi
 {
 protected:
 int wave;
-int sign = 1;
 double eps = 1e-9;
 int N_omnes = 60;
 double s0 = sthPi; //Lower Bound for integral
@@ -64,7 +63,6 @@ omnes(const omnes &previous):
 static constexpr double LamOmnes = 1.0;
 bool use_conformal;
 
-void set_ieps(int sig);
 void set_N_omnes(int i);
 void check_weights();
 

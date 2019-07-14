@@ -94,7 +94,7 @@ void isobar::iterate()
 // ----------------------------------------------------------------------------
 // Print the nth iteration into a dat file.
 // Additionally make a PDF plot comparing the 0th (no rescattering) and the nth iterations.
-void isobar::print(int n, int m)
+void isobar::print_iteration(int n, int m)
 {
 
   if (n > iters.size() - 1 ||  m > iters[n].subtractions.size() - 1)
@@ -113,7 +113,7 @@ void isobar::print(int n, int m)
   {
     name =  kinematics.get_decayParticle() + "_";
   }
-  name += "isobar_" + std::to_string(n) + "_" + std::to_string(m);
+  name += "iteration_" + std::to_string(n) + "_" + std::to_string(m);
 
   // Output to a datfile
   std::ofstream output;
@@ -225,7 +225,7 @@ complex<double> isobar::subtracted_isobar(double s)
   };
 
   complex<double> result = 0.;
-  if (s > sthPi + EPS && s <= omega.LamOmnes)
+  if (s > sthPi && s <= omega.LamOmnes)
   {
     for (int i = 0; i < options.max_subs + 1; i++)
     {
@@ -252,6 +252,67 @@ complex<double> isobar::subtracted_isobar(double s)
   return result;
 };
 
+void isobar::print()
+{
+  //Surpress ROOT messages
+  gErrorIgnoreLevel = kWarning;
+
+  string name;
+  if (kinematics.get_decayParticle() != "")
+  {
+    name =  kinematics.get_decayParticle() + "_";
+  }
+  name += "isobar_" + std::to_string(spin_proj) + "_" + std::to_string(iso_proj);
+
+  // Output to a datfile
+  std::ofstream output;
+  string namedat = name + ".dat";
+  output.open(namedat.c_str());
+
+  vector<double> s;
+  vector<double> refx, imfx;
+  for (int i = 0; i < 60; i++)
+  {
+    double s_i = (sthPi + EPS) + double(i) * (omnes::LamOmnes - sthPi) / 60.;
+    complex<double> fx_i =  subtracted_isobar(s_i);
+
+    s.push_back(s_i);
+    refx.push_back(real(fx_i));
+    imfx.push_back(imag(fx_i));
+
+    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+  }
+  output.close();
+
+  cout << "Output to: " << namedat << "." << endl;
+
+  //Print the Real part compared to no rescattering
+  TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  string label = name;
+
+  c->cd(1);
+  gRe->SetTitle(label.c_str());
+  gRe->SetLineStyle(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+
+  c->cd(2);
+  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  gIm->SetLineStyle(2);
+  gIm->SetLineColor(kRed);
+  gIm->Draw("AL");
+
+  c->Modified();
+  string namepdf = name + ".pdf";
+  c->Print(namepdf.c_str());
+
+  delete c, gRe, gIm;
+};
 // ----------------------------------------------------------------------------
 // Evaluate the full isobar amplitude by inserting partial wave in each subchannel
 complex<double> isobar::eval(double s, double t)

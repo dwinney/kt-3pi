@@ -68,7 +68,8 @@ public:
   void iterate();
 
   // Print the nth iteration
-  void print(int n, int m);
+  void print_iteration(int n, int m);
+  void print();
 
   // These functions are to interface with dalitz_fit
   void set_params(int n_params, const double *par);

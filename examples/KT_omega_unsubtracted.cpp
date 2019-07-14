@@ -28,15 +28,15 @@ int main()
   kt_options options;
   options.max_iters = 3;
   options.max_subs = 0;
-  options.use_conformal = false;
+  options.use_conformal = true;
 
   // Omega dominated by single isobar, j = 1, I = 1
   // in general this would be a KT object that is
   // defined with a Jmax and helicity / isospin dependence.
   isobar kt_pwave(1, 1, options, vector_meson);
   kt_pwave.iterate();
-  kt_pwave.print(0, 0);
-  kt_pwave.print(1, 0); // No rescattering
+  kt_pwave.print_iteration(0, 0);
+  kt_pwave.print_iteration(3, 0); // No rescattering
 
   cout << endl;
   cout << "Extracting Dalitz Plot Parameters..." << endl;
@@ -55,14 +55,14 @@ int main()
   fitter1.extract_params(4);
   fit_results.print_params();
 
-  cout << "Extracting effective rho mass and width from a Breit-Wigner..." << endl;
-  cout << endl;
-
-  breit_wigner rho_eff(vector_meson);
-
-  dalitz_fit<isobar,breit_wigner> fitter2(&kt_pwave, &rho_eff);
-  fitter2.extract_params(2);
-  rho_eff.print_params();
+  // cout << "Extracting effective rho mass and width from a Breit-Wigner..." << endl;
+  // cout << endl;
+  //
+  // breit_wigner rho_eff(vector_meson);
+  //
+  // dalitz_fit<isobar,breit_wigner> fitter2(&kt_pwave, &rho_eff);
+  // fitter2.extract_params(2);
+  // rho_eff.print_params();
 
   return 1.;
 };

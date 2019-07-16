@@ -19,9 +19,13 @@ using std::setw;
 class poly_exp
 {
 protected:
-  double alpha = 0., beta = 0., gamma = 0., delta = 0.;
-  double Norm = 1.;
   double scale = 1.e-3;
+
+  double alpha = 0., beta = 0., gamma = 0., delta = 0.;
+  double Norm = 1;
+
+  double dNorm = 0.;
+  double dalpha = 0., dbeta = 0., dgamma = 0., ddelta = 0.;
 
 public:
   // Default constructor
@@ -41,8 +45,12 @@ public:
   // Evaluate amplitude squared
   complex<double> eval(double s, double t);
 
+  bool ERROR = false;
+  double error_func(double s, double t);
+
   // Set and Print
-  void set_params(int n, const double *par);
+  void set_params(int n, const double * par);
+  void set_errors(int n, const double * par);
   void print_params(int a = 0);
 };
 

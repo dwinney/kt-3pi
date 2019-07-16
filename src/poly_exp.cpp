@@ -14,11 +14,11 @@ complex<double> poly_exp::eval(double s, double t)
     double zs = kinematics.z(s,t);
     double thetas =  kinematics.theta(s,t);
 
-    complex<double> temp = 1.
-                + 2. * alpha * zs * scale
-                + 2. * beta * scale * std::pow(zs, 1.5) * std::sin(3. * thetas)
-                + 2. * gamma * scale *  zs*zs
-                + 2. * delta * scale * std::pow(zs, 2.5) * std::sin(3.*thetas);
+    complex<double> temp = 1.;
+    temp += 2. * alpha * zs * scale;
+    temp += 2. * beta * scale * std::pow(zs, 1.5) * std::sin(3. * thetas);
+    temp += 2. * gamma * scale *  zs*zs;
+    temp += 2. * delta * scale * std::pow(zs, 2.5) * std::sin(3.*thetas);
     return Norm * sqrt(temp);
   };
 
@@ -31,6 +31,38 @@ void poly_exp::set_params(int n, const double *par)
     case 2: beta = par[2];
     case 1: alpha = par[1];
     case 0: Norm = par[0]; break;
+  };
+};
+
+void poly_exp::set_errors(int n, const double *par)
+{
+  switch (n - 1)
+   {
+    case 4: ddelta = par[4];
+    case 3: dgamma = par[3];
+    case 2: dbeta = par[2];
+    case 1: dalpha = par[1];
+    case 0: dNorm = par[0]; break;
+  };
+};
+
+double poly_exp::error_func(double s, double t)
+{
+  if (ERROR == true)
+  {
+    double result;
+    double zs = kinematics.z(s,t);
+    double thetas =  kinematics.theta(s,t);
+
+    result = pow(2. * zs * dalpha, 2.);
+    result += zs * zs * zs * pow(2. * std::sin(3. * thetas) * dbeta, 2.);
+    result += pow(2. * zs * zs * dgamma, 2.);
+
+    return sqrt(result);
+  }
+  else
+  {
+  return 1.;
   };
 };
 

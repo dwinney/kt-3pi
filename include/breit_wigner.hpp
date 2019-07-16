@@ -42,6 +42,10 @@ public:
 
   complex<double> eval(double s, double t);
   complex<double> f(double s);
+  double error_func(double s, double t)
+  {
+    return 1.;
+  };
 
 // ---------------------------------------------------------------------------
 };

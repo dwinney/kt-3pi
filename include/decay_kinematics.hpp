@@ -14,6 +14,9 @@
 
 #include "constants.hpp"
 
+#include <TMath.h>
+#include <Math/SpecFuncMathMore.h>
+
 #include <iostream>
 #include <complex>
 #include <string>
@@ -173,6 +176,20 @@ double pseudo_threshold()
 {
   return  (mDec - mPi) * (mDec - mPi);
 };
+
+//-----------------------------------------------------------------------------
+// Angular functions
+
+// Outputs the Wigner little-d function appropriate for the decay into three scalar,
+// d^j_{lambda, 0}(z)
+double d_func(int j, int l, double z);
+
+// Outputs d_hat the kinematic-singularity-free d_function
+double d_hat(int j, int l, double z);
+
+//-----------------------------------------------------------------------------
+// Kinematic Singularities of Helicity amplitudes
+double K_lambda(int lam, double s, double t);
 
 //-----------------------------------------------------------------------------
 // Dalitz region limits

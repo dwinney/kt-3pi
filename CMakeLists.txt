@@ -53,7 +53,6 @@ src/dalitz.cpp
 src/dalitz_fit.cpp
 src/poly_exp.cpp
 src/breit_wigner.cpp
-src/wigner_d.cpp
 )
 target_link_libraries(unsubtracted ${ROOT_LIBRARIES})
 target_link_libraries(unsubtracted ${GSL_LIBRARIES})
@@ -73,7 +72,6 @@ src/dalitz.cpp
 src/dalitz_fit.cpp
 src/poly_exp.cpp
 src/breit_wigner.cpp
-src/wigner_d.cpp
 )
 target_link_libraries(subtracted ${ROOT_LIBRARIES})
 target_link_libraries(subtracted ${GSL_LIBRARIES})

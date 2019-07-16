@@ -88,6 +88,41 @@ double decay_kinematics::tmax(double s)
 {
   return real(pow(com_E2(s) + com_E3(s), 2.) - pow(com_P2(s) - com_P3(s), 2.));
 };
+
+//-----------------------------------------------------------------------------
+// Angular functions
+
+// Outputs the Wigner little-d function appropriate for the decay into three scalar,
+// d^j_{lambda, 0}(z)
+double decay_kinematics::d_func(int j, int l, double z)
+{
+  double prefactor = TMath::Factorial(j - l) / TMath::Factorial(j + l);
+  double legendre = ROOT::Math::assoc_legendre(j, l, z);
+
+  return sqrt(2.) * sqrt(prefactor) * legendre;
+};
+
+// Outputs d_hat the kinematic-singularity-free d_function
+double decay_kinematics::d_hat(int j, int l, double z)
+{
+  double d_lam = d_func(j, l, z);
+  double half_angle_factor = pow((1. - z*z), double(l)/2.);
+
+  return d_lam / half_angle_factor;
+};
+
+//-----------------------------------------------------------------------------
+// Kinematic Singularities of Helicity amplitudes
+// TODO: generalize
+double decay_kinematics::K_lambda(int lam, double s, double t)
+{
+  double temp = abs(Kibble(s,t) / 4.);
+
+  double result = pow(temp, double(lam) /2.);
+
+  return result;
+};
+
 // ---------------------------------------------------------------------------
 // Lorentz Invariant dimensionless parameters in terms of Mandelstam variables
 double decay_kinematics::x(double s, double t)

@@ -117,8 +117,7 @@ double decay_kinematics::d_hat(int j, int l, double z)
 double decay_kinematics::K_lambda(int lam, double s, double t)
 {
   double temp = abs(Kibble(s,t) / 4.);
-
-  double result = pow(temp, double(lam) /2.);
+  double result = pow(sqrt(temp), double(lam));
 
   return result;
 };

@@ -22,10 +22,9 @@ int main()
 
   // Options parameters for the KT euqations
   kt_options options;
-  options.max_iters = 3;
+  options.max_iters = 0;
   options.max_subs = 0;
   options.use_conformal = true;
-  options.test_angular = true;
 
   // Omega dominated by single isobar, j = 1, I = 1, lambda = 1
   // in general this would be a KT object with Jmax and helicity dependence
@@ -44,14 +43,14 @@ int main()
   dalitz_fit<isobar,poly_exp> fitter(&kt_pwave, &fit_results);
   fitter.plot();
 
-  // fitter.extract_params(2);
-  // fit_results.print_params();
-  // //
-  // fitter.extract_params(3);
-  // fit_results.print_params();
+  fitter.extract_params(2);
+  fit_results.print_params();
   //
-  // fitter.extract_params(4);
-  // fit_results.print_params();
+  fitter.extract_params(3);
+  fit_results.print_params();
+
+  fitter.extract_params(4);
+  fit_results.print_params();
 
   return 1.;
 };

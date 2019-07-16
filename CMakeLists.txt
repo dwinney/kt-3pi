@@ -25,8 +25,8 @@ else()
     message(SEND_ERROR "GSL not found!")
 endif()
 
-add_executable( omega_BW
-examples/omega_BW.cpp
+add_executable(BW
+examples/BW.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
@@ -36,7 +36,7 @@ src/dalitz.cpp
 src/dalitz_fit.cpp
 src/poly_exp.cpp
 )
-target_link_libraries( omega_BW ${ROOT_LIBRARIES})
+target_link_libraries(BW ${ROOT_LIBRARIES})
 
 add_executable(unsubtracted
 examples/unsubtracted.cpp

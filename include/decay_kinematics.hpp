@@ -138,9 +138,25 @@ string get_JPC()
 //-----------------------------------------------------------------------------
 // Kinematic Functions
 double u_man(double s, double t); // Mandelstam u
+complex<double> Kibble(double s, double t); // Lorentz Invariant Kibble Function
+
 double Kallen(double x, double y, double z); // Kallen triangle function
 
-complex<double> Kibble(double s, double t); // Lorentz Invariant Kibble Function
+//two relevant kallen functions
+double Kallen_x(double s)
+{
+  return Kallen(s, mDec*mDec, mPi*mPi);
+};
+double Kallen_pi(double s)
+{
+  return Kallen(s, mPi*mPi, mPi*mPi);
+};
+
+//-----------------------------------------------------------------------------
+// Cosine of scattering angles in the s, t, and u center-of-mass frames
+double z_s(double s, double t);
+double z_t(double s, double t);
+double z_u(double s, double t);
 
 // Momenta in center of mass frame
 complex<double> com_E2(double s);
@@ -178,7 +194,7 @@ double s_c()
   };
 double t_c()
 {
-    return (3.*mPi*mPi + mDec* mDec - s_c())/2.;
+    return (3.*mPi*mPi + mDec*mDec - s_c())/2.;
 };
 
 //-----------------------------------------------------------------------------

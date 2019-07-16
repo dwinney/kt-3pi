@@ -29,6 +29,32 @@ double decay_kinematics::Kallen(double x, double y, double z)
   return x*x + y*y + z*z - 2.*(x*y + x*z + z*y);
 };
 
+//-----------------------------------------------------------------------------
+// Scattering angles in the s, t, and u center-of-mass frames
+double decay_kinematics::z_s(double s, double t)
+{
+  double numerator = s* (t - u_man(s,t));
+  double denominator = sqrt(Kallen_x(s) * Kallen_pi(s));
+
+  return numerator / denominator;
+};
+
+double decay_kinematics::z_t(double s, double t)
+{
+  double numerator = t* (s - u_man(s,t));
+  double denominator = sqrt(Kallen_x(t) * Kallen_pi(t));
+
+  return numerator / denominator;
+};
+
+double decay_kinematics::z_u(double s, double t)
+{
+  double numerator = u_man(s,t) * (t - s);
+  double denominator = sqrt(Kallen_x(u_man(s,t)) * Kallen_pi(u_man(s,t)));
+
+  return numerator / denominator;
+};
+
 // ---------------------------------------------------------------------------
 // Momenta and Energies in the Center of Momentum Frame
 complex<double> decay_kinematics::com_E2(double s)

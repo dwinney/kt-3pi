@@ -35,9 +35,10 @@ void dalitz<T>::generate_s_weights()
 
   for (int i = 1; i < N_int() + 1; i++)
   {
-          s_wgt.push_back(weights[i]);
-          s_abs.push_back(abscissas[i]);
+    s_wgt.push_back(weights[i]);
+    s_abs.push_back(abscissas[i]);
   }
+
   // cout << "param_fit: Gaussian weights for s in the Dalitz Region generated with "
   // << N_int() << " points... \n";
   S_WG_GENERATED = true;
@@ -114,9 +115,37 @@ return s_sum;
 template <class T>
 double dalitz<T>::d2Gamma(double s, double t)
 {
-  complex<double> F = dalitz<T>::amp->eval(s,t);
-  double result = abs(amp->kinematics.Kibble(s,t) * F * F);
-  return result / normalization;
+  complex<double> F = amp->eval(s,t);
+  complex<double> temp = F * F;
+  temp *= amp->kinematics.Kibble(s,t) / 4.;
+  temp /= 3.;
+  double result = abs(temp / normalization);
+  return result;
+};
+
+template <class T>
+double dalitz<T>::Gamma_total()
+{
+  generate_weights();
+
+  // Integrate over s
+  double s_sum = 0.;
+  for (int i = 0; i < N_int(); i++)
+  {
+    double s_i = s_abs[i];
+    // Integrate over t
+    double t_sum = 0.;
+    for (int j = 0; j < N_int(); j++)
+    {
+        double t_ij;
+
+        t_ij = t_abs[i][j];
+        t_sum += t_wgt[i][j] * d2Gamma(s_i, t_ij);
+    };
+    s_sum += s_wgt[i] * t_sum;
+  };
+
+  return s_sum;
 };
 
 //-----------------------------------------------------------------------------

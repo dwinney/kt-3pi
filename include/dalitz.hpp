@@ -24,6 +24,10 @@
 #include "TStyle.h"
 #include "TError.h"
 
+#include "Math/Minimizer.h"
+#include "Math/Factory.h"
+#include "Math/Functor.h"
+
 using std::vector;
 using std::setw;
 using std::cout;
@@ -74,6 +78,7 @@ public:
 //--------------------------------------------------------------------------
   // Double differential cross section
   double d2Gamma(double s, double t);
+  double Gamma_total();
 
 //--------------------------------------------------------------------------
 // Misc Utilities

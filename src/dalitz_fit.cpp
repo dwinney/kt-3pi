@@ -29,22 +29,18 @@ double dalitz_fit<T, F>::kin_kernel(double s, double t)
 template <class T, class F>
 double dalitz_fit<T, F>::chi_squared(const double *par)
 {
-  double t_sum, s_sum, s_i, d_area;
-  double chi2;
-
   dalitz<T>::generate_weights();
 
   // Update parameters in polynomial expansion at the fitting step
   fit_amp->set_params(n_params, par);
-  d_area = dalitz<T>::dalitz_area();
 
   // Integrate over s
-  s_sum = 0.;
+  double s_sum = 0.;
   for (int i = 0; i < dalitz<T>::N_int(); i++)
   {
-    s_i = dalitz<T>::s_abs[i];
+    double s_i = dalitz<T>::s_abs[i];
     // Integrate over t
-    t_sum = 0.;
+    double t_sum = 0.;
     for (int j = 0; j < dalitz<T>::N_int(); j++)
     {
         complex<double> amp_ij, fit_ij;
@@ -60,21 +56,24 @@ double dalitz_fit<T, F>::chi_squared(const double *par)
 
         kern_ij = kin_kernel(s_i, t_ij);
 
-        double tmp1, tmp2, tmp3;
-        tmp1 = (ampsqr_ij - fitsqr_ij);
-        tmp2 = tmp1 * kern_ij;
-        tmp3 = tmp2 * tmp2;
+        double tmp, tmp3;
+        tmp = (ampsqr_ij - fitsqr_ij);
+        tmp *= kern_ij * kern_ij;
+        tmp /= dalitz<T>::amp->error_func(s_i, t_ij);
+        tmp /= par[0] * par[0];
+
+        tmp3 = tmp * tmp;
 
         t_sum += dalitz<T>::t_wgt[i][j] * tmp3;
     };
     s_sum += dalitz<T>::s_wgt[i] * t_sum;
   };
 
-  chi2 = s_sum / d_area;
-  chi2 /= pow(par[0], 4.);
+  double chi2 = s_sum / dalitz<T>::dalitz_area();;
 
   return chi2;
 };
+
 // ---------------------------------------------------------------------------
 // Minimize the above chi_squared by calling Minuit2 in the ROOT::Math::Minimizer class
 template <class T, class F>
@@ -109,5 +108,7 @@ void dalitz_fit<T, F>::extract_params(int eN)
   double chi2 = minuit ->MinValue();
   cout << "sqrt(chi2) = " << sqrt(chi2) * 1.e3 << endl;
   cout << endl;
+
+  fit_amp->set_params(n_params, minuit->X());
 
 };

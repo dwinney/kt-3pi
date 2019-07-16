@@ -15,10 +15,6 @@
 
 #include <string>
 
-#include "Math/Minimizer.h"
-#include "Math/Factory.h"
-#include "Math/Functor.h"
-
 using std::string;
 
 // ---------------------------------------------------------------------------

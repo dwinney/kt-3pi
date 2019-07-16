@@ -115,12 +115,11 @@ return s_sum;
 template <class T>
 double dalitz<T>::d2Gamma(double s, double t)
 {
-  complex<double> F = amp->eval(s,t);
-  complex<double> temp = F * F;
-  temp *= amp->kinematics.Kibble(s,t) / 4.;
-  temp /= 3.;
-  double result = abs(temp / normalization);
-  return result;
+  complex<double> Fsqr = amp->eval(s,t);
+  Fsqr *= Fsqr;
+  Fsqr /= 3.;
+
+  return abs(Fsqr / normalization);
 };
 
 template <class T>
@@ -155,7 +154,7 @@ void dalitz<T>::plot()
 {
 
   gErrorIgnoreLevel = kWarning;
-  std::string name = amp->kinematics.get_ampName();
+  std::string name = amp->kinematics.get_decayParticle();
 
   // Command Line Message
   cout << "Plotting Dalitz Region";
@@ -166,7 +165,7 @@ void dalitz<T>::plot()
   cout << "... \n";
 
   std::ofstream output;
-  name += ".dat";
+  name += "_dalitz_plot.dat";
   output.open(name.c_str());
 
   double s_step = (amp->kinematics.smax() - amp->kinematics.smin() - offset)/100.;
@@ -179,7 +178,8 @@ void dalitz<T>::plot()
      double t_step = (amp->kinematics.tmax(si) - offset - amp->kinematics.tmin(si)) / 100.;
      double tij = amp->kinematics.tmin(si) + offset  + double(j) * t_step;
 
-     double gam = d2Gamma(si, tij);
+     double gam = d2Gamma(si, tij) / abs(amp->kinematics.Kibble(si, tij));
+     gam /= d2Gamma(s_c, t_c) / abs(amp->kinematics.Kibble(s_c, t_c)); // Normalize to the center
 
       output << std::left << setw(15) << amp->kinematics.x(si, tij)
                           << setw(15) << amp->kinematics.y(si, tij)

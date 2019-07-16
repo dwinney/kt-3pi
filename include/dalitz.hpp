@@ -80,6 +80,8 @@ public:
   double d2Gamma(double s, double t);
   double Gamma_total();
 
+  double s_c = amp->kinematics.s_c();
+  double t_c = amp->kinematics.t_c();
 //--------------------------------------------------------------------------
 // Misc Utilities
   void plot();

@@ -194,13 +194,17 @@ void isobar::set_params(int n_params, const double *par)
 // Set the normalization coefficient
 void isobar::normalize(double gamma_exp)
 {
-  cout << "Normalizing isobar amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
+  cout << endl;
+  cout << "Normalizing total isobar amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
 
   dalitz<isobar> d_plot(this);
   double gamma = d_plot.Gamma_total();
   double normalization = sqrt(gamma_exp * 1.e-3 / gamma);
 
   set_params(1, &normalization);
+
+  cout << "Normalization constant = " << normalization << endl;
+  cout << endl;
 };
 
 void isobar::print_params()
@@ -236,16 +240,6 @@ complex<double> isobar::subtracted_isobar(double s)
     }
   }
 
-  // on the negative real axis (no imaginary part)
-  else if (s < sthPi)
-  {
-    for (int i = 0; i < options.max_subs + 1; i++)
-    {
-      subtraction_polynomial sub_poly(options.use_conformal);
-      result += coefficients[i] * omega(s, 0) * sub_poly(i, s, 0);
-    }
-  }
-
   else
   {
     cout << "isobar: Attempting to evaluate outside of interpolation range. Quitting..." << endl;
@@ -259,6 +253,11 @@ complex<double> isobar::subtracted_isobar(double s)
 // Print total isobar including the set coefficients and combining subtractions
 void isobar::print()
 {
+  cout << "Printing isobar with j = "<< std::to_string(spin_proj) << ",";
+  cout << " lambda = " << std::to_string(helicity_proj) << ",";
+  cout << " and I = " << std::to_string(iso_proj);
+  cout << endl;
+
   //Surpress ROOT messages
   gErrorIgnoreLevel = kWarning;
 
@@ -325,13 +324,12 @@ complex<double> isobar::eval(double s, double t)
   double u = kinematics.u_man(s,t);
   double zs = kinematics.z_s(s,t), zt = kinematics.z_t(s,t), zu = kinematics.z_u(s,t);
 
-  // complex<double> result = d_hat(1, 1, zs) * subtracted_isobar(s);
-  // result += d_hat(1, 1, zt) * subtracted_isobar(t);
-  // result += d_hat(1, 1, zu) * subtracted_isobar(u);
+  complex<double> result;
+  result  = kinematics.d_hat(spin_proj, helicity_proj, zs) * subtracted_isobar(s);
+  result += kinematics.d_hat(spin_proj, helicity_proj, zt) * subtracted_isobar(t);
+  result += kinematics.d_hat(spin_proj, helicity_proj, zu) * subtracted_isobar(u);
 
-  complex<double> result = subtracted_isobar(s);
-  result +=  subtracted_isobar(t);
-  result +=  subtracted_isobar(u);
-
+  // result *= (2. * spin_proj + 1.);
+  result *= kinematics.K_lambda(helicity_proj, s, t);
   return result;
 };

@@ -28,7 +28,6 @@
 #include "decay_kinematics.hpp"
 #include "kt_iteration.hpp"
 #include "kt_equations.hpp"
-#include "wigner_d.hpp"
 
 using std::setw;
 
@@ -42,7 +41,7 @@ using std::setw;
 class isobar
 {
 protected:
-  int spin_proj, iso_proj;
+  int spin_proj, iso_proj, helicity_proj;
   omnes omega;
 
   // Vector storing each iteration of the KT equation
@@ -58,8 +57,9 @@ protected:
 
 //-----------------------------------------------------------------------------
 public:
-  isobar(int isospin, int spin, kt_options opti, decay_kinematics dec) :
-  spin_proj(spin), iso_proj(isospin), options(opti),
+  isobar(int isospin, int spin, int helicity, kt_options opti, decay_kinematics dec) :
+  spin_proj(spin), iso_proj(isospin), helicity_proj(helicity),
+  options(opti),
   kinematics(dec), omega(isospin, spin, opti.use_conformal), kt(dec, opti)
   {
     coefficients.push_back(1.);

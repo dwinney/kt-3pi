@@ -38,8 +38,7 @@ protected:
   int nError = 0; // Default print level for info messages in Minuit (0 - 4)
 
   F * fit_amp;
-
-  double kin_kernel(double s, double t); // Kinematic Kernel in dalitz region integral
+  
   double chi_squared(const double *par); // Chi-squared between input line-shape and polynomial.
 
 // ---------------------------------------------------------------------------

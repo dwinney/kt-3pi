@@ -117,7 +117,6 @@ complex<double> dispersion_integral::con_sp_log(int n, double s, int ieps, doubl
 complex<double> dispersion_integral::cutoff_log(int n, double s, int ieps)
 {
   complex<double> result = disp_function(n, LamOmnes, ieps);
-  result /= pow(a * xr - LamOmnes, 1.5);
   result *= log( (LamOmnes - s - xi * double(ieps) * EPS) / (LamOmnes - sthPi));
 
   return result / M_PI;
@@ -147,6 +146,20 @@ complex<double> dispersion_integral::std_integrate(int n, double s, int ieps, do
   return sum / M_PI;
 };
 
+// ----------------------------------------------------------------------------
+// log term that regularizes the pole at s = sp above
+complex<double> dispersion_integral::std_sp_log(int n, double s, int ieps, double low, double high)
+{
+ complex<double> result = disp_function(n, s, ieps);
+
+ complex<double> log_term = log(xr * (high - s - double(ieps) * xi * EPS)) - log(xr * high);
+ log_term -= log(xr * (low - s - double(ieps) * xi * EPS)) - log(xr * low);
+
+ return result * log_term / M_PI;
+};
+
+// ----------------------------------------------------------------------------
+// integrate from low to infinity
 complex<double> dispersion_integral::std_integrate_inf(int n, double s, int ieps, double low)
 {
   double w[N_integ + 1], x[N_integ + 1];
@@ -169,16 +182,8 @@ complex<double> dispersion_integral::std_integrate_inf(int n, double s, int ieps
   return sum / M_PI;
 };
 
-complex<double> dispersion_integral::std_sp_log(int n, double s, int ieps, double low, double high)
-{
- complex<double> result = disp_function(n, s, ieps);
-
- complex<double> log_term = log(xr * (high - s - double(ieps) * xi * EPS)) - log(xr * high);
- log_term -= log(xr * (low - s - double(ieps) * xi * EPS)) - log(xr * low);
-
- return result * log_term / M_PI;
-};
-
+// ----------------------------------------------------------------------------
+// log term that regularizes the pole at s = sp adapted with one subtraction to be regular when integrating to infinity.
 complex<double> dispersion_integral::std_sp_log_inf(int n, double s, int ieps, double low)
 {
  complex<double> result = disp_function(n, s, ieps);
@@ -224,11 +229,11 @@ void dispersion_integral::angular_test(int n)
       continue;
     }
 
-    s.push_back(s_i);
+    s.push_back(sqrt(s_i));
     refx.push_back(real(fx_i));
     imfx.push_back(imag(fx_i));
 
-    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
   output.close();
 

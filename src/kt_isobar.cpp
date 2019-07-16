@@ -137,7 +137,6 @@ void isobar::print_iteration(int n, int m)
 
   cout << "Output to: " << namedat << "." << endl;
 
-  //Print the Real part compared to no rescattering
   TCanvas *c = new TCanvas("c", "c");
   c->Divide(1,2);
 

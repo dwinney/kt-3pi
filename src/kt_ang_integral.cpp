@@ -52,7 +52,7 @@ complex<double> angular_integral::kernel(double s, complex<double> t)
   complex<double> zs, temp1;
   zs = z_s(s, t);
   temp1 = 3. * (xr - zs * zs);
-  
+
   return  temp1 / k(s);
 };
 
@@ -151,7 +151,7 @@ complex<double> angular_integral::integ_a_b(int n, double s)
     sumP +=  w[i] * tempP;
   }
 
-  return  (sumP + sumM);
+  return (sumP + sumM);
 };
 
 // t-channel scattering region, limits are real again
@@ -173,7 +173,7 @@ complex<double> angular_integral::integ_b(int n, double s)
     sum += w[i] * temp;
   }
 
-  return  sum;
+  return sum;
 };
 
 // ---------------------------------------------------------------------------

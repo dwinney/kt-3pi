@@ -127,11 +127,11 @@ void isobar::print_iteration(int n, int m)
     double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
     complex<double> fx_i =  iters[n].subtractions[m].interp_above(s_i);
 
-    s.push_back(s_i);
+    s.push_back(sqrt(s_i));
     refx.push_back(real(fx_i));
     imfx.push_back(imag(fx_i));
 
-    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
   output.close();
 
@@ -190,6 +190,19 @@ void isobar::set_params(int n_params, const double *par)
   }
 };
 
+// ----------------------------------------------------------------------------
+// Set the normalization coefficient
+void isobar::normalize(double gamma_exp)
+{
+  cout << "Normalizing isobar amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
+
+  dalitz<isobar> d_plot(this);
+  double gamma = d_plot.Gamma_total();
+  double normalization = sqrt(gamma_exp * 1.e-3 / gamma);
+
+  set_params(1, &normalization);
+};
+
 void isobar::print_params()
 {
     cout << "Printing Subtraction Coefficients... \n";
@@ -203,22 +216,12 @@ void isobar::print_params()
     cout << "\n";
 };
 
+
 // ----------------------------------------------------------------------------
 // Evaluate the isobar partial wave at some energy s
 // Sums subtractions with their coefficients
 complex<double> isobar::subtracted_isobar(double s)
 {
-  if (coefficients.size() != options.max_subs + 1)
-  {
-    // cout << "isobar: Number of coefficients and subtrations don't match! Quitting..." << endl;
-    // exit(1);
-    coefficients.clear();
-    for (int i = 0; i < options.max_subs + 1; i++)
-    {
-      coefficients.push_back(1.);
-    }
-  }
-
   if (iters.size() == 0)
   {
       iterate();
@@ -252,6 +255,8 @@ complex<double> isobar::subtracted_isobar(double s)
   return result;
 };
 
+// ----------------------------------------------------------------------------
+// Print total isobar including the set coefficients and combining subtractions
 void isobar::print()
 {
   //Surpress ROOT messages
@@ -276,11 +281,11 @@ void isobar::print()
     double s_i = (sthPi + EPS) + double(i) * (omnes::LamOmnes - sthPi) / 60.;
     complex<double> fx_i =  subtracted_isobar(s_i);
 
-    s.push_back(s_i);
+    s.push_back(sqrt(s_i));
     refx.push_back(real(fx_i));
     imfx.push_back(imag(fx_i));
 
-    output << std::left << setw(15) << s_i << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
   output.close();
 
@@ -318,6 +323,15 @@ void isobar::print()
 complex<double> isobar::eval(double s, double t)
 {
   double u = kinematics.u_man(s,t);
+  double zs = kinematics.z_s(s,t), zt = kinematics.z_t(s,t), zu = kinematics.z_u(s,t);
 
-  return subtracted_isobar(s) + subtracted_isobar(t) + subtracted_isobar(u);
+  // complex<double> result = d_hat(1, 1, zs) * subtracted_isobar(s);
+  // result += d_hat(1, 1, zt) * subtracted_isobar(t);
+  // result += d_hat(1, 1, zu) * subtracted_isobar(u);
+
+  complex<double> result = subtracted_isobar(s);
+  result +=  subtracted_isobar(t);
+  result +=  subtracted_isobar(u);
+
+  return result;
 };

@@ -14,6 +14,7 @@
 
 #include <cmath>
 #include <fstream>
+#include <iomanip>
 
 #include <TCanvas.h>
 #include <TGraph.h>
@@ -22,11 +23,12 @@
 #include <TLine.h>
 #include <TError.h>
 
+#include "dalitz.cpp"
 #include "kt_options.hpp"
 #include "decay_kinematics.hpp"
 #include "kt_iteration.hpp"
 #include "kt_equations.hpp"
-#include "iomanip"
+#include "wigner_d.hpp"
 
 using std::setw;
 
@@ -74,6 +76,12 @@ public:
   // These functions are to interface with dalitz_fit
   void set_params(int n_params, const double *par);
   void print_params();
+  void normalize(double gamma_exp);
+
+  double error_func(double s, double t)
+  {
+    return 1.;
+  };
 
   // Evaluate the isobar in one channel or the total amplitude
   complex<double> subtracted_isobar(double s);

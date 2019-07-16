@@ -29,7 +29,7 @@ decay_kinematics vector_meson;
   options.max_subs = 1;
   options.use_conformal = true;
 
-  isobar kt_pwave(1, 1, options, vector_meson);
+  isobar kt_pwave(1, 1, 1, options, vector_meson);
   kt_pwave.iterate(); // Calculate three iterations of the KT equation
 
   // kt_pwave.print_iteration(3, 0);

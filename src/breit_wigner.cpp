@@ -18,14 +18,14 @@ complex<double> breit_wigner::eval(double s, double t)
 {
   double u = kinematics.u_man(s,t);
   complex<double> temp = F(s) + F(t) + F(u);
-  return temp;
+  return kinematics.K_lambda(1, s, t) * temp;
 }
 
 // Single-channel amplitude
 complex<double> breit_wigner::F(double s)
 {
   complex<double> denom = xr * (s - s_res()) + xi * sqrt(xr * s) * width(s);
-  return s_res() / denom;
+  return normalization * s_res() / denom;
 };
 
 // Width with corrections from [https://doi.org/10.1103/PhysRevLett.21.244]
@@ -33,7 +33,7 @@ complex<double> breit_wigner::width(double s)
 {
   complex<double> temp1, temp2;
   temp1 = mom_pi(s) / mom_pi(s_res());
-  temp2 =   res_width * pow(temp1, 3.) * (s_res() / s);
+  temp2 = res_width * pow(temp1, 3.) * (s_res() / s);
   return temp2;
 };
 
@@ -44,27 +44,71 @@ complex<double> breit_wigner::mom_pi(double s)
 };
 
 // Export a .dat file from threshold to 2 GeV
-void breit_wigner::plot()
+void breit_wigner::print()
 {
   std::ofstream output;
 
-  std::string filename = "./BW_" + kinematics.get_ampName() + ".dat";
+  std::string filename = "./BW.dat";
   output.open(filename.c_str());
 
-  double s[100], re[100], im[100];
+  std::vector<double> s, refx, imfx;
 
-  double step = (2. - sthPi)/100.;
-  complex<double> amp;
+  double step = (1. - sthPi)/100.;
 
   for (int i = 0; i < 100; i++)
   {
-    s[i] = sthPi + double(i) * step;
-    amp = F(s[i]);
-    re[i] = std::real(amp); im[i] = std::imag(amp);
-    output << std::left << setw(15) << s[i] << setw(15) << re[i] << setw(15) << im[i] <<
-    setw(15) << abs(amp * amp) << endl;
+    double s_i = sthPi + double(i) * step;
+    s.push_back(sqrt(s_i));
+
+    complex<double> amp = - F(s_i);
+    refx.push_back(std::real(amp)); imfx.push_back(std::imag(amp));
+
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << std::real(amp) << setw(15) << std::imag(amp) << endl;
   }
-output.close();
+
+  output.close();
+
+  //Surpress ROOT messages
+  gErrorIgnoreLevel = kWarning;
+
+  TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  c->cd(1);
+  gRe->SetTitle("Breit-Wigner");
+  gRe->SetLineStyle(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+
+  c->cd(2);
+  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  gIm->SetLineStyle(2);
+  gIm->SetLineColor(kRed);
+  gIm->Draw("AL");
+
+  c->Modified();
+  string namepdf = "BW_plot.pdf";
+  c->Print(namepdf.c_str());
+
+  delete c, gRe, gIm;
+};
+
+// ----------------------------------------------------------------------------
+// Set the normalization coefficient
+void breit_wigner::normalize(double gamma_exp)
+{
+  cout << endl;
+  cout << "Normalizing Breit-Wigner amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
+
+  dalitz<breit_wigner> d_plot(this);
+  double gamma = d_plot.Gamma_total();
+  normalization = sqrt(gamma_exp * 1.e-3 / gamma);
+
+  cout << "Normalization constant = " << normalization << "." << endl;
+  cout << endl;
 };
 
 void breit_wigner::set_params(int n, const double * par)
@@ -108,5 +152,6 @@ complex<double> breit_wigner_simple::f(double s)
 
 complex<double> breit_wigner_simple::eval(double s, double t)
 {
-  return f(s) + f(t) + f(kinematics.u_man(s,t));
+  complex<double> result = f(s) + f(t) + f(kinematics.u_man(s,t));
+  return result * kinematics.K_lambda(1, s, t);
 }

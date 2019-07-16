@@ -11,10 +11,19 @@
 #define _BW_
 
 #include "decay_kinematics.hpp"
+#include "dalitz.cpp"
 
 #include <cmath>
+#include <vector>
 #include <fstream>
 #include <iomanip>
+
+#include <TCanvas.h>
+#include <TGraph.h>
+#include <TLegend.h>
+#include <TStyle.h>
+#include <TLine.h>
+#include <TError.h>
 
 using std::setw;
 
@@ -57,6 +66,7 @@ public:
 class breit_wigner
 {
 protected:
+  double normalization = 1.;
   double res_mass, res_width;
   double s_res(){ return res_mass * res_mass;};
 
@@ -84,10 +94,15 @@ public:
 
   complex<double> F(double x);
   complex<double> eval(double s, double t);
+  double error_func(double s, double t)
+  {
+    return 1.;
+  };
 
+  void normalize(double gamma_exp);
   void set_params(int n, const double * par);
   void print_params();
-  void plot();
+  void print();
 // ---------------------------------------------------------------------------
 };
 // ---------------------------------------------------------------------------

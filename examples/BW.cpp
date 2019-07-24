@@ -30,7 +30,7 @@ int main()
 
   fitter.extract_params(2); // Just alpha (normalization also a fit parameter)
   fit.print_params();
-  fitter.print_deviation();
+  // fitter.print_deviation();
   fitter.plot();
 
   // fitter.extract_params(3); // Both alpha and beta

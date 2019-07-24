@@ -30,8 +30,8 @@ void poly_exp::set_params(int n, const double *par)
     case 4: delta = par[4];
     case 3: gamma = par[3];
     case 2: beta = par[2];
-    case 1: alpha = par[1];
-    case 0: Norm = par[0]; break;
+    case 1: alpha = par[1]; cout << "alpha set! \n";
+    case 0: Norm = par[0]; cout << "norm set! \n"; break;
   };
 };
 

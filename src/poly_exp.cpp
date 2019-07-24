@@ -14,11 +14,11 @@ complex<double> poly_exp::eval(double s, double t)
     double zs = kinematics.z(s,t);
     double thetas =  kinematics.theta(s,t);
 
-    complex<double> temp = 1.;
+    complex<double> temp = xr;
     temp += 2. * alpha * zs * scale;
-    temp += 2. * beta * scale * std::pow(zs, 1.5) * std::sin(3. * thetas);
+    temp += 2. * beta * scale * pow(zs, 1.5) * sin(3. * thetas);
     temp += 2. * gamma * scale *  zs*zs;
-    temp += 2. * delta * scale * std::pow(zs, 2.5) * std::sin(3. * thetas);
+    temp += 2. * delta * scale * pow(zs, 2.5) * std::sin(3. * thetas);
 
     return Norm * kinematics.K_lambda(1., s, t) * sqrt(temp);
   };

@@ -9,9 +9,6 @@
 
 #include "breit_wigner.hpp"
 
-// ---------------------------------------------------------------------------
-// KLOE BW amplitude
-// ---------------------------------------------------------------------------
 // Outputs the full amplitude, i.e. the sum of the pole in each sub-channel
 // (NOTE: does not have the kinematic prefators associated with spin)
 complex<double> breit_wigner::eval(double s, double t)
@@ -43,7 +40,7 @@ complex<double> breit_wigner::mom_pi(double s)
    return .5 * sqrt(xr * (s - sthPi));
 };
 
-// Export a .dat file from threshold to 2 GeV
+// Export a .dat file from threshold to 1 GeV
 void breit_wigner::print()
 {
   std::ofstream output;
@@ -138,20 +135,3 @@ void breit_wigner::print_params()
   cout << "---------------------------------------- \n";
   cout << "\n";
 };
-
-// ---------------------------------------------------------------------------
-// Simple Relativisitic Breit-Wigner amplitude with constant width
-complex<double> breit_wigner_simple::f(double s)
-{
-  double real_part, imag_part;
-  real_part = s - s_res();
-  imag_part = res_width * res_mass;
-
-  return 1. / (real_part * xr - imag_part * xi);
-};
-
-complex<double> breit_wigner_simple::eval(double s, double t)
-{
-  complex<double> result = f(s) + f(t) + f(kinematics.u_man(s,t));
-  return result * kinematics.K_lambda(1, s, t);
-}

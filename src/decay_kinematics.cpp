@@ -160,14 +160,10 @@ double decay_kinematics::z(double s, double t)
 
 double decay_kinematics::theta(double s, double t)
 {
-  double temp1, temp2, temp3;
-  temp1 = x(s,t);
-  temp2 = y(s,t);
-
-  temp3 = atan2(temp2, temp1);
-  if (temp3 < 0.0)
-  {
-    temp3 += 2. * M_PI; // Map [-pi,pi] to [0, 2pi]
-  }
-  return temp3;
+  double result = atan2(y(s,t), x(s,t));
+  // if (temp3 < 0.0)
+  // {
+  //   temp3 += 2. * M_PI; // Map [-pi,pi] to [0, 2pi]
+  // }
+  return result;
 };

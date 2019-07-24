@@ -93,5 +93,65 @@ void dalitz_fit<T, F>::extract_params(int eN)
   cout << endl;
 
   fit_amp->set_params(n_params, minuit->X());
+};
 
+// ---------------------------------------------------------------------------
+// Print the results of a fit as a dalitz plot showing the % deviation from
+// my_amp and fit_amp
+template <class T, class F>
+void dalitz_fit<T, F>::print_deviation(string filename)
+{
+  gErrorIgnoreLevel = kWarning;
+
+  // Command Line Message
+  cout << "Plotting Fit results... \n";
+
+  std::ofstream output;
+  if (filename == "")
+  {
+  filename += "fit_deviation_plot.dat";
+  }
+  else
+  {
+    filename += ".dat";
+  }
+  output.open(filename.c_str());
+
+  double s_step = (smax - smin - 2. * offset)/ 100.;
+
+  for (int i = 0; i < 100; i++)
+  {
+    double si = (dalitz<T>::amp->kinematics.smin() + offset) + double(i) * s_step;
+    for(int j = 0; j < 100; j++)
+    {
+     double t_step = (dalitz<T>::amp->kinematics.tmax(si) - 2. * offset - dalitz<T>::amp->kinematics.tmin(si)) / 100.;
+     double tij = dalitz<T>::amp->kinematics.tmin(si) + offset  + double(j) * t_step;
+
+     complex<double> ampsqr = dalitz<T>::amp->eval(si, tij) * dalitz<T>::amp->eval(si, tij);
+     complex<double> fitsqr = fit_amp->eval(si, tij) * fit_amp->eval(si, tij);
+     double dev = abs(ampsqr / fitsqr) - 1.;
+     dev *= 100.;
+
+      output << std::left << setw(15) << dalitz<T>::amp->kinematics.x(si, tij)
+                          << setw(15) << dalitz<T>::amp->kinematics.y(si, tij)
+                          << setw(15) << dev << endl;
+    }
+  }
+output.close();
+
+cout << "Output to : " << filename << endl;
+cout << endl;
+
+TCanvas *c = new TCanvas("c", "c");
+TGraph2D *g = new TGraph2D(filename.c_str());
+g->Draw("colz");
+gStyle->SetPalette(kColorPrintableOnGrey);
+
+c->Modified();
+filename.erase(filename.end() - 4, filename.end());
+filename += ".pdf";
+c->Print(filename.c_str());
+
+delete c;
+delete g;
 };

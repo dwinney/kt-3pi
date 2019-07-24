@@ -30,27 +30,30 @@ int main()
 
   fitter.extract_params(2); // Just alpha (normalization also a fit parameter)
   fit.print_params();
+  fitter.print_deviation();
+  fitter.plot();
 
-  fitter.extract_params(3); // Both alpha and beta
-  fit.print_params();
+  // fitter.extract_params(3); // Both alpha and beta
+  // fit.print_params();
 
-  fitter.extract_params(4); // Both alpha and beta
-  fit.print_params();
+  //
+  // fitter.extract_params(4); // Both alpha and beta
+  // fit.print_params();
 
-  // Additionally we can start with the best fit BESIII values and calculate
-  // the mass and width of and effective (rescattered) rho BW amplitude.
-  double BES_params[3] = {1., 120.2, 29.5};
-  poly_exp BES_fit(3, BES_params, vector_meson);
-
-  dalitz<poly_exp> test(&BES_fit);
-  test.plot();
-
-  breit_wigner rho_eff(vector_meson); //empty breit_wigner
-  dalitz_fit<poly_exp, breit_wigner> fitter2(&BES_fit, &rho_eff);
-  fitter2.extract_params(2);
-  rho_eff.normalize(7.56);
-  rho_eff.print_params();
-  rho_eff.print();
+  // // Additionally we can start with the best fit BESIII values and calculate
+  // // the mass and width of and effective (rescattered) rho BW amplitude.
+  // double BES_params[3] = {1., 120.2, 29.5};
+  // poly_exp BES_fit(3, BES_params, vector_meson);
+  //
+  // dalitz<poly_exp> test(&BES_fit);
+  // test.plot();
+  //
+  // breit_wigner rho_eff(vector_meson); //empty breit_wigner
+  // dalitz_fit<poly_exp, breit_wigner> fitter2(&BES_fit, &rho_eff);
+  // fitter2.extract_params(2);
+  // rho_eff.normalize(7.56);
+  // rho_eff.print_params();
+  // rho_eff.print();
 
   return 0;
 };

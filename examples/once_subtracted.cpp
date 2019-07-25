@@ -1,5 +1,6 @@
 #include "kt_amplitude.hpp"
-#include "dalitz_fit.cpp"
+#include "decay_kinematics.hpp"
+#include "dalitz_fit.hpp"
 #include "poly_exp.hpp"
 #include "breit_wigner.hpp"
 
@@ -22,14 +23,16 @@ int main()
 
   // Options parameters for the KT euqations
   kt_options options;
-  options.max_iters = 0;
+  options.max_iters = 5;
   options.max_subs = 0;
-  options.use_conformal = true;
+  options.use_conformal = false;
+  // options.test_angular = true;
 
   // Omega dominated by single isobar, j = 1, I = 1, lambda = 1
   // in general this would be a KT object with Jmax and helicity dependence
   isobar kt_pwave(1, 1, 1, options, vector_meson);
   kt_pwave.iterate();
+  kt_pwave.print_iteration(0, 0);
   kt_pwave.print_iteration(options.max_iters, 0);
 
   kt_pwave.normalize(7.56);
@@ -41,16 +44,18 @@ int main()
 
   poly_exp fit_results(vector_meson);
   dalitz_fit<isobar,poly_exp> fitter(&kt_pwave, &fit_results);
-  fitter.plot();
 
   fitter.extract_params(2);
   fit_results.print_params();
-  //
+  fitter.print_deviation("fit_dev_1");
+
   fitter.extract_params(3);
   fit_results.print_params();
+  fitter.print_deviation("fit_dev_2");
 
   fitter.extract_params(4);
   fit_results.print_params();
+  fitter.print_deviation("fit_dev_3");
 
   return 1.;
 };

@@ -38,7 +38,7 @@ src/poly_exp.cpp
 )
 target_link_libraries(BW ${ROOT_LIBRARIES})
 
-add_executable(unsubtracted
+add_executable(once_subtracted
 examples/unsubtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
@@ -54,8 +54,8 @@ src/dalitz_fit.cpp
 src/poly_exp.cpp
 src/breit_wigner.cpp
 )
-target_link_libraries(unsubtracted ${ROOT_LIBRARIES})
-target_link_libraries(unsubtracted ${GSL_LIBRARIES})
+target_link_libraries(once_subtracted ${ROOT_LIBRARIES})
+target_link_libraries(once_subtracted ${GSL_LIBRARIES})
 
 add_executable(subtracted
 examples/subtracted.cpp

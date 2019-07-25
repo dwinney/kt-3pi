@@ -17,7 +17,7 @@ complex<double> poly_exp::eval(double s, double t)
     complex<double> temp = xr;
     temp += 2. * alpha * zs * scale;
     temp += 2. * beta * scale * pow(zs, 1.5) * sin(3. * thetas);
-    temp += 2. * gamma * scale *  zs*zs;
+    temp += 2. * gamma * scale * zs * zs;
     temp += 2. * delta * scale * pow(zs, 2.5) * std::sin(3. * thetas);
 
     return Norm * kinematics.K_lambda(1., s, t) * sqrt(temp);
@@ -30,8 +30,8 @@ void poly_exp::set_params(int n, const double *par)
     case 4: delta = par[4];
     case 3: gamma = par[3];
     case 2: beta = par[2];
-    case 1: alpha = par[1]; cout << "alpha set! \n";
-    case 0: Norm = par[0]; cout << "norm set! \n"; break;
+    case 1: alpha = par[1];
+    case 0: Norm = par[0]; break;
   };
 };
 

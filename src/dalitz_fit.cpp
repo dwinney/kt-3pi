@@ -64,7 +64,7 @@ void dalitz_fit<T, F>::extract_params(int eN)
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
   minuit->SetMaxFunctionCalls(10000000);
-  minuit->SetTolerance(0.001);
+  minuit->SetTolerance(0.000001);
   minuit->SetPrintLevel(nError);
 
   n_params = eN;
@@ -81,7 +81,7 @@ void dalitz_fit<T, F>::extract_params(int eN)
   for (int a = 0; a < n_params ; a++)
   {
     string var_name = "par[" + std::to_string(a) + "]";
-    minuit->SetVariable(a, var_name.c_str(), 1., 0.1);
+    minuit->SetVariable(a, var_name.c_str(), 100., 0.1);
   }
 
   minuit->Minimize();

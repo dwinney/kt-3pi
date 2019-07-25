@@ -30,15 +30,13 @@ int main()
 
   fitter.extract_params(2); // Just alpha (normalization also a fit parameter)
   fit.print_params();
-  // fitter.print_deviation();
   fitter.plot();
 
-  // fitter.extract_params(3); // Both alpha and beta
-  // fit.print_params();
-
-  //
-  // fitter.extract_params(4); // Both alpha and beta
-  // fit.print_params();
+  fitter.extract_params(3); // Both alpha and beta
+  fit.print_params();
+  
+  fitter.extract_params(4); // Both alpha and beta
+  fit.print_params();
 
   // // Additionally we can start with the best fit BESIII values and calculate
   // // the mass and width of and effective (rescattered) rho BW amplitude.

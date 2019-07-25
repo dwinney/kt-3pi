@@ -112,7 +112,7 @@ void breit_wigner::set_params(int n, const double * par)
 {
   if (n > 2 || n < 0)
   {
-    cout << "breit_wigner: Invalid number of free parameeters. Quitting... \n";
+    cout << "breit_wigner: Invalid number of free parameters. Quitting... \n";
     exit(1);
   }
   switch(n)

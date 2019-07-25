@@ -198,7 +198,6 @@ TH2D *h = g->GetHistogram();
 h->SetAxisRange(-1., 1.,"Y");
 h->SetAxisRange(-1., 1.,"X");
 
-
 h->Draw("colz");
 gStyle->SetPalette(kColorPrintableOnGrey);
 

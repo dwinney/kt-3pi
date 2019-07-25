@@ -12,7 +12,6 @@
 #define _POLY_FIT_
 
 #include "dalitz.hpp"
-
 #include <string>
 
 using std::string;

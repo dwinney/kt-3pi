@@ -11,7 +11,6 @@
 #define _BW_
 
 #include "decay_kinematics.hpp"
-#include "dalitz.cpp"
 
 #include <cmath>
 #include <vector>

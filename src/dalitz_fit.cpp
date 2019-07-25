@@ -117,7 +117,7 @@ void dalitz_fit<T, F>::print_deviation(string filename)
   }
   output.open(filename.c_str());
 
-  double s_step = (smax - smin - 2. * offset)/ 100.;
+  double s_step = (smax - smin - 2. * offset) / 100.;
 
   for (int i = 0; i < 100; i++)
   {
@@ -127,8 +127,8 @@ void dalitz_fit<T, F>::print_deviation(string filename)
      double t_step = (dalitz<T>::amp->kinematics.tmax(si) - 2. * offset - dalitz<T>::amp->kinematics.tmin(si)) / 100.;
      double tij = dalitz<T>::amp->kinematics.tmin(si) + offset  + double(j) * t_step;
 
-     complex<double> ampsqr = dalitz<T>::amp->eval(si, tij) * dalitz<T>::amp->eval(si, tij);
-     complex<double> fitsqr = fit_amp->eval(si, tij) * fit_amp->eval(si, tij);
+     complex<double> ampsqr = dalitz<T>::amp->eval(si, tij);
+     complex<double> fitsqr = fit_amp->eval(si, tij);
      double dev = abs(ampsqr / fitsqr) - 1.;
      dev *= 100.;
 
@@ -144,8 +144,25 @@ cout << endl;
 
 TCanvas *c = new TCanvas("c", "c");
 TGraph2D *g = new TGraph2D(filename.c_str());
-g->Draw("colz");
-gStyle->SetPalette(kColorPrintableOnGrey);
+
+TH2D *h = g->GetHistogram();
+
+int NRGBs = 3, NCont = 512;
+gStyle->SetNumberContours(NCont);
+Double_t stops[NRGBs] = { 0.00, 0.50, 1.00 };
+Double_t red[NRGBs]   = { 0.00, 1.00, 1.00 };
+Double_t green[NRGBs] = { 0.00, 1.00, 0.00 };
+Double_t blue[NRGBs]  = { 0.00, 1.00, 0.00 };
+TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
+
+h->SetMaximum(3.);
+h->SetMinimum(-3.);
+h->SetAxisRange(-1., 1.,"Y");
+h->SetAxisRange(-1., 1.,"X");
+h->SetTitle("");
+
+h->Draw("colz0");
+gStyle->SetNumberContours(215);
 
 c->Modified();
 filename.erase(filename.end() - 4, filename.end());
@@ -153,5 +170,5 @@ filename += ".pdf";
 c->Print(filename.c_str());
 
 delete c;
-delete g;
+delete g, h;
 };

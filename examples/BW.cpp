@@ -1,4 +1,4 @@
-#include "dalitz_fit.cpp"
+#include "decay_kinematics.hpp"
 #include "poly_exp.hpp"
 #include "breit_wigner.hpp"
 
@@ -34,7 +34,7 @@ int main()
 
   fitter.extract_params(3); // Both alpha and beta
   fit.print_params();
-  
+
   fitter.extract_params(4); // Both alpha and beta
   fit.print_params();
 

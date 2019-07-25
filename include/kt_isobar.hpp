@@ -23,7 +23,6 @@
 #include <TLine.h>
 #include <TError.h>
 
-#include "dalitz.cpp"
 #include "kt_options.hpp"
 #include "decay_kinematics.hpp"
 #include "kt_iteration.hpp"

@@ -131,7 +131,8 @@ void isobar::print_iteration(int n, int m)
     refx.push_back(real(fx_i));
     imfx.push_back(imag(fx_i));
 
-    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
+    output << setw(15) << abs(fx_i) << endl;
   }
   output.close();
 
@@ -283,7 +284,9 @@ void isobar::print()
     refx.push_back(real(fx_i));
     imfx.push_back(imag(fx_i));
 
-    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
+    output << setw(15) << abs(fx_i) << endl;
+
   }
   output.close();
 

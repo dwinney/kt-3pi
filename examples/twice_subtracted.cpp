@@ -1,6 +1,5 @@
 #include "kt_amplitude.hpp"
-#include "dalitz_fit.cpp"
-#include "dalitz.cpp"
+#include "decay_kinematics.hpp"
 #include "poly_exp.hpp"
 #include "breit_wigner.hpp"
 
@@ -27,7 +26,7 @@ decay_kinematics vector_meson;
   kt_options options;
   options.max_iters = 3;
   options.max_subs = 1;
-  options.use_conformal = true;
+  options.use_conformal = false;
 
   isobar kt_pwave(1, 1, 1, options, vector_meson);
   kt_pwave.iterate(); // Calculate three iterations of the KT equation

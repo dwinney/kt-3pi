@@ -47,6 +47,7 @@ public:
 
   bool ERROR = false;
   double error_func(double s, double t);
+  void normalize(double gamma_exp);
 
   // Set and Print
   void set_params(int n, const double * par);

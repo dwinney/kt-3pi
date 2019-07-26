@@ -84,3 +84,10 @@ void poly_exp::print_params(int a)
     };
   };
 };
+
+void poly_exp::normalize(double gamma_exp)
+{
+  dalitz<poly_exp> d_plot(this);
+  double gamma = d_plot.Gamma_total();
+  Norm = sqrt(gamma_exp * 1.e-3 / gamma);
+};

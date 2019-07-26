@@ -19,10 +19,11 @@
 #include <fstream>
 #include <iomanip>
 
-#include "TGraph2D.h"
-#include "TCanvas.h"
-#include "TStyle.h"
-#include "TError.h"
+#include <TH2.h>
+#include <TGraph2D.h>
+#include <TCanvas.h>
+#include <TStyle.h>
+#include <TError.h>
 
 #include "Math/Minimizer.h"
 #include "Math/Factory.h"

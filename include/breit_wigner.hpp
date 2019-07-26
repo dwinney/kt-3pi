@@ -11,7 +11,6 @@
 #define _BW_
 
 #include "decay_kinematics.hpp"
-#include "dalitz.cpp"
 
 #include <cmath>
 #include <vector>
@@ -26,38 +25,6 @@
 #include <TError.h>
 
 using std::setw;
-
-// ---------------------------------------------------------------------------
-// Relativisitic Breit-Wigner with a constant imaginary part.
-class breit_wigner_simple
-{
-protected:
-  double res_mass, res_width;
-  double s_res(){ return res_mass * res_mass;};
-// ---------------------------------------------------------------------------
-public:
-  breit_wigner_simple(decay_kinematics dec)
-  : kinematics(dec)
-  {};
-
-  breit_wigner_simple(double mass, double width, decay_kinematics dec)
-  : kinematics(dec)
-  {
-  res_mass = mass;
-  res_width = width;
-  };
-
-  decay_kinematics kinematics;
-
-  complex<double> eval(double s, double t);
-  complex<double> f(double s);
-  double error_func(double s, double t)
-  {
-    return 1.;
-  };
-
-// ---------------------------------------------------------------------------
-};
 
 // ---------------------------------------------------------------------------
 // Reltivistic Breit-Wigner from the KLOE analysis [hep-ex/0204013]

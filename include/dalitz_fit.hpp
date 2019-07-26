@@ -12,7 +12,6 @@
 #define _POLY_FIT_
 
 #include "dalitz.hpp"
-
 #include <string>
 
 using std::string;
@@ -32,13 +31,18 @@ using std::string;
 template <class T, class F>
 class dalitz_fit : public dalitz<T>
 {
+private:
+  double smax = dalitz<T>::amp->kinematics.smax();
+  double smin = dalitz<T>::amp->kinematics.smin();
+  double offset = dalitz<T>::offset;
+
 // ---------------------------------------------------------------------------
 protected:
   int n_params;
   int nError = 0; // Default print level for info messages in Minuit (0 - 4)
 
   F * fit_amp;
-  
+
   double chi_squared(const double *par); // Chi-squared between input line-shape and polynomial.
 
 // ---------------------------------------------------------------------------
@@ -48,6 +52,7 @@ public:
   {};
 
   void print_params(int a = 0);
+  void print_deviation(string filename = "");
 
   void extract_params(int N);
 

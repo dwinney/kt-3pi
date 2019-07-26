@@ -193,8 +193,14 @@ cout << endl;
 
 TCanvas *c = new TCanvas("c", "c");
 TGraph2D *g = new TGraph2D(name.c_str());
-g->Draw("colz");
-gStyle->SetPalette(55);
+
+TH2D *h = g->GetHistogram();
+h->SetAxisRange(-1., 1.,"Y");
+h->SetAxisRange(-1., 1.,"X");
+
+h->Draw("colz");
+gStyle->SetPalette(kColorPrintableOnGrey);
+
 
 c->Modified();
 name.erase(name.end() - 4, name.end());

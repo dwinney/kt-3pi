@@ -23,7 +23,6 @@
 #include <TLine.h>
 #include <TError.h>
 
-#include "dalitz.cpp"
 #include "kt_options.hpp"
 #include "decay_kinematics.hpp"
 #include "kt_iteration.hpp"
@@ -46,14 +45,15 @@ protected:
 
   // Vector storing each iteration of the KT equation
   kt_options options;
-  vector<double> coefficients;
+  kt_equations kt;
+
+  double normalization = 1.;
+  vector<complex<double>> coefficients;
+
   vector<iteration> iters;
 
   // Start() to populate the 0th vector entry with interpolations of the base omnes function
   void start();
-
-  // KT equations object
-  kt_equations kt;
 
 //-----------------------------------------------------------------------------
 public:
@@ -61,9 +61,7 @@ public:
   spin_proj(spin), iso_proj(isospin), helicity_proj(helicity),
   options(opti),
   kinematics(dec), omega(isospin, spin, opti.use_conformal), kt(dec, opti)
-  {
-    coefficients.push_back(1.);
-  };
+  {};
 
   decay_kinematics kinematics;
 
@@ -76,7 +74,9 @@ public:
   // These functions are to interface with dalitz_fit
   void set_params(int n_params, const double *par);
   void print_params();
+
   void normalize(double gamma_exp);
+  void sum_rule();
 
   double error_func(double s, double t)
   {

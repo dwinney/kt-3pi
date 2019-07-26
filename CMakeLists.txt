@@ -38,8 +38,8 @@ src/poly_exp.cpp
 )
 target_link_libraries(BW ${ROOT_LIBRARIES})
 
-add_executable(unsubtracted
-examples/unsubtracted.cpp
+add_executable(once_subtracted
+examples/once_subtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
@@ -54,11 +54,11 @@ src/dalitz_fit.cpp
 src/poly_exp.cpp
 src/breit_wigner.cpp
 )
-target_link_libraries(unsubtracted ${ROOT_LIBRARIES})
-target_link_libraries(unsubtracted ${GSL_LIBRARIES})
+target_link_libraries(once_subtracted ${ROOT_LIBRARIES})
+target_link_libraries(once_subtracted ${GSL_LIBRARIES})
 
-add_executable(subtracted
-examples/subtracted.cpp
+add_executable(twice_subtracted
+examples/twice_subtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
@@ -73,5 +73,5 @@ src/dalitz_fit.cpp
 src/poly_exp.cpp
 src/breit_wigner.cpp
 )
-target_link_libraries(subtracted ${ROOT_LIBRARIES})
-target_link_libraries(subtracted ${GSL_LIBRARIES})
+target_link_libraries(twice_subtracted ${ROOT_LIBRARIES})
+target_link_libraries(twice_subtracted ${GSL_LIBRARIES})

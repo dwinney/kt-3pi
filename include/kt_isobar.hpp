@@ -45,7 +45,7 @@ protected:
 
   // Vector storing each iteration of the KT equation
   kt_options options;
-  vector<double> coefficients;
+  vector<complex<double>> coefficients;
   vector<iteration> iters;
 
   // Start() to populate the 0th vector entry with interpolations of the base omnes function
@@ -76,6 +76,7 @@ public:
   void set_params(int n_params, const double *par);
   void print_params();
   void normalize(double gamma_exp);
+  void sum_rule();
 
   double error_func(double s, double t)
   {

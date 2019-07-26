@@ -23,7 +23,7 @@ int main()
 
   // Options parameters for the KT euqations
   kt_options options;
-  options.max_iters = 5;
+  options.max_iters = 3;
   options.max_subs = 0;
   options.use_conformal = false;
   // options.test_angular = true;
@@ -32,8 +32,8 @@ int main()
   // in general this would be a KT object with Jmax and helicity dependence
   isobar kt_pwave(1, 1, 1, options, vector_meson);
   kt_pwave.iterate();
-  kt_pwave.print_iteration(0, 0);
-  kt_pwave.print_iteration(options.max_iters, 0);
+  // kt_pwave.print_iteration(0, 0);
+  // kt_pwave.print_iteration(options.max_iters, 0);
 
   kt_pwave.normalize(7.56);
   kt_pwave.print();
@@ -47,15 +47,15 @@ int main()
 
   fitter.extract_params(2);
   fit_results.print_params();
-  fitter.print_deviation("fit_dev_1");
+  // fitter.print_deviation("fit_dev_1");
 
   fitter.extract_params(3);
   fit_results.print_params();
-  fitter.print_deviation("fit_dev_2");
+  // fitter.print_deviation("fit_dev_2");
 
   fitter.extract_params(4);
   fit_results.print_params();
-  fitter.print_deviation("fit_dev_3");
+  // fitter.print_deviation("fit_dev_3");
 
   return 1.;
 };

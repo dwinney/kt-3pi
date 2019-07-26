@@ -169,7 +169,7 @@ void isobar::print_iteration(int n, int m)
 // Set the subtraction coefficients for fitting routines
 void isobar::set_params(int n_params, const double *par)
 {
-  if (n_params != options.max_subs + 1)
+  if ((n_params - 1) / 2 != options.max_subs)
   {
     cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
     exit(1);
@@ -177,13 +177,15 @@ void isobar::set_params(int n_params, const double *par)
 
   // clear existing coefficients
   coefficients.clear();
-  for (int i = 0; i < n_params; i++)
+  normalization = par[0];
+  for (int i = 0; i < (n_params - 1)/2; i++)
   {
-    coefficients.push_back(par[i]);
+    complex<double> c_i = par[2*i+1] * exp(xi * par[2*i+2]);
+    coefficients.push_back(c_i);
   }
 
   // check again for good measure
-  if (coefficients.size() != n_params)
+  if (coefficients.size() != (n_params-1) / 2)
   {
   cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
   exit(1);
@@ -199,22 +201,49 @@ void isobar::normalize(double gamma_exp)
 
   dalitz<isobar> d_plot(this);
   double gamma = d_plot.Gamma_total();
-  double normalization = sqrt(gamma_exp * 1.e-3 / gamma);
-
-  set_params(1, &normalization);
+  normalization = sqrt(gamma_exp * 1.e-3 / gamma);
 
   cout << "Normalization constant = " << normalization << endl;
   cout << endl;
 };
 
+// ----------------------------------------------------------------------------
+// Set second subtraction coefficient to its sum rule values
+void isobar::sum_rule()
+{
+  //check there is two Subtractions
+  if (iters.back().subtractions.size() != 2)
+  {
+    cout << "isobar: need two subtractions to calcualte sum rule values. Quitting... \n";
+    exit(1);
+  }
+
+  cout << "Calculating sum rule value for subtraction constant..." << endl;
+
+  complex<double> b = kt.disp.sum_rule(&iters.back());
+  if (coefficients.size() != 0)
+  {
+    coefficients.clear();
+  };
+  coefficients.push_back(b);
+
+  cout << "Sum rule constant = " << abs(b) <<  " exp(" << arg(b) << "*I)" << endl;
+};
+
+// ----------------------------------------------------------------------------
+// Print the current stored subtraction coefficients in command line
 void isobar::print_params()
 {
     cout << "Printing Subtraction Coefficients... \n";
     cout << "---------------------------------------- \n";
-    for (int i = 0; i < options.max_subs + 1; i++)
+    cout << std::left << setw(20) << "normalization:" << setw(20) << normalization << endl;
+
+    for (int i = 0; i < options.max_subs; i++)
     {
-      cout << std::left <<  setw(20) << "a_" + std::to_string(i) + ":" <<
-      setw(20) << coefficients[i] << "\n";
+      cout << std::left <<  setw(20) << "|a_" + std::to_string(i) + "|:" <<
+      setw(20) << abs(coefficients[i]) << "\n";
+      cout << std::left <<  setw(20) << "arg a_" + std::to_string(i) + ":" <<
+      setw(20) << arg(coefficients[i]) << "\n";
     }
     cout << "---------------------------------------- \n";
     cout << "\n";
@@ -234,9 +263,11 @@ complex<double> isobar::subtracted_isobar(double s)
   complex<double> result = 0.;
   if (s > sthPi && s <= omega.LamOmnes)
   {
-    for (int i = 0; i < options.max_subs + 1; i++)
+    result += iters.back().subtractions[0].interp_above(s);
+
+    for (int i = 1; i < options.max_subs + 1; i++)
     {
-      result += coefficients[i] * iters.back().subtractions[i].interp_above(s);
+      result += coefficients[i-1] * iters.back().subtractions[i].interp_above(s);
     }
   }
 
@@ -246,7 +277,7 @@ complex<double> isobar::subtracted_isobar(double s)
     exit(1);
   }
 
-  return result;
+  return normalization * result;
 };
 
 // ----------------------------------------------------------------------------

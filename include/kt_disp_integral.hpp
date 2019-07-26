@@ -78,6 +78,8 @@
     complex<double> operator() (int n, double s, int ieps);
 
     void pass_iteration(iteration * prev);
+
+    complex<double> sum_rule(iteration * prev);
   };
 
 #endif

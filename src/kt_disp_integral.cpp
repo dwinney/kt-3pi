@@ -166,7 +166,7 @@ complex<double> dispersion_integral::std_integrate_inf(int n, double s, int ieps
   gauleg(0., 1., x, w, N_integ);
 
   complex<double> sum = 0.;
-  for (int i; i < N_integ + 1; i++)
+  for (int i = 1; i < N_integ + 1; i++)
   {
     double sp = low + tan(M_PI * x[i] / 2.);
 
@@ -192,6 +192,38 @@ complex<double> dispersion_integral::std_sp_log_inf(int n, double s, int ieps, d
  return result * log_term / M_PI;
 };
 
+// ----------------------------------------------------------------------------
+// Calculate the sum_rule value of the second subtraction coefficient
+complex<double> dispersion_integral::sum_rule(iteration * prev)
+{
+  pass_iteration(prev);
+
+  double x[N_integ + 1], w[N_integ + 1];
+  gauleg(sthPi + EPS, a - interval, x, w, N_integ);
+  complex<double> sum_1 = 0.;
+  for (int i = 1; i < N_integ + 1; i++)
+  {
+    complex<double> temp = disp_function(0, x[i], +1) / (x[i] * x[i]);
+    sum_1 += w[i] * temp;
+  }
+
+  double w2[N_integ + 1], x2[N_integ + 1];
+  gauleg(0., 1., x2, w2, N_integ);
+
+  complex<double> sum_2 = 0.;
+  for (int i = 1; i < N_integ + 1; i++)
+  {
+    double sp = a + interval + tan(M_PI * x2[i] / 2.);
+
+    complex<double> temp = disp_function(0, sp, 1);
+    temp /= sp * sp;
+
+    temp *=  (M_PI / 2.) / pow(cos(M_PI * x2[i] / 2.), 2.); // jacobian
+    sum_2 += w2[i] * temp;
+  }
+
+  return (sum_1 + sum_2) / M_PI;
+};
 //----------------------------------------------------------------------------
 // UTILITY FUNCTIONS
 

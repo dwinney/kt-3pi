@@ -362,7 +362,7 @@ complex<double> isobar::eval(double s, double t)
   result += kinematics.d_hat(spin_proj, helicity_proj, zt) * subtracted_isobar(t);
   result += kinematics.d_hat(spin_proj, helicity_proj, zu) * subtracted_isobar(u);
 
-  // result *= (2. * spin_proj + 1.);
+  result *= (2. * spin_proj + 1.);
   result *= kinematics.K_lambda(helicity_proj, s, t);
   return result;
 };

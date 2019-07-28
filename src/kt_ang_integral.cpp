@@ -60,7 +60,7 @@ complex<double> angular_integral::kernel(double s, complex<double> t)
 // Integration path in the complex plane
 
 // Both limits are real and above the unitarity cut
-complex<double> angular_integral::integ_sthPi_a0(int n, double s)
+complex<double> angular_integral::integ_sthPi_a0(int j, int n, double s)
 {
     if (s <= sthPi || s >= a0)
     {
@@ -74,7 +74,7 @@ complex<double> angular_integral::integ_sthPi_a0(int n, double s)
     complex<double> sum = 0.;
     for (int i = 1; i < N_integ + 1; i++)
     {
-      complex<double> temp = kernel(s, x[i]) * previous->subtractions[n].interp_above(x[i]);
+      complex<double> temp = kernel(s, x[i]) * previous->isobars[j].subtractions[n].interp_above(x[i]);
       sum += w[i] * temp;
     }
 
@@ -82,7 +82,7 @@ complex<double> angular_integral::integ_sthPi_a0(int n, double s)
 };
 
 // both limits are purely real but one is above the other below
-complex<double> angular_integral::integ_a0_a(int n, double s)
+complex<double> angular_integral::integ_a0_a(int j, int n, double s)
 {
   if (s < a0|| s > a )
   {
@@ -99,7 +99,7 @@ complex<double> angular_integral::integ_a0_a(int n, double s)
 
     for(int i = 1; i < N_integ + 1; i++)
     {
-      complex<double> tempM = kernel(s, xM[i]) * previous->subtractions[n].interp_below(xM[i]);
+      complex<double> tempM = kernel(s, xM[i]) * previous->isobars[j].subtractions[n].interp_below(xM[i]);
       sumM += wM[i] * tempM;
     }
   }
@@ -111,7 +111,7 @@ complex<double> angular_integral::integ_a0_a(int n, double s)
 
     for(int i = 1; i < N_integ + 1; i++)
     {
-      complex<double> tempP = kernel(s, xP[i]) * previous->subtractions[n].interp_above(xP[i]);
+      complex<double> tempP = kernel(s, xP[i]) * previous->isobars[j].subtractions[n].interp_above(xP[i]);
       sumP += wP[i] * tempP;
     }
   }
@@ -120,7 +120,7 @@ complex<double> angular_integral::integ_a0_a(int n, double s)
 };
 
 // this is the unphysical region, the bounds of integration are complex to avoid singularities
-complex<double> angular_integral::integ_a_b(int n, double s)
+complex<double> angular_integral::integ_a_b(int j, int n, double s)
 {
   if (s < a || s > b)
   {
@@ -135,7 +135,7 @@ complex<double> angular_integral::integ_a_b(int n, double s)
   for(int i = 1; i < N_integ + 1; i++)
   {
     complex<double> z1_i = (1. - x[i]) * t_minus(s) + x[i] * (2. * t_minus(b));
-    complex<double> tempM = kernel(s, z1_i) * previous->omega(z1_i, 0) * sub_poly(n, z1_i, 0);
+    complex<double> tempM = kernel(s, z1_i) * previous->isobars[j].omega(z1_i, 0) * sub_poly(n, z1_i, 0);
 
     tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
     sumM +=  w[i] * tempM;
@@ -145,7 +145,7 @@ complex<double> angular_integral::integ_a_b(int n, double s)
   for(int i = 1; i < N_integ + 1; i++)
   {
     complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
-    complex<double> tempP = kernel(s, z2_i) * previous->omega(z2_i, 0) * sub_poly(n, z2_i, 0);
+    complex<double> tempP = kernel(s, z2_i) * previous->isobars[j].omega(z2_i, 0) * sub_poly(n, z2_i, 0);
 
     tempP *= t_plus(s) - 2. * t_plus(b);
     sumP +=  w[i] * tempP;
@@ -155,7 +155,7 @@ complex<double> angular_integral::integ_a_b(int n, double s)
 };
 
 // t-channel scattering region, limits are real again
-complex<double> angular_integral::integ_b(int n, double s)
+complex<double> angular_integral::integ_b(int j, int n, double s)
 {
   if (s < b)
   {
@@ -169,7 +169,7 @@ complex<double> angular_integral::integ_b(int n, double s)
   complex<double> sum = 0.;
   for (int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> temp = kernel(s, x[i]) * previous->omega(x[i], 0) * sub_poly(n, x[i], 0);
+    complex<double> temp = kernel(s, x[i]) * previous->isobars[j].omega(x[i], 0) * sub_poly(n, x[i], 0);
     sum += w[i] * temp;
   }
 
@@ -179,29 +179,29 @@ complex<double> angular_integral::integ_b(int n, double s)
 // ---------------------------------------------------------------------------
 // Angular integral, F_hat.
 // This is the discontinuity or the inhomogeneity of the isobar
-complex<double> angular_integral::operator () (int n, double s)
+complex<double> angular_integral::operator () (int j, int n, double s)
 {
   complex<double> integ;
 
   if (std::abs(s - sthPi) < 2. * EPS)
   {
-    integ = 2. * previous->subtractions[n].interp_above(real(t_minus(sthPi)));
+    integ = 2. * previous->isobars[j].subtractions[n].interp_above(real(t_minus(sthPi)));
   }
 
   else if (s > sthPi + EPS && s < a0) {
-    integ = integ_sthPi_a0(n, s);
+    integ = integ_sthPi_a0(j, n, s);
   }
 
   else if (s >= a0 && s <= a)  {
-    integ =  integ_a0_a(n, s);
+    integ =  integ_a0_a(j, n, s);
   }
 
   else if (s > a && s < b)  {
-    integ =  integ_a_b(n, s);
+    integ =  integ_a_b(j, n, s);
   }
 
   else if (s >= b)  {
-    integ = integ_b(n, s);
+    integ = integ_b(j, n, s);
   }
 
   else  {

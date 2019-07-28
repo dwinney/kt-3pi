@@ -13,7 +13,7 @@
 // Take in a pointer to a previous iteration and calculates above and below the unitarity cut
 // according to the methods in the dispersion_integral class.
 // Produces a new iteration with the new values.
-iteration kt_equations::iterate(iteration * prev)
+isobar kt_equations::iterate_isobar(iteration * prev, int j)
 {
   disp.pass_iteration(prev);
 
@@ -28,11 +28,12 @@ iteration kt_equations::iterate(iteration * prev)
     interp_cutoff = kinematics.pseudo_threshold();
   }
 
-  // each iteration has n subtractions that need to be solved for independently
-  vector<subtraction> subs;
-  for (int n = 0; n < prev->max_subs + 1; n++)
+  // each isobar has n subtractions that need to be solved for independently
+  isobar next(1, 2*j+1, 1, options, kinematics);
+
+  for (int n = 0; n < options.max_subs + 1; n++)
   {
-      cout << " -> Calculating subtraction (" << n << "/" << prev->max_subs << ")... " << endl;
+      cout << " ---> Calculating subtraction (" << n << "/" << options.max_subs << ")... " << endl;
 
       // exclude a small interval around the singulartiy at pseudo_threshold
       double a = kinematics.pseudo_threshold();
@@ -43,15 +44,15 @@ iteration kt_equations::iterate(iteration * prev)
       vector<complex<double>> above, below;
 
       // store values from threshold to a
-      for(int i = 0; i < num; i ++)
+      for (int i = 0; i < num; i ++)
       {
         double s_i = (sthPi + EPS) + double(i) * ((a - exc) - (sthPi + EPS)) / double(num - 1);
         s.push_back(s_i);
 
-        complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i, +1) + disp(n, s_i, +1));
+        complex<double> ab = prev->isobars[j].omega(s_i, +1) * (poly(n, s_i, +1) + disp(j, n, s_i, +1));
         above.push_back(ab);
 
-        complex<double> be = prev->omega(s_i, -1) * (poly(n, s_i, -1) + disp(n, s_i, -1));
+        complex<double> be = prev->isobars[j].omega(s_i, -1) * (poly(n, s_i, -1) + disp(j, n, s_i, -1));
         below.push_back(be);
       }
 
@@ -61,19 +62,30 @@ iteration kt_equations::iterate(iteration * prev)
         double s_i = (a + exc) + double(i) * (interp_cutoff - (a + exc)) / double(interpolation::N_interp - num - 1);
         s.push_back(s_i);
 
-        complex<double> ab = prev->omega(s_i, +1) * (poly(n, s_i, +1) + disp(n, s_i, +1));
+        complex<double> ab = prev->isobars[j].omega(s_i, +1) * (poly(n, s_i, +1) + disp(j, n, s_i, +1));
         above.push_back(ab);
 
-        complex<double> be = prev->omega(s_i, -1) * (poly(n, s_i, -1) + disp(n, s_i, -1));
+        complex<double> be = prev->isobars[j].omega(s_i, -1) * (poly(n, s_i, -1) + disp(j, n, s_i, -1));
         below.push_back(be);
       }
 
       subtraction nth(n, s, above, below);
-      subs.push_back(nth);
+      next.subtractions.push_back(nth);
   }
 
-  //Save the values to a new iteration. Add one to the internal iteration number.
-  iteration next(prev->N_iteration + 1, prev->max_subs, prev->omega, subs);
+  return next;
+};
+
+iteration kt_equations::iterate(iteration * prev)
+{
+  vector<isobar> isobars;
+  for (int i = 0; 2*i+1 <= options.max_spin; i++)
+  {
+    cout << " --> Calculating isobar  with spin (" << 2*i+1 << "/" << options.max_spin << ")... " << endl;
+    isobars.push_back(iterate_isobar(prev, i));
+  }
+
+  iteration next(prev->N_iteration + 1, isobars);
 
   return next;
 };

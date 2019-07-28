@@ -27,6 +27,7 @@ class omnes : public pipi
 //-----------------------------------------------------------------------------
 {
 protected:
+friend class isobar;
 int wave;
 double eps = 1e-9;
 int N_omnes = 60;

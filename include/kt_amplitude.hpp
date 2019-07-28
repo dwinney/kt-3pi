@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "kt_isobar.hpp"
+#include "kt_equations.hpp"
 #include "kt_options.hpp"
 
 //-----------------------------------------------------------------------------
@@ -24,19 +25,26 @@ class kt_amplitude
 protected:
 // The maximum number of iterations of the KT integral and the maximal spin_projection
 kt_options options;
+kt_equations kt;
+void start();
 
 // Storing all the relevant info of the decay particle
 decay_kinematics kinematics;
 
-// Here the isobars are stored. Only one dimensional vector for now (omega case), need to make more when isospin is involved.
-vector<isobar> isobars;
+// Storing successive iterations of the KT equations
+vector<iteration> iters;
 
 //-----------------------------------------------------------------------------
 public:
 kt_amplitude(kt_options ops,  decay_kinematics kine)
-  : options(ops)
+  : options(ops), kinematics(kine),
+    kt(ops, kine)
   {};
 
+void iterate();
+
+// Print the nth iteration
+void print_iteration(int n, int m);
 //-----------------------------------------------------------------------------
 };
 #endif

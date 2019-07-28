@@ -18,8 +18,8 @@
 #ifndef _KT_EQ_
 #define _KT_EQ_
 
-#include "kt_iteration.hpp"
 #include "kt_options.hpp"
+#include "kt_isobar.hpp"
 #include "kt_ang_integral.hpp"
 #include "kt_disp_integral.hpp"
 #include "aux_math.hpp"
@@ -49,9 +49,11 @@ private:
   // In interpolalations exclude an interval around the pseudo_threshold
   double exc = 0.05;
 
+  isobar iterate_isobar(iteration * prev, int j);
+
 public:
   // TODO: KT equations depend on spin projection and helicity in general
-  kt_equations(decay_kinematics dec, kt_options ops)
+  kt_equations(kt_options ops, decay_kinematics dec)
   : kinematics(dec), options(ops), disp(ops, dec),
     poly(options.use_conformal)
   {

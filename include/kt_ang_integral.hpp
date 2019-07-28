@@ -72,10 +72,10 @@ protected:
   // Integration regions. Naming convention match Igor Danilkin's mathematica notebook for clarity
   // a = pseudo_thresh
   // b = threshold
-  complex<double> integ_sthPi_a0(int n, double s);
-  complex<double> integ_a0_a(int n, double s);
-  complex<double> integ_a_b(int n, double s);
-  complex<double> integ_b(int n, double s);
+  complex<double> integ_sthPi_a0(int j, int n, double s);
+  complex<double> integ_a0_a(int j, int n, double s);
+  complex<double> integ_a_b(int j, int n, double s);
+  complex<double> integ_b(int j, int n, double s);
 
 public:
   // Default constructor
@@ -84,7 +84,7 @@ public:
    {};
 
   // Evaluate the inhomogenous contribution at a given energy
-  complex<double> operator() (int n, double s);
+  complex<double> operator() (int j, int n, double s);
 
   void pass_iteration(iteration * prev);
 };

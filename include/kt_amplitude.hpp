@@ -39,12 +39,14 @@ public:
 kt_amplitude(kt_options ops,  decay_kinematics kine)
   : options(ops), kinematics(kine),
     kt(ops, kine)
-  {};
+  {
+    start();
+  };
 
 void iterate();
 
 // Print the nth iteration
-void print_iteration(int n, int m);
+void print_iteration(int n, int j, int m);
 //-----------------------------------------------------------------------------
 };
 #endif

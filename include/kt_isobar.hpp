@@ -32,7 +32,8 @@ using std::setw;
 
 //-----------------------------------------------------------------------------
 // The subtraction object contains an interpolation of the current iteration of the
-// KT equations for a given order of subtraction polynomial
+// KT equations for a given order of subtraction polynomial above and below
+// the unitarity cut
 //-----------------------------------------------------------------------------
 class subtraction
 {
@@ -59,7 +60,7 @@ public:
 // The isobar class is the actual object that is called and combined by the KT amplitude.
 //-----------------------------------------------------------------------------
 
-class isobar
+class isobar : public omnes
 {
 protected:
 
@@ -68,7 +69,6 @@ protected:
   friend class dispersion_integral;
 
   int spin_proj, iso_proj, hel_proj;
-  omnes omega;
 
   // Vector storing each iteration of the KT equation
   kt_options options;
@@ -82,15 +82,17 @@ public:
   isobar(int isospin, int spin, int helicity, kt_options opti, decay_kinematics dec) :
   spin_proj(spin), iso_proj(isospin), hel_proj(helicity),
   options(opti),
-  kinematics(dec), omega(isospin, spin, opti.use_conformal)
+  kinematics(dec), omnes(isospin, spin, opti.use_conformal)
   {};
 
   isobar(const isobar & prev)
   : spin_proj(prev.spin_proj), iso_proj(prev.iso_proj), hel_proj(prev.hel_proj),
     options(prev.options),
-    kinematics(prev.kinematics), omega(prev.omega),
+    kinematics(prev.kinematics), omnes(prev),
     subtractions(prev.subtractions)
   {};
+
+  ~isobar(){};
 
   decay_kinematics kinematics;
 

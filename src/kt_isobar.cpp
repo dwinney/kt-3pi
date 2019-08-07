@@ -15,7 +15,6 @@
 // Populate the zeroth iteration with values directly from call to Omnes function
 void isobar::zeroth()
 {
-
   // If there are previously stored iterations for some reason, clear it when start() is called.
   if (subtractions.size() != 0)
   {

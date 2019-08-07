@@ -173,6 +173,7 @@ complex<double> omnes::omega_el(complex<double> s, int ieps)
 //-----------------------------------------------------------------------------
 complex<double> omnes::omega_prime(complex<double> s, int ieps)
 {
+
   if (ieps == 0)
   {
     return omega_0(s, ieps);
@@ -192,15 +193,16 @@ complex<double> omnes::omega_prime(complex<double> s, int ieps)
       result = omega_0(s_real, ieps);
       result *= exp(log(s0 / (s_real - s0)) * extrap_phase(s_real) / M_PI);
       result *= exp(double(ieps) * xi * extrap_phase(s_real));
-
       return result;
     }
   }
 };
 
 //-----------------------------------------------------------------------------
-complex<double> omnes::operator ()(complex<double> s, int ieps)
+complex<double> omnes::omega(complex<double> s, int ieps)
 {
+  check_weights();
+
   if (use_conformal == true)
   {
     return omega_el(s, ieps);

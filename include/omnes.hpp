@@ -27,7 +27,6 @@ class omnes : public pipi
 //-----------------------------------------------------------------------------
 {
 protected:
-friend class isobar;
 int wave;
 double eps = 1e-9;
 int N_omnes = 60;
@@ -39,7 +38,7 @@ static constexpr double Lambda_phase = 1.3;
 static constexpr double LamSq = Lambda_phase*Lambda_phase;
 static constexpr double hD = 0.0001;
 
-bool WG_GENERATED;
+bool WG_GENERATED = false;
 vector<double> wgt, abs;
 
 //-----------------------------------------------------------------------------
@@ -47,12 +46,15 @@ public:
 // Default constructor
 omnes() : pipi()
 {
+  check_weights();
 };
 
 // Parameterized constructor with quantum numbers
 omnes(int i, int j, bool conformal)
 : pipi(i), wave(j), use_conformal(conformal)
-{};
+{
+  check_weights();
+};
 
 // Copy constructor
 omnes(const omnes &previous):
@@ -75,7 +77,7 @@ complex<double> omega_0(complex<double> s, int ieps);
 complex<double> omega_prime(complex<double> s, int ieps);
 complex<double> omega_el(complex<double> s, int ieps);
 
-complex<double> operator ()(complex<double> s, int ieps);
+complex<double> omega(complex<double> s, int ieps);
 
 };
 //-----------------------------------------------------------------------------

@@ -47,6 +47,7 @@ void iterate();
 
 // Print the nth iteration
 void print_iteration(int n, int j, int m);
+void print_isobar(int n);
 //-----------------------------------------------------------------------------
 };
 #endif

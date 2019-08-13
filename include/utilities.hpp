@@ -1,4 +1,4 @@
-// Auxilary Math Equations
+// Misc utility functions and classes
 //
 // Dependencies: None
 //
@@ -7,8 +7,8 @@
 // Email:        dwinney@iu.edu
 // -----------------------------------------------------------------------------
 
-#ifndef _MATH_
-#define _MATH_
+#ifndef _UTIL_
+#define _UTIL_
 
 #include <complex>
 #include <vector>
@@ -21,8 +21,7 @@
 using std::vector;
 using std::complex;
 
-//-----------------------------------------------------------------------------
-// Not really math but given int n, outputs right english string
+// given int n, outputs right english string
 // "1st" vs "2nd" vs "3rd" etc...
 // :)
 std::string st_nd_rd(int n);

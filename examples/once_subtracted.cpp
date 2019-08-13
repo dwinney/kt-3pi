@@ -32,8 +32,9 @@ int main()
   // Omega dominated by single isobar, j = 1, I = 1, lambda = 1
   // in general this would be a KT object with Jmax and helicity dependence
   kt_amplitude kt_pwave(options, vector_meson);
-  kt_pwave.iterate();
-  kt_pwave.print_iteration(0, 0);
+  // kt_pwave.iterate();
+  kt_pwave.print_iteration(0, 0, 0);
+  // kt_pwave.print_iteration(0, 1, 0);
   // kt_pwave.print_iteration(options.max_iters, 0);
 
   // kt_pwave.normalize(7.56);

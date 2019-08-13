@@ -7,7 +7,7 @@
 // Email:        dwinney@iu.edu
 // -----------------------------------------------------------------------------
 
-#include "aux_math.hpp"
+#include "utilities.hpp"
 
 //-----------------------------------------------------------------------------
 // Not really math but given int n, outputs right english string

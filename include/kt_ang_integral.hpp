@@ -16,7 +16,6 @@
 #include "kt_options.hpp"
 #include "kt_iteration.hpp"
 #include "decay_kinematics.hpp"
-#include "aux_math.hpp"
 #include "omnes.hpp"
 
 #include <TCanvas.h>

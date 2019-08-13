@@ -14,6 +14,7 @@
 
 // ----------------------------------------------------------------------------
 // Evaluate the dispersion integral.
+// spin = j, subtraction_ID = n 
 // Method used depends on use_conformal in kt_options
 complex<double> dispersion_integral::operator() (int j, int n, double s, int ieps)
 {
@@ -72,7 +73,7 @@ complex<double> dispersion_integral::disperse(int j, int n, double s, int ieps)
 complex<double> dispersion_integral::disp_function(int j, int n, double s, int ieps)
 {
   complex<double> result = inhom(j, n, s);
-  result *= sin(previous->isobars[j].omega.extrap_phase(s));
+  result *= sin(previous->isobars[j].extrap_phase(s));
   result /= std::abs(previous->isobars[j].omega(s, ieps));
 
   return result;

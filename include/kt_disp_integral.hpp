@@ -16,7 +16,6 @@
 #include "kt_iteration.hpp"
 #include "kt_ang_integral.hpp"
 #include "decay_kinematics.hpp"
-#include "aux_math.hpp"
 #include "omnes.hpp"
 
 // ---------------------------------------------------------------------------

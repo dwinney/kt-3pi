@@ -30,7 +30,7 @@ examples/BW.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
-src/aux_math.cpp
+src/utilities.cpp
 src/breit_wigner.cpp
 src/dalitz.cpp
 src/dalitz_fit.cpp
@@ -43,7 +43,7 @@ examples/once_subtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
-src/aux_math.cpp
+src/utilities.cpp
 src/kt_isobar.cpp
 src/kt_equations.cpp
 src/kt_amplitude.cpp
@@ -62,7 +62,7 @@ examples/twice_subtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
-src/aux_math.cpp
+src/utilities.cpp
 src/kt_isobar.cpp
 src/kt_equations.cpp
 src/kt_amplitude.cpp

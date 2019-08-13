@@ -142,3 +142,74 @@ void kt_amplitude::print_iteration(int n, int j, int m)
 
   delete c, gRe, gIm;
 };
+
+// ----------------------------------------------------------------------------
+// Print total isobar including the set coefficients and combining subtractions
+void kt_amplitude::print_isobar(int n)
+{
+  // // cout << "Printing isobar with j = "<< std::to_string(spin_proj) << ",";
+  // // cout << " lambda = " << std::to_string(helicity_proj) << ",";
+  // // cout << " and I = " << std::to_string(iso_proj);
+  // // cout << endl;
+  //
+  // //Surpress ROOT messages
+  // gErrorIgnoreLevel = kWarning;
+  //
+  // string name;
+  // if (kinematics.get_decayParticle() != "")
+  // {
+  //   name =  kinematics.get_decayParticle() + "_";
+  // }
+  // // name += "isobar_" + std::to_string(spin_proj) + "_" + std::to_string(iso_proj);
+  //
+  // // Output to a datfile
+  // std::ofstream output;
+  // string namedat = name + ".dat";
+  // output.open(namedat.c_str());
+  //
+  // vector<double> s;
+  // vector<double> refx, imfx;
+  // for (int i = 0; i < 60; i++)
+  // {
+  //   double s_i = (sthPi + EPS) + double(i) * (omnes::LamOmnes - sthPi) / 60.;
+  //   complex<double> fx_i =  subtracted_isobar(s_i);
+  //
+  //   s.push_back(sqrt(s_i));
+  //   refx.push_back(real(fx_i));
+  //   imfx.push_back(imag(fx_i));
+  //
+  //   output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
+  //   output << setw(15) << abs(fx_i) << endl;
+  //
+  // }
+  // output.close();
+  //
+  // cout << "Output to: " << namedat << "." << endl;
+  //
+  // //Print the Real part compared to no rescattering
+  // TCanvas *c = new TCanvas("c", "c");
+  // c->Divide(1,2);
+  //
+  // TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  // TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+  //
+  // string label = name;
+  //
+  // c->cd(1);
+  // gRe->SetTitle(label.c_str());
+  // gRe->SetLineStyle(2);
+  // gRe->SetLineColor(kBlue);
+  // gRe->Draw("AL");
+  //
+  // c->cd(2);
+  // gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  // gIm->SetLineStyle(2);
+  // gIm->SetLineColor(kRed);
+  // gIm->Draw("AL");
+  //
+  // c->Modified();
+  // string namepdf = name + ".pdf";
+  // c->Print(namepdf.c_str());
+  //
+  // delete c, gRe, gIm;
+};

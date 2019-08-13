@@ -20,7 +20,7 @@
 
 #include "pipi.hpp"
 #include "decay_kinematics.hpp"
-#include "aux_math.hpp"
+#include "utilities.hpp"
 
 //-----------------------------------------------------------------------------
 class omnes : public pipi

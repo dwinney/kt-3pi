@@ -12,7 +12,7 @@
 #define _DALITZ_
 
 #include "constants.hpp"
-#include "aux_math.hpp"
+#include "utilities.hpp"
 
 #include <vector>
 #include <iostream>

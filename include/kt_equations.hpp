@@ -22,7 +22,7 @@
 #include "kt_isobar.hpp"
 #include "kt_ang_integral.hpp"
 #include "kt_disp_integral.hpp"
-#include "aux_math.hpp"
+#include "utilities.hpp" 
 #include "omnes.hpp"
 
 // ---------------------------------------------------------------------------

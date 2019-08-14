@@ -15,7 +15,7 @@ complex<double> breit_wigner::eval(double s, double t)
 {
   double u = kinematics.u_man(s,t);
   complex<double> temp = F(s) + F(t) + F(u);
-  return kinematics.K_lambda(1, s, t) * temp;
+  return kinematics.K_jlam(1, 1, s, t) * temp;
 }
 
 // Single-channel amplitude

@@ -20,7 +20,7 @@ complex<double> poly_exp::eval(double s, double t)
     temp += 2. * gamma * scale * zs * zs;
     temp += 2. * delta * scale * pow(zs, 2.5) * std::sin(3. * thetas);
 
-    return Norm * kinematics.K_lambda(1., s, t) * sqrt(temp);
+    return Norm * kinematics.K_jlam(1, 1, s, t) * sqrt(temp);
   };
 
 void poly_exp::set_params(int n, const double *par)

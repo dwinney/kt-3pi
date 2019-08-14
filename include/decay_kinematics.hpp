@@ -34,6 +34,7 @@ class decay_kinematics
 protected:
   // Quantum Numbers
   int qn_J, qn_C, qn_P, qn_I, qn_H;
+  int naturality = qn_P * pow(-1, qn_J);
   double mDec;
 
   // Char string names of the decay particle (e.g. "omega") and
@@ -192,7 +193,7 @@ double d_hat(int j, int l, double z);
 
 //-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes
-double K_lambda(int lam, double s, double t);
+double K_jlam(int lam, int j, double s, double t);
 
 //-----------------------------------------------------------------------------
 // Dalitz region limits

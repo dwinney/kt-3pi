@@ -113,11 +113,28 @@ double decay_kinematics::d_hat(int j, int l, double z)
 
 //-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes
-// TODO: generalize
-double decay_kinematics::K_lambda(int lam, double s, double t)
+// helicity projection : Lambda
+// spin projection : j > 0
+double decay_kinematics::K_jlam(int lam, int j, double s, double t)
 {
+  if (j < std::abs(lam))
+  {
+    cout << "K_jlam: j < |lambda| is not allowed. Quitting..." << endl;
+    exit(1);
+  }
+
+  // Half angle factors and K factors
   double temp = abs(Kibble(s,t) / 4.);
-  double result = pow(sqrt(temp), double(lam));
+  double result = pow(sqrt(temp), std::abs(double(lam)));
+
+  // Angular momentum barrier factor
+  double temp2 = sqrt(Kallen_x(s) * Kallen_pi(s));
+  result *= pow(temp2, j - std::abs(double(lam)));
+
+  // LS - lambda little group factor
+  int Yx = qn_J - (1 + naturality);
+  double temp3 = sqrt(Kallen_x(s));
+  result *= pow(temp3, std::abs(j - double(Yx)) - j);
 
   return result;
 };
@@ -137,6 +154,7 @@ double decay_kinematics::y(double s, double t)
   temp = 3. * (s_c() - s);
   return temp * d_norm();
 };
+
 //-----------------------------------------------------------------------------
 // Lorentz Invariant dimensionless parameters in terms of polar variables
 double decay_kinematics::x_polar(double z, double theta)

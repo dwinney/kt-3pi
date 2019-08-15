@@ -28,9 +28,6 @@ kt_options options;
 kt_equations kt;
 void start();
 
-// Storing all the relevant info of the decay particle
-decay_kinematics kinematics;
-
 // Storing successive iterations of the KT equations
 vector<iteration> iters;
 
@@ -39,11 +36,15 @@ public:
 kt_amplitude(kt_options ops,  decay_kinematics kine)
   : options(ops), kinematics(kine),
     kt(ops, kine)
-  {
-    start();
-  };
+  {};
+
+// Storing all the relevant info of the decay particle
+decay_kinematics kinematics;
 
 void iterate();
+
+// Evaluate the total amplitude at some energys s and t
+complex<double> eval(double s, double t);
 
 // Print the nth iteration
 void print_iteration(int n, int j, int m);

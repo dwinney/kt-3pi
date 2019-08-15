@@ -71,6 +71,39 @@ void kt_amplitude::iterate()
 };
 
 // ----------------------------------------------------------------------------
+complex<double> kt_amplitude::eval(double s, double t)
+{
+  double stu[3] = {s, t, kinematics.u_man(s,t)};
+  double z_stu[3] = {kinematics.z_s(s,t), kinematics.z_t(s,t), kinematics.z_u(s,t)};
+
+  // Construct amplitude by summing over spins
+  // Multiplying by the appropriate (2j+1) * K_jlam(s,zs) * d_func
+  complex<double> result = 0;
+  for (int i = 0; 2*i+1 <= options.max_spin; i++)
+  {
+    isobar * ptr = &iters.back().isobars[i];
+    double j = double(ptr->spin_proj);
+    double lam = double(ptr->hel_proj);
+
+    // sum each channel
+    // TODO: add crossing wigner rotations and sum over lambda^prime
+    for (int k = 0; k < 3; k++)
+    {
+      double x = stu[k], zx = z_stu[k];
+
+      complex<double> temp = (2. * j + 1.);
+      temp *= kinematics.K_jlam(j, lam, x, zx);
+      temp *= kinematics.d_hat(j, lam, zx);
+      temp *= ptr->subtracted_isobar(x);
+
+      result += temp;
+    }
+  }
+
+  return result;
+};
+
+// ----------------------------------------------------------------------------
 // Print the nth iteration into a dat file.
 void kt_amplitude::print_iteration(int n, int j, int m)
 {
@@ -147,69 +180,63 @@ void kt_amplitude::print_iteration(int n, int j, int m)
 // Print total isobar including the set coefficients and combining subtractions
 void kt_amplitude::print_isobar(int n)
 {
-  // // cout << "Printing isobar with j = "<< std::to_string(spin_proj) << ",";
-  // // cout << " lambda = " << std::to_string(helicity_proj) << ",";
-  // // cout << " and I = " << std::to_string(iso_proj);
-  // // cout << endl;
+  //Surpress ROOT messages
+  gErrorIgnoreLevel = kWarning;
+
+  string name;
+  if (kinematics.get_decayParticle() != "")
+  {
+    name =  kinematics.get_decayParticle() + "_";
+  }
+  name += "isobar_" + std::to_string(n);
+
+  // Output to a datfile
+  std::ofstream output;
+  string namedat = name + ".dat";
+  output.open(namedat.c_str());
   //
-  // //Surpress ROOT messages
-  // gErrorIgnoreLevel = kWarning;
-  //
-  // string name;
-  // if (kinematics.get_decayParticle() != "")
-  // {
-  //   name =  kinematics.get_decayParticle() + "_";
-  // }
-  // // name += "isobar_" + std::to_string(spin_proj) + "_" + std::to_string(iso_proj);
-  //
-  // // Output to a datfile
-  // std::ofstream output;
-  // string namedat = name + ".dat";
-  // output.open(namedat.c_str());
-  //
-  // vector<double> s;
-  // vector<double> refx, imfx;
-  // for (int i = 0; i < 60; i++)
-  // {
-  //   double s_i = (sthPi + EPS) + double(i) * (omnes::LamOmnes - sthPi) / 60.;
-  //   complex<double> fx_i =  subtracted_isobar(s_i);
-  //
-  //   s.push_back(sqrt(s_i));
-  //   refx.push_back(real(fx_i));
-  //   imfx.push_back(imag(fx_i));
-  //
-  //   output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
-  //   output << setw(15) << abs(fx_i) << endl;
-  //
-  // }
-  // output.close();
-  //
-  // cout << "Output to: " << namedat << "." << endl;
-  //
-  // //Print the Real part compared to no rescattering
-  // TCanvas *c = new TCanvas("c", "c");
-  // c->Divide(1,2);
-  //
-  // TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-  // TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-  //
-  // string label = name;
-  //
-  // c->cd(1);
-  // gRe->SetTitle(label.c_str());
-  // gRe->SetLineStyle(2);
-  // gRe->SetLineColor(kBlue);
-  // gRe->Draw("AL");
-  //
-  // c->cd(2);
-  // gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
-  // gIm->SetLineStyle(2);
-  // gIm->SetLineColor(kRed);
-  // gIm->Draw("AL");
-  //
-  // c->Modified();
-  // string namepdf = name + ".pdf";
-  // c->Print(namepdf.c_str());
-  //
-  // delete c, gRe, gIm;
+  vector<double> s;
+  vector<double> refx, imfx;
+  for (int i = 0; i < 60; i++)
+  {
+    double s_i = (sthPi + EPS) + double(i) * (1. - sthPi) / 60.;
+    complex<double> fx_i =  iters.back().isobars[n].subtracted_isobar(s_i);
+
+    s.push_back(sqrt(s_i));
+    refx.push_back(real(fx_i));
+    imfx.push_back(imag(fx_i));
+
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
+    output << setw(15) << abs(fx_i) << endl;
+
+  }
+  output.close();
+
+  cout << "Output to: " << namedat << "." << endl;
+
+  TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  string label = "Isobar with spin " + std::to_string(n);
+
+  c->cd(1);
+  gRe->SetTitle(label.c_str());
+  gRe->SetLineStyle(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+
+  c->cd(2);
+  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  gIm->SetLineStyle(2);
+  gIm->SetLineColor(kRed);
+  gIm->Draw("AL");
+
+  c->Modified();
+  string namepdf = name + ".pdf";
+  c->Print(namepdf.c_str());
+
+  delete c, gRe, gIm;
 };

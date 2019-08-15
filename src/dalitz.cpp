@@ -115,7 +115,7 @@ return s_sum;
 template <class T>
 double dalitz<T>::d2Gamma(double s, double t)
 {
-  complex<double> Fsqr = amp->eval(s,t);
+  complex<double> Fsqr = amp->eval(s, t);
   Fsqr *= Fsqr;
   Fsqr /= 3.;
 
@@ -200,7 +200,6 @@ h->SetAxisRange(-1., 1.,"X");
 
 h->Draw("colz");
 gStyle->SetPalette(kColorPrintableOnGrey);
-
 
 c->Modified();
 name.erase(name.end() - 4, name.end());

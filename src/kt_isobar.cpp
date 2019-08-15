@@ -52,20 +52,20 @@ void isobar::zeroth()
   }
 };
 
-// ----------------------------------------------------------------------------
-// Set the normalization coefficient
-void isobar::normalize(double gamma_exp)
-{
-  cout << endl;
-  cout << "Normalizing total isobar amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
-
-  dalitz<isobar> d_plot(this);
-  double gamma = d_plot.Gamma_total();
-  normalization = sqrt(gamma_exp * 1.e-3 / gamma);
-
-  cout << "Normalization constant = " << normalization << endl;
-  cout << endl;
-};
+// // ----------------------------------------------------------------------------
+// // Set the normalization coefficient
+// void isobar::normalize(double gamma_exp)
+// {
+//   cout << endl;
+//   cout << "Normalizing total isobar amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
+//
+//   dalitz<isobar> d_plot(this);
+//   double gamma = d_plot.Gamma_total();
+//   normalization = sqrt(gamma_exp * 1.e-3 / gamma);
+//
+//   cout << "Normalization constant = " << normalization << endl;
+//   cout << endl;
+// };
 
 // // ----------------------------------------------------------------------------
 // // Set second subtraction coefficient to its sum rule values
@@ -133,24 +133,6 @@ complex<double> isobar::subtracted_isobar(double s)
 
   return normalization * result;
 };
-
-// ----------------------------------------------------------------------------
-// Evaluate the full isobar amplitude by inserting partial wave in each subchannel
-complex<double> isobar::eval(double s, double t)
-{
-  double u = kinematics.u_man(s,t);
-  double zs = kinematics.z_s(s,t), zt = kinematics.z_t(s,t), zu = kinematics.z_u(s,t);
-
-  complex<double> result;
-  result  = kinematics.d_hat(spin_proj, hel_proj, zs) * subtracted_isobar(s);
-  result += kinematics.d_hat(spin_proj, hel_proj, zt) * subtracted_isobar(t);
-  result += kinematics.d_hat(spin_proj, hel_proj, zu) * subtracted_isobar(u);
-
-  result *= (2. * spin_proj + 1.);
-  result *= kinematics.K_lambda(hel_proj, s, t);
-  return result;
-};
-
 
 //
 // // ----------------------------------------------------------------------------

@@ -68,8 +68,6 @@ protected:
   friend class angular_integral;
   friend class dispersion_integral;
 
-  int spin_proj, iso_proj, hel_proj;
-
   // Vector storing each iteration of the KT equation
   kt_options options;
 
@@ -94,6 +92,7 @@ public:
 
   ~isobar(){};
 
+  int spin_proj, iso_proj, hel_proj;
   decay_kinematics kinematics;
 
   // Basis of functions for the subtracted solutions
@@ -103,7 +102,7 @@ public:
   void zeroth();
 
   // void print();
-  
+
   // These functions are to interface with dalitz_fit
   void set_params(int n_params, const double *par);
   void print_params();
@@ -118,7 +117,6 @@ public:
 
   // Evaluate the isobar in one channel or the total amplitude
   complex<double> subtracted_isobar(double s);
-  complex<double> eval(double s, double t);
 };
 //-----------------------------------------------------------------------------
 

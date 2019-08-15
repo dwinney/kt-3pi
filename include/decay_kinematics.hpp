@@ -34,7 +34,6 @@ class decay_kinematics
 protected:
   // Quantum Numbers
   int qn_J, qn_C, qn_P, qn_I, qn_H;
-  int naturality = qn_P * pow(-1, qn_J);
   double mDec;
 
   // Char string names of the decay particle (e.g. "omega") and
@@ -107,6 +106,18 @@ double get_decayMass()
   return mDec;
 };
 
+int get_naturality()
+{
+  if (qn_P == pow(-1, qn_J))
+  {
+    return 1;
+  }
+  else
+  {
+    return -1;
+  }
+};
+
 string get_ampName()
 {
   return amp_name;
@@ -144,7 +155,9 @@ string get_JPC()
 
 //-----------------------------------------------------------------------------
 // Kinematic Functions
+double t_man(double s, double zs); /// Mandelstam t in terms of s-channel CM variables
 double u_man(double s, double t); // Mandelstam u
+
 complex<double> Kibble(double s, double t); // Lorentz Invariant Kibble Function
 
 double Kallen(double x, double y, double z); // Kallen triangle function
@@ -154,6 +167,7 @@ double Kallen_x(double s)
 {
   return Kallen(s, mDec*mDec, mPi*mPi);
 };
+
 double Kallen_pi(double s)
 {
   return Kallen(s, mPi*mPi, mPi*mPi);
@@ -186,14 +200,14 @@ double pseudo_threshold()
 
 // Outputs the Wigner little-d function appropriate for the decay into three scalar,
 // d^j_{lambda, 0}(z)
-double d_func(int j, int l, double z);
+double d_func0(int j, int l, double z);
 
 // Outputs d_hat the kinematic-singularity-free d_function
 double d_hat(int j, int l, double z);
 
 //-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes
-double K_jlam(int lam, int j, double s, double t);
+double K_jlam(int j, int lam, double s, double t);
 
 //-----------------------------------------------------------------------------
 // Dalitz region limits

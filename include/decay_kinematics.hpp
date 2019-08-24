@@ -155,20 +155,19 @@ string get_JPC()
 
 //-----------------------------------------------------------------------------
 // Kinematic Functions
-double t_man(double s, double zs); /// Mandelstam t in terms of s-channel CM variables
-double u_man(double s, double t); // Mandelstam u
+complex<double> t_man(complex<double> s, complex<double> zs); /// Mandelstam t in terms of s-channel CM variables
+complex<double> u_man(complex<double> s, complex<double> t); // Mandelstam u
 
-complex<double> Kibble(double s, double t); // Lorentz Invariant Kibble Function
+complex<double> Kibble(complex<double> s, complex<double> t); // Lorentz Invariant Kibble Function
+complex<double> Kallen(complex<double> x, complex<double> y, complex<double> z); // Kallen triangle function
 
-double Kallen(double x, double y, double z); // Kallen triangle function
-
-//two relevant kallen functions
-double Kallen_x(double s)
+// aliases for the two relevant kallen functions
+complex<double> Kallen_x(complex<double> s)
 {
   return Kallen(s, mDec*mDec, mPi*mPi);
 };
 
-double Kallen_pi(double s)
+complex<double> Kallen_pi(complex<double> s)
 {
   return Kallen(s, mPi*mPi, mPi*mPi);
 };
@@ -207,7 +206,8 @@ double d_hat(int j, int l, double z);
 
 //-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes
-double K_jlam(int j, int lam, double s, double t);
+complex<double> barrier_factor(int j, int lam, complex<double> s);
+complex<double> K_jlam(int j, int lam, complex<double> s, complex<double> zs);
 
 //-----------------------------------------------------------------------------
 // Dalitz region limits

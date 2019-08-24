@@ -12,27 +12,27 @@
 #include "decay_kinematics.hpp"
 
 // Mandelstam t in terms of s-channel CM frame variables
-double decay_kinematics::t_man(double s, double zs)
+complex<double> decay_kinematics::t_man(complex<double> s, complex<double> zs)
 {
-  double ks = sqrt(Kallen_pi(s) * Kallen_x(s)) / (4. * s);
+  complex<double> ks = sqrt(Kallen_pi(s) * Kallen_x(s)) / (4. * s);
   return (3. * mPi * mPi + mDec * mDec  - s) / 2. + 2. * ks * zs;
 };
 
 // Mandelstam u in terms of the other two invariant variables
-double decay_kinematics::u_man(double s, double t)
+complex<double> decay_kinematics::u_man(complex<double> s, complex<double> t)
 {
  return 3.*mPi*mPi + mDec*mDec - s - t;
 };
 
 // Lorentz Covariant Kibble function
-complex<double> decay_kinematics::Kibble(double s, double t)
+complex<double> decay_kinematics::Kibble(complex<double> s, complex<double> t)
 {
-    double u = u_man(s,t);
-    double lambda = (s * t * u) - mPi*mPi * (mDec*mDec - mPi*mPi)*(mDec*mDec - mPi*mPi);
+    complex<double> u = u_man(s,t);
+    complex<double> lambda = (s * t * u) - mPi*mPi * (mDec*mDec - mPi*mPi)*(mDec*mDec - mPi*mPi);
     return xr * lambda;
 };
 
-double decay_kinematics::Kallen(double x, double y, double z)
+complex<double> decay_kinematics::Kallen(complex<double> x, complex<double> y, complex<double> z)
 {
   return x*x + y*y + z*z - 2.*(x*y + x*z + z*y);
 };
@@ -41,10 +41,16 @@ double decay_kinematics::Kallen(double x, double y, double z)
 // Scattering angles in the s, t, and u center-of-mass frames
 double decay_kinematics::z_s(double s, double t)
 {
-  double ks = sqrt(Kallen_x(s) * Kallen_pi(s)) / s;
-  double numerator =  (t - u_man(s,t));
+  complex<double> ks = sqrt(Kallen_x(s) * Kallen_pi(s)) / s;
+  complex<double> result =  (t - u_man(s,t)) / ks;
 
-  return numerator / ks;
+  if (abs(imag(result)) > 0.0001)
+  {
+    cout << "z_s: error arguments are complex. Quitting..." << endl;
+    exit(1);
+  }
+
+  return real(result);
 };
 
 double decay_kinematics::z_t(double s, double t)
@@ -54,7 +60,7 @@ double decay_kinematics::z_t(double s, double t)
 
 double decay_kinematics::z_u(double s, double t)
 {
-  double u = u_man(s,t);
+  double u = real(u_man(s,t));
   return z_s(u, t);
 };
 
@@ -126,10 +132,21 @@ double decay_kinematics::d_hat(int j, int l, double z)
 };
 
 //-----------------------------------------------------------------------------
+// Angular momentum barrier factor
+complex<double> decay_kinematics::barrier_factor(int j, int lam, complex<double> s)
+{
+  double dlam = double(lam), dj = double(j);
+
+  // Angular momentum barrier factor
+  complex<double> temp2 = sqrt(Kallen_x(s) * Kallen_pi(s));
+  return pow(temp2, dj - abs(dlam));
+};
+
+//-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes
 // helicity projection : Lambda
 // spin projection : j > 0
-double decay_kinematics::K_jlam(int j, int lam, double s, double zs)
+complex<double> decay_kinematics::K_jlam(int j, int lam, complex<double> s, complex<double> zs)
 {
   if (j < std::abs(lam))
   {
@@ -140,16 +157,12 @@ double decay_kinematics::K_jlam(int j, int lam, double s, double zs)
   double dlam = double(lam), dj = double(j);
 
   // Half angle factors and K factors
-  double temp = abs(Kibble(s, t_man(s,zs)) / 4.);
-  double result = pow(sqrt(temp), abs(dlam));
-
-  // Angular momentum barrier factor
-  double temp2 = sqrt(Kallen_x(s) * Kallen_pi(s));
-  result *= pow(temp2, dj - abs(dlam));
+  complex<double> temp = Kibble(s, t_man(s, zs)) / 4.;
+  complex<double> result = pow(sqrt(temp), abs(dlam));
 
   // LS - lambda little group factor
   int Yx = qn_J - (1 + get_naturality())/2;
-  double temp3 = sqrt(Kallen_x(s));
+  complex<double> temp3 = sqrt(Kallen_x(s));
   result *= pow(temp3, abs(dj - double(Yx)) - dj);
 
   return result;
@@ -160,7 +173,7 @@ double decay_kinematics::K_jlam(int j, int lam, double s, double zs)
 double decay_kinematics::x(double s, double t)
 {
   double temp;
-  temp = sqrt(3.) * (t - u_man(s,t));
+  temp = sqrt(3.) * real((t - u_man(s,t)));
   return temp * d_norm();
 };
 

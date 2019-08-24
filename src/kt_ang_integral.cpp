@@ -12,9 +12,9 @@
 
 // ---------------------------------------------------------------------------
 // Analytically continued momentum k
-complex<double> angular_integral::k(double s)
+complex<double> angular_integral::k(complex<double> s)
 {
-  complex<double> temp1 = sqrt(xr * (s - sthPi) / s);
+  complex<double> temp1 = sqrt(xr * (s - sthPi + EPS) / s);
   temp1 *= sqrt(xr * (b - s)) * sqrt(xr * (a - s));
 
   return temp1;
@@ -23,11 +23,12 @@ complex<double> angular_integral::k(double s)
 // ---------------------------------------------------------------------------
 // COM Scattering angle in the s-channel scattering subchannel
 // Complex in general because of the path of integration needed by analytic continuation
-complex<double> angular_integral::z_s(double s, complex<double> t)
+complex<double> angular_integral::sine_sqr(double s, complex<double> t)
 {
-  complex<double> temp1 = 2. * t + s - mDec * mDec - 3. * mPi * mPi;
+  complex<double> zs = 2. * t + s - mDec * mDec - 3. * mPi * mPi;
+  zs /= k(s);
 
-  return temp1 / k(s);
+  return 1. - zs * zs;
 };
 
 // ---------------------------------------------------------------------------
@@ -47,13 +48,22 @@ complex<double> angular_integral::t_plus(double s)
 // on the helicity and spin of the isobar.
 //
 // Right now it only has the omega case of Lambda = 1, j = 1, I = I
-complex<double> angular_integral::kernel(double s, complex<double> t)
+complex<double> angular_integral::kernel(int j, int lam, int jp, int lamp, double s, complex<double> t)
 {
-  complex<double> zs, temp1;
-  zs = z_s(s, t);
-  temp1 = 3. * (xr - zs * zs);
+  complex<double> zs = 2. * t + s - mDec * mDec - 3. * mPi * mPi;
+  zs /= k(s);
 
-  return  temp1 / k(s);
+  complex<double> zt = 2. * s + t - mDec * mDec - 3. * mPi * mPi;
+  zt /= k(t);
+
+  complex<double> result = (2. * jp + 1.);
+  result *= pow(sine_sqr(s, t), double(lam));
+  result *= kinematics.barrier_factor(jp, lamp, t);
+  result *= kinematics.K_jlam(jp, lamp, t, zt);
+  result /= kinematics.K_jlam(j, lam, s, zs);
+
+  // extra factor of k(s) from the change of variables from z_s to t
+  return result / k(s);
 };
 
 // ---------------------------------------------------------------------------
@@ -72,12 +82,15 @@ complex<double> angular_integral::integ_sthPi_a0(int j, int n, double s)
     gauleg(real(t_minus(s)), real(t_plus(s)), x, w, N_integ);
 
     complex<double> sum = 0.;
-    for (int i = 1; i < N_integ + 1; i++)
-    {
-      complex<double> temp = kernel(s, x[i]) * previous->isobars[j].subtractions[n].interp_above(x[i]);
-      sum += w[i] * temp;
-    }
 
+    for (int jp = 0; 2*jp+1 <= options.max_spin; jp++)
+    {
+      for (int i = 1; i < N_integ + 1; i++)
+      {
+        complex<double> temp = kernel(2*j+1, 1, 2*jp+1, 1, s, x[i]) * previous->isobars[jp].subtractions[n].interp_above(x[i]);
+        sum += w[i] * temp;
+      }
+    }
     return sum;
 };
 
@@ -92,27 +105,30 @@ complex<double> angular_integral::integ_a0_a(int j, int n, double s)
 
   complex<double> sumM, sumP;
 
-  if (std::abs(t_minus(s) - (sthPi + EPS)) > 0.001)
+  for (int jp = 0; 2*jp+1 <= options.max_spin; jp++)
   {
-    double wM[N_integ + 1], xM[N_integ + 1];
-    gauleg(real(t_minus(s)), sthPi + EPS, xM, wM, N_integ);
-
-    for(int i = 1; i < N_integ + 1; i++)
+    if (std::abs(t_minus(s) - (sthPi + EPS)) > 0.001)
     {
-      complex<double> tempM = kernel(s, xM[i]) * previous->isobars[j].subtractions[n].interp_below(xM[i]);
-      sumM += wM[i] * tempM;
+      double wM[N_integ + 1], xM[N_integ + 1];
+      gauleg(real(t_minus(s)), sthPi + EPS, xM, wM, N_integ);
+
+      for(int i = 1; i < N_integ + 1; i++)
+      {
+        complex<double> tempM = kernel(2*j+1, 1, 2*jp+1, 1, s, xM[i]) * previous->isobars[jp].subtractions[n].interp_below(xM[i]);
+        sumM += wM[i] * tempM;
+      }
     }
-  }
 
-  if (std::abs(t_plus(s) - (sthPi + EPS)) > 0.001)
-  {
-    double wP[N_integ + 1], xP[N_integ + 1];
-    gauleg(sthPi + EPS, real(t_plus(s)), xP, wP, N_integ);
-
-    for(int i = 1; i < N_integ + 1; i++)
+    if (std::abs(t_plus(s) - (sthPi + EPS)) > 0.001)
     {
-      complex<double> tempP = kernel(s, xP[i]) * previous->isobars[j].subtractions[n].interp_above(xP[i]);
-      sumP += wP[i] * tempP;
+      double wP[N_integ + 1], xP[N_integ + 1];
+      gauleg(sthPi + EPS, real(t_plus(s)), xP, wP, N_integ);
+
+      for(int i = 1; i < N_integ + 1; i++)
+      {
+        complex<double> tempP = kernel(2*j+1, 1, 2*jp+1, 1, s, xP[i]) * previous->isobars[jp].subtractions[n].interp_above(xP[i]);
+        sumP += wP[i] * tempP;
+      }
     }
   }
 
@@ -132,23 +148,28 @@ complex<double> angular_integral::integ_a_b(int j, int n, double s)
   gauleg(0., 1., x, w, N_integ);
 
   complex<double> sumM = 0.;
-  for(int i = 1; i < N_integ + 1; i++)
-  {
-    complex<double> z1_i = (1. - x[i]) * t_minus(s) + x[i] * (2. * t_minus(b));
-    complex<double> tempM = kernel(s, z1_i) * previous->isobars[j].omega(z1_i, 0) * sub_poly(n, z1_i, 0);
-
-    tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
-    sumM +=  w[i] * tempM;
-  }
-
   complex<double> sumP = 0.;
-  for(int i = 1; i < N_integ + 1; i++)
-  {
-    complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
-    complex<double> tempP = kernel(s, z2_i) * previous->isobars[j].omega(z2_i, 0) * sub_poly(n, z2_i, 0);
 
-    tempP *= t_plus(s) - 2. * t_plus(b);
-    sumP +=  w[i] * tempP;
+  for (int jp = 0; 2*jp+1 <= options.max_spin; jp++)
+  {
+    for(int i = 1; i < N_integ + 1; i++)
+    {
+      complex<double> z1_i = (1. - x[i]) * t_minus(s) + x[i] * (2. * t_minus(b));
+      complex<double> tempM = kernel(2*j+1, 1, 2*jp+1, 1, s, z1_i) * previous->isobars[jp].omega(z1_i, 0) * sub_poly(n, z1_i, 0);
+
+      tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
+      sumM +=  w[i] * tempM;
+    }
+
+
+    for(int i = 1; i < N_integ + 1; i++)
+    {
+      complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
+      complex<double> tempP = kernel(2*j+1, 1, 2*jp+1, 1, s, z2_i) * previous->isobars[jp].omega(z2_i, 0) * sub_poly(n, z2_i, 0);
+
+      tempP *= t_plus(s) - 2. * t_plus(b);
+      sumP +=  w[i] * tempP;
+    }
   }
 
   return (sumP + sumM);
@@ -167,10 +188,14 @@ complex<double> angular_integral::integ_b(int j, int n, double s)
   gauleg(real(t_minus(s)), real(t_plus(s)), x, w, N_integ);
 
   complex<double> sum = 0.;
-  for (int i = 1; i < N_integ + 1; i++)
+
+  for (int jp = 0; 2*jp+1 <= options.max_spin; jp++)
   {
-    complex<double> temp = kernel(s, x[i]) * previous->isobars[j].omega(x[i], 0) * sub_poly(n, x[i], 0);
-    sum += w[i] * temp;
+    for (int i = 1; i < N_integ + 1; i++)
+    {
+      complex<double> temp = kernel(2*j+1, 1, 2*jp+1, 1, s, x[i]) * previous->isobars[jp].omega(x[i], 0) * sub_poly(n, x[i], 0);
+      sum += w[i] * temp;
+    }
   }
 
   return sum;
@@ -183,12 +208,7 @@ complex<double> angular_integral::operator () (int j, int n, double s)
 {
   complex<double> integ;
 
-  if (std::abs(s - sthPi) < 2. * EPS)
-  {
-    integ = 2. * previous->isobars[j].subtractions[n].interp_above(real(t_minus(sthPi)));
-  }
-
-  else if (s > sthPi + EPS && s < a0) {
+  if (s > sthPi && s < a0) {
     integ = integ_sthPi_a0(j, n, s);
   }
 

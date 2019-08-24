@@ -57,12 +57,12 @@ private:
   double b = kinematics.threshold();
 
 protected:
-  complex<double> k(double s); //Analytically continued k-momentum function
-  complex<double> z_s(double s, complex<double> t); // Scattering angle in s-channel
+  complex<double> k(complex<double> s); //Analytically continued k-momentum function
+  complex<double> sine_sqr(double s, complex<double> t); // Scattering angle in s-channel
 
   // Kinematic kernel
   // This can be extended to have isospin and helicity dependence
-  complex<double> kernel(double s, complex<double> t);
+  complex<double> kernel(int j, int lam, int jp, int lamp, double s, complex<double> t);
 
   // Bounds of integration
   complex<double> t_minus(double s);

@@ -38,11 +38,11 @@ void isobar::zeroth()
       s.push_back(s_i);
 
       // above the unitarity cut (+ i epsilon)
-      ab = omega(s_i, +1) * sub_poly(n, s_i, +1);
+      ab =  omega(s_i, +1) * sub_poly(n, s_i, +1);
       above_cut.push_back(ab);
 
       // below the cut (- i epsilon)
-      be = omega(s_i, -1) * sub_poly(n, s_i, -1);
+      be =  omega(s_i, -1) * sub_poly(n, s_i, -1);
       below_cut.push_back(be);
     }
 
@@ -51,21 +51,6 @@ void isobar::zeroth()
     subtractions.push_back(not_actually_subtracted);
   }
 };
-
-// // ----------------------------------------------------------------------------
-// // Set the normalization coefficient
-// void isobar::normalize(double gamma_exp)
-// {
-//   cout << endl;
-//   cout << "Normalizing total isobar amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
-//
-//   dalitz<isobar> d_plot(this);
-//   double gamma = d_plot.Gamma_total();
-//   normalization = sqrt(gamma_exp * 1.e-3 / gamma);
-//
-//   cout << "Normalization constant = " << normalization << endl;
-//   cout << endl;
-// };
 
 // // ----------------------------------------------------------------------------
 // // Set second subtraction coefficient to its sum rule values
@@ -96,8 +81,6 @@ void isobar::print_params()
 {
     cout << "Printing Subtraction Coefficients... \n";
     cout << "---------------------------------------- \n";
-    cout << std::left << setw(20) << "normalization:" << setw(20) << normalization << endl;
-
     for (int i = 0; i < options.max_subs; i++)
     {
       cout << std::left <<  setw(20) << "|a_" + std::to_string(i) + "|:" <<
@@ -131,7 +114,7 @@ complex<double> isobar::subtracted_isobar(double s)
     exit(1);
   }
 
-  return normalization * result;
+  return result;
 };
 
 //

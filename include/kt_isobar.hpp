@@ -72,7 +72,6 @@ protected:
   kt_options options;
 
   // Subtraction coefficients (complex in general)
-  double normalization = 1.;
   vector<complex<double>> coefficients;
 
 //-----------------------------------------------------------------------------
@@ -107,13 +106,7 @@ public:
   void set_params(int n_params, const double *par);
   void print_params();
 
-  void normalize(double gamma_exp);
   void sum_rule();
-
-  double error_func(double s, double t)
-  {
-    return 1.;
-  };
 
   // Evaluate the isobar in one channel or the total amplitude
   complex<double> subtracted_isobar(double s);

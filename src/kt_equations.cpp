@@ -17,12 +17,17 @@
 iteration kt_equations::iterate(iteration * prev)
 {
   vector<isobar> isobars;
-
   // sum over spins
   for (int i = 0; 2*i+1 <= options.max_spin; i++)
   {
     cout << " -> Calculating isobar with spin (" << 2*i+1 << "/" << options.max_spin << ")... " << endl;
     isobars.push_back(iterate_isobar(prev, i));
+
+    // add a space in the terminal output if theres more isobars for aesthetic purposes
+    if (2*(i+1)+1 <= options.max_spin)
+    {
+    cout << endl;
+    }
   }
 
   iteration next(prev->N_iteration + 1, isobars);

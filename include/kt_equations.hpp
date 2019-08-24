@@ -22,7 +22,7 @@
 #include "kt_isobar.hpp"
 #include "kt_ang_integral.hpp"
 #include "kt_disp_integral.hpp"
-#include "utilities.hpp" 
+#include "utilities.hpp"
 #include "omnes.hpp"
 
 // ---------------------------------------------------------------------------
@@ -47,7 +47,7 @@ private:
   subtraction_polynomial poly;
 
   // In interpolalations exclude an interval around the pseudo_threshold
-  double exc = 0.05;
+  double exc = 0.055;
 
   isobar iterate_isobar(iteration * prev, int j);
 
@@ -64,6 +64,7 @@ public:
     }
     cout << "Mass = " << dec.get_decayMass() << " GeV, ";
     cout << "J^PC = " << dec.get_JPC() << endl;
+    cout << "-> with max spin, j = " << options.max_spin << endl;
     cout << "-> with ";
     cout << options.max_iters << " Iterations, ";
     cout << options.max_subs << " Subtractions." << endl;

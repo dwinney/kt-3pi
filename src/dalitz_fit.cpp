@@ -43,7 +43,7 @@ double dalitz_fit<T, F>::chi_squared(const double *par)
 
         double tmp = (ampsqr_ij - fitsqr_ij);
 
-        tmp /= abs(dalitz<T>::amp->kinematics.K_lambda(1, dalitz<T>::s_c, dalitz<T>::t_c));
+        tmp /= abs(dalitz<T>::amp->kinematics.K_jlam(1, 1, dalitz<T>::s_c, dalitz<T>::t_c));
         tmp /= dalitz<T>::amp->error_func(s_i, t_ij);
         tmp /= par[0] * par[0];
 

@@ -48,6 +48,12 @@ void kt_amplitude::iterate()
 {
   start();
 
+  if (options.max_iters != 0)
+  {
+    cout << "Starting KT solution..." << endl;
+    cout << endl;
+  }
+
   for (int i = 0; i < options.max_iters; i++)
   {
     cout << "Calculating iteration (" << i + 1 << "/" << options.max_iters << ")... " << endl;
@@ -73,7 +79,7 @@ void kt_amplitude::iterate()
 // ----------------------------------------------------------------------------
 complex<double> kt_amplitude::eval(double s, double t)
 {
-  double stu[3] = {s, t, kinematics.u_man(s,t)};
+  double stu[3] = {s, t, real(kinematics.u_man(s,t))};
   double z_stu[3] = {kinematics.z_s(s,t), kinematics.z_t(s,t), kinematics.z_u(s,t)};
 
   // Construct amplitude by summing over spins
@@ -92,6 +98,7 @@ complex<double> kt_amplitude::eval(double s, double t)
       double x = stu[k], zx = z_stu[k];
 
       complex<double> temp = (2. * j + 1.);
+      temp *= kinematics.barrier_factor(j, lam, x);
       temp *= kinematics.K_jlam(j, lam, x, zx);
       temp *= kinematics.d_hat(j, lam, zx);
       temp *= ptr->subtracted_isobar(x);
@@ -100,7 +107,21 @@ complex<double> kt_amplitude::eval(double s, double t)
     }
   }
 
-  return result;
+  return normalization * result;
+};
+
+// // ----------------------------------------------------------------------------
+// // Set the normalization coefficient
+void kt_amplitude::normalize(double gamma_exp)
+{
+  cout << "Normalizing total amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
+
+  dalitz<kt_amplitude> d_plot(this);
+  double gamma = d_plot.Gamma_total();
+  normalization = sqrt(gamma_exp * 1.e-3 / gamma);
+
+  cout << "Normalization constant = " << normalization << endl;
+  cout << endl;
 };
 
 // ----------------------------------------------------------------------------
@@ -136,7 +157,7 @@ void kt_amplitude::print_iteration(int n, int j, int m)
   for (int i = 0; i < 60; i++)
   {
     double s_i = sthPi + EPS + double(i) * (1. - sthPi) / 60.;
-    complex<double> fx_i =  iters[n].isobars[j].subtractions[m].interp_above(s_i);
+    complex<double> fx_i =  normalization * iters[n].isobars[j].subtractions[m].interp_above(s_i);
 
     s.push_back(sqrt(s_i));
     refx.push_back(real(fx_i));
@@ -200,7 +221,7 @@ void kt_amplitude::print_isobar(int n)
   for (int i = 0; i < 60; i++)
   {
     double s_i = (sthPi + EPS) + double(i) * (1. - sthPi) / 60.;
-    complex<double> fx_i =  iters.back().isobars[n].subtracted_isobar(s_i);
+    complex<double> fx_i =  normalization * iters.back().isobars[n].subtracted_isobar(s_i);
 
     s.push_back(sqrt(s_i));
     refx.push_back(real(fx_i));

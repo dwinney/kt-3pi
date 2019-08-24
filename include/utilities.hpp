@@ -19,8 +19,10 @@
 #include "Math/Interpolator.h"
 
 using std::vector;
+using std::cout;
 using std::complex;
 
+//-----------------------------------------------------------------------------
 // given int n, outputs right english string
 // "1st" vs "2nd" vs "3rd" etc...
 // :)

@@ -14,7 +14,7 @@
 
 // ----------------------------------------------------------------------------
 // Evaluate the dispersion integral.
-// spin = j, subtraction_ID = n 
+// spin = j, subtraction_ID = n
 // Method used depends on use_conformal in kt_options
 complex<double> dispersion_integral::operator() (int j, int n, double s, int ieps)
 {
@@ -25,14 +25,17 @@ complex<double> dispersion_integral::operator() (int j, int n, double s, int iep
     exit(1);
   }
 
-  // // if testing the angular_integral print file
-  // if (options.test_angular == true)
-  // {
-  //   cout << " -> test_angular enabled. Printing inhomogeneity..." << endl;
-  //   angular_test(n);
-  //   cout << "Done." << endl;
-  //   exit(1);
-  // }
+  // if testing the angular_integral print file
+  if (options.test_angular == true)
+  {
+    cout << " -> test_angular enabled. Printing inhomogeneity..." << endl;
+    for (int i = 0; 2*i+1 <= options.max_spin; i++)
+    {
+      angular_test(i, n);
+    }
+    cout << "Done." << endl;
+    exit(1);
+  }
 
   return disperse(j, n, s, ieps);
 };
@@ -47,12 +50,12 @@ complex<double> dispersion_integral::disperse(int j, int n, double s, int ieps)
   {
     if (LamOmnes < a)
     {
-    result = con_integrate(j, n, s, ieps, sthPi + EPS, LamOmnes) + con_sp_log(j, n, s, ieps, sthPi + EPS, LamOmnes);
+    result = con_integrate(j, n, s, ieps, sthPi + 2. * EPS, LamOmnes) + con_sp_log(j, n, s, ieps, sthPi + EPS, LamOmnes);
     result -= cutoff_log(j, n, s, ieps);
     }
     else
     {
-      result =  con_integrate(j, n, s, ieps, sthPi + EPS, a - interval) + con_sp_log(j, n, s, ieps, sthPi + EPS, a - interval);
+      result =  con_integrate(j, n, s, ieps, sthPi + 2. * EPS, a - interval) + con_sp_log(j, n, s, ieps, sthPi + EPS, a - interval);
       result += con_integrate(j, n, s, ieps, a + interval, LamOmnes) + con_sp_log(j, n, s, ieps, a + interval, LamOmnes);
       result -= cutoff_log(j, n, s, ieps);
     }
@@ -60,7 +63,7 @@ complex<double> dispersion_integral::disperse(int j, int n, double s, int ieps)
 
   else
   {
-    result =  std_integrate(j, n, s, ieps, sthPi + EPS, a - interval) + std_sp_log(j, n, s, ieps, sthPi + EPS, a - interval);
+    result =  std_integrate(j, n, s, ieps, sthPi + 2. * EPS, a - interval) + std_sp_log(j, n, s, ieps, sthPi + EPS, a - interval);
     result += std_integrate_inf(j, n, s, ieps, a + interval) + std_sp_log_inf(j, n, s, ieps, a + interval);
   }
 
@@ -69,10 +72,9 @@ complex<double> dispersion_integral::disperse(int j, int n, double s, int ieps)
 
 // ---------------------------------------------------------------------------
 // The regular (singularity-free) piece of the integrand
-// TODO: Here there would be a power of s to the number of subtractions in general
 complex<double> dispersion_integral::disp_function(int j, int n, double s, int ieps)
 {
-  complex<double> result = inhom(j, n, s);
+  complex<double> result = inhom(j, n, s) / kinematics.barrier_factor(j, 1, s);
   result *= sin(previous->isobars[j].extrap_phase(s));
   result /= std::abs(previous->isobars[j].omega(s, ieps));
 
@@ -239,63 +241,64 @@ void dispersion_integral::pass_iteration(iteration * prev)
     inhom.pass_iteration(prev);
 };
 
-//----------------------------------------------------------------------------
-// // Print the inhomogeneity
-// void dispersion_integral::angular_test(int n)
-// {
-//   //Surpress ROOT messages
-//   gErrorIgnoreLevel = kWarning;
-//
-//   // Output to a datfile
-//   std::ofstream output;
-//   string namedat = "inhomogeneity.dat";
-//   output.open(namedat.c_str());
-//
-//   vector<double> s;
-//   vector<double> refx, imfx;
-//   for (int i = 0; i < 60; i++)
-//   {
-//     double s_i = sthPi + 2. * EPS + double(i) * (omnes::LamOmnes - sthPi) / 60.;
-//     complex<double> fx_i = inhom(n, s_i);
-//
-//     if (abs(s_i - a) < 0.005)
-//     {
-//       continue;
-//     }
-//
-//     s.push_back(sqrt(s_i));
-//     refx.push_back(real(fx_i));
-//     imfx.push_back(imag(fx_i));
-//
-//     output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
-//   }
-//   output.close();
-//
-//   TCanvas *c = new TCanvas("c", "c");
-//   c->Divide(1,2);
-//
-//   TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-//   TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-//
-//   string label = "Inhomogeneity with " + std::to_string(n) + " Subtractions";
-//
-//   c->cd(1);
-//   gRe->SetTitle(label.c_str());
-//   gRe->SetLineStyle(2);
-//   gRe->SetLineColor(kBlue);
-//   gRe->Draw("AL");
-//
-//   c->cd(2);
-//   gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
-//   gIm->SetLineStyle(2);
-//   gIm->SetLineColor(kRed);
-//   gIm->Draw("AL");
-//
-//   c->Modified();
-//   string namepdf = "inhomogeneity.pdf";
-//   c->Print(namepdf.c_str());
-//
-//   delete c, gRe, gIm;
-//
-//   options.test_angular = false;
-// };
+// ----------------------------------------------------------------------------
+// Print the inhomogeneity
+void dispersion_integral::angular_test(int j, int n)
+{
+  //Surpress ROOT messages
+  gErrorIgnoreLevel = kWarning;
+
+  // Output to a datfile
+  std::ofstream output;
+  string namedat = "spin_" + std::to_string(2*j+1) + "_inhomogeneity.dat";
+  output.open(namedat.c_str());
+
+  vector<double> s;
+  vector<double> refx, imfx;
+  for (int i = 0; i < 60; i++)
+  {
+    double s_i = (sthPi + 0.03) + double(i) * (omnes::LamOmnes - sthPi - 0.03) / 60.;
+    complex<double> fx_i = inhom(j, n, s_i);
+
+    if (abs(s_i - a) < 0.05)
+    {
+      continue;
+    }
+
+    s.push_back(sqrt(s_i));
+    refx.push_back(real(fx_i));
+    imfx.push_back(imag(fx_i));
+
+    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+  }
+  output.close();
+
+  cout << "Output to: " << namedat << endl;
+
+  TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  string label = "Inhomogeneity with " + std::to_string(n) + " Subtractions";
+
+  c->cd(1);
+  gRe->SetTitle(label.c_str());
+  gRe->SetLineStyle(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+
+  c->cd(2);
+  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  gIm->SetLineStyle(2);
+  gIm->SetLineColor(kRed);
+  gIm->Draw("AL");
+
+  c->Modified();
+
+  string namepdf = "spin_" + std::to_string(2*j+1) + "_inhomogeneity.pdf";
+  c->Print(namepdf.c_str());
+
+  delete c, gRe, gIm;
+};

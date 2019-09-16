@@ -26,7 +26,7 @@ else()
 endif()
 
 add_executable(BW
-examples/BW.cpp
+executables/BW.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
@@ -39,7 +39,7 @@ src/poly_exp.cpp
 target_link_libraries(BW ${ROOT_LIBRARIES})
 
 add_executable(once_subtracted
-examples/once_subtracted.cpp
+executables/once_subtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp
@@ -58,7 +58,7 @@ target_link_libraries(once_subtracted ${ROOT_LIBRARIES})
 target_link_libraries(once_subtracted ${GSL_LIBRARIES})
 
 add_executable(twice_subtracted
-examples/twice_subtracted.cpp
+executables/twice_subtracted.cpp
 src/decay_kinematics.cpp
 src/pipi.cpp
 src/omnes.cpp

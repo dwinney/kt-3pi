@@ -25,27 +25,26 @@ int main()
   kt_options options;
   options.max_iters = 0;
   options.max_subs = 0;
-  options.max_spin = 1;
+  options.max_spin = 3;
   options.use_conformal = false;
   // options.test_angular = true;
 
-  // Omega dominated by single isobar, j = 1, I = 1, lambda = 1
-  // in general this would be a KT object with Jmax and helicity dependence
   kt_amplitude kt_pwave(options, vector_meson);
-  // kt_pwave.iterate();
-  kt_pwave.print_iteration(0, 0, 0);
-  // kt_pwave.print_iteration(0, 1, 0);
-  // kt_pwave.print_iteration(options.max_iters, 0);
+  kt_pwave.iterate();
 
-  // kt_pwave.normalize(7.56);
-  // kt_pwave.print();
-  //
+  kt_pwave.normalize(7.56);
+  kt_pwave.print_isobar(0);
+  kt_pwave.print_isobar(1);
+
+  // dalitz<kt_amplitude> plot(&kt_pwave);
+  // plot.plot();
+
   // cout << endl;
   // cout << "Extracting Dalitz Plot Parameters..." << endl;
   // cout << endl;
   //
   // poly_exp fit_results(vector_meson);
-  // dalitz_fit<isobar,poly_exp> fitter(&kt_pwave, &fit_results);
+  // dalitz_fit<kt_amplitude,poly_exp> fitter(&kt_pwave, &fit_results);
   //
   // fitter.extract_params(2);
   // fit_results.print_params();

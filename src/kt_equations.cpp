@@ -36,7 +36,7 @@ iteration kt_equations::iterate(iteration * prev)
 };
 
 // ----------------------------------------------------------------------------
-// This functions calculates the next iteration of the spin j isobar.
+// This functions calculates the next iteration of the jth isobar.
 isobar kt_equations::iterate_isobar(iteration * prev, int j)
 {
   // Dont forget to pass the pointer to the dispersion intergral!!

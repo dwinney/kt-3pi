@@ -1,4 +1,4 @@
-// These are methods for evaluating the KT dispersion (s) integral.
+  // These are methods for evaluating the KT dispersion (s) integral.
 // This is seperated from the angular integral, and the total KT equations which combine everything
 // because of the delicate nature of handleing the singularities in the integrand near pseudo threshold.
 //
@@ -50,8 +50,8 @@ complex<double> dispersion_integral::disperse(int j, int n, double s, int ieps)
   {
     if (LamOmnes < a)
     {
-    result = con_integrate(j, n, s, ieps, sthPi + 2. * EPS, LamOmnes) + con_sp_log(j, n, s, ieps, sthPi + EPS, LamOmnes);
-    result -= cutoff_log(j, n, s, ieps);
+      result = con_integrate(j, n, s, ieps, sthPi + 2. * EPS, LamOmnes) + con_sp_log(j, n, s, ieps, sthPi + EPS, LamOmnes);
+      result -= cutoff_log(j, n, s, ieps);
     }
     else
     {
@@ -74,7 +74,7 @@ complex<double> dispersion_integral::disperse(int j, int n, double s, int ieps)
 // The regular (singularity-free) piece of the integrand
 complex<double> dispersion_integral::disp_function(int j, int n, double s, int ieps)
 {
-  complex<double> result = inhom(j, n, s) / kinematics.barrier_factor(j, 1, s);
+  complex<double> result = inhomogeneity(j, n, s) / kinematics.barrier_factor(2*j+1, 1, s);
   result *= sin(previous->isobars[j].extrap_phase(s));
   result /= std::abs(previous->isobars[j].omega(s, ieps));
 
@@ -238,7 +238,7 @@ void dispersion_integral::pass_iteration(iteration * prev)
     previous = NULL;
 
     previous = prev;
-    inhom.pass_iteration(prev);
+    inhomogeneity.pass_iteration(prev);
 };
 
 // ----------------------------------------------------------------------------
@@ -258,12 +258,12 @@ void dispersion_integral::angular_test(int j, int n)
   for (int i = 0; i < 60; i++)
   {
     double s_i = (sthPi + 0.03) + double(i) * (omnes::LamOmnes - sthPi - 0.03) / 60.;
-    complex<double> fx_i = inhom(j, n, s_i);
+    complex<double> fx_i = inhomogeneity(j, n, s_i);
 
-    if (abs(s_i - a) < 0.05)
-    {
-      continue;
-    }
+    // if (abs(s_i - a) < 0.05 || abs(s_i - b) < 0.05)
+    // {
+    //   continue;
+    // }
 
     s.push_back(sqrt(s_i));
     refx.push_back(real(fx_i));

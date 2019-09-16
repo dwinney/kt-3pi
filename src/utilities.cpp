@@ -112,9 +112,43 @@ std::vector<double> vec_imag(std::vector<std::complex<double>> fx)
   return result;
 };
 
+//-----------------------------------------------------------------------------
 // Evaluate the interpolation
 complex<double> interpolation::operator ()(double s)
 {
   complex<double> result(r_inter.Eval(s), i_inter.Eval(s));
   return result;
+};
+
+//-----------------------------------------------------------------------------
+// Simple function to call ROOT to print a plot
+void quick_print(vector<double> s, vector<complex<double>> fx, string filename)
+{
+  vector<double> refx = vec_real(fx);
+  vector<double> imfx = vec_imag(fx);
+
+  TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  c->cd(1);
+  gRe->SetTitle(" ");
+  gRe->SetLineStyle(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+
+  c->cd(2);
+  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  gIm->SetLineStyle(2);
+  gIm->SetLineColor(kRed);
+  gIm->Draw("AL");
+
+  c->Modified();
+
+  string namepdf = filename + ".pdf";
+  c->Print(namepdf.c_str());
+
+  delete c, gRe, gIm;
 };

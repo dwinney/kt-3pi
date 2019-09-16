@@ -28,7 +28,8 @@
 //
 // Depends on the value of use_conformal in kt_options
 // ---------------------------------------------------------------------------
-  class dispersion_integral
+
+class dispersion_integral
   {
   protected:
     decay_kinematics kinematics;
@@ -36,7 +37,7 @@
 
     // const double LamOmnes = previous->omega.LamOmnes; // Conformal dispersion cutoff
 
-    angular_integral inhom;
+    angular_integral inhomogeneity;
     const double LamOmnes = 1.;
     const double a = kinematics.pseudo_threshold(); // Pseudo threshold, problematic point!
     const double b = kinematics.threshold();
@@ -72,7 +73,7 @@
   public:
     // Default constructor
     dispersion_integral(kt_options ops, decay_kinematics dec)
-      : options(ops), inhom(ops, dec), kinematics(dec)
+      : options(ops), inhomogeneity(ops, dec), kinematics(dec)
     { };
 
     complex<double> operator() (int j, int n, double s, int ieps);

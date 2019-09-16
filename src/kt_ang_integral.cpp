@@ -62,6 +62,7 @@ complex<double> angular_integral::kernel(int j, int lam, int jp, int lamp, doubl
   result *= kinematics.K_jlam(jp, lamp, t, zt);
   result /= kinematics.K_jlam(j, lam, s, zs);
 
+  result *= kinematics.d_hat(jp, lamp, zt);
   // extra factor of k(s) from the change of variables from z_s to t
   return result / k(s);
 };
@@ -213,11 +214,11 @@ complex<double> angular_integral::operator () (int j, int n, double s)
   }
 
   else if (s >= a0 && s <= a)  {
-    integ =  integ_a0_a(j, n, s);
+    integ = integ_a0_a(j, n, s);
   }
 
   else if (s > a && s < b)  {
-    integ =  integ_a_b(j, n, s);
+    integ = integ_a_b(j, n, s);
   }
 
   else if (s >= b)  {

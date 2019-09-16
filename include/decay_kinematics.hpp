@@ -203,6 +203,7 @@ double d_func0(int j, int l, double z);
 
 // Outputs d_hat the kinematic-singularity-free d_function
 double d_hat(int j, int l, double z);
+complex<double> d_hat(int j, int l, complex<double> z);
 
 //-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes

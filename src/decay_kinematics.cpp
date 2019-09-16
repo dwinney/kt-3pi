@@ -131,6 +131,25 @@ double decay_kinematics::d_hat(int j, int l, double z)
   return d_lam / half_angle_factor;
 };
 
+complex<double> decay_kinematics::d_hat(int j, int l, complex<double> z)
+{
+  if (l == 1)
+  {
+    switch (j)
+    {
+    case 1: return 1.;
+    case 3: return 3. * z;
+    default: cout << "d_hat: complex legendres not coded that far yet... \n";
+              exit(0);
+    }
+  }
+  else
+  {
+    cout << "d_hat: complex legendres not coded that far yet... \n";
+    exit(0);
+  }
+};
+
 //-----------------------------------------------------------------------------
 // Angular momentum barrier factor
 complex<double> decay_kinematics::barrier_factor(int j, int lam, complex<double> s)

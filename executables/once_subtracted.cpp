@@ -23,9 +23,9 @@ int main()
 
   // Options parameters for the KT euqations
   kt_options options;
-  options.max_iters = 0;
+  options.max_iters = 1;
   options.max_subs = 0;
-  options.max_spin = 3;
+  options.max_spin = 1;
   options.use_conformal = false;
   // options.test_angular = true;
 
@@ -34,7 +34,6 @@ int main()
 
   kt_pwave.normalize(7.56);
   kt_pwave.print_isobar(0);
-  kt_pwave.print_isobar(1);
 
   // dalitz<kt_amplitude> plot(&kt_pwave);
   // plot.plot();

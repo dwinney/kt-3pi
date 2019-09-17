@@ -205,26 +205,26 @@ double decay_kinematics::y(double s, double t)
 
 //-----------------------------------------------------------------------------
 // Lorentz Invariant dimensionless parameters in terms of polar variables
-double decay_kinematics::x_polar(double z, double theta)
+double decay_kinematics::x_polar(double r, double phi)
 {
-  return sqrt(z) * cos(theta);
+  return sqrt(r) * cos(phi);
 };
 
-double decay_kinematics::y_polar(double z, double theta)
+double decay_kinematics::y_polar(double r, double phi)
 {
-  return sqrt(z) * sin(theta);
+  return sqrt(r) * sin(phi);
 };
 //-----------------------------------------------------------------------------
-// Inverted to get z and theta in terms of s and t
-double decay_kinematics::z(double s, double t)
+// Inverted to get r and phi in terms of s and t
+double decay_kinematics::r(double s, double t)
 {
-    double tmp1, tmp2;
-    tmp1 = x(s,t);
-    tmp2 = y(s,t);
-    return tmp1 * tmp1 + tmp2 * tmp2;
+    double X, Y;
+    X = x(s,t);
+    Y = y(s,t);
+    return X * X + Y * Y;
 };
 
-double decay_kinematics::theta(double s, double t)
+double decay_kinematics::phi(double s, double t)
 {
   double result = atan2(y(s,t), x(s,t));
   if (result < 0.0)

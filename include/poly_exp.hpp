@@ -42,7 +42,7 @@ public:
 
   decay_kinematics kinematics;
 
-  // Evaluate amplitude squared
+  // Evaluate amplitude
   complex<double> eval(double s, double t);
 
   bool ERROR = false;

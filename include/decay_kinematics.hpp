@@ -241,11 +241,11 @@ double d_norm(){
 double x(double s, double t);
 double y(double s, double t);
 
-double x_polar(double z, double theta);
-double y_polar(double z, double theta);
+double x_polar(double r, double phi);
+double y_polar(double r, double phi);
 
-double z(double s, double t);
-double theta(double s, double t);
+double r(double s, double t);
+double phi(double s, double t);
 };
 
 #endif

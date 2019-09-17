@@ -1,7 +1,5 @@
 // General routines for Dalitz plot generation
 //
-// Dependencies: constants.hpp, ROOT
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
@@ -122,6 +120,8 @@ double dalitz<T>::d2Gamma(double s, double t)
   return abs(Fsqr / normalization);
 };
 
+//-----------------------------------------------------------------------------
+// Integrated total decay width
 template <class T>
 double dalitz<T>::Gamma_total()
 {

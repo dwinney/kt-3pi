@@ -21,9 +21,9 @@ int main()
     vector_meson.set_decayMass(.780);
     vector_meson.set_decayParticle("omega");
 
-  // Options parameters for the KT euqations
+  // Options parameters for the KT equations
   kt_options options;
-  options.max_iters = 1;
+  options.max_iters = 3;
   options.max_subs = 0;
   options.max_spin = 1;
   options.use_conformal = false;
@@ -35,27 +35,28 @@ int main()
   kt_pwave.normalize(7.56);
   kt_pwave.print_isobar(0);
 
-  // dalitz<kt_amplitude> plot(&kt_pwave);
-  // plot.plot();
+  dalitz<kt_amplitude> plot(&kt_pwave);
+  plot.plot();
 
-  // cout << endl;
-  // cout << "Extracting Dalitz Plot Parameters..." << endl;
-  // cout << endl;
-  //
-  // poly_exp fit_results(vector_meson);
-  // dalitz_fit<kt_amplitude,poly_exp> fitter(&kt_pwave, &fit_results);
-  //
-  // fitter.extract_params(2);
-  // fit_results.print_params();
-  // // fitter.print_deviation("fit_dev_1");
-  //
-  // fitter.extract_params(3);
-  // fit_results.print_params();
-  // // fitter.print_deviation("fit_dev_2");
-  //
-  // fitter.extract_params(4);
-  // fit_results.print_params();
-  // // fitter.print_deviation("fit_dev_3");
+  cout << endl;
+  cout << "Extracting Dalitz Plot Parameters..." << endl;
+  cout << endl;
+
+  poly_exp fit_results(vector_meson);
+
+  dalitz_fit<kt_amplitude,poly_exp> fitter(&kt_pwave, &fit_results);
+
+  fitter.extract_params(2);
+  fit_results.print_params();
+  // fitter.print_deviation("fit_dev_1");
+
+  fitter.extract_params(3);
+  fit_results.print_params();
+  // fitter.print_deviation("fit_dev_2");
+
+  fitter.extract_params(4);
+  fit_results.print_params();
+  // fitter.print_deviation("fit_dev_3");
 
   return 1.;
 };

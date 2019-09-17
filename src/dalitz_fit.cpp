@@ -1,8 +1,6 @@
 // Routines to fit a lineshape to another lineshape by minimizing a chi2-type integral over
 // the entire dalitz region
 //
-// Dependencies: dalitz.cpp
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
@@ -43,9 +41,11 @@ double dalitz_fit<T, F>::chi_squared(const double *par)
 
         double tmp = (ampsqr_ij - fitsqr_ij);
 
-        tmp /= abs(dalitz<T>::amp->kinematics.K_jlam(1, 1, dalitz<T>::s_c, dalitz<T>::t_c));
+        // Normalize to the center of the dalitz plot
+        double normalization = par[0] * abs(dalitz<T>::amp->kinematics.K_jlam(1, 1, dalitz<T>::s_c, dalitz<T>::t_c));
+
         tmp /= dalitz<T>::amp->error_func(s_i, t_ij);
-        tmp /= par[0] * par[0];
+        tmp /= normalization * normalization;
 
         t_sum += dalitz<T>::t_wgt[i][j] * tmp * tmp;
     };
@@ -64,7 +64,7 @@ void dalitz_fit<T, F>::extract_params(int eN)
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
   minuit->SetMaxFunctionCalls(10000000);
-  minuit->SetTolerance(0.000001);
+  minuit->SetTolerance(0.0000001);
   minuit->SetPrintLevel(nError);
 
   n_params = eN;

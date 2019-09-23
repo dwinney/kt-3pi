@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 include_directories("include")
 include_directories("src")
-include_directories("scripts")
+include_directories("executables")
 
 find_package(ROOT REQUIRED MathMore)
 if (ROOT_FOUND)

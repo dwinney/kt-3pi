@@ -2,8 +2,6 @@
 // they inherite from the amplitude class because they describe the scattering dynamics
 // of a single spin and isospin-projected subchannel.
 //
-// Dependencies: decay_kinematics.hpp, iteration.hpp, kt_equation.hpp
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
@@ -34,7 +32,7 @@ void isobar::zeroth()
 
     for (int i = 0; i < interpolation::N_interp; i++)
     {
-      double s_i = sthPi + EPS + double(i) * (omnes::LamOmnes - sthPi) / double(interpolation::N_interp);
+      double s_i = sthPi + EPS + double(i) * (options.interp_cutoff - sthPi) / double(interpolation::N_interp);
       s.push_back(s_i);
 
       // above the unitarity cut (+ i epsilon)
@@ -98,11 +96,15 @@ void isobar::print_params()
 complex<double> isobar::subtracted_isobar(double s)
 {
   complex<double> result = 0.;
-  if (s > sthPi && s <= LamOmnes)
+
+  if (s > sthPi && s <= options.interp_cutoff)
   {
+    // the "Zeroth" subtraction constant is constrained by the overall Normalization
+    // and thus we treat this one seperately
     result += subtractions[0].interp_above(s);
 
-    for (int i = 1; i < options.max_subs + 1; i++)
+    // then sum over fundamental solutions for each subtraction order and multiply by coefficient
+    for (int i = 1; i <= options.max_subs; i++)
     {
       result += coefficients[i-1] * subtractions[i].interp_above(s);
     }

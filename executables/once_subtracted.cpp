@@ -23,9 +23,10 @@ int main()
 
   // Options parameters for the KT equations
   kt_options options;
-  options.max_iters = 3;
+  options.max_iters = 0;
   options.max_subs = 0;
   options.max_spin = 1;
+  options.interp_cutoff = 1.2;
   options.use_conformal = false;
   // options.test_angular = true;
 

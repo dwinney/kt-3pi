@@ -45,8 +45,9 @@ public:
     {};
 
   subtraction(const subtraction &previous)
-  : N_subtraction(previous.N_subtraction), interp_above(previous.interp_above),
-                                           interp_below(previous.interp_below)
+  : N_subtraction(previous.N_subtraction),
+    interp_above(previous.interp_above),
+    interp_below(previous.interp_below)
   {};
 
   const int N_subtraction; // subtraction ID
@@ -68,8 +69,7 @@ protected:
   friend class angular_integral;
   friend class dispersion_integral;
 
-  // Vector storing each iteration of the KT equation
-  kt_options options;
+
 
   // Subtraction coefficients (complex in general)
   vector<complex<double>> coefficients;
@@ -91,6 +91,9 @@ public:
 
   ~isobar(){};
 
+  // Vector storing each iteration of the KT equation
+  kt_options options;
+  
   int spin_proj, iso_proj, hel_proj;
   decay_kinematics kinematics;
 

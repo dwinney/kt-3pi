@@ -11,7 +11,7 @@
 #include "kt_ang_integral.hpp"
 
 // ---------------------------------------------------------------------------
-// Analytically continued momentum k
+// Kacser function k(s)
 complex<double> angular_integral::k(complex<double> s)
 {
   complex<double> temp1 = sqrt(xr * (s - sthPi + EPS) / s);

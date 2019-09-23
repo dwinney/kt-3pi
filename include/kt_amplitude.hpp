@@ -33,8 +33,7 @@ double normalization = 1.;
 
 void start();
 
-// Storing successive iterations of the KT equations
-vector<iteration> iters;
+
 
 //-----------------------------------------------------------------------------
 public:
@@ -43,6 +42,9 @@ kt_amplitude(kt_options ops,  decay_kinematics kine)
   : options(ops), kinematics(kine),
     kt(ops, kine)
   {};
+
+// Storing successive iterations of the KT equations
+vector<iteration> iters;
 
 // Storing all the relevant info of the decay particle
 decay_kinematics kinematics;

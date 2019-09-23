@@ -54,6 +54,7 @@ void kt_amplitude::iterate()
     cout << endl;
   }
 
+  // Iterate up to specified max_iters in the options class
   for (int i = 0; i < options.max_iters; i++)
   {
     cout << "Calculating iteration (" << i + 1 << "/" << options.max_iters << ")... " << endl;
@@ -156,13 +157,14 @@ void kt_amplitude::print_iteration(int n, int j, int m)
   vector<complex<double>> fx;
   for (int i = 0; i < 60; i++)
   {
-    double s_i = sthPi + EPS + double(i) * (1. - sthPi) / 60.;
+    double s_i = sthPi + EPS + double(i) * (options.interp_cutoff - sthPi) / 60.;
     complex<double> fx_i =  normalization * iters[n].isobars[j].subtractions[m].interp_above(s_i);
 
     s.push_back(sqrt(s_i));
     fx.push_back(fx_i);
 
-    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
+    output << std::left << setw(15) << sqrt(s_i);
+    output << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
     output << setw(15) << abs(fx_i) << endl;
   }
   output.close();
@@ -194,7 +196,7 @@ void kt_amplitude::print_isobar(int n)
   vector<complex<double>> fx;
   for (int i = 0; i < 60; i++)
   {
-    double s_i = (sthPi + EPS) + double(i) * (1. - sthPi) / 60.;
+    double s_i = (sthPi + EPS) + double(i) * (options.interp_cutoff - sthPi - EPS) / 60.;
     complex<double> fx_i =  normalization * iters.back().isobars[n].subtracted_isobar(s_i);
 
     s.push_back(sqrt(s_i));

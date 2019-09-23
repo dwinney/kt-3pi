@@ -228,6 +228,7 @@ complex<double> dispersion_integral::std_sp_log_inf(int j, int n, double s, int 
 //
 //   return (sum_1 + sum_2) / M_PI;
 // };
+
 //----------------------------------------------------------------------------
 // UTILITY FUNCTIONS
 
@@ -254,51 +255,22 @@ void dispersion_integral::angular_test(int j, int n)
   output.open(namedat.c_str());
 
   vector<double> s;
-  vector<double> refx, imfx;
+  vector<complex<double>> fx;
   for (int i = 0; i < 60; i++)
   {
-    double s_i = (sthPi + 0.03) + double(i) * (omnes::LamOmnes - sthPi - 0.03) / 60.;
+    double s_i = (sthPi + EPS) + double(i) * (options.interp_cutoff - sthPi - EPS) / 60.;
     complex<double> fx_i = inhomogeneity(j, n, s_i);
 
-    // if (abs(s_i - a) < 0.05 || abs(s_i - b) < 0.05)
-    // {
-    //   continue;
-    // }
-
     s.push_back(sqrt(s_i));
-    refx.push_back(real(fx_i));
-    imfx.push_back(imag(fx_i));
+    fx.push_back(fx_i);
 
-    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+    output << std::left << setw(15) << sqrt(s_i);
+    output << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
   output.close();
 
   cout << "Output to: " << namedat << endl;
 
-  TCanvas *c = new TCanvas("c", "c");
-  c->Divide(1,2);
-
-  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-
-  string label = "Inhomogeneity with " + std::to_string(n) + " Subtractions";
-
-  c->cd(1);
-  gRe->SetTitle(label.c_str());
-  gRe->SetLineStyle(2);
-  gRe->SetLineColor(kBlue);
-  gRe->Draw("AL");
-
-  c->cd(2);
-  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
-  gIm->SetLineStyle(2);
-  gIm->SetLineColor(kRed);
-  gIm->Draw("AL");
-
-  c->Modified();
-
   string namepdf = "spin_" + std::to_string(2*j+1) + "_inhomogeneity.pdf";
-  c->Print(namepdf.c_str());
-
-  delete c, gRe, gIm;
+  quick_print(s, fx, namepdf);
 };

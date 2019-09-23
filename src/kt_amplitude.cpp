@@ -170,7 +170,7 @@ void kt_amplitude::print_iteration(int n, int j, int m)
   output.close();
 
   // Plot with ROOT
-  quick_print(s, fx, name);
+  quick_plot(s, fx, name);
 };
 
 // ----------------------------------------------------------------------------
@@ -210,5 +210,5 @@ void kt_amplitude::print_isobar(int n)
   cout << "Output to: " << namedat << "." << endl;
 
   // Plot with ROOT
-  quick_print(s, fx, name);
+  quick_plot(s, fx, name);
 };

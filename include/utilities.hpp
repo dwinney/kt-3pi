@@ -45,7 +45,7 @@ std::vector<double> vec_imag( std::vector<std::complex<double>> fx);
 
 //-----------------------------------------------------------------------------
 // Simple function to call ROOT to print a plot
-void quick_print(vector<double> s, vector<complex<double>> fx, string filename);
+void quick_plot(vector<double> s, vector<complex<double>> fx, string filename);
 
 //-----------------------------------------------------------------------------
 // Wrapper class to better interface with ROOT's interpolation class

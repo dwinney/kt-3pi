@@ -272,5 +272,5 @@ void dispersion_integral::angular_test(int j, int n)
   cout << "Output to: " << namedat << endl;
 
   string namepdf = "spin_" + std::to_string(2*j+1) + "_inhomogeneity.pdf";
-  quick_print(s, fx, namepdf);
+  quick_plot(s, fx, namepdf);
 };

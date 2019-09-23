@@ -23,10 +23,10 @@ int main()
 
   // Options parameters for the KT equations
   kt_options options;
-  options.max_iters = 0;
+  options.max_iters = 5;
   options.max_subs = 0;
   options.max_spin = 1;
-  options.interp_cutoff = 1.2;
+  options.interp_cutoff = 2.;
   options.use_conformal = false;
   // options.test_angular = true;
 
@@ -49,15 +49,15 @@ int main()
 
   fitter.extract_params(2);
   fit_results.print_params();
-  // fitter.print_deviation("fit_dev_1");
+  fitter.print_deviation("fit_dev_1");
 
   fitter.extract_params(3);
   fit_results.print_params();
-  // fitter.print_deviation("fit_dev_2");
+  fitter.print_deviation("fit_dev_2");
 
   fitter.extract_params(4);
   fit_results.print_params();
-  // fitter.print_deviation("fit_dev_3");
+  fitter.print_deviation("fit_dev_3");
 
   return 1.;
 };

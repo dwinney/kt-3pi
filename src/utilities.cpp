@@ -122,7 +122,7 @@ complex<double> interpolation::operator ()(double s)
 
 //-----------------------------------------------------------------------------
 // Simple function to call ROOT to print a plot
-void quick_print(vector<double> s, vector<complex<double>> fx, string filename)
+void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
 {
   vector<double> refx = vec_real(fx);
   vector<double> imfx = vec_imag(fx);

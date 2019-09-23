@@ -23,7 +23,7 @@ int main()
 
   // Options parameters for the KT equations
   kt_options options;
-  options.max_iters = 5;
+  options.max_iters = 1;
   options.max_subs = 0;
   options.max_spin = 1;
   options.interp_cutoff = 2.;
@@ -33,7 +33,7 @@ int main()
   kt_amplitude kt_pwave(options, vector_meson);
   kt_pwave.iterate();
 
-  kt_pwave.normalize(7.56);
+  // kt_pwave.normalize(7.56);
   kt_pwave.print_isobar(0);
 
   dalitz<kt_amplitude> plot(&kt_pwave);

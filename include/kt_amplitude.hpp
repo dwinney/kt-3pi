@@ -12,6 +12,7 @@
 #include <complex>
 #include <vector>
 
+#include "amplitude.hpp"
 #include "kt_isobar.hpp"
 #include "kt_equations.hpp"
 #include "kt_options.hpp"
@@ -22,7 +23,7 @@
 // subtractions and spin sums, and a decay_kinematics for kinematic quantities
 //-----------------------------------------------------------------------------
 
-class kt_amplitude
+class kt_amplitude : public amplitude
 {
 private:
 // The maximum number of iterations of the KT integral and the maximal spin_projection
@@ -32,8 +33,6 @@ kt_equations kt;
 double normalization = 1.;
 
 void start();
-
-
 
 //-----------------------------------------------------------------------------
 public:

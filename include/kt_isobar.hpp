@@ -69,8 +69,6 @@ protected:
   friend class angular_integral;
   friend class dispersion_integral;
 
-
-
   // Subtraction coefficients (complex in general)
   vector<complex<double>> coefficients;
 
@@ -93,7 +91,7 @@ public:
 
   // Vector storing each iteration of the KT equation
   kt_options options;
-  
+
   int spin_proj, iso_proj, hel_proj;
   decay_kinematics kinematics;
 

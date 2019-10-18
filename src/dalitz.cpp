@@ -137,7 +137,6 @@ double dalitz<T>::Gamma_total()
     for (int j = 0; j < N_int(); j++)
     {
         double t_ij;
-
         t_ij = t_abs[i][j];
         t_sum += t_wgt[i][j] * d2Gamma(s_i, t_ij);
     };
@@ -148,15 +147,48 @@ double dalitz<T>::Gamma_total()
 };
 
 //-----------------------------------------------------------------------------
+// Make a pretty PDF file from an input file
+template<class T>
+void dalitz<T>::quick_dalitz(string file)
+{
+  TCanvas *c = new TCanvas("c", "c");
+  TGraph2D *g = new TGraph2D(file.c_str());
+
+  TH2D *h = g->GetHistogram();
+  h->SetAxisRange(-1., 1.,"Y");
+  h->SetAxisRange(-1., 1.,"X");
+
+  h->Draw("colz");
+  gStyle->SetPalette(kColorPrintableOnGrey);
+
+  c->Modified();
+  file.erase(file.end() - 4, file.end());
+  file += ".pdf";
+  c->Print(file.c_str());
+
+  delete c;
+  delete g;
+}
+
+//-----------------------------------------------------------------------------
 // Print out a txt file with the Dalitz plot and plot with ROOT
 template <class T>
-void dalitz<T>::plot()
+void dalitz<T>::plot(string options)
 {
-
-  gErrorIgnoreLevel = kWarning;
-  std::string name = amp->kinematics.get_decayParticle();
+  bool KSF = false, NORMED = false;
+  // parse options string
+  if (options != "")
+  {
+  std::istringstream iss(options);
+  for (std::string s; iss >> s;)
+    {
+     if (s == "KSF") {KSF = true;}
+     if (s == "normalized") {NORMED = true;}
+    }
+  }
 
   // Command Line Message
+  gErrorIgnoreLevel = kWarning;
   cout << "Plotting Dalitz Region";
   if (amp->kinematics.get_ampName() != "")
   {
@@ -164,8 +196,11 @@ void dalitz<T>::plot()
   }
   cout << "... \n";
 
-  std::ofstream output;
+  std::string name = amp->kinematics.get_decayParticle();
+  if (KSF == true){name += "_KSF_";}
   name += "_dalitz_plot.dat";
+
+  std::ofstream output;
   output.open(name.c_str());
 
   double s_step = (amp->kinematics.smax() - amp->kinematics.smin() - offset)/100.;
@@ -178,8 +213,11 @@ void dalitz<T>::plot()
      double t_step = (amp->kinematics.tmax(si) - offset - amp->kinematics.tmin(si)) / 100.;
      double tij = amp->kinematics.tmin(si) + offset  + double(j) * t_step;
 
-     double gam = d2Gamma(si, tij) / abs(amp->kinematics.Kibble(si, tij));
-     gam /= d2Gamma(s_c, t_c) / abs(amp->kinematics.Kibble(s_c, t_c)); // Normalize to the center
+     double gam = d2Gamma(si, tij);
+
+     if (KSF == true){gam /= std::abs(amp->kinematics.Kibble(si, tij));}
+     if (NORMED == true){gam /= d2Gamma(s_c, t_c);}
+     if (NORMED == true && KSF == true){gam *= std::abs(amp->kinematics.Kibble(s_c, t_c));}
 
       output << std::left << setw(15) << amp->kinematics.x(si, tij)
                           << setw(15) << amp->kinematics.y(si, tij)
@@ -191,21 +229,5 @@ output.close();
 cout << "Output to : " << name << endl;
 cout << endl;
 
-TCanvas *c = new TCanvas("c", "c");
-TGraph2D *g = new TGraph2D(name.c_str());
-
-TH2D *h = g->GetHistogram();
-h->SetAxisRange(-1., 1.,"Y");
-h->SetAxisRange(-1., 1.,"X");
-
-h->Draw("colz");
-gStyle->SetPalette(kColorPrintableOnGrey);
-
-c->Modified();
-name.erase(name.end() - 4, name.end());
-name += ".pdf";
-c->Print(name.c_str());
-
-delete c;
-delete g;
+quick_dalitz(name);
 };

@@ -1,11 +1,16 @@
 #ifndef _OPTS_
 #define _OPTS_
 
+#include <vector>
+#include <tuple>
+
+using std::vector;
+using std::tuple;
+
 // Little struct to hold quantities that are global to the KT amplitude
 // but not included in decay_kinematics
 struct kt_options
 {
-  int max_subs = 0; // Number of subtractions in dispersion relation
   int max_iters = 0; // Number of total iterations of KT equations
   int max_spin = 0; // Maximal spin projection in sum (not currently implemented)
 
@@ -23,6 +28,9 @@ struct kt_options
     test_angular(old.test_angular),
     interp_cutoff(old.interp_cutoff)
   {};
+
+  int max_subs = 0; // Number of subtractions in dispersion relation
+  
 };
 
 #endif

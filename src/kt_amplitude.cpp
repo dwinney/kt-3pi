@@ -26,7 +26,7 @@ void kt_amplitude::start()
   vector<isobar> bare_omnes;
   for (int j = 0; 2*j+1 <= options.max_spin; j++)
   {
-    cout << "-> I = 1; spin = " << 2*j+1 << "." << endl;
+    cout << "-> I = 1; j = " << 2*j+1 << "..." << endl;
     isobar ith_wave(1, 2*j+1, 1, options, kinematics);
 
     // isobar::zeroth() stores the bare omnes function with given quantum numbers
@@ -78,6 +78,7 @@ void kt_amplitude::iterate()
 };
 
 // ----------------------------------------------------------------------------
+// Evaluate the total amplitude by summing the three isobar terms
 complex<double> kt_amplitude::eval(double s, double t)
 {
   double stu[3] = {s, t, real(kinematics.u_man(s,t))};
@@ -111,8 +112,9 @@ complex<double> kt_amplitude::eval(double s, double t)
   return normalization * result;
 };
 
-// // ----------------------------------------------------------------------------
-// // Set the normalization coefficient
+// ----------------------------------------------------------------------------
+// Set the normalization coefficient by calculating the total decay Width
+// and setting it to the input experimental value, gamma_exp
 void kt_amplitude::normalize(double gamma_exp)
 {
   cout << "Normalizing total amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
@@ -177,6 +179,12 @@ void kt_amplitude::print_iteration(int n, int j, int m)
 // Print total isobar including the set coefficients and combining subtractions
 void kt_amplitude::print_isobar(int n)
 {
+  if (n > iters.back().isobars.size() - 1)
+  {
+    cout << "print_isobar: Cannot print isobar which doesnt exist!" << endl;
+    exit(1);
+  }
+
   //Surpress ROOT messages
   gErrorIgnoreLevel = kWarning;
 

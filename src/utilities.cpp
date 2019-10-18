@@ -133,17 +133,27 @@ void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
   TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
   TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
 
+  TLegend* lRe = new TLegend(0.73,0.77,0.85,0.85);
+  TLegend* lIm = new TLegend(0.69,0.77,0.85,0.85);
+
   c->cd(1);
   gRe->SetTitle(" ");
   gRe->SetLineStyle(2);
+  gRe->SetLineWidth(2);
   gRe->SetLineColor(kBlue);
   gRe->Draw("AL");
+  lRe->AddEntry(gRe, "REAL PART", "");
+  lRe->Draw("same");
 
   c->cd(2);
-  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
+  gIm->SetTitle("");
   gIm->SetLineStyle(2);
+  gIm->SetLineWidth(2);
   gIm->SetLineColor(kRed);
   gIm->Draw("AL");
+  lIm->AddEntry(gIm, "IMAGINARY PART", "");
+  lIm->Draw("same");
+
 
   c->Modified();
 

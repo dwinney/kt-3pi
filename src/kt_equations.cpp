@@ -1,13 +1,30 @@
 // Class which calculates and assembles the KT solution
 //
-// Dependencies: kt_iteration, kt_ang_integral, aux_math, omnes
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
 #include "kt_equations.hpp"
+
+// ----------------------------------------------------------------------------
+// Display function for all the settings input from the stored kt_options
+void kt_equations::print_options()
+{
+  cout << "Using KT equations for ";
+  if (kinematics.get_decayParticle() != "")
+  {
+    cout << kinematics.get_decayParticle() << ", ";
+  }
+  cout << "Mass = " << kinematics.get_decayMass() << " GeV, ";
+  cout << "J^PC = " << kinematics.get_JPC() << endl;
+  cout << "-> with max spin, j_max = " << options.max_spin << endl;
+  cout << "-> with ";
+  cout << options.max_iters << " Iterations, ";
+  cout << options.max_subs << " Subtractions." << endl;
+  cout << std::boolalpha << "-> with USE_CONFORMAL = " << options.use_conformal << "." << endl;
+  cout << "-> and with Interpolation up to s = " << options.interp_cutoff << " GeV." << endl;
+};
 
 // ----------------------------------------------------------------------------
 // Take in a pointer to a previous iteration (because all previous isobars are required too get next one)

@@ -18,6 +18,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <sstream>
 
 #include <TH2.h>
 #include <TGraph2D.h>
@@ -84,8 +85,12 @@ public:
   double s_c = amp->kinematics.s_c();
   double t_c = amp->kinematics.t_c();
 //--------------------------------------------------------------------------
-// Misc Utilities
-  void plot();
+// Misc Utilities for making plots;
+  void quick_dalitz(string file);
+
+  // Print out a txt file with the Dalitz plot and plot with ROOT
+  void plot(string options = "");
+
   void set_integration_points(int n);
 };
 

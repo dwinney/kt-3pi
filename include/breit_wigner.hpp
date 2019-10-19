@@ -11,6 +11,7 @@
 #define _BW_
 
 #include "decay_kinematics.hpp"
+#include "dalitz.hpp"
 
 #include <cmath>
 #include <vector>
@@ -30,7 +31,7 @@ using std::setw;
 // Reltivistic Breit-Wigner from the KLOE analysis [hep-ex/0204013]
 // with finite-width corrections to VMD model of Rho decay
 // ---------------------------------------------------------------------------
-class breit_wigner
+class breit_wigner : public amplitude
 {
 protected:
   double normalization = 1.;
@@ -39,32 +40,26 @@ protected:
 
   complex<double> width(double s);
   complex<double> mom_pi(double s);
+  complex<double> F(double x);
 // ---------------------------------------------------------------------------
 public:
   breit_wigner(decay_kinematics dec)
-  : kinematics(dec)
+  : amplitude(dec)
   {};
 
   breit_wigner(double mass, double width, decay_kinematics dec, const char * n = "")
-    : res_mass(mass), res_width(width), kinematics(dec)
+    : res_mass(mass), res_width(width), amplitude(dec)
   {
-    kinematics.set_ampName(n);
+    dec.set_ampName(n);
     cout << endl;
-    if (kinematics.get_ampName() != "")
+    if (dec.get_ampName() != "")
         {
-      cout << kinematics.get_ampName()  + ": ";
+      cout << dec.get_ampName()  + ": ";
     }
     cout << "Breit-Wigner with M = " << mass << " and Gamma_0 = " << width << " created. \n";
   };
 
-  decay_kinematics kinematics;
-
-  complex<double> F(double x);
   complex<double> eval(double s, double t);
-  double error_func(double s, double t)
-  {
-    return 1.;
-  };
 
   void normalize(double gamma_exp);
   void set_params(int n, const double * par);

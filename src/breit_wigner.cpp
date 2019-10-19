@@ -13,9 +13,11 @@
 // (NOTE: does not have the kinematic prefators associated with spin)
 complex<double> breit_wigner::eval(double s, double t)
 {
+
   double u = real(kinematics.u_man(s,t));
   complex<double> temp = F(s) + F(t) + F(u);
-  return kinematics.K_jlam(1, 1, s, t) * temp;
+
+  return kinematics.K_jlam(1, 1, s, kinematics.z_s(s,t)) * temp;
 }
 
 // Single-channel amplitude
@@ -25,7 +27,8 @@ complex<double> breit_wigner::F(double s)
   return normalization * s_res() / denom;
 };
 
-// Width with corrections from [https://doi.org/10.1103/PhysRevLett.21.244]
+// Width with corrections from
+// [https://doi.org/10.1103/PhysRevLett.21.244]
 complex<double> breit_wigner::width(double s)
 {
   complex<double> temp1, temp2;
@@ -48,7 +51,8 @@ void breit_wigner::print()
   std::string filename = "./BW.dat";
   output.open(filename.c_str());
 
-  std::vector<double> s, refx, imfx;
+  std::vector<double> s;
+  std::vector<complex<double>> fx;
 
   double step = (1. - sthPi)/100.;
 
@@ -58,39 +62,14 @@ void breit_wigner::print()
     s.push_back(sqrt(s_i));
 
     complex<double> amp = - F(s_i);
-    refx.push_back(std::real(amp)); imfx.push_back(std::imag(amp));
+    fx.push_back(amp);
 
     output << std::left << setw(15) << sqrt(s_i) << setw(15) << std::real(amp) << setw(15) << std::imag(amp) << endl;
   }
 
   output.close();
 
-  //Surpress ROOT messages
-  gErrorIgnoreLevel = kWarning;
-
-  TCanvas *c = new TCanvas("c", "c");
-  c->Divide(1,2);
-
-  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
-  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
-
-  c->cd(1);
-  gRe->SetTitle("Breit-Wigner");
-  gRe->SetLineStyle(2);
-  gRe->SetLineColor(kBlue);
-  gRe->Draw("AL");
-
-  c->cd(2);
-  gIm->SetTitle("Blue = Real part \t \t \t \t \t  Red = Imaginary part");
-  gIm->SetLineStyle(2);
-  gIm->SetLineColor(kRed);
-  gIm->Draw("AL");
-
-  c->Modified();
-  string namepdf = "BW_plot.pdf";
-  c->Print(namepdf.c_str());
-
-  delete c, gRe, gIm;
+  quick_plot(s, fx, "BW");
 };
 
 // ----------------------------------------------------------------------------
@@ -100,7 +79,7 @@ void breit_wigner::normalize(double gamma_exp)
   cout << endl;
   cout << "Normalizing Breit-Wigner amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
 
-  dalitz<breit_wigner> d_plot(this);
+  dalitz d_plot(this);
   double gamma = d_plot.Gamma_total();
   normalization = sqrt(gamma_exp * 1.e-3 / gamma);
 

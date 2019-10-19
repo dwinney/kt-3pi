@@ -124,6 +124,8 @@ complex<double> interpolation::operator ()(double s)
 // Simple function to call ROOT to print a plot
 void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
 {
+  gErrorIgnoreLevel = kWarning;
+  
   vector<double> refx = vec_real(fx);
   vector<double> imfx = vec_imag(fx);
 
@@ -154,11 +156,11 @@ void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
   lIm->AddEntry(gIm, "IMAGINARY PART", "");
   lIm->Draw("same");
 
-
   c->Modified();
 
   string namepdf = filename + ".pdf";
   c->Print(namepdf.c_str());
+  cout << "Printed to " << namepdf << "..." << std::endl;
 
   delete c, gRe, gIm;
 };

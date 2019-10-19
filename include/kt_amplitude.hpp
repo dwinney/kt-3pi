@@ -16,6 +16,7 @@
 #include "kt_isobar.hpp"
 #include "kt_equations.hpp"
 #include "kt_options.hpp"
+#include "dalitz.hpp"
 
 //-----------------------------------------------------------------------------
 // The kt class combines isobars together.
@@ -38,15 +39,12 @@ void start();
 public:
 // Constructor
 kt_amplitude(kt_options ops,  decay_kinematics kine)
-  : options(ops), kinematics(kine),
-    kt(ops, kine)
+  : amplitude(kine),
+    options(ops), kt(ops, kine)
   {};
 
 // Storing successive iterations of the KT equations
 vector<iteration> iters;
-
-// Storing all the relevant info of the decay particle
-decay_kinematics kinematics;
 
 void iterate();
 
@@ -55,6 +53,8 @@ void normalize(double gamma_exp);
 
 // Evaluate the total amplitude at some energys s and t
 complex<double> eval(double s, double t);
+void set_params(int n, const double *par)
+{};
 
 // Print the nth iteration
 void print_iteration(int n, int j, int m);

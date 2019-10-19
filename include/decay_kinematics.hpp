@@ -14,9 +14,6 @@
 
 #include "constants.hpp"
 
-#include "dalitz.cpp"
-#include "dalitz_fit.cpp"
-
 #include <TMath.h>
 #include <Math/SpecFuncMathMore.h>
 

@@ -119,7 +119,7 @@ void kt_amplitude::normalize(double gamma_exp)
 {
   cout << "Normalizing total amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
 
-  dalitz<kt_amplitude> d_plot(this);
+  dalitz d_plot(this);
   double gamma = d_plot.Gamma_total();
   normalization = sqrt(gamma_exp * 1.e-3 / gamma);
 

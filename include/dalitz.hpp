@@ -11,6 +11,7 @@
 #ifndef _DALITZ_
 #define _DALITZ_
 
+#include "amplitude.hpp"
 #include "constants.hpp"
 #include "utilities.hpp"
 
@@ -37,23 +38,16 @@ using std::endl;
 
 //-----------------------------------------------------------------------------
 // Define a Dalitz plot object with some other amplitude object containing a model.
-// Object argument must have a decay_kinematics object named kinematics as a public member or have dalitz as a friend class
-// and be callable with the function eval:
-//
-//  complex<double> eval (double, double)
-//  or
-//  double eval(double,double)
 //
 // Initiate a dalitz plot object with:
 // model_amp my_model;
-// dalitz<model_amp> my_dalitz(&my_model);
+// dalitz my_dalitz(&my_model);
 //-----------------------------------------------------------------------------
 
-template <class T>
 class dalitz
 {
 protected:
-  T * amp;
+  amplitude * amp;
   double normalization = 32. * pow(2.* M_PI * amp->kinematics.get_decayMass(), 3.);
   double offset = 0.00001;
 //-----------------------------------------------------------------------------
@@ -75,7 +69,7 @@ protected:
 //-----------------------------------------------------------------------------
 public:
   // Default Constructor
-  dalitz(T * my_amp) : amp(my_amp){};
+  dalitz(amplitude * my_amp) : amp(my_amp){};
 
 //--------------------------------------------------------------------------
   // Double differential cross section

@@ -11,29 +11,28 @@
 //-----------------------------------------------------------------------------
 // Calculate chi_squared
 // Normalized by the area of the Dalitz plot.
-template <class T, class F>
-double dalitz_fit<T, F>::chi_squared(const double *par)
+double dalitz_fit::chi_squared(const double *par)
 {
-  dalitz<T>::generate_weights();
+  dalitz::generate_weights();
 
   // Update parameters in polynomial expansion at the fitting step
   fit_amp->set_params(n_params, par);
 
   // Integrate over s
   double s_sum = 0.;
-  for (int i = 0; i < dalitz<T>::N_int(); i++)
+  for (int i = 0; i < dalitz::N_int(); i++)
   {
-    double s_i = dalitz<T>::s_abs[i];
+    double s_i = dalitz::s_abs[i];
     // Integrate over t
     double t_sum = 0.;
-    for (int j = 0; j < dalitz<T>::N_int(); j++)
+    for (int j = 0; j < dalitz::N_int(); j++)
     {
         complex<double> amp_ij, fit_ij;
         double t_ij, ampsqr_ij, fitsqr_ij;
 
-        t_ij = dalitz<T>::t_abs[i][j];
+        t_ij = dalitz::t_abs[i][j];
 
-        amp_ij = dalitz<T>::amp->eval(s_i, t_ij);
+        amp_ij = dalitz::amp->eval(s_i, t_ij);
         ampsqr_ij = abs(amp_ij * amp_ij);
 
         fit_ij = fit_amp->eval(s_i, t_ij);
@@ -42,25 +41,23 @@ double dalitz_fit<T, F>::chi_squared(const double *par)
         double tmp = (ampsqr_ij - fitsqr_ij);
 
         // Normalize to the center of the dalitz plot
-        double normalization = par[0] * abs(dalitz<T>::amp->kinematics.K_jlam(1, 1, dalitz<T>::s_c, dalitz<T>::t_c));
+        double normalization = par[0] * abs(dalitz::amp->kinematics.K_jlam(1, 1, dalitz::s_c, dalitz::t_c));
 
-        tmp /= dalitz<T>::amp->error_func(s_i, t_ij);
         tmp /= normalization * normalization;
 
-        t_sum += dalitz<T>::t_wgt[i][j] * tmp * tmp;
+        t_sum += dalitz::t_wgt[i][j] * tmp * tmp;
     };
-    s_sum += dalitz<T>::s_wgt[i] * t_sum;
+    s_sum += dalitz::s_wgt[i] * t_sum;
   };
 
-  double chi2 = s_sum / dalitz<T>::dalitz_area();;
+  double chi2 = s_sum / dalitz::dalitz_area();;
 
   return chi2;
 };
 
 // ---------------------------------------------------------------------------
 // Minimize the above chi_squared by calling Minuit2 in the ROOT::Math::Minimizer class
-template <class T, class F>
-void dalitz_fit<T, F>::extract_params(int eN)
+void dalitz_fit::extract_params(int eN)
 {
   ROOT::Math::Minimizer* minuit = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
   minuit->SetMaxFunctionCalls(10000000);
@@ -72,9 +69,9 @@ void dalitz_fit<T, F>::extract_params(int eN)
   minuit->SetFunction(fcn);
   cout << "dalitz_fit: Fitting";
 
-  if (dalitz<T>::amp->kinematics.get_ampName() != "")
+  if (dalitz::amp->kinematics.get_ampName() != "")
   {
-    cout << " " + dalitz<T>::amp->kinematics.get_ampName();
+    cout << " " + dalitz::amp->kinematics.get_ampName();
   }
    cout << " with " << n_params << " free parameters... \n";
 
@@ -98,8 +95,7 @@ void dalitz_fit<T, F>::extract_params(int eN)
 // ---------------------------------------------------------------------------
 // Print the results of a fit as a dalitz plot showing the % deviation from
 // my_amp and fit_amp
-template <class T, class F>
-void dalitz_fit<T, F>::print_deviation(string filename)
+void dalitz_fit::print_deviation(string filename)
 {
   gErrorIgnoreLevel = kWarning;
 
@@ -121,19 +117,19 @@ void dalitz_fit<T, F>::print_deviation(string filename)
 
   for (int i = 0; i < 100; i++)
   {
-    double si = (dalitz<T>::amp->kinematics.smin() + offset) + double(i) * s_step;
+    double si = (dalitz::amp->kinematics.smin() + offset) + double(i) * s_step;
     for(int j = 0; j < 100; j++)
     {
-     double t_step = (dalitz<T>::amp->kinematics.tmax(si) - 2. * offset - dalitz<T>::amp->kinematics.tmin(si)) / 100.;
-     double tij = dalitz<T>::amp->kinematics.tmin(si) + offset  + double(j) * t_step;
+     double t_step = (dalitz::amp->kinematics.tmax(si) - 2. * offset - dalitz::amp->kinematics.tmin(si)) / 100.;
+     double tij = dalitz::amp->kinematics.tmin(si) + offset  + double(j) * t_step;
 
-     complex<double> ampsqr = dalitz<T>::amp->eval(si, tij);
+     complex<double> ampsqr = dalitz::amp->eval(si, tij);
      complex<double> fitsqr = fit_amp->eval(si, tij);
      double dev = abs(ampsqr / fitsqr) - 1.;
      dev *= 100.;
 
-      output << std::left << setw(15) << dalitz<T>::amp->kinematics.x(si, tij)
-                          << setw(15) << dalitz<T>::amp->kinematics.y(si, tij)
+      output << std::left << setw(15) << dalitz::amp->kinematics.x(si, tij)
+                          << setw(15) << dalitz::amp->kinematics.y(si, tij)
                           << setw(15) << dev << endl;
     }
   }

@@ -9,8 +9,7 @@
 
 //-----------------------------------------------------------------------------
 // Routines related to integrating over dalitz region
-template <class T>
-void dalitz<T>::set_integration_points(int m)
+void dalitz::set_integration_points(int m)
 {
   n = m;
   cout << "Number of integration points changed to " << n << "... \n";
@@ -19,8 +18,7 @@ void dalitz<T>::set_integration_points(int m)
 
 // The gauleg function in aux_math.hpp indexes from 1 to N so thats why
 // these wrapper functions exist. Also to put them into vectors such that the number of points can change.
-template <class T>
-void dalitz<T>::generate_s_weights()
+void dalitz::generate_s_weights()
 {
   double weights[N_int() + 1], abscissas[N_int() + 1];
 
@@ -43,8 +41,7 @@ void dalitz<T>::generate_s_weights()
 };
 
 // Same but now the bounds in the t variable depend on s.
-template <class T>
-void dalitz<T>::generate_t_weights(vector<double> s)
+void dalitz::generate_t_weights(vector<double> s)
 {
   // Clear preexisting weights and abcsissas
   t_wgt.clear(); t_abs.clear();
@@ -73,8 +70,7 @@ void dalitz<T>::generate_t_weights(vector<double> s)
   T_WG_GENERATED = true;
 };
 
-template <class T>
-void dalitz<T>::generate_weights(){
+void dalitz::generate_weights(){
   if (S_WG_GENERATED == false)
   {
     generate_s_weights();
@@ -87,8 +83,7 @@ void dalitz<T>::generate_weights(){
 };
 
 // Calculate the area of the physical Dalitz region
-template <class T>
-double dalitz<T>::dalitz_area()
+double dalitz::dalitz_area()
 {
 double t_sum, s_sum, s_i, t_ij;
 generate_weights();
@@ -110,8 +105,7 @@ return s_sum;
 
 //-----------------------------------------------------------------------------
 // Doubly Differential Decay Width
-template <class T>
-double dalitz<T>::d2Gamma(double s, double t)
+double dalitz::d2Gamma(double s, double t)
 {
   complex<double> Fsqr = amp->eval(s, t);
   Fsqr *= Fsqr;
@@ -122,8 +116,7 @@ double dalitz<T>::d2Gamma(double s, double t)
 
 //-----------------------------------------------------------------------------
 // Integrated total decay width
-template <class T>
-double dalitz<T>::Gamma_total()
+double dalitz::Gamma_total()
 {
   generate_weights();
 
@@ -148,8 +141,7 @@ double dalitz<T>::Gamma_total()
 
 //-----------------------------------------------------------------------------
 // Make a pretty PDF file from an input file
-template<class T>
-void dalitz<T>::quick_dalitz(string file)
+void dalitz::quick_dalitz(string file)
 {
   TCanvas *c = new TCanvas("c", "c");
   TGraph2D *g = new TGraph2D(file.c_str());
@@ -166,14 +158,16 @@ void dalitz<T>::quick_dalitz(string file)
   file += ".pdf";
   c->Print(file.c_str());
 
+  cout << "Printed to: " << file << endl;
+  cout << endl;
+
   delete c;
   delete g;
 }
 
 //-----------------------------------------------------------------------------
 // Print out a txt file with the Dalitz plot and plot with ROOT
-template <class T>
-void dalitz<T>::plot(string options)
+void dalitz::plot(string options)
 {
   bool KSF = false, NORMED = false;
   // parse options string
@@ -188,16 +182,25 @@ void dalitz<T>::plot(string options)
   }
 
   // Command Line Message
-  gErrorIgnoreLevel = kWarning;
-  cout << "Plotting Dalitz Region";
+  cout << "\n";
+  cout << "Plotting ";
+
   if (amp->kinematics.get_ampName() != "")
   {
-    cout << " (" << amp->kinematics.get_ampName() << ")";
+    cout << "(" << amp->kinematics.get_ampName() << ")";
   }
-  cout << "... \n";
+  else
+  {
+    if (KSF == true) { cout << "KSF ";}
+    cout << "amplitude ";
+  }
+  if (NORMED == true) { cout << "normalized to center ";}
+  cout << "in Dalitz region... \n";
 
+  // File name
   std::string name = amp->kinematics.get_decayParticle();
-  if (KSF == true){name += "_KSF_";}
+  if (KSF == true){name += "_KSF";}
+  if (NORMED == true){name += "_N";}
   name += "_dalitz_plot.dat";
 
   std::ofstream output;
@@ -226,8 +229,7 @@ void dalitz<T>::plot(string options)
   }
 output.close();
 
-cout << "Output to : " << name << endl;
-cout << endl;
+cout << "Output to: " << name << endl;
 
 quick_dalitz(name);
 };

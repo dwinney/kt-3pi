@@ -125,7 +125,7 @@ complex<double> interpolation::operator ()(double s)
 void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
 {
   gErrorIgnoreLevel = kWarning;
-  
+
   vector<double> refx = vec_real(fx);
   vector<double> imfx = vec_imag(fx);
 
@@ -160,7 +160,54 @@ void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
 
   string namepdf = filename + ".pdf";
   c->Print(namepdf.c_str());
-  cout << "Printed to " << namepdf << "..." << std::endl;
+  cout << "Printed to:" << namepdf << std::endl;
 
   delete c, gRe, gIm;
 };
+
+//-----------------------------------------------------------------------------
+// Make a pretty PDF file from an input file
+// optional parameter is whether to plot using white color scheme to see % difference
+void quick_dplot(string file, bool DEV)
+{
+  gErrorIgnoreLevel = kWarning;
+  
+  TCanvas *c = new TCanvas("c", "c");
+  TGraph2D *g = new TGraph2D(file.c_str());
+
+  TH2D *h = g->GetHistogram();
+
+
+  if (DEV == true)
+  {
+    int NRGBs = 3, NCont = 512;
+    gStyle->SetNumberContours(NCont);
+    Double_t stops[NRGBs] = { 0.00, 0.50, 1.00 };
+    Double_t red[NRGBs]   = { 0.00, 1.00, 1.00 };
+    Double_t green[NRGBs] = { 0.00, 1.00, 0.00 };
+    Double_t blue[NRGBs]  = { 0.00, 1.00, 0.00 };
+    TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
+
+    h->SetMaximum(3.);
+    h->SetMinimum(-3.);
+  }
+  else
+  {
+    gStyle->SetPalette(kColorPrintableOnGrey);
+  }
+
+  h->SetAxisRange(-1., 1.,"Y");
+  h->SetAxisRange(-1., 1.,"X");
+  h->Draw("colz");
+
+  c->Modified();
+  file.erase(file.end() - 4, file.end());
+  file += ".pdf";
+  c->Print(file.c_str());
+
+  cout << "Printed to: " << file << std::endl;
+  cout << std::endl;
+
+  delete c;
+  delete g;
+}

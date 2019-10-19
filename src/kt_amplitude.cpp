@@ -129,7 +129,7 @@ void kt_amplitude::normalize(double gamma_exp)
 
 // ----------------------------------------------------------------------------
 // Print the nth iteration into a dat file.
-void kt_amplitude::print_iteration(int n, int j, int m)
+void kt_amplitude::plot_iteration(int n, int j, int m)
 {
 
   if (n > iters.size() - 1 ||  m > iters[n].isobars[j].subtractions.size() - 1)
@@ -137,9 +137,6 @@ void kt_amplitude::print_iteration(int n, int j, int m)
       cout << "isobar: Trying to print iteration that doesnt exist. Quitting..." << endl;
       exit(1);
   };
-
-  //Surpress ROOT messages
-  gErrorIgnoreLevel = kWarning;
 
   cout << "Printing the " + st_nd_rd(n) << " iteration with " << std::to_string(m) << " subtractions..." << endl;
 
@@ -177,7 +174,7 @@ void kt_amplitude::print_iteration(int n, int j, int m)
 
 // ----------------------------------------------------------------------------
 // Print total isobar including the set coefficients and combining subtractions
-void kt_amplitude::print_isobar(int n)
+void kt_amplitude::plot_isobar(int n)
 {
   if (n > iters.back().isobars.size() - 1)
   {

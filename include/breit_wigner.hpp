@@ -31,6 +31,7 @@ using std::setw;
 // Reltivistic Breit-Wigner from the KLOE analysis [hep-ex/0204013]
 // with finite-width corrections to VMD model of Rho decay
 // ---------------------------------------------------------------------------
+
 class breit_wigner : public amplitude
 {
 protected:
@@ -41,6 +42,7 @@ protected:
   complex<double> width(double s);
   complex<double> mom_pi(double s);
   complex<double> F(double x);
+  
 // ---------------------------------------------------------------------------
 public:
   breit_wigner(decay_kinematics dec)
@@ -65,7 +67,7 @@ public:
   void set_params(int n, const double * par);
   void print_params();
   void print();
-// ---------------------------------------------------------------------------
+
 };
 // ---------------------------------------------------------------------------
 

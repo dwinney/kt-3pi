@@ -28,12 +28,11 @@ complex<double> dispersion_integral::operator() (int j, int n, double s, int iep
   // if testing the angular_integral print file
   if (options.test_angular == true)
   {
-    cout << " -> test_angular enabled. Printing inhomogeneity..." << endl;
+    cout << " -> test_angular enabled." << endl;
     for (int i = 0; 2*i+1 <= options.max_spin; i++)
     {
-      angular_test(i, n);
+      plot_inhomogeneity(i, n);
     }
-    cout << "Done." << endl;
     exit(1);
   }
 
@@ -244,14 +243,15 @@ void dispersion_integral::pass_iteration(iteration * prev)
 
 // ----------------------------------------------------------------------------
 // Print the inhomogeneity
-void dispersion_integral::angular_test(int j, int n)
+void dispersion_integral::plot_inhomogeneity(int j, int n)
 {
-  //Surpress ROOT messages
-  gErrorIgnoreLevel = kWarning;
-
+  cout << endl;
+  cout << "Printing inhomogeneity..." << endl;
+  
   // Output to a datfile
   std::ofstream output;
-  string namedat = "spin_" + std::to_string(2*j+1) + "_inhomogeneity.dat";
+  string namedat = kinematics.get_decayParticle() + "_";
+  namedat += "spin_" + std::to_string(2*j+1) + "_inhomogeneity.dat";
   output.open(namedat.c_str());
 
   vector<double> s;
@@ -271,6 +271,7 @@ void dispersion_integral::angular_test(int j, int n)
 
   cout << "Output to: " << namedat << endl;
 
-  string namepdf = "spin_" + std::to_string(2*j+1) + "_inhomogeneity.pdf";
+  string namepdf = "spin_" + std::to_string(2*j+1) + "_inhomogeneity";
+
   quick_plot(s, fx, namepdf);
 };

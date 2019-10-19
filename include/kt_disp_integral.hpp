@@ -68,7 +68,7 @@ class dispersion_integral
     complex<double> disperse(int j, int n, double s, int ieps);
 
     // utility to print a dat file and plot of the inhomogneity
-    void angular_test(int j, int n);
+    void plot_inhomogeneity(int j, int n);
 
   public:
     // Default constructor

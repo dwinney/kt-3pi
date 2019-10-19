@@ -57,8 +57,8 @@ void set_params(int n, const double *par)
 {};
 
 // Print the nth iteration
-void print_iteration(int n, int j, int m);
-void print_isobar(int n);
+void plot_iteration(int n, int j, int m);
+void plot_isobar(int n);
 
 double error_func(double s, double t)
 {

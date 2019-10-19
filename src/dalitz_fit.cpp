@@ -95,22 +95,16 @@ void dalitz_fit::extract_params(int eN)
 // ---------------------------------------------------------------------------
 // Print the results of a fit as a dalitz plot showing the % deviation from
 // my_amp and fit_amp
-void dalitz_fit::print_deviation(string filename)
+void dalitz_fit::plot_deviation()
 {
-  gErrorIgnoreLevel = kWarning;
-
   // Command Line Message
-  cout << "Plotting Fit results... \n";
+  cout << "Plotting fit results with " << n_params << " free parameters... \n";
+
+  std::string filename = dalitz::amp->kinematics.get_decayParticle();
+  filename += "_" + std::to_string(n_params) + "_";
+  filename += "fit_deviation.dat";
 
   std::ofstream output;
-  if (filename == "")
-  {
-  filename += "fit_deviation_plot.dat";
-  }
-  else
-  {
-    filename += ".dat";
-  }
   output.open(filename.c_str());
 
   double s_step = (smax - smin - 2. * offset) / 100.;
@@ -133,38 +127,10 @@ void dalitz_fit::print_deviation(string filename)
                           << setw(15) << dev << endl;
     }
   }
-output.close();
+  output.close();
 
-cout << "Output to : " << filename << endl;
-cout << endl;
+  cout << "Output to : " << filename << endl;
 
-TCanvas *c = new TCanvas("c", "c");
-TGraph2D *g = new TGraph2D(filename.c_str());
+  quick_dplot(filename, true);
 
-TH2D *h = g->GetHistogram();
-
-int NRGBs = 3, NCont = 512;
-gStyle->SetNumberContours(NCont);
-Double_t stops[NRGBs] = { 0.00, 0.50, 1.00 };
-Double_t red[NRGBs]   = { 0.00, 1.00, 1.00 };
-Double_t green[NRGBs] = { 0.00, 1.00, 0.00 };
-Double_t blue[NRGBs]  = { 0.00, 1.00, 0.00 };
-TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
-
-h->SetMaximum(3.);
-h->SetMinimum(-3.);
-h->SetAxisRange(-1., 1.,"Y");
-h->SetAxisRange(-1., 1.,"X");
-h->SetTitle("");
-
-h->Draw("colz0");
-gStyle->SetNumberContours(215);
-
-c->Modified();
-filename.erase(filename.end() - 4, filename.end());
-filename += ".pdf";
-c->Print(filename.c_str());
-
-delete c;
-delete g, h;
 };

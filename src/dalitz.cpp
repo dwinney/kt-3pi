@@ -140,32 +140,6 @@ double dalitz::Gamma_total()
 };
 
 //-----------------------------------------------------------------------------
-// Make a pretty PDF file from an input file
-void dalitz::quick_dalitz(string file)
-{
-  TCanvas *c = new TCanvas("c", "c");
-  TGraph2D *g = new TGraph2D(file.c_str());
-
-  TH2D *h = g->GetHistogram();
-  h->SetAxisRange(-1., 1.,"Y");
-  h->SetAxisRange(-1., 1.,"X");
-
-  h->Draw("colz");
-  gStyle->SetPalette(kColorPrintableOnGrey);
-
-  c->Modified();
-  file.erase(file.end() - 4, file.end());
-  file += ".pdf";
-  c->Print(file.c_str());
-
-  cout << "Printed to: " << file << endl;
-  cout << endl;
-
-  delete c;
-  delete g;
-}
-
-//-----------------------------------------------------------------------------
 // Print out a txt file with the Dalitz plot and plot with ROOT
 void dalitz::plot(string options)
 {
@@ -231,5 +205,5 @@ output.close();
 
 cout << "Output to: " << name << endl;
 
-quick_dalitz(name);
+quick_dplot(name);
 };

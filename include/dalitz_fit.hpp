@@ -1,7 +1,5 @@
-// Routines to fit a lineshape to another lineshape by minimizing a chi2-type integral over
+// Routines to fit a lineshape to another by minimizing a chi2-type integral over
 // the entire dalitz region
-//
-// Dependencies: dalitz.hpp, ROOT
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -12,6 +10,7 @@
 #define _POLY_FIT_
 
 #include "dalitz.hpp"
+
 #include <string>
 
 using std::string;
@@ -43,9 +42,13 @@ public:
   : dalitz(my_amp), fit_amp(fit_obj)
   {};
 
+  // print currently stored parameters to the command line
   void print_params(int a = 0);
-  void print_deviation(string filename = "");
 
+  // plot the % deviation from resulting fit and the input amplitude
+  void plot_deviation();
+
+  // preform fit of N free parameters
   void extract_params(int N);
 
   //Utility to change print level in TMinuit, default is to surpress all messages

@@ -16,6 +16,8 @@
 #include <string>
 
 #include <Math/Interpolator.h>
+#include <TH2.h>
+#include <TGraph2D.h>
 #include <TCanvas.h>
 #include <TGraph.h>
 #include <TLegend.h>
@@ -44,8 +46,12 @@ std::vector<double> vec_real( std::vector<std::complex<double>> fx);
 std::vector<double> vec_imag( std::vector<std::complex<double>> fx);
 
 //-----------------------------------------------------------------------------
-// Simple function to call ROOT to print a plot
+// Simple function to call ROOT to print a plot of real and imag parts
 void quick_plot(vector<double> s, vector<complex<double>> fx, string filename);
+
+// make a symmetric dalitz plot from a file
+// optional parameter is whether to plot using white color scheme to see % difference
+void quick_dplot(string file, bool DEV = false);
 
 //-----------------------------------------------------------------------------
 // Wrapper class to better interface with ROOT's interpolation class

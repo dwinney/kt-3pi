@@ -1,6 +1,8 @@
 // Abstract class to define an amplitude to easier interact with things like the
 // Dalitz object.
 //
+// Any such amplitude should inherit from this class publically and override
+// all virtual functions
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -11,6 +13,7 @@
 #define _AMPLITUDE_
 
 #include <complex>
+
 #include "decay_kinematics.hpp"
 #include "constants.hpp"
 
@@ -24,7 +27,7 @@ public:
   // Store all kinematic functions and quantities for reaction
   decay_kinematics kinematics;
 
-  //
+  // Method to set any free parameters for fitting routines
   virtual void set_params(int n, const double *par) = 0;
 
   // Evalute the amplitude at some energies s, t in the Dalitz region

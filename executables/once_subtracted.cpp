@@ -15,6 +15,7 @@ using std::endl;
 int main()
 {
   cout << endl;
+  cout << "-----------------------------------------------------------" << endl;
 
   // Set up the decay kinematics for the amplitude
   decay_kinematics vector_meson;
@@ -24,7 +25,7 @@ int main()
 
   // Options parameters for the KT equations
   kt_options options;
-  options.max_iters = 0;
+  options.max_iters = 1;
   options.max_subs = 0;
   options.max_spin = 1;
   options.interp_cutoff = 1.3;
@@ -35,14 +36,14 @@ int main()
   kt_pwave.iterate();
 
   kt_pwave.normalize(8.49);
-  kt_pwave.print_isobar(0);
+  kt_pwave.plot_isobar(0);
 
-  dalitz plot(&kt_pwave);
-  plot.plot("KSF normalized");
-  plot.plot("normalized");
-  plot.plot();
+  dalitz d_plot(&kt_pwave);
+  d_plot.plot("KSF normalized");
+  d_plot.plot("normalized");
 
-  cout << endl;
+  cout << "-----------------------------------------------------------" << endl;
+
   cout << "Extracting Dalitz Plot Parameters..." << endl;
   cout << endl;
 
@@ -52,15 +53,18 @@ int main()
 
   fitter.extract_params(2);
   fit_results.print_params();
-  fitter.print_deviation("fit_dev_1");
+  fitter.plot_deviation();
 
   fitter.extract_params(3);
   fit_results.print_params();
-  fitter.print_deviation("fit_dev_2");
+  fitter.plot_deviation();
 
   fitter.extract_params(4);
   fit_results.print_params();
-  fitter.print_deviation("fit_dev_3");
+  fitter.plot_deviation();
+
+  cout << "End." << endl;
+  cout << "-----------------------------------------------------------" << endl;
 
   return 1.;
 };

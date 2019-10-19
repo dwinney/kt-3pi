@@ -21,12 +21,6 @@
 #include <iomanip>
 #include <sstream>
 
-#include <TH2.h>
-#include <TGraph2D.h>
-#include <TCanvas.h>
-#include <TStyle.h>
-#include <TError.h>
-
 #include "Math/Minimizer.h"
 #include "Math/Factory.h"
 #include "Math/Functor.h"
@@ -76,12 +70,10 @@ public:
   double d2Gamma(double s, double t);
   double Gamma_total();
 
+  // Center of the dalitz region
   double s_c = amp->kinematics.s_c();
   double t_c = amp->kinematics.t_c();
 //--------------------------------------------------------------------------
-// Misc Utilities for making plots;
-  void quick_dalitz(string file);
-
   // Print out a txt file with the Dalitz plot and plot with ROOT
   void plot(string options = "");
 

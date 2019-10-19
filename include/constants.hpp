@@ -1,8 +1,6 @@
 // Header file with global phyiscal constants.
 // Everything is in GeV unless explicitly stated otherwise.
 //
-// Dependencies: None
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu

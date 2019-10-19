@@ -11,20 +11,28 @@
 
 #include "decay_kinematics.hpp"
 
-// Mandelstam u in terms of the other two variables
-double decay_kinematics::u_man(double s, double t)
+// Mandelstam t in terms of s-channel CM frame variables
+complex<double> decay_kinematics::t_man(complex<double> s, complex<double> zs)
+{
+  complex<double> ks = sqrt(Kallen_pi(s) * Kallen_x(s)) / (4. * s);
+  return (3. * mPi * mPi + mDec * mDec  - s) / 2. + 2. * ks * zs;
+};
+
+// Mandelstam u in terms of the other two invariant variables
+complex<double> decay_kinematics::u_man(complex<double> s, complex<double> t)
 {
  return 3.*mPi*mPi + mDec*mDec - s - t;
 };
+
 // Lorentz Covariant Kibble function
-complex<double> decay_kinematics::Kibble(double s, double t)
+complex<double> decay_kinematics::Kibble(complex<double> s, complex<double> t)
 {
-    double u = u_man(s,t);
-    double lambda = (s * t * u ) - mPi*mPi * (mDec*mDec - mPi*mPi)*(mDec*mDec - mPi*mPi);
+    complex<double> u = u_man(s,t);
+    complex<double> lambda = (s * t * u) - mPi*mPi * (mDec*mDec - mPi*mPi)*(mDec*mDec - mPi*mPi);
     return xr * lambda;
 };
 
-double decay_kinematics::Kallen(double x, double y, double z)
+complex<double> decay_kinematics::Kallen(complex<double> x, complex<double> y, complex<double> z)
 {
   return x*x + y*y + z*z - 2.*(x*y + x*z + z*y);
 };
@@ -33,26 +41,27 @@ double decay_kinematics::Kallen(double x, double y, double z)
 // Scattering angles in the s, t, and u center-of-mass frames
 double decay_kinematics::z_s(double s, double t)
 {
-  double numerator = s* (t - u_man(s,t));
-  double denominator = sqrt(Kallen_x(s) * Kallen_pi(s));
+  complex<double> ks = sqrt(Kallen_x(s) * Kallen_pi(s)) / s;
+  complex<double> result =  (t - u_man(s,t)) / ks;
 
-  return numerator / denominator;
+  if (abs(imag(result)) > 0.0001)
+  {
+    cout << "z_s: error arguments are complex. Quitting..." << endl;
+    exit(1);
+  }
+
+  return real(result);
 };
 
 double decay_kinematics::z_t(double s, double t)
 {
-  double numerator = t* (s - u_man(s,t));
-  double denominator = sqrt(Kallen_x(t) * Kallen_pi(t));
-
-  return numerator / denominator;
+  return z_s(t , s);
 };
 
 double decay_kinematics::z_u(double s, double t)
 {
-  double numerator = u_man(s,t) * (t - s);
-  double denominator = sqrt(Kallen_x(u_man(s,t)) * Kallen_pi(u_man(s,t)));
-
-  return numerator / denominator;
+  double u = real(u_man(s,t));
+  return z_s(u, t);
 };
 
 // ---------------------------------------------------------------------------
@@ -94,10 +103,21 @@ double decay_kinematics::tmax(double s)
 
 // Outputs the Wigner little-d function appropriate for the decay into three scalar,
 // d^j_{lambda, 0}(z)
-double decay_kinematics::d_func(int j, int l, double z)
+double decay_kinematics::d_func0(int j, int l, double z)
 {
   double prefactor = TMath::Factorial(j - l) / TMath::Factorial(j + l);
-  double legendre = ROOT::Math::assoc_legendre(j, l, z);
+
+  double legendre;
+  if (l >= 0)
+  {
+    legendre = ROOT::Math::assoc_legendre(j, l, z);
+  }
+  else
+  {
+    legendre = ROOT::Math::assoc_legendre(j, -l, z);
+    legendre *= pow(-1., double(l));
+    legendre *= TMath::Factorial(j - l) / TMath::Factorial(j + l);
+  }
 
   return sqrt(2.) * sqrt(prefactor) * legendre;
 };
@@ -105,19 +125,64 @@ double decay_kinematics::d_func(int j, int l, double z)
 // Outputs d_hat the kinematic-singularity-free d_function
 double decay_kinematics::d_hat(int j, int l, double z)
 {
-  double d_lam = d_func(j, l, z);
-  double half_angle_factor = pow((1. - z*z), double(l)/2.);
+  double d_lam = d_func0(j, l, z);
+  double half_angle_factor = pow((1. - z*z), abs(double(l))/2.);
 
   return d_lam / half_angle_factor;
 };
 
+complex<double> decay_kinematics::d_hat(int j, int l, complex<double> z)
+{
+  if (l == 1)
+  {
+    switch (j)
+    {
+    case 1: return 1.;
+    case 3: return 3. * z;
+    default: cout << "d_hat: complex legendres not coded that far yet... \n";
+              exit(0);
+    }
+  }
+  else
+  {
+    cout << "d_hat: complex legendres not coded that far yet... \n";
+    exit(0);
+  }
+};
+
+//-----------------------------------------------------------------------------
+// Angular momentum barrier factor
+complex<double> decay_kinematics::barrier_factor(int j, int lam, complex<double> s)
+{
+  double dlam = double(lam), dj = double(j);
+
+  // Angular momentum barrier factor
+  complex<double> temp2 = sqrt(Kallen_x(s) * Kallen_pi(s));
+  return pow(temp2, dj - abs(dlam));
+};
+
 //-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes
-// TODO: generalize
-double decay_kinematics::K_lambda(int lam, double s, double t)
+// helicity projection : Lambda
+// spin projection : j > 0
+complex<double> decay_kinematics::K_jlam(int j, int lam, complex<double> s, complex<double> zs)
 {
-  double temp = abs(Kibble(s,t) / 4.);
-  double result = pow(sqrt(temp), double(lam));
+  if (j < std::abs(lam))
+  {
+    cout << "K_jlam: j < |lambda| is not allowed. Quitting..." << endl;
+    exit(1);
+  }
+
+  double dlam = double(lam), dj = double(j);
+
+  // Half angle factors and K factors
+  complex<double> temp = Kibble(s, t_man(s, zs)) / 4.;
+  complex<double> result = pow(sqrt(temp), abs(dlam));
+
+  // LS - lambda little group factor
+  int Yx = qn_J - (1 + get_naturality())/2;
+  complex<double> temp3 = sqrt(Kallen_x(s));
+  result *= pow(temp3, abs(dj - double(Yx)) - dj);
 
   return result;
 };
@@ -127,7 +192,7 @@ double decay_kinematics::K_lambda(int lam, double s, double t)
 double decay_kinematics::x(double s, double t)
 {
   double temp;
-  temp = sqrt(3.) * (t - u_man(s,t));
+  temp = sqrt(3.) * real((t - u_man(s,t)));
   return temp * d_norm();
 };
 
@@ -137,33 +202,34 @@ double decay_kinematics::y(double s, double t)
   temp = 3. * (s_c() - s);
   return temp * d_norm();
 };
+
 //-----------------------------------------------------------------------------
 // Lorentz Invariant dimensionless parameters in terms of polar variables
-double decay_kinematics::x_polar(double z, double theta)
+double decay_kinematics::x_polar(double r, double phi)
 {
-  return sqrt(z) * cos(theta);
+  return sqrt(r) * cos(phi);
 };
 
-double decay_kinematics::y_polar(double z, double theta)
+double decay_kinematics::y_polar(double r, double phi)
 {
-  return sqrt(z) * sin(theta);
+  return sqrt(r) * sin(phi);
 };
 //-----------------------------------------------------------------------------
-// Inverted to get z and theta in terms of s and t
-double decay_kinematics::z(double s, double t)
+// Inverted to get r and phi in terms of s and t
+double decay_kinematics::r(double s, double t)
 {
-    double tmp1, tmp2;
-    tmp1 = x(s,t);
-    tmp2 = y(s,t);
-    return tmp1 * tmp1 + tmp2 * tmp2;
+    double X, Y;
+    X = x(s,t);
+    Y = y(s,t);
+    return X * X + Y * Y;
 };
 
-double decay_kinematics::theta(double s, double t)
+double decay_kinematics::phi(double s, double t)
 {
   double result = atan2(y(s,t), x(s,t));
-  // if (temp3 < 0.0)
-  // {
-  //   temp3 += 2. * M_PI; // Map [-pi,pi] to [0, 2pi]
-  // }
+  if (result < 0.0)
+  {
+    result += 2. * M_PI; // Map [-pi,pi] to [0, 2pi]
+  }
   return result;
 };

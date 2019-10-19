@@ -1,6 +1,4 @@
-// Class definitions for KT formalism, including the rescattering integral and KT amplitude
-//
-// Dependencies: kt_isobar.hpp
+// Amplitude class that assembles all isobars togethers.
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -14,28 +12,58 @@
 #include <complex>
 #include <vector>
 
+#include "amplitude.hpp"
 #include "kt_isobar.hpp"
+#include "kt_equations.hpp"
 #include "kt_options.hpp"
+#include "dalitz.hpp"
 
 //-----------------------------------------------------------------------------
 // The kt class combines isobars together.
-class kt_amplitude
+// Requires a kt_options object which contains all relevant information on
+// subtractions and spin sums, and a decay_kinematics for kinematic quantities
+//-----------------------------------------------------------------------------
+
+class kt_amplitude : public amplitude
 {
-protected:
+private:
 // The maximum number of iterations of the KT integral and the maximal spin_projection
 kt_options options;
+kt_equations kt;
 
-// Storing all the relevant info of the decay particle
-decay_kinematics kinematics;
+double normalization = 1.;
 
-// Here the isobars are stored. Only one dimensional vector for now (omega case), need to make more when isospin is involved.
-vector<isobar> isobars;
+void start();
 
 //-----------------------------------------------------------------------------
 public:
+// Constructor
 kt_amplitude(kt_options ops,  decay_kinematics kine)
-  : options(ops)
+  : amplitude(kine),
+    options(ops), kt(ops, kine)
   {};
+
+// Storing successive iterations of the KT equations
+vector<iteration> iters;
+
+void iterate();
+
+// Normalize to some experimental value
+void normalize(double gamma_exp);
+
+// Evaluate the total amplitude at some energys s and t
+complex<double> eval(double s, double t);
+void set_params(int n, const double *par)
+{};
+
+// Print the nth iteration
+void print_iteration(int n, int j, int m);
+void print_isobar(int n);
+
+double error_func(double s, double t)
+{
+  return 1.;
+};
 
 //-----------------------------------------------------------------------------
 };

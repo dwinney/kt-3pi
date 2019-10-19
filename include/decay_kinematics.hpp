@@ -14,9 +14,6 @@
 
 #include "constants.hpp"
 
-#include "dalitz.cpp"
-#include "dalitz_fit.cpp"
-
 #include <TMath.h>
 #include <Math/SpecFuncMathMore.h>
 
@@ -106,6 +103,18 @@ double get_decayMass()
   return mDec;
 };
 
+int get_naturality()
+{
+  if (qn_P == pow(-1, qn_J))
+  {
+    return 1;
+  }
+  else
+  {
+    return -1;
+  }
+};
+
 string get_ampName()
 {
   return amp_name;
@@ -143,17 +152,19 @@ string get_JPC()
 
 //-----------------------------------------------------------------------------
 // Kinematic Functions
-double u_man(double s, double t); // Mandelstam u
-complex<double> Kibble(double s, double t); // Lorentz Invariant Kibble Function
+complex<double> t_man(complex<double> s, complex<double> zs); /// Mandelstam t in terms of s-channel CM variables
+complex<double> u_man(complex<double> s, complex<double> t); // Mandelstam u
 
-double Kallen(double x, double y, double z); // Kallen triangle function
+complex<double> Kibble(complex<double> s, complex<double> t); // Lorentz Invariant Kibble Function
+complex<double> Kallen(complex<double> x, complex<double> y, complex<double> z); // Kallen triangle function
 
-//two relevant kallen functions
-double Kallen_x(double s)
+// aliases for the two relevant kallen functions
+complex<double> Kallen_x(complex<double> s)
 {
   return Kallen(s, mDec*mDec, mPi*mPi);
 };
-double Kallen_pi(double s)
+
+complex<double> Kallen_pi(complex<double> s)
 {
   return Kallen(s, mPi*mPi, mPi*mPi);
 };
@@ -185,14 +196,16 @@ double pseudo_threshold()
 
 // Outputs the Wigner little-d function appropriate for the decay into three scalar,
 // d^j_{lambda, 0}(z)
-double d_func(int j, int l, double z);
+double d_func0(int j, int l, double z);
 
 // Outputs d_hat the kinematic-singularity-free d_function
 double d_hat(int j, int l, double z);
+complex<double> d_hat(int j, int l, complex<double> z);
 
 //-----------------------------------------------------------------------------
 // Kinematic Singularities of Helicity amplitudes
-double K_lambda(int lam, double s, double t);
+complex<double> barrier_factor(int j, int lam, complex<double> s);
+complex<double> K_jlam(int j, int lam, complex<double> s, complex<double> zs);
 
 //-----------------------------------------------------------------------------
 // Dalitz region limits
@@ -225,11 +238,11 @@ double d_norm(){
 double x(double s, double t);
 double y(double s, double t);
 
-double x_polar(double z, double theta);
-double y_polar(double z, double theta);
+double x_polar(double r, double phi);
+double y_polar(double r, double phi);
 
-double z(double s, double t);
-double theta(double s, double t);
+double r(double s, double t);
+double phi(double s, double t);
 };
 
 #endif

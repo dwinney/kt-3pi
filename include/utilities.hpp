@@ -1,28 +1,34 @@
-// Auxilary Math Equations
-//
-// Dependencies: None
+// Misc utility functions and classes
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
 // -----------------------------------------------------------------------------
 
-#ifndef _MATH_
-#define _MATH_
+#ifndef _UTIL_
+#define _UTIL_
 
 #include <complex>
 #include <vector>
 #include <iterator>
 #include <cmath>
 #include <iostream>
+#include <string>
 
-#include "Math/Interpolator.h"
+#include <Math/Interpolator.h>
+#include <TCanvas.h>
+#include <TGraph.h>
+#include <TLegend.h>
+#include <TStyle.h>
+#include <TError.h>
 
+using std::string;
 using std::vector;
+using std::cout;
 using std::complex;
 
 //-----------------------------------------------------------------------------
-// Not really math but given int n, outputs right english string
+// given int n, outputs right english string
 // "1st" vs "2nd" vs "3rd" etc...
 // :)
 std::string st_nd_rd(int n);
@@ -36,6 +42,10 @@ void gauleg(double x1, double x2, double x[], double w[], int n);
 // containing only the real or imaginary parts.
 std::vector<double> vec_real( std::vector<std::complex<double>> fx);
 std::vector<double> vec_imag( std::vector<std::complex<double>> fx);
+
+//-----------------------------------------------------------------------------
+// Simple function to call ROOT to print a plot
+void quick_plot(vector<double> s, vector<complex<double>> fx, string filename);
 
 //-----------------------------------------------------------------------------
 // Wrapper class to better interface with ROOT's interpolation class

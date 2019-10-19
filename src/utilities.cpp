@@ -7,7 +7,7 @@
 // Email:        dwinney@iu.edu
 // -----------------------------------------------------------------------------
 
-#include "aux_math.hpp"
+#include "utilities.hpp"
 
 //-----------------------------------------------------------------------------
 // Not really math but given int n, outputs right english string
@@ -112,9 +112,55 @@ std::vector<double> vec_imag(std::vector<std::complex<double>> fx)
   return result;
 };
 
+//-----------------------------------------------------------------------------
 // Evaluate the interpolation
 complex<double> interpolation::operator ()(double s)
 {
   complex<double> result(r_inter.Eval(s), i_inter.Eval(s));
   return result;
+};
+
+//-----------------------------------------------------------------------------
+// Simple function to call ROOT to print a plot
+void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
+{
+  gErrorIgnoreLevel = kWarning;
+  
+  vector<double> refx = vec_real(fx);
+  vector<double> imfx = vec_imag(fx);
+
+  TCanvas *c = new TCanvas("c", "c");
+  c->Divide(1,2);
+
+  TGraph *gRe   = new TGraph(s.size(), &(s[0]), &(refx[0]));
+  TGraph *gIm   = new TGraph(s.size(), &(s[0]), &(imfx[0]));
+
+  TLegend* lRe = new TLegend(0.73,0.77,0.85,0.85);
+  TLegend* lIm = new TLegend(0.69,0.77,0.85,0.85);
+
+  c->cd(1);
+  gRe->SetTitle(" ");
+  gRe->SetLineStyle(2);
+  gRe->SetLineWidth(2);
+  gRe->SetLineColor(kBlue);
+  gRe->Draw("AL");
+  lRe->AddEntry(gRe, "REAL PART", "");
+  lRe->Draw("same");
+
+  c->cd(2);
+  gIm->SetTitle("");
+  gIm->SetLineStyle(2);
+  gIm->SetLineWidth(2);
+  gIm->SetLineColor(kRed);
+  gIm->Draw("AL");
+  lIm->AddEntry(gIm, "IMAGINARY PART", "");
+  lIm->Draw("same");
+
+  c->Modified();
+
+  string namepdf = filename + ".pdf";
+  c->Print(namepdf.c_str());
+  cout << "Printed to " << namepdf << "..." << std::endl;
+
+  delete c, gRe, gIm;
 };

@@ -16,7 +16,6 @@
 #include "kt_options.hpp"
 #include "kt_iteration.hpp"
 #include "decay_kinematics.hpp"
-#include "aux_math.hpp"
 #include "omnes.hpp"
 
 #include <TCanvas.h>
@@ -58,12 +57,12 @@ private:
   double b = kinematics.threshold();
 
 protected:
-  complex<double> k(double s); //Analytically continued k-momentum function
-  complex<double> z_s(double s, complex<double> t); // Scattering angle in s-channel
+  complex<double> k(complex<double> s); //Analytically continued k-momentum function
+  complex<double> sine_sqr(double s, complex<double> t); // Scattering angle in s-channel
 
   // Kinematic kernel
   // This can be extended to have isospin and helicity dependence
-  complex<double> kernel(double s, complex<double> t);
+  complex<double> kernel(int j, int lam, int jp, int lamp, double s, complex<double> t);
 
   // Bounds of integration
   complex<double> t_minus(double s);
@@ -72,10 +71,10 @@ protected:
   // Integration regions. Naming convention match Igor Danilkin's mathematica notebook for clarity
   // a = pseudo_thresh
   // b = threshold
-  complex<double> integ_sthPi_a0(int n, double s);
-  complex<double> integ_a0_a(int n, double s);
-  complex<double> integ_a_b(int n, double s);
-  complex<double> integ_b(int n, double s);
+  complex<double> integ_sthPi_a0(int j, int n, double s);
+  complex<double> integ_a0_a(int j, int n, double s);
+  complex<double> integ_a_b(int j, int n, double s);
+  complex<double> integ_b(int j, int n, double s);
 
 public:
   // Default constructor
@@ -84,7 +83,7 @@ public:
    {};
 
   // Evaluate the inhomogenous contribution at a given energy
-  complex<double> operator() (int n, double s);
+  complex<double> operator() (int j, int n, double s);
 
   void pass_iteration(iteration * prev);
 };

@@ -1,5 +1,6 @@
 #include "kt_amplitude.hpp"
 #include "decay_kinematics.hpp"
+#include "dalitz.hpp"
 #include "dalitz_fit.hpp"
 #include "poly_exp.hpp"
 #include "breit_wigner.hpp"
@@ -18,44 +19,48 @@ int main()
   // Set up the decay kinematics for the amplitude
   decay_kinematics vector_meson;
     vector_meson.set_decayJPC(1, -1, -1);
-    vector_meson.set_decayMass(.780);
+    vector_meson.set_decayMass(0.78);
     vector_meson.set_decayParticle("omega");
 
-  // Options parameters for the KT euqations
+  // Options parameters for the KT equations
   kt_options options;
-  options.max_iters = 3;
+  options.max_iters = 0;
   options.max_subs = 0;
+  options.max_spin = 1;
+  options.interp_cutoff = 1.3;
   options.use_conformal = false;
   // options.test_angular = true;
 
-  // Omega dominated by single isobar, j = 1, I = 1, lambda = 1
-  // in general this would be a KT object with Jmax and helicity dependence
-  isobar kt_pwave(1, 1, 1, options, vector_meson);
+  kt_amplitude kt_pwave(options, vector_meson);
   kt_pwave.iterate();
-  // kt_pwave.print_iteration(0, 0);
-  // kt_pwave.print_iteration(options.max_iters, 0);
 
-  kt_pwave.normalize(7.56);
-  kt_pwave.print();
+  kt_pwave.normalize(8.49);
+  kt_pwave.print_isobar(0);
+
+  dalitz plot(&kt_pwave);
+  plot.plot("KSF normalized");
+  plot.plot("normalized");
+  plot.plot();
 
   cout << endl;
   cout << "Extracting Dalitz Plot Parameters..." << endl;
   cout << endl;
 
   poly_exp fit_results(vector_meson);
-  dalitz_fit<isobar,poly_exp> fitter(&kt_pwave, &fit_results);
+
+  dalitz_fit fitter(&kt_pwave, &fit_results);
 
   fitter.extract_params(2);
   fit_results.print_params();
-  // fitter.print_deviation("fit_dev_1");
+  fitter.print_deviation("fit_dev_1");
 
   fitter.extract_params(3);
   fit_results.print_params();
-  // fitter.print_deviation("fit_dev_2");
+  fitter.print_deviation("fit_dev_2");
 
   fitter.extract_params(4);
   fit_results.print_params();
-  // fitter.print_deviation("fit_dev_3");
+  fitter.print_deviation("fit_dev_3");
 
   return 1.;
 };

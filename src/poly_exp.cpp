@@ -10,18 +10,22 @@
 #include "poly_exp.hpp"
 
 complex<double> poly_exp::eval(double s, double t)
-  {
-    double zs = kinematics.z(s,t);
-    double thetas =  kinematics.theta(s,t);
+{
+  double rs = kinematics.r(s,t);
+  double phis =  kinematics.phi(s,t);
 
-    complex<double> temp = xr;
-    temp += 2. * alpha * zs * scale;
-    temp += 2. * beta * scale * pow(zs, 1.5) * sin(3. * thetas);
-    temp += 2. * gamma * scale * zs * zs;
-    temp += 2. * delta * scale * pow(zs, 2.5) * std::sin(3. * thetas);
+  // cout << setw(10) << s << setw(10) << t << setw(10) << rs << endl;
+  complex<double> temp = xr;
+  temp += 2. * alpha * rs * scale;
+  temp += 2. * beta * scale * pow(rs, 1.5) * sin(3. * phis);
+  temp += 2. * gamma * scale * rs * rs;
+  temp += 2. * delta * scale * pow(rs, 2.5) * std::sin(3. * phis);
 
-    return Norm * kinematics.K_lambda(1., s, t) * sqrt(temp);
-  };
+  complex<double> result = Norm * sqrt(temp);
+  result *= kinematics.K_jlam(1, 1, s, kinematics.z_s(s,t));
+
+  return result;
+};
 
 void poly_exp::set_params(int n, const double *par)
 {
@@ -52,12 +56,12 @@ double poly_exp::error_func(double s, double t)
   if (ERROR == true)
   {
     double result;
-    double zs = kinematics.z(s,t);
-    double thetas =  kinematics.theta(s,t);
+    double rs = kinematics.r(s,t);
+    double phis =  kinematics.phi(s,t);
 
-    result = pow(2. * zs * dalpha, 2.);
-    result += zs * zs * zs * pow(2. * std::sin(3. * thetas) * dbeta, 2.);
-    result += pow(2. * zs * zs * dgamma, 2.);
+    result = pow(2. * rs * dalpha, 2.);
+    result += rs * rs * rs * pow(2. * std::sin(3. * phis) * dbeta, 2.);
+    result += pow(2. * rs * rs * dgamma, 2.);
 
     return sqrt(result);
   }
@@ -87,7 +91,7 @@ void poly_exp::print_params(int a)
 
 void poly_exp::normalize(double gamma_exp)
 {
-  dalitz<poly_exp> d_plot(this);
+  dalitz d_plot(this);
   double gamma = d_plot.Gamma_total();
   Norm = sqrt(gamma_exp * 1.e-3 / gamma);
 };

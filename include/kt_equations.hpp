@@ -8,8 +8,6 @@
 // The angular integral is done by explicitly by analytical continuing the momenta and integrating over
 // the complex plane see "kt_ang_integral.hpp"
 //
-// Dependencies: kt_iteration, kt_ang_integral, aux_math, omnes
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
@@ -18,11 +16,11 @@
 #ifndef _KT_EQ_
 #define _KT_EQ_
 
-#include "kt_iteration.hpp"
 #include "kt_options.hpp"
+#include "kt_isobar.hpp"
 #include "kt_ang_integral.hpp"
 #include "kt_disp_integral.hpp"
-#include "aux_math.hpp"
+#include "utilities.hpp"
 #include "omnes.hpp"
 
 // ---------------------------------------------------------------------------
@@ -38,35 +36,31 @@ class kt_equations
 {
 private:
   friend class isobar;
+
   // This object holds all the relevant kinematic quantities such as masses and QN's
   decay_kinematics kinematics;
+
+  // This object holds all user-input information
+  // and a function to print the settings to command line
   kt_options options;
+  void print_options();
 
   // A method for evaluating the unitarity correction, i.e. the dispersion integral over the discontinuity.
   dispersion_integral disp;
   subtraction_polynomial poly;
 
   // In interpolalations exclude an interval around the pseudo_threshold
-  double exc = 0.05;
+  double exc = 0.055;
+  isobar iterate_isobar(iteration * prev, int j);
 
 public:
   // TODO: KT equations depend on spin projection and helicity in general
-  kt_equations(decay_kinematics dec, kt_options ops)
+  kt_equations(kt_options ops, decay_kinematics dec)
   : kinematics(dec), options(ops), disp(ops, dec),
     poly(options.use_conformal)
   {
-    cout << "Using KT equations for ";
-    if (dec.get_decayParticle() != "")
-    {
-      cout << dec.get_decayParticle() << ", ";
-    }
-    cout << "Mass = " << dec.get_decayMass() << " GeV, ";
-    cout << "J^PC = " << dec.get_JPC() << endl;
-    cout << "-> with ";
-    cout << options.max_iters << " Iterations, ";
-    cout << options.max_subs << " Subtractions." << endl;
-    cout << std::boolalpha << "-> with USE_CONFORMAL = " << options.use_conformal << "." << endl;
-   };
+    print_options();
+  };
 
   // Calculate the next iteration from the previous one
   iteration iterate(iteration * prev);

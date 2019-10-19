@@ -11,12 +11,14 @@
 #define _POLY_
 
 #include "decay_kinematics.hpp"
+#include "amplitude.hpp"
+#include "dalitz.hpp"
 
 #include <iomanip>
 
 using std::setw;
 
-class poly_exp
+class poly_exp : public amplitude
 {
 protected:
   double scale = 1.e-3;
@@ -30,19 +32,17 @@ protected:
 public:
   // Default constructor
   poly_exp(decay_kinematics dec)
-  : kinematics(dec)
+  : amplitude(dec)
   {};
 
   // Constructor with number of params and an array
   poly_exp(int n, const double * par, decay_kinematics dec)
-  : kinematics(dec)
+  : amplitude(dec)
   {
     set_params(n, par);
   };
 
-  decay_kinematics kinematics;
-
-  // Evaluate amplitude squared
+  // Evaluate amplitude
   complex<double> eval(double s, double t);
 
   bool ERROR = false;

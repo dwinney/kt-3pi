@@ -62,7 +62,7 @@ double pipi::phase_shift(int l, double s)
         if (pipi_qn_I > 2 || pipi_qn_I < 0) {wave = 600;}
         if (l % 2 != pipi_qn_I % 2) {wave = 600;}
         if (l >= 4 && wave != 600)
-        {std::cout << "Phase shift contributions of l > 3 are completely negligible. Quitting... \n";
+        {std::cout << "Phase shift contributions of j > 3 are completely negligible. Quitting... \n";
          exit(1);}
 
         double cot_delta, delta, sh;

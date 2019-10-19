@@ -16,7 +16,6 @@
 #include "kt_iteration.hpp"
 #include "kt_ang_integral.hpp"
 #include "decay_kinematics.hpp"
-#include "aux_math.hpp"
 #include "omnes.hpp"
 
 // ---------------------------------------------------------------------------
@@ -29,57 +28,59 @@
 //
 // Depends on the value of use_conformal in kt_options
 // ---------------------------------------------------------------------------
-  class dispersion_integral
+
+class dispersion_integral
   {
   protected:
     decay_kinematics kinematics;
     kt_options options;
 
-    const double LamOmnes = previous->omega.LamOmnes; // Conformal dispersion cutoff
+    // const double LamOmnes = previous->omega.LamOmnes; // Conformal dispersion cutoff
 
-    angular_integral inhom;
+    angular_integral inhomogeneity;
+    const double LamOmnes = 1.;
     const double a = kinematics.pseudo_threshold(); // Pseudo threshold, problematic point!
     const double b = kinematics.threshold();
 
     iteration * previous;
 
     // function being dispersed, ihomogeneity * sin(delta) / |Omega|
-    complex<double> disp_function(int n, double s, int ieps);
+    complex<double> disp_function(int j, int n, double s, int ieps);
 
     // Integrate around the singularity at a
     const int N_integ = 30;
     double interval = 0.0007; // Interval on either side of a to integrate
 
     // Integration functions for the conformal scheme
-    complex<double> con_integrate(int n, double s, int ieps, double low, double high); // integrate dispersion kernel from low to high
-    complex<double> con_sp_log(int n, double s, int ieps, double low, double high); // log term from subtracted pole at s = sprime
-    complex<double> cutoff_log(int n, double s, int ieps); // log term to regularie the cutoff at LamOmnes
+    complex<double> con_integrate(int j, int n, double s, int ieps, double low, double high); // integrate dispersion kernel from low to high
+    complex<double> con_sp_log(int j, int n, double s, int ieps, double low, double high); // log term from subtracted pole at s = sprime
+    complex<double> cutoff_log(int j, int n, double s, int ieps); // log term to regularie the cutoff at LamOmnes
 
     // integration for the standard scheme
     // these need to take into account the number of subtractions in the integration kernel
     // where the above do not
-    complex<double> std_integrate(int n, double s, int ieps, double low, double high);
-    complex<double> std_integrate_inf(int n, double s, int ieps, double low); // integrate from low up to inf
-    complex<double> std_sp_log(int n, double s, int ieps, double low, double high);
-    complex<double> std_sp_log_inf(int n, double s, int ieps, double low);
+    complex<double> std_integrate(int j, int n, double s, int ieps, double low, double high);
+    complex<double> std_integrate_inf(int j, int n, double s, int ieps, double low); // integrate from low up to inf
+    complex<double> std_sp_log(int j, int n, double s, int ieps, double low, double high);
+    complex<double> std_sp_log_inf(int j, int n, double s, int ieps, double low);
 
     // Evaluate the dispersion integral at some s
-    complex<double> disperse(int n, double s, int ieps);
+    complex<double> disperse(int j, int n, double s, int ieps);
 
     // utility to print a dat file and plot of the inhomogneity
-    void angular_test(int n);
+    void angular_test(int j, int n);
 
   public:
     // Default constructor
     dispersion_integral(kt_options ops, decay_kinematics dec)
-      : options(ops), inhom(ops, dec), kinematics(dec)
+      : options(ops), inhomogeneity(ops, dec), kinematics(dec)
     { };
 
-    complex<double> operator() (int n, double s, int ieps);
+    complex<double> operator() (int j, int n, double s, int ieps);
 
     void pass_iteration(iteration * prev);
 
-    complex<double> sum_rule(iteration * prev);
+    // complex<double> sum_rule(iteration * prev);
   };
 
 #endif

@@ -23,8 +23,8 @@ int main()
   //----------------------------------------------------------------------------
   // Theoretical amplitude is a Breit-Wigner for the rho meson
   breit_wigner rho(.770, .150, vector_meson, "BW_physical_rho");
-  rho.normalize(7.56);
-  rho.print();
+  rho.normalize(7.57);
+  rho.plot();
 
   // Fit to polynomial expansion.
   poly_exp fit(vector_meson); // Create empty poly_exp

@@ -44,7 +44,7 @@ complex<double> breit_wigner::mom_pi(double s)
 };
 
 // Export a .dat file from threshold to 1 GeV
-void breit_wigner::print()
+void breit_wigner::plot()
 {
   std::ofstream output;
 
@@ -80,7 +80,7 @@ void breit_wigner::normalize(double gamma_exp)
   cout << "Normalizing Breit-Wigner amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
 
   dalitz d_plot(this);
-  double gamma = d_plot.Gamma_total();
+  double gamma = d_plot.decay_width();
   normalization = sqrt(gamma_exp * 1.e-3 / gamma);
 
   cout << "Normalization constant = " << normalization << "." << endl;

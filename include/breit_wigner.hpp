@@ -42,7 +42,7 @@ protected:
   complex<double> width(double s);
   complex<double> mom_pi(double s);
   complex<double> F(double x);
-  
+
 // ---------------------------------------------------------------------------
 public:
   breit_wigner(decay_kinematics dec)
@@ -66,7 +66,7 @@ public:
   void normalize(double gamma_exp);
   void set_params(int n, const double * par);
   void print_params();
-  void print();
+  void plot();
 
 };
 // ---------------------------------------------------------------------------

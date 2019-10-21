@@ -92,6 +92,6 @@ void poly_exp::print_params(int a)
 void poly_exp::normalize(double gamma_exp)
 {
   dalitz d_plot(this);
-  double gamma = d_plot.Gamma_total();
+  double gamma = d_plot.decay_width();
   Norm = sqrt(gamma_exp * 1.e-3 / gamma);
 };

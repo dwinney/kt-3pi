@@ -42,8 +42,7 @@ class dalitz
 {
 protected:
   amplitude * amp;
-  double normalization = 32. * pow(2.* M_PI * amp->kinematics.get_decayMass(), 3.);
-  double offset = 0.00001;
+
 //-----------------------------------------------------------------------------
 // For integration
   int n = 60; // Number of integration points
@@ -60,15 +59,18 @@ protected:
 
   // Calculate the area of the dalitz region
   double dalitz_area();
+  double offset = 0.00001;
 //-----------------------------------------------------------------------------
 public:
   // Default Constructor
-  dalitz(amplitude * my_amp) : amp(my_amp){};
+  dalitz(amplitude * my_amp)
+  : amp(my_amp)
+  {};
 
 //--------------------------------------------------------------------------
   // Double differential cross section
   double d2Gamma(double s, double t);
-  double Gamma_total();
+  double decay_width();
 
   // Center of the dalitz region
   double s_c = amp->kinematics.s_c();

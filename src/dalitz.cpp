@@ -110,13 +110,13 @@ double dalitz::d2Gamma(double s, double t)
   complex<double> Fsqr = amp->eval(s, t);
   Fsqr *= Fsqr;
   Fsqr /= 3.;
-
-  return abs(Fsqr / normalization);
+  Fsqr /= 32. * pow(2.* M_PI * amp->kinematics.get_decayMass(), 3.);
+  return abs(Fsqr);
 };
 
 //-----------------------------------------------------------------------------
 // Integrated total decay width
-double dalitz::Gamma_total()
+double dalitz::decay_width()
 {
   generate_weights();
 

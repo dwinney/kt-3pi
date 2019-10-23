@@ -154,6 +154,12 @@ complex<double> decay_kinematics::d_hat(int j, int l, complex<double> z)
 // Angular momentum barrier factor
 complex<double> decay_kinematics::barrier_factor(int j, int lam, complex<double> s)
 {
+  if (j < std::abs(lam))
+  {
+    cout << "K_jlam: j < |lambda| is not allowed. Quitting..." << endl;
+    exit(1);
+  }
+  
   double dlam = double(lam), dj = double(j);
 
   // Angular momentum barrier factor

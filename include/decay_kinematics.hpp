@@ -150,6 +150,11 @@ string get_JPC()
   return result;
 };
 
+int get_totalSpin()
+{
+  return qn_J;
+}
+
 //-----------------------------------------------------------------------------
 // Kinematic Functions
 complex<double> t_man(complex<double> s, complex<double> zs); /// Mandelstam t in terms of s-channel CM variables

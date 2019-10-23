@@ -58,12 +58,21 @@ complex<double> angular_integral::kernel(int j, int lam, int jp, int lamp, doubl
 
   complex<double> result = (2. * jp + 1.);
   result *= pow(sine_sqr(s, t), double(lam));
-  result *= kinematics.barrier_factor(jp, lamp, t);
-  result *= kinematics.K_jlam(jp, lamp, t, zt);
-  result /= kinematics.K_jlam(j, lam, s, zs);
 
+  // Ratio of kibble functions is easy
+  result *= pow(kinematics.Kibble(s,t) / 4., double(lam - lamp)/2.);
+
+  // Ratio of Little Group factors
+  int Yx = kinematics.get_totalSpin() - (1 + kinematics.get_naturality())/2;
+  int Yxj = abs(j - Yx) - j;
+  int Yxjp = abs(jp - Yx) - jp;
+  result *= pow(kinematics.Kallen_x(t), double(Yxjp)/2.) / pow(kinematics.Kallen_x(s), double(Yxj)/2.);
+
+  // Angular function in t- channel
+  result *= kinematics.barrier_factor(jp, lamp, t);
   result *= kinematics.d_hat(jp, lamp, zt);
-  // extra factor of k(s) from the change of variables from z_s to t
+
+  // extra factor of k(s) from the change of variables from z_s to t (i.e. Jacobian)
   return result / k(s);
 };
 

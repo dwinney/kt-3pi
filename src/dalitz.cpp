@@ -109,7 +109,7 @@ double dalitz::d2Gamma(double s, double t)
 {
   complex<double> Fsqr = amp->eval(s, t);
   Fsqr *= Fsqr;
-  Fsqr /= 3.;
+  Fsqr /= 3.; // TODO: remove this line when considering the decay width in general
   Fsqr /= 32. * pow(2.* M_PI * amp->kinematics.get_decayMass(), 3.);
   return abs(Fsqr);
 };

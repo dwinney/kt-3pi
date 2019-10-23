@@ -247,7 +247,7 @@ void dispersion_integral::plot_inhomogeneity(int j, int n)
 {
   cout << endl;
   cout << "Printing inhomogeneity..." << endl;
-  
+
   // Output to a datfile
   std::ofstream output;
   string namedat = kinematics.get_decayParticle() + "_";
@@ -261,10 +261,10 @@ void dispersion_integral::plot_inhomogeneity(int j, int n)
     double s_i = (sthPi + EPS) + double(i) * (options.interp_cutoff - sthPi - EPS) / 60.;
     complex<double> fx_i = inhomogeneity(j, n, s_i);
 
-    s.push_back(sqrt(s_i));
+    s.push_back(s_i);
     fx.push_back(fx_i);
 
-    output << std::left << setw(15) << sqrt(s_i);
+    output << std::left << setw(15) << s_i;
     output << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
   output.close();

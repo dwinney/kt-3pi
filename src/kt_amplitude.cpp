@@ -99,9 +99,11 @@ complex<double> kt_amplitude::eval(double s, double t)
     {
       double x = stu[k], zx = z_stu[k];
 
-      complex<double> temp = (2. * j + 1.);
+      // TODO: Igor's normalization is temp = 1.; NOT (2j+1) change back
+      complex<double> temp = xr;
       temp *= kinematics.barrier_factor(j, lam, x);
       temp *= kinematics.K_jlam(j, lam, x, zx);
+
       temp *= kinematics.d_hat(j, lam, zx);
       temp *= ptr->subtracted_isobar(x);
 
@@ -120,7 +122,7 @@ void kt_amplitude::normalize(double gamma_exp)
   cout << "Normalizing total amplitude to Gamma_3pi = " << gamma_exp << " MeV..." << endl;
 
   dalitz d_plot(this);
-  double gamma = d_plot.Gamma_total();
+  double gamma = d_plot.decay_width();
   normalization = sqrt(gamma_exp * 1.e-3 / gamma);
 
   cout << "Normalization constant = " << normalization << endl;

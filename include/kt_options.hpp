@@ -30,7 +30,7 @@ struct kt_options
   {};
 
   int max_subs = 0; // Number of subtractions in dispersion relation
-  
+
 };
 
 #endif

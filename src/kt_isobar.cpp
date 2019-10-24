@@ -10,6 +10,19 @@
 #include "kt_isobar.hpp"
 
 // ----------------------------------------------------------------------------
+  // Check how many subtractions this isobar has as specified in kt_options
+void isobar::check_subtractions()
+{
+  for (int i = 0; i < options.subIDs.size(); i++)
+  {
+    if (options.subIDs[i][0] == iso_proj && options.subIDs[i][1] == spin_proj && options.subIDs[i][2] == hel_proj)
+    {
+      n_subs = options.subIDs[i][3];
+    }
+  }
+};
+
+// ----------------------------------------------------------------------------
 // Populate the zeroth iteration with values directly from call to Omnes function
 void isobar::zeroth()
 {
@@ -21,8 +34,15 @@ void isobar::zeroth()
     cout << " and I = " << iso_proj << ". \n";
   }
 
+  cout << "-> initializing isobar with I = " << iso_proj;
+  cout << ", j = " << spin_proj;
+  cout << ", and lambda = " << hel_proj;
+  // cout << " with " << n_subs << " fundamental solutions...";
+  cout << "... \n";
+
+  // Loop over the basis of (n = number of subtractions) "fundamental solutions"
   subtraction_polynomial sub_poly(options.use_conformal);
-  for (int n = 0; n < options.max_subs + 1; n++)
+  for (int n = 0; n <= n_subs; n++)
   {
     // Need to store values of the Omnes amplitude around the unitarity cut for the
     // analytic continuation of the angular integral.
@@ -44,9 +64,10 @@ void isobar::zeroth()
       below_cut.push_back(be);
     }
 
-  // Make a vector with copies = number of total subtractions
-    subtraction not_actually_subtracted(n, s, above_cut, below_cut);
-    subtractions.push_back(not_actually_subtracted);
+    // store the zeroth iteration of each fundamental solution in the
+    // subtractions vector member of the isobar object
+    subtraction sub_zero(n, s, above_cut, below_cut);
+    subtractions.push_back(sub_zero);
   }
 };
 
@@ -93,7 +114,7 @@ void isobar::print_params()
 // ----------------------------------------------------------------------------
 // Evaluate the isobar partial wave at some energy s
 // Sums subtractions with their coefficients
-complex<double> isobar::subtracted_isobar(double s)
+complex<double> isobar::eval_isobar(double s)
 {
   complex<double> result = 0.;
 

@@ -20,6 +20,7 @@
 #include <iostream>
 #include <complex>
 #include <string>
+#include <array>
 
 using std::cout;
 using std::endl;
@@ -65,19 +66,23 @@ void operator = (const decay_kinematics &old)
   mDec = old.mDec;
   decay_particle = old.decay_particle;
   amp_name = old.amp_name;
-}
+};
+
 void set_decayJPC(int j, int p, int c)
 {
         qn_J = j; qn_P = p; qn_C = c;
 };
+
 void set_decayIsospin(int i)
 {
         qn_I = i;
 };
+
 void set_decayHelicity(int lambda)
 {
         qn_H = lambda;
 }
+
 void set_decayMass(double m)
 {
         mDec = m;
@@ -125,7 +130,13 @@ string get_decayParticle()
   return decay_particle;
 };
 
-string get_JPC()
+std::array<int, 3> get_JPC()
+{
+  std::array<int,3> result = {qn_J, qn_P, qn_C};
+  return result;
+};
+
+string print_JPC()
 {
   string result = std::to_string(qn_J);
 

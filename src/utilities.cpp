@@ -160,7 +160,7 @@ void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
 
   string namepdf = filename + ".pdf";
   c->Print(namepdf.c_str());
-  cout << "Printed to:" << namepdf << std::endl;
+  cout << "Printed to: " << namepdf << std::endl;
 
   delete c, gRe, gIm;
 };
@@ -171,7 +171,7 @@ void quick_plot(vector<double> s, vector<complex<double>> fx, string filename)
 void quick_dplot(string file, bool DEV)
 {
   gErrorIgnoreLevel = kWarning;
-  
+
   TCanvas *c = new TCanvas("c", "c");
   TGraph2D *g = new TGraph2D(file.c_str());
 

@@ -6,6 +6,60 @@
 // ---------------------------------------------------------------------------
 
 #include "kt_amplitude.hpp"
+// ----------------------------------------------------------------------------
+// Display function for all the settings input from the stored kt_options
+void kt_amplitude::print_options()
+{
+  cout << endl;
+  cout << "-----------------------------------------------------------" << endl;
+  cout << "Using KT equations for ";
+  if (kinematics.get_decayParticle() != "")
+  {
+    cout << kinematics.get_decayParticle() << ":  \n";
+  }
+  cout << "-> Mass = " << kinematics.get_decayMass() << " GeV, ";
+  cout << "J^PC = " << kinematics.print_JPC() << ", \n";
+  cout << "-> with max spin j_max = " << options.max_spin << ", \n";
+  cout << "-> with ";
+  cout << options.max_iters << " iteration(s), \n";
+  cout << std::boolalpha << "-> with USE_CONFORMAL = " << options.use_conformal << ", \n";
+  cout << "-> with Interpolation up to s = " << options.interp_cutoff << " GeV^2, \n";
+
+  if (options.max_subs == 0)
+  {
+  cout << "-> and with no free subtraction coefficients." << endl;
+  }
+  else
+  {
+    cout << "-> and with " << options.max_subs << " free subtraction coefficient(s):" << endl;
+    for (int i = 0; i < options.subIDs.size(); i++)
+      {
+        cout << "   - " << st_nd_rd(options.subIDs[i][3]) << " order polynomial";
+        cout << " on isobar with I = " << options.subIDs[i][0];
+        cout << ", j = " << options.subIDs[i][1];
+        cout << ", and lambda = " << options.subIDs[i][2] << ". \n";
+
+        if (options.subIDs[i][2] == 0 && kinematics.get_JPC()[1] == -1)
+        {
+            cout << "CAUTION: Subtraction added for lambda = 0 with P = -1 will not be evaluated." << endl;
+        }
+        if (options.subIDs[i][1] > options.max_spin)
+        {
+          cout << "CAUTION: Subtraction added for j > j_max will not be evaluated." << endl;
+        }
+        if (options.subIDs[i][2] > kinematics.get_totalSpin())
+        {
+          cout << "CAUTION: Subtraction added for lambda > J will not be evaluated." << endl;
+        }
+        if ((options.subIDs[i][0] + options.subIDs[i][1]) % 2 != 0)
+        {
+          cout << "CAUTION: Subtraction added for I + j not even will not be evaluated." << endl;
+        }
+      }
+  }
+
+  cout << "-----------------------------------------------------------" << endl;
+};
 
 // ----------------------------------------------------------------------------
 // Store initial omnes function for each isobar
@@ -22,11 +76,10 @@ void kt_amplitude::start()
   cout << endl;
   cout << "Storing initial Omnes amplitudes... " << endl;
 
-  //need a vector<isobar> to define the zeroth iteration
+  // need to same bare omnes functions as the zeroth iteration of each isobar
   vector<isobar> bare_omnes;
   for (int j = 0; 2*j+1 <= options.max_spin; j++)
   {
-    cout << "-> I = 1; j = " << 2*j+1 << "..." << endl;
     isobar ith_wave(1, 2*j+1, 1, options, kinematics);
 
     // isobar::zeroth() stores the bare omnes function with given quantum numbers
@@ -34,12 +87,12 @@ void kt_amplitude::start()
     bare_omnes.push_back(ith_wave);
   }
 
+  // with the vector<isobar> define the zeroth iteration
   iteration zeroth_iter(0, bare_omnes);
 
   iters.push_back(zeroth_iter);
 
   cout << "Done." << endl;
-  cout << endl;
 };
 
 // ----------------------------------------------------------------------------
@@ -50,6 +103,7 @@ void kt_amplitude::iterate()
 
   if (options.max_iters != 0)
   {
+    cout << endl;
     cout << "Starting KT solution..." << endl;
     cout << endl;
   }
@@ -105,7 +159,7 @@ complex<double> kt_amplitude::eval(double s, double t)
       temp *= kinematics.K_jlam(j, lam, x, zx);
 
       temp *= kinematics.d_hat(j, lam, zx);
-      temp *= ptr->subtracted_isobar(x);
+      temp *= ptr->eval_isobar(x);
 
       result += temp;
     }
@@ -140,7 +194,7 @@ void kt_amplitude::plot_iteration(int n, int j, int m)
       exit(1);
   };
 
-  cout << "Printing the " + st_nd_rd(n) << " iteration with " << std::to_string(m) << " subtractions..." << endl;
+  cout << "Plotting the " + st_nd_rd(n) << " iteration with " << std::to_string(m) << " subtractions..." << endl;
 
   string name;
   if (kinematics.get_decayParticle() != "")
@@ -184,9 +238,6 @@ void kt_amplitude::plot_isobar(int n)
     exit(1);
   }
 
-  //Surpress ROOT messages
-  gErrorIgnoreLevel = kWarning;
-
   string name;
   if (kinematics.get_decayParticle() != "")
   {
@@ -204,7 +255,7 @@ void kt_amplitude::plot_isobar(int n)
   for (int i = 0; i < 60; i++)
   {
     double s_i = (sthPi + EPS) + double(i) * (options.interp_cutoff - sthPi - EPS) / 60.;
-    complex<double> fx_i =  normalization * iters.back().isobars[n].subtracted_isobar(s_i);
+    complex<double> fx_i =  normalization * iters.back().isobars[n].eval_isobar(s_i);
 
     s.push_back(sqrt(s_i));
     fx.push_back(fx_i);

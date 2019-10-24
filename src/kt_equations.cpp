@@ -8,28 +8,7 @@
 #include "kt_equations.hpp"
 
 // ----------------------------------------------------------------------------
-// Display function for all the settings input from the stored kt_options
-void kt_equations::print_options()
-{
-  cout << "Using KT equations for ";
-  if (kinematics.get_decayParticle() != "")
-  {
-    cout << kinematics.get_decayParticle() << ", ";
-  }
-  cout << "Mass = " << kinematics.get_decayMass() << " GeV, ";
-  cout << "J^PC = " << kinematics.get_JPC() << endl;
-  cout << "-> with max spin, j_max = " << options.max_spin << endl;
-  cout << "-> with ";
-  cout << options.max_iters << " Iterations, ";
-  cout << options.max_subs << " Subtractions." << endl;
-  cout << std::boolalpha << "-> with USE_CONFORMAL = " << options.use_conformal << "." << endl;
-  cout << "-> and with Interpolation up to s = " << options.interp_cutoff << " GeV." << endl;
-};
-
-// ----------------------------------------------------------------------------
 // Take in a pointer to a previous iteration (because all previous isobars are required too get next one)
-//  and calculates above and below the unitarity cut
-// according to the methods in the dispersion_integral class.
 // Produces a new iteration with the new values.
 iteration kt_equations::iterate(iteration * prev)
 {
@@ -40,7 +19,7 @@ iteration kt_equations::iterate(iteration * prev)
     cout << " -> Calculating isobar with spin (" << 2*i+1 << "/" << options.max_spin << ")... " << endl;
     isobars.push_back(iterate_isobar(prev, i));
 
-    // add a space in the terminal output if theres more isobars for aesthetic purposes
+    // add a space in the terminal output if theres more isobars for aesthetic purposes :)
     if (2*(i+1)+1 <= options.max_spin)
     {
     cout << endl;
@@ -57,7 +36,6 @@ iteration kt_equations::iterate(iteration * prev)
 isobar kt_equations::iterate_isobar(iteration * prev, int j)
 {
   // Dont forget to pass the pointer to the dispersion intergral!!
-  // disp(spin, subtraction, s, ieps) is the call to the dispersion integral
   disp.pass_iteration(prev);
 
   // each isobar has n subtractions that need to be solved for independently
@@ -65,9 +43,9 @@ isobar kt_equations::iterate_isobar(iteration * prev, int j)
   isobar next(1, 2*j+1, 1, options, kinematics);
 
   // Calculate each 'fundamental solution' in the basis of subtractions
-  for (int n = 0; n <= options.max_subs; n++)
+  for (int n = 0; n <= prev->isobars[j].n_subs; n++)
   {
-      cout << " --> Calculating subtraction (" << n << "/" << options.max_subs << ")... " << endl;
+      cout << " --> Calculating subtraction (" << n << "/" << prev->isobars[j].n_subs << ")... " << endl;
 
       // exclude a small interval around the singulartiy at pseudo_threshold
       // the interpolation will make up for it

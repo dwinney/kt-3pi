@@ -43,7 +43,6 @@ private:
   // This object holds all user-input information
   // and a function to print the settings to command line
   kt_options options;
-  void print_options();
 
   // A method for evaluating the unitarity correction, i.e. the dispersion integral over the discontinuity.
   dispersion_integral disp;
@@ -58,9 +57,7 @@ public:
   kt_equations(kt_options ops, decay_kinematics dec)
   : kinematics(dec), options(ops), disp(ops, dec),
     poly(options.use_conformal)
-  {
-    print_options();
-  };
+  {};
 
   // Calculate the next iteration from the previous one
   iteration iterate(iteration * prev);

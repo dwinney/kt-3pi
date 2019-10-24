@@ -30,6 +30,7 @@ private:
 // The maximum number of iterations of the KT integral and the maximal spin_projection
 kt_options options;
 kt_equations kt;
+void print_options();
 
 double normalization = 1.;
 
@@ -41,7 +42,9 @@ public:
 kt_amplitude(kt_options ops,  decay_kinematics kine)
   : amplitude(kine),
     options(ops), kt(ops, kine)
-  {};
+  {
+    print_options();
+  };
 
 // Storing successive iterations of the KT equations
 vector<iteration> iters;

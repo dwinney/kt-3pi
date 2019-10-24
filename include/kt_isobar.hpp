@@ -70,6 +70,7 @@ protected:
   friend class dispersion_integral;
 
   // Subtraction coefficients (complex in general)
+  void check_subtractions();
   vector<complex<double>> coefficients;
 
 //-----------------------------------------------------------------------------
@@ -78,10 +79,13 @@ public:
   spin_proj(spin), iso_proj(isospin), hel_proj(helicity),
   options(opti),
   kinematics(dec), omnes(isospin, spin, opti.use_conformal)
-  {};
+  {
+    check_subtractions();
+  };
 
   isobar(const isobar & prev)
   : spin_proj(prev.spin_proj), iso_proj(prev.iso_proj), hel_proj(prev.hel_proj),
+    n_subs(prev.n_subs),
     options(prev.options),
     kinematics(prev.kinematics), omnes(prev),
     subtractions(prev.subtractions)
@@ -92,6 +96,7 @@ public:
   // Vector storing each iteration of the KT equation
   kt_options options;
 
+  int n_subs = 0;
   int spin_proj, iso_proj, hel_proj;
   decay_kinematics kinematics;
 
@@ -101,8 +106,6 @@ public:
   // store the bare omnes function with the current quantum numbers I & j
   void zeroth();
 
-  // void print();
-
   // These functions are to interface with dalitz_fit
   void set_params(int n_params, const double *par);
   void print_params();
@@ -110,7 +113,7 @@ public:
   void sum_rule();
 
   // Evaluate the isobar in one channel or the total amplitude
-  complex<double> subtracted_isobar(double s);
+  complex<double> eval_isobar(double s);
 };
 //-----------------------------------------------------------------------------
 

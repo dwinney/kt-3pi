@@ -15,3 +15,4 @@ eta_charge_JPAC/
 /CodeMain.nb
 /CMakeFiles
 /tex/
+*.cmake

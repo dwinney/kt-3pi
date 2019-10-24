@@ -95,23 +95,6 @@ void isobar::zeroth()
 // };
 
 // ----------------------------------------------------------------------------
-// Print the current stored subtraction coefficients in command line
-void isobar::print_params()
-{
-    cout << "Printing Subtraction Coefficients... \n";
-    cout << "---------------------------------------- \n";
-    for (int i = 0; i < options.max_subs; i++)
-    {
-      cout << std::left <<  setw(20) << "|a_" + std::to_string(i) + "|:" <<
-      setw(20) << std::abs(coefficients[i]) << "\n";
-      cout << std::left <<  setw(20) << "arg a_" + std::to_string(i) + ":" <<
-      setw(20) << std::arg(coefficients[i]) << "\n";
-    }
-    cout << "---------------------------------------- \n";
-    cout << "\n";
-};
-
-// ----------------------------------------------------------------------------
 // Evaluate the isobar partial wave at some energy s
 // Sums subtractions with their coefficients
 complex<double> isobar::eval_isobar(double s)
@@ -140,30 +123,60 @@ complex<double> isobar::eval_isobar(double s)
   return result;
 };
 
-//
-// // ----------------------------------------------------------------------------
-// // Set the subtraction coefficients for fitting routines
-// void isobar::set_params(int n_params, const double *par)
-// {
-//   if ((n_params - 1) / 2 != options.max_subs)
-//   {
-//     cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
-//     exit(1);
-//   }
-//
-//   // clear existing coefficients
-//   coefficients.clear();
-//   normalization = par[0];
-//   for (int i = 0; i < (n_params - 1)/2; i++)
-//   {
-//     complex<double> c_i = par[2*i+1] * exp(xi * par[2*i+2]);
-//     coefficients.push_back(c_i);
-//   }
-//
-//   // check again for good measure
-//   if (coefficients.size() != (n_params-1) / 2)
-//   {
-//   cout << "isobar: Number of parameters and subtrations don't match! Quitting..." << endl;
-//   exit(1);
-//   }
-// };
+// ----------------------------------------------------------------------------
+// Set the subtraction coefficients for fitting routines
+void isobar::set_params(vector<double> par)
+{
+  int n_param;
+  if (options.use_conformal == true){n_param = par.size();}
+  else {n_param = par.size()/2;}
+
+  if (n_param != n_subs)
+  {
+    cout << "isobar::set_params() number of params and coefficients dont match! Quitting... \n";
+    exit(0);
+  }
+
+  // clear any existing coefficients
+  coefficients.clear();
+  for (int i = 0; i < n_param; i++)
+  {
+    complex<double> c_i;
+
+    // filter whether using complex or real coefficients
+    if (options.use_conformal == false)
+    {
+      c_i = par[2*i] * exp(xi * par[2*i+1]);
+    }
+    else
+    {
+      c_i = xr * par[i];
+    }
+
+    coefficients.push_back(c_i);
+  }
+};
+
+// ----------------------------------------------------------------------------
+// cout a list of the parameters currently saved
+void isobar::print_params()
+{
+  for (int i = 0; i < n_subs; i++)
+  {
+    string varname = "c[" + std::to_string(spin_proj) + std::to_string(i + 1) + "]";
+
+    if (options.use_conformal == false)
+    {
+      cout << std::left << std::setw(20) << "mod " + varname + ":";
+      cout << std::setw(20) << abs(coefficients[i]) << "\n";
+
+      cout << std::left <<  std::setw(20) << "arg " + varname + ":";
+      cout << std::setw(20) << std::arg(coefficients[i]) << "\n";
+    }
+    else
+    {
+      cout << std::left << std::setw(20) << varname + ":";
+      cout << std::setw(20) << abs(coefficients[i]) << "\n";
+    }
+  }
+};

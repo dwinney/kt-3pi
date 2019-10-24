@@ -31,7 +31,10 @@ void kt_amplitude::print_options()
   }
   else
   {
-    cout << "-> and with " << options.max_subs << " free subtraction coefficient(s):" << endl;
+    cout << "-> and with " << options.max_subs << " free";
+    if (options.use_conformal == true) {cout << " (real)";}
+    else {cout << " (complex)";}
+    cout << " subtraction coefficient(s):" << endl;
     for (int i = 0; i < options.subIDs.size(); i++)
       {
         cout << "   - " << st_nd_rd(options.subIDs[i][3]) << " order polynomial";
@@ -99,8 +102,6 @@ void kt_amplitude::start()
 // Iterate through the KT equations, storing each iteration for comparison
 void kt_amplitude::iterate()
 {
-  start();
-
   if (options.max_iters != 0)
   {
     cout << endl;
@@ -169,6 +170,9 @@ complex<double> kt_amplitude::eval(double s, double t)
 };
 
 // ----------------------------------------------------------------------------
+// PARAMETER SETTING
+
+// ----------------------------------------------------------------------------
 // Set the normalization coefficient by calculating the total decay Width
 // and setting it to the input experimental value, gamma_exp
 void kt_amplitude::normalize(double gamma_exp)
@@ -182,6 +186,95 @@ void kt_amplitude::normalize(double gamma_exp)
   cout << "Normalization constant = " << normalization << endl;
   cout << endl;
 };
+
+// ----------------------------------------------------------------------------
+// Set the subtractions coefficients
+void kt_amplitude::set_params(int n, const double * par)
+{
+  if ( options.use_conformal == false &&
+      (n % 2 != 0 || (n / 2) != options.max_subs))
+  {
+    cout << endl;
+    cout << "kt_amplitude::set_params() wrong number of parameters being set! \n";
+    cout << "Amplitude has (2 x " << options.max_subs << ") free parameters (modulus and arg)! Quitting... \n";
+    exit(0);
+  }
+
+  if ( options.use_conformal == true && n != options.max_subs)
+  {
+    cout << endl;
+    cout << "kt_amplitude::set_params() wrong number of parameters being set! \n";
+    cout << "Amplitude has " << options.max_subs << " free parameters! Quitting... \n";
+    exit(0);
+  }
+
+  // loop over the options which specify where and how many subtractions
+  int m = 0;
+  for (int i = 0; i < options.subIDs.size(); i++)
+  {
+    // Find isobar belonging to this entry in subIDs
+    // i.e. its index in the isobars vector
+    int barID;
+    if (options.subIDs[i][1] % 2 == 0){barID = options.subIDs[i][1] / 2;}
+    else {barID = (options.subIDs[i][1] - 1) / 2;}
+
+    // How many params belong to this isobar
+    int ns = options.subIDs[i][3];
+    vector<double> iso_par;
+    for (int j = 0; j < ns; j++)
+    {
+      // Save them in pairs if complex or singles if real
+      if (options.use_conformal == false)
+      {
+        iso_par.push_back(par[m + 2*j]);
+        iso_par.push_back(par[m + (2*j) + 1]);
+      }
+      else
+      {
+        iso_par.push_back(par[m + j]);
+      }
+    }
+
+    // pass them to the isobar
+    iters.back().isobars[barID].set_params(iso_par);
+
+    // continue until all params are allocated
+    if (options.use_conformal == false)
+    {
+      m += 2 * ns;
+    }
+    else
+    {
+      m += ns;
+    }
+  }
+};
+
+// ----------------------------------------------------------------------------
+// Print the current stored subtraction coefficients in command line
+void kt_amplitude::print_params()
+{
+    cout << endl;
+    cout << "-----------------------------------------------------------" << endl;
+    cout << "Printing Subtraction Coefficients... \n";
+
+    for (int i = 0; i < options.subIDs.size(); i++)
+    {
+      int barID;
+      if (options.subIDs[i][1] % 2 == 0){barID = options.subIDs[i][1] / 2;}
+      else {barID = (options.subIDs[i][1] - 1) / 2;}
+
+      cout << endl;
+      cout << "-> j = " << options.subIDs[i][1] << "\n";
+      cout << "------------------------------- \n";
+      iters.back().isobars[barID].print_params();
+    }
+    cout << "-----------------------------------------------------------" << endl;
+    cout << "\n";
+};
+
+// ----------------------------------------------------------------------------
+// PLOTTING UTILITIES
 
 // ----------------------------------------------------------------------------
 // Print the nth iteration into a dat file.

@@ -2,8 +2,6 @@
 // The reaction is defined by the mass and the quantum numbers of the decaying particle.
 // This allows passing all relevant kinematic quantities easily into other classes.
 //
-// Dependencies: constants.hpp
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu

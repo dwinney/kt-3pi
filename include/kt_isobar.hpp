@@ -1,8 +1,4 @@
 // These objects include the isobars (i.e. the partial waves in each channel)
-// they inherite from the amplitude class because they describe the scattering dynamics
-// of a single spin and isospin-projected subchannel.
-//
-// Dependencies: decay_kinematics.hpp, iteration.hpp, kt_equation.hpp
 //
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
@@ -28,13 +24,12 @@
 #include "decay_kinematics.hpp"
 #include "omnes.hpp"
 
-using std::setw;
-
 //-----------------------------------------------------------------------------
 // The subtraction object contains an interpolation of the current iteration of the
 // KT equations for a given order of subtraction polynomial above and below
 // the unitarity cut
 //-----------------------------------------------------------------------------
+
 class subtraction
 {
 public:
@@ -95,19 +90,20 @@ public:
 
   // Vector storing each iteration of the KT equation
   kt_options options;
-
-  int n_subs = 0;
-  int spin_proj, iso_proj, hel_proj;
   decay_kinematics kinematics;
 
+  // quantum numbers that ID isobar
+  int spin_proj, iso_proj, hel_proj;
+
   // Basis of functions for the subtracted solutions
+  int n_subs = 0;
   vector<subtraction> subtractions;
 
-  // store the bare omnes function with the current quantum numbers I & j
+  // store the bare omnes function with the current quantum numbers
   void zeroth();
 
   // These functions are to interface with dalitz_fit
-  void set_params(int n_params, const double *par);
+  void set_params(vector<double> par);
   void print_params();
 
   void sum_rule();

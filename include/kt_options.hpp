@@ -24,7 +24,6 @@ struct kt_options
     subIDs(old.subIDs)
   {};
 
-  int max_subs = 0;
   int max_iters = 0; // Number of total iterations of KT equations
   int max_spin = 0; // Maximal spin projection in sum (not currently implemented)
 
@@ -33,9 +32,11 @@ struct kt_options
 
   double interp_cutoff = 1.;
 
-  // first 3 ints (I, j, lam) ID the isobar to be subtracted
-  // last int denotes how many subtractions
-  vector<array<int, 4>> subIDs;
+  // subtractions
+  int max_subs = 0; // total number of free parameters
+  vector<array<int, 4>> subIDs; // which isobars are subtrated and how many times
+
+  // User function to add subtractions :)
   void add_subtraction(int iso, int spin, int hel, int n)
   {
     max_subs += n;

@@ -32,7 +32,7 @@ private:
   // Gaussian weights and abscissas for integration
   int N_omnes = 60;
   bool WG_GENERATED = false;
-  vector<double> wgt, abs;
+  vector<double> wgt, x;
   void check_weights();
 
   // Evaluation parameters
@@ -63,7 +63,7 @@ public:
   // Copy constructor
   omnes(const omnes &previous):
     pipi(previous.pipi::pipi_qn_I), wave(previous.wave),
-    wgt(previous.wgt), abs(previous.abs), WG_GENERATED(previous.WG_GENERATED),
+    wgt(previous.wgt), x(previous.x), WG_GENERATED(previous.WG_GENERATED),
     use_conformal(previous.use_conformal)
   {};
 

@@ -90,7 +90,7 @@ void omnes::check_weights()
   if (WG_GENERATED == false)
   {
 
-    wgt.clear(); abs.clear();
+    wgt.clear(); x.clear();
 
     double weights[N_omnes + 1], abscissas[N_omnes + 1];
     gauleg(0., 1., abscissas, weights, N_omnes + 1);
@@ -99,7 +99,7 @@ void omnes::check_weights()
     for (int i = 1; i < N_omnes + 1; i++)
     {
       wgt.push_back(weights[i]);
-      abs.push_back(abscissas[i]);
+      x.push_back(abscissas[i]);
     }
 
     WG_GENERATED = true;
@@ -141,7 +141,7 @@ complex<double> omnes::omega_0(complex<double> s, int ieps)
   {
     if (use_conformal == true)
     {
-      double sp = (1. - abs[i]) * (sthPi + EPS) + abs[i] * LamOmnes;
+      double sp = (1. - x[i]) * (sthPi + EPS) + x[i] * LamOmnes;
       complex<double> temp = kernel(s, sp, ieps);
       temp *= LamOmnes -  (sthPi + EPS);
 
@@ -149,9 +149,9 @@ complex<double> omnes::omega_0(complex<double> s, int ieps)
     }
     else
     {
-      double sp = (sthPi + EPS) + tan( M_PI * abs[i] / 2.);
+      double sp = (sthPi + EPS) + tan( M_PI * x[i] / 2.);
       complex<double> temp =  kernel(s, sp, ieps);
-      temp *= (M_PI / 2.) / pow(cos(M_PI * abs[i] / 2.), 2.);
+      temp *= (M_PI / 2.) / pow(cos(M_PI * x[i] / 2.), 2.);
 
       sum += temp * wgt[i];
     }

@@ -128,7 +128,7 @@ void kt_amplitude::iterate()
     }
 
     cout << "Done." << endl;
-    cout << endl;
+    // cout << endl;
   }
 };
 
@@ -251,6 +251,26 @@ void kt_amplitude::set_params(int n, const double * par)
 };
 
 // ----------------------------------------------------------------------------
+// Set second subtraction coefficient to its sum rule values
+void kt_amplitude::sum_rule()
+{
+  //check there is two Subtractions
+  if (options.max_subs != 1)
+  {
+    cout << "isobar: need two subtractions to calcualte sum rule values. Quitting... \n";
+    exit(1);
+  }
+
+  cout << "Calculating sum rule value for subtraction constant..." << endl;
+
+  complex<double> b = kt.disp.sum_rule(&iters.back());
+  cout << "Sum rule constant = " << abs(b) <<  " exp(" << arg(b) << "*I)" << endl;
+
+  double bb[2] = {abs(b), arg(b)};
+  set_params(2, bb);
+};
+
+// ----------------------------------------------------------------------------
 // Print the current stored subtraction coefficients in command line
 void kt_amplitude::print_params()
 {
@@ -269,7 +289,8 @@ void kt_amplitude::print_params()
       cout << "------------------------------- \n";
       iters.back().isobars[barID].print_params();
     }
-    cout << "-----------------------------------------------------------" << endl;
+    cout << "------------------------------- \n";
+    // cout << "-----------------------------------------------------------" << endl;
     cout << "\n";
 };
 
@@ -278,52 +299,62 @@ void kt_amplitude::print_params()
 
 // ----------------------------------------------------------------------------
 // Print the nth iteration into a dat file.
-void kt_amplitude::plot_iteration(int n, int j, int m)
+void kt_amplitude::plot_fundamentalSolutions(int j)
 {
 
-  if (n > iters.size() - 1 ||  m > iters[n].isobars[j].subtractions.size() - 1)
-  {
-      cout << "isobar: Trying to print iteration that doesnt exist. Quitting..." << endl;
-      exit(1);
-  };
+  isobar * bar_ptr = &iters.back().isobars[j];
 
-  cout << "Plotting the " + st_nd_rd(n) << " iteration with " << std::to_string(m) << " subtractions..." << endl;
-
-  string name;
-  if (kinematics.get_decayParticle() != "")
+  if (bar_ptr->subtractions.size() - 1 == 0)
   {
-    name =  kinematics.get_decayParticle() + "_";
+    cout << endl;
+    cout << "Isobar of spin " << 2j+1 << " is only subtracted once so fundamental solution is identical to entire isobar! " << endl;
   }
-  name += "iteration_" + std::to_string(n) + "_" + std::to_string(j) + "_" + std::to_string(m);
-
-  // Output to a datfile
-  std::ofstream output;
-  string namedat = name + ".dat";
-  output.open(namedat.c_str());
-
-  vector<double> s;
-  vector<complex<double>> fx;
-  for (int i = 0; i < 60; i++)
+  else
   {
-    double s_i = sthPi + EPS + double(i) * (options.interp_cutoff - sthPi) / 60.;
-    complex<double> fx_i =  normalization * iters[n].isobars[j].subtractions[m].interp_above(s_i);
-
-    s.push_back(sqrt(s_i));
-    fx.push_back(fx_i);
-
-    output << std::left << setw(15) << sqrt(s_i);
-    output << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
-    output << setw(15) << abs(fx_i) << endl;
+    cout << endl;
+    cout << "Plotting the fundamental solutions of isobar with spin " << 2j+1 << "..." << endl;
   }
-  output.close();
 
-  // Plot with ROOT
-  quick_plot(s, fx, name);
+  for (int m = 0; m <= bar_ptr->n_subs; m++)
+  {
+    cout << "-> Printing solution of subtraction order (" << m << "/" << bar_ptr->n_subs << ")... \n";
+
+    string name;
+    if (kinematics.get_decayParticle() != "")
+    {
+      name =  kinematics.get_decayParticle() + "_";
+    }
+    name += "funSol_" + std::to_string(j) + "_" + std::to_string(m);
+
+    // Output to a datfile
+    std::ofstream output;
+    string namedat = name + ".dat";
+    output.open(namedat.c_str());
+
+    vector<double> s;
+    vector<complex<double>> fx;
+    for (int i = 0; i < 60; i++)
+    {
+      double s_i = sthPi + EPS + double(i) * (options.interp_cutoff - sthPi) / 60.;
+      complex<double> fx_i =  normalization * bar_ptr->subtractions[m].interp_above(s_i);
+
+      s.push_back(sqrt(s_i));
+      fx.push_back(fx_i);
+
+      output << std::left << setw(15) << sqrt(s_i);
+      output << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
+      output << setw(15) << abs(fx_i) << endl;
+    }
+    output.close();
+
+    // Plot with ROOT
+    quick_plot(s, fx, name);
+  }
 };
 
 // ----------------------------------------------------------------------------
 // Print total isobar including the set coefficients and combining subtractions
-void kt_amplitude::plot_isobar(int n)
+void kt_amplitude::plot_isobar(int n, string name)
 {
   if (n > iters.back().isobars.size() - 1)
   {
@@ -331,12 +362,18 @@ void kt_amplitude::plot_isobar(int n)
     exit(1);
   }
 
-  string name;
-  if (kinematics.get_decayParticle() != "")
+  // default filename
+  if (name == "")
   {
-    name =  kinematics.get_decayParticle() + "_";
+    if (kinematics.get_decayParticle() != "")
+    {
+      name =  kinematics.get_decayParticle() + "_";
+    }
+    name += "isobar_" + std::to_string(2*n+1);
   }
-  name += "isobar_" + std::to_string(n);
+
+  cout << endl;
+  cout << "Plotting isobar with spin " << 2*n+1 << "...\n";
 
   // Output to a datfile
   std::ofstream output;

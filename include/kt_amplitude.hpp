@@ -59,14 +59,15 @@ void normalize(double gamma_exp);
 // Set and print subtraction coeffs for fitting
 void set_params(int n, const double *par);
 void print_params();
+void sum_rule();
 
 // Evaluate the total amplitude at some energys s and t
 complex<double> eval(double s, double t);
 
 
 // Printing to file
-void plot_iteration(int n, int j, int m);
-void plot_isobar(int n);
+void plot_fundamentalSolutions(int j);
+void plot_isobar(int n, string file = "");
 
 //-----------------------------------------------------------------------------
 };

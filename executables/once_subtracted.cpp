@@ -28,22 +28,22 @@ int main()
   options.max_iters = 3;
   options.max_subs = 0;
   options.max_spin = 1;
-  options.interp_cutoff = 1.;
+  options.interp_cutoff = 1.5;
   options.use_conformal = false;
   // options.test_angular = true;
 
   kt_amplitude kt_pwave(options, vector_meson);
   kt_pwave.iterate();
 
+  kt_pwave.plot_isobar(0, "once_U");
   kt_pwave.normalize(7.57);
-  kt_pwave.plot_isobar(0);
+  kt_pwave.plot_isobar(0, "once_N");
 
   dalitz d_plot(&kt_pwave);
-  d_plot.plot("KSF normalized"); 
+  d_plot.plot("KSF normalized");
   d_plot.plot("normalized");
 
   cout << "-----------------------------------------------------------" << endl;
-
   cout << "Extracting Dalitz Plot Parameters..." << endl;
   cout << endl;
 

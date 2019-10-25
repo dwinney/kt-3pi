@@ -14,7 +14,7 @@
 
 // ----------------------------------------------------------------------------
 // Evaluate the dispersion integral.
-// spin = j, subtraction_ID = n
+// isobar index = j, subtraction_ID = n
 // Method used depends on use_conformal in kt_options
 complex<double> dispersion_integral::operator() (int j, int n, double s, int ieps)
 {
@@ -73,7 +73,8 @@ complex<double> dispersion_integral::disperse(int j, int n, double s, int ieps)
 // The regular (singularity-free) piece of the integrand
 complex<double> dispersion_integral::disp_function(int j, int n, double s, int ieps)
 {
-  complex<double> result = inhomogeneity(j, n, s) / kinematics.barrier_factor(2*j+1, 1, s);
+  complex<double> result = inhomogeneity(j, n, s);
+  result /= kinematics.barrier_factor(2*j+1, 1, s);
   result *= sin(previous->isobars[j].extrap_phase(s));
   result /= std::abs(previous->isobars[j].omega(s, ieps));
 
@@ -138,7 +139,7 @@ complex<double> dispersion_integral::std_integrate(int j, int n, double s, int i
   complex<double> sum = 0.;
   for (int i = 1; i < N_integ + 1; i++)
   {
-    complex<double> temp = disp_function(j, n, x[i], ieps) * pow(s * xr / x[i], options.max_subs);
+    complex<double> temp = disp_function(j, n, x[i], ieps) * pow(s * xr / x[i], previous->isobars[j].n_subs);
     temp -= disp_function(j, n, s, ieps);
     temp *= s / x[i];
     temp /= (x[i] - s - double(ieps) * xi * EPS);
@@ -173,7 +174,7 @@ complex<double> dispersion_integral::std_integrate_inf(int j, int n, double s, i
   {
     double sp = low + tan(M_PI * x[i] / 2.);
 
-    complex<double> temp = disp_function(j, n, sp, ieps) * pow(s * xr/sp, options.max_subs);
+    complex<double> temp = disp_function(j, n, sp, ieps) * pow(xr *(s/sp), previous->isobars[j].n_subs);
     temp -= disp_function(j, n, s, ieps); // subtract away the pole at s = x[i];
     temp *= s / sp;
     temp /=  (sp - s - double(ieps) * xi * EPS);
@@ -195,38 +196,38 @@ complex<double> dispersion_integral::std_sp_log_inf(int j, int n, double s, int 
  return result * log_term / M_PI;
 };
 
-// // ----------------------------------------------------------------------------
-// // Calculate the sum_rule value of the second subtraction coefficient
-// complex<double> dispersion_integral::sum_rule(iteration * prev)
-// {
-//   pass_iteration(prev);
-//
-//   double x[N_integ + 1], w[N_integ + 1];
-//   gauleg(sthPi + EPS, a - interval, x, w, N_integ);
-//   complex<double> sum_1 = 0.;
-//   for (int i = 1; i < N_integ + 1; i++)
-//   {
-//     complex<double> temp = disp_function(0, x[i], +1) / (x[i] * x[i]);
-//     sum_1 += w[i] * temp;
-//   }
-//
-//   double w2[N_integ + 1], x2[N_integ + 1];
-//   gauleg(0., 1., x2, w2, N_integ);
-//
-//   complex<double> sum_2 = 0.;
-//   for (int i = 1; i < N_integ + 1; i++)
-//   {
-//     double sp = a + interval + tan(M_PI * x2[i] / 2.);
-//
-//     complex<double> temp = disp_function(0, sp, 1);
-//     temp /= sp * sp;
-//
-//     temp *=  (M_PI / 2.) / pow(cos(M_PI * x2[i] / 2.), 2.); // jacobian
-//     sum_2 += w2[i] * temp;
-//   }
-//
-//   return (sum_1 + sum_2) / M_PI;
-// };
+// ----------------------------------------------------------------------------
+// Calculate the sum_rule value of the second subtraction coefficient
+complex<double> dispersion_integral::sum_rule(iteration * prev)
+{
+  pass_iteration(prev);
+
+    double x[N_integ + 1], w[N_integ + 1];
+    gauleg(sthPi + EPS, a - interval, x, w, N_integ);
+    complex<double> sum_1 = 0.;
+    for (int i = 1; i < N_integ + 1; i++)
+    {
+      complex<double> temp = disp_function(0, 0, x[i], +1);
+      temp /= (x[i] * x[i]);
+      sum_1 += w[i] * temp;
+    }
+
+    double w2[N_integ + 1], x2[N_integ + 1];
+    gauleg(0., 1., x2, w2, N_integ);
+
+    complex<double> sum_2 = 0.;
+    for (int i = 1; i < N_integ + 1; i++)
+    {
+      double sp = a + interval + tan(M_PI * x2[i] / 2.);
+
+      complex<double> temp = disp_function(0, 0, sp, 1);
+      temp /= sp * sp;
+      temp *=  (M_PI / 2.) / pow(cos(M_PI * x2[i] / 2.), 2.); // jacobian
+      sum_2 += w2[i] * temp;
+    }
+
+    return (sum_1 + sum_2) / M_PI;
+};
 
 //----------------------------------------------------------------------------
 // UTILITY FUNCTIONS

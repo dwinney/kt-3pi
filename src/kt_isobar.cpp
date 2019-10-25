@@ -71,29 +71,6 @@ void isobar::zeroth()
   }
 };
 
-// // ----------------------------------------------------------------------------
-// // Set second subtraction coefficient to its sum rule values
-// void isobar::sum_rule()
-// {
-//   //check there is two Subtractions
-//   if (iters.back().subtractions.size() != 2)
-//   {
-//     cout << "isobar: need two subtractions to calcualte sum rule values. Quitting... \n";
-//     exit(1);
-//   }
-//
-//   cout << "Calculating sum rule value for subtraction constant..." << endl;
-//
-//   complex<double> b = kt.disp.sum_rule(&iters.back());
-//   if (coefficients.size() != 0)
-//   {
-//     coefficients.clear();
-//   };
-//   coefficients.push_back(b);
-//
-//   cout << "Sum rule constant = " << abs(b) <<  " exp(" << arg(b) << "*I)" << endl;
-// };
-
 // ----------------------------------------------------------------------------
 // Evaluate the isobar partial wave at some energy s
 // Sums subtractions with their coefficients
@@ -106,7 +83,7 @@ complex<double> isobar::eval_isobar(double s)
     // the "Zeroth" subtraction constant is constrained by the overall Normalization
     // and thus we treat this one seperately
     result += subtractions[0].interp_above(s);
-
+    
     // then sum over fundamental solutions for each subtraction order and multiply by coefficient
     for (int i = 1; i <= options.max_subs; i++)
     {
@@ -167,6 +144,9 @@ void isobar::print_params()
 
     if (options.use_conformal == false)
     {
+      cout << std::left << std::setw(20) << varname + ":";
+      cout << std::setw(20) << coefficients[i] << "\n";
+
       cout << std::left << std::setw(20) << "mod " + varname + ":";
       cout << std::setw(20) << abs(coefficients[i]) << "\n";
 

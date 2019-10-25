@@ -106,8 +106,6 @@ public:
   void set_params(vector<double> par);
   void print_params();
 
-  void sum_rule();
-
   // Evaluate the isobar in one channel or the total amplitude
   complex<double> eval_isobar(double s);
 };

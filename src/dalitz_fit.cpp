@@ -67,8 +67,9 @@ void dalitz_fit::extract_params(int eN)
   n_params = eN;
   ROOT::Math::Functor fcn(this, &dalitz_fit::chi_squared, n_params);
   minuit->SetFunction(fcn);
-  cout << "dalitz_fit: Fitting";
 
+  cout << endl;
+  cout << "Starting fit";
   if (dalitz::amp->kinematics.get_ampName() != "")
   {
     cout << " " + dalitz::amp->kinematics.get_ampName();
@@ -78,7 +79,7 @@ void dalitz_fit::extract_params(int eN)
   for (int a = 0; a < n_params ; a++)
   {
     string var_name = "par[" + std::to_string(a) + "]";
-    minuit->SetVariable(a, var_name.c_str(), 100., 0.1);
+    minuit->SetVariable(a, var_name.c_str(), 100., 0.01);
   }
 
   minuit->Minimize();
@@ -98,6 +99,7 @@ void dalitz_fit::extract_params(int eN)
 void dalitz_fit::plot_deviation()
 {
   // Command Line Message
+  cout << endl;
   cout << "Plotting fit results with " << n_params << " free parameters... \n";
 
   std::string filename = dalitz::amp->kinematics.get_decayParticle();

@@ -49,7 +49,7 @@ class dispersion_integral
 
     // Integrate around the singularity at a
     const int N_integ = 30;
-    double interval = 0.0007; // Interval on either side of a to integrate
+    double interval = 0.005; // Interval on either side of a to integrate
 
     // Integration functions for the conformal scheme
     complex<double> con_integrate(int j, int n, double s, int ieps, double low, double high); // integrate dispersion kernel from low to high
@@ -80,7 +80,7 @@ class dispersion_integral
 
     void pass_iteration(iteration * prev);
 
-    // complex<double> sum_rule(iteration * prev);
+    complex<double> sum_rule(iteration * prev);
   };
 
 #endif

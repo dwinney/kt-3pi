@@ -35,7 +35,8 @@
 class kt_equations
 {
 private:
-  friend class isobar;
+  // friend class isobar;
+  friend class kt_amplitude;
 
   // This object holds all the relevant kinematic quantities such as masses and QN's
   decay_kinematics kinematics;

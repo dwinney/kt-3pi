@@ -33,9 +33,8 @@ struct kt_options
   int N_disp = 30;
 
   bool use_conformal = false; // Whether to use conformal mapping (if TRUE) or standard evaluation (FALSE)
-  bool test_angular = false; // Stops the evaluation of the KT equations after calculating the inhomogeneities and printing them to file
 
-  // Cut off energy up to which to save interpolations. 
+  // Cut off energy up to which to save interpolations.
   double interp_cutoff = 1.;
 
   // subtractions

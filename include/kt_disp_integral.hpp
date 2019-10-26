@@ -32,6 +32,8 @@
 class dispersion_integral
   {
   protected:
+    friend class kt_amplitude;
+
     decay_kinematics kinematics;
     kt_options options;
 
@@ -48,7 +50,7 @@ class dispersion_integral
     complex<double> disp_function(int j, int n, double s, int ieps);
 
     // Integrate around the singularity at a
-    const int N_integ = options.N_disp;
+    const int N_integ;
     double interval = 0.005; // Interval on either side of a to integrate
 
     // Integration functions for the conformal scheme
@@ -70,7 +72,8 @@ class dispersion_integral
   public:
     // Default constructor
     dispersion_integral(kt_options ops, decay_kinematics dec)
-      : options(ops), inhomogeneity(ops, dec), kinematics(dec)
+      : options(ops), inhomogeneity(ops, dec), kinematics(dec),
+      N_integ(ops.N_disp)
     {};
 
     complex<double> operator() (int j, int n, double s, int ieps);
@@ -78,9 +81,6 @@ class dispersion_integral
     void pass_iteration(iteration * prev);
 
     complex<double> sum_rule(iteration * prev);
-    
-    // utility to print a dat file and plot of the inhomogneity
-    void plot_inhomogeneity(int j, int n);
   };
 
 #endif

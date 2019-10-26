@@ -29,13 +29,15 @@ int main()
   options.max_iters = 1;
   options.use_conformal = false;
   options.add_subtraction(1, 1, 1, 1);
+  // options.test_angular = true;
 
   kt_amplitude kt_pwave(options, vector_meson);
-  kt_pwave.iterate();
-  kt_pwave.sum_rule();
-
-  kt_pwave.plot_isobar(0);
-  kt_pwave.plot_fundamentalSolutions(0);
+  kt_pwave.plot_inhomogeneity(0, 1);
+  // kt_pwave.iterate();
+  // kt_pwave.sum_rule();
+  //
+  // kt_pwave.plot_isobar(0);
+  // kt_pwave.plot_fundamentalSolutions(0);
 
   // // Start with the BESIII results
   // double pfit_1[2] = {1., 132.1};

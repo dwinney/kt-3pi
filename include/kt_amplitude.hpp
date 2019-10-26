@@ -66,6 +66,7 @@ complex<double> eval(double s, double t);
 
 
 // Printing to file
+void plot_inhomogeneity(int j, int n);
 void plot_fundamentalSolutions(int j);
 void plot_isobar(int n, string file = "");
 

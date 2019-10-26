@@ -400,3 +400,43 @@ void kt_amplitude::plot_isobar(int n, string name)
   // Plot with ROOT
   quick_plot(s, fx, name);
 };
+
+// ----------------------------------------------------------------------------
+// Print the inhomogeneity
+void kt_amplitude::plot_inhomogeneity(int j, int n)
+{
+  // Check if omnes functions are saved
+  if (iters.size() == 0){start();}
+
+  dispersion_integral * dispersion = &kt.disp;
+  dispersion->pass_iteration(&iters.back());
+
+  cout << endl;
+  cout << "Printing inhomogeneity..." << endl;
+
+  string name = kinematics.get_decayParticle() + "_";
+  name += "inhomogeneity_" + std::to_string(j) + "_" + std::to_string(n);
+  string namedat = name + ".dat";
+
+  std::ofstream output;
+  output.open(namedat.c_str());
+
+  vector<double> s;
+  vector<complex<double>> fx;
+  for (int i = 0; i < 60; i++)
+  {
+    double s_i = (sthPi + EPS) + double(i) * (options.interp_cutoff - sthPi - EPS) / 60.;
+    complex<double> fx_i = dispersion->inhomogeneity(j, n, s_i);
+
+    s.push_back(s_i);
+    fx.push_back(fx_i);
+
+    output << std::left << setw(15) << s_i;
+    output << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+  }
+  output.close();
+
+  cout << "Output to: " << namedat << endl;
+
+  quick_plot(s, fx, name);
+};

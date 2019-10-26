@@ -45,7 +45,7 @@ private:
 
   iteration * previous; // Pointer to current iteration
 
-  int N_integ = options.N_ang;
+  const int N_angular;
 
   decay_kinematics kinematics;
   kt_options options;
@@ -79,7 +79,8 @@ protected:
 public:
   // Default constructor
    angular_integral(kt_options ops, decay_kinematics dec)
-  : options(ops), kinematics(dec), sub_poly(ops.use_conformal)
+  : options(ops), kinematics(dec), sub_poly(ops.use_conformal),
+    N_angular(ops.N_ang)
    {};
 
   // Evaluate the inhomogenous contribution at a given energy

@@ -45,7 +45,7 @@ private:
 
   iteration * previous; // Pointer to current iteration
 
-  int N_integ = 20;
+  int N_integ = options.N_ang;
 
   decay_kinematics kinematics;
   kt_options options;

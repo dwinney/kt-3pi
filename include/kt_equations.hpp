@@ -50,7 +50,7 @@ private:
   subtraction_polynomial poly;
 
   // In interpolalations exclude an interval around the pseudo_threshold
-  double exc = 0.055;
+  double exc = 0.05;
   isobar iterate_isobar(iteration * prev, int j);
 
 public:

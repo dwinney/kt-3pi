@@ -21,15 +21,21 @@ struct kt_options
     use_conformal(old.use_conformal),
     test_angular(old.test_angular),
     interp_cutoff(old.interp_cutoff),
+    N_ang(old.N_ang), N_disp(old.N_disp),
     subIDs(old.subIDs)
   {};
 
   int max_iters = 0; // Number of total iterations of KT equations
   int max_spin = 0; // Maximal spin projection in sum (not currently implemented)
 
+  // Number of integration points for angular and dispersion integrals respectively
+  int N_ang = 30;
+  int N_disp = 30;
+
   bool use_conformal = false; // Whether to use conformal mapping (if TRUE) or standard evaluation (FALSE)
   bool test_angular = false; // Stops the evaluation of the KT equations after calculating the inhomogeneities and printing them to file
 
+  // Cut off energy up to which to save interpolations. 
   double interp_cutoff = 1.;
 
   // subtractions

@@ -234,7 +234,8 @@ complex<double> angular_integral::operator () (int j, int n, double s)
     integ = integ_b(j, n, s);
   }
 
-  else  {
+  else
+  {
     cout << "AAAAA wtf hella error" << endl;
     exit(1);
   }
@@ -247,6 +248,5 @@ complex<double> angular_integral::operator () (int j, int n, double s)
 void angular_integral::pass_iteration(iteration * prev)
 {
     previous = NULL; //reset the pointer for posterity
-
     previous = prev;
 };

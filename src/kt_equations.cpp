@@ -13,6 +13,7 @@
 iteration kt_equations::iterate(iteration * prev)
 {
   vector<isobar> isobars;
+
   // sum over spins
   for (int i = 0; 2*i+1 <= options.max_spin; i++)
   {

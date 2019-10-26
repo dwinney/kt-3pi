@@ -25,17 +25,6 @@ complex<double> dispersion_integral::operator() (int j, int n, double s, int iep
     exit(1);
   }
 
-  // if testing the angular_integral print file
-  if (options.test_angular == true)
-  {
-    cout << " -> test_angular enabled." << endl;
-    for (int i = 0; 2*i+1 <= options.max_spin; i++)
-    {
-      plot_inhomogeneity(i, n);
-    }
-    exit(1);
-  }
-
   return disperse(j, n, s, ieps);
 };
 
@@ -242,37 +231,37 @@ void dispersion_integral::pass_iteration(iteration * prev)
     inhomogeneity.pass_iteration(prev);
 };
 
-// ----------------------------------------------------------------------------
-// Print the inhomogeneity
-void dispersion_integral::plot_inhomogeneity(int j, int n)
-{
-  cout << endl;
-  cout << "Printing inhomogeneity..." << endl;
-
-  // Output to a datfile
-  std::ofstream output;
-  string namedat = kinematics.get_decayParticle() + "_";
-  namedat += "spin_" + std::to_string(2*j+1) + "_inhomogeneity.dat";
-  output.open(namedat.c_str());
-
-  vector<double> s;
-  vector<complex<double>> fx;
-  for (int i = 0; i < 60; i++)
-  {
-    double s_i = (sthPi + EPS) + double(i) * (options.interp_cutoff - sthPi - EPS) / 60.;
-    complex<double> fx_i = inhomogeneity(j, n, s_i);
-
-    s.push_back(s_i);
-    fx.push_back(fx_i);
-
-    output << std::left << setw(15) << s_i;
-    output << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
-  }
-  output.close();
-
-  cout << "Output to: " << namedat << endl;
-
-  string namepdf = "spin_" + std::to_string(2*j+1) + "_inhomogeneity";
-
-  quick_plot(s, fx, namepdf);
-};
+// // ----------------------------------------------------------------------------
+// // Print the inhomogeneity
+// void dispersion_integral::plot_inhomogeneity(int j, int n)
+// {
+//   cout << endl;
+//   cout << "Printing inhomogeneity..." << endl;
+//
+//   // Output to a datfile
+//   std::ofstream output;
+//   string name = kinematics.get_decayParticle() + "_";
+//   name += "inhomogeneity_" + std::to_string(j) + "_" + std::to_string(n);
+//
+//   string namedat = name + ".dat";
+//   output.open(namedat.c_str());
+//
+//   vector<double> s;
+//   vector<complex<double>> fx;
+//   for (int i = 0; i < 60; i++)
+//   {
+//     double s_i = (sthPi + EPS) + double(i) * (options.interp_cutoff - sthPi - EPS) / 60.;
+//     complex<double> fx_i = inhomogeneity(j, n, s_i);
+//
+//     s.push_back(s_i);
+//     fx.push_back(fx_i);
+//
+//     output << std::left << setw(15) << s_i;
+//     output << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
+//   }
+//   output.close();
+//
+//   cout << "Output to: " << namedat << endl;
+//
+//   quick_plot(s, fx, name);
+// };

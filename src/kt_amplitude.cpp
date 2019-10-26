@@ -112,6 +112,7 @@ void kt_amplitude::iterate()
   // Iterate up to specified max_iters in the options class
   for (int i = 0; i < options.max_iters; i++)
   {
+    cout << endl;
     cout << "Calculating iteration (" << i + 1 << "/" << options.max_iters << ")... " << endl;
 
     // Pass a pointer of the previous iteration to the kt_equations

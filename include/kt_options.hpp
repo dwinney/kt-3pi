@@ -19,7 +19,6 @@ struct kt_options
   : max_subs(old.max_subs), max_spin(old.max_spin),
     max_iters(old.max_iters),
     use_conformal(old.use_conformal),
-    test_angular(old.test_angular),
     interp_cutoff(old.interp_cutoff),
     N_ang(old.N_ang), N_disp(old.N_disp),
     subIDs(old.subIDs)

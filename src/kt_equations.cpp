@@ -37,7 +37,7 @@ iteration kt_equations::iterate(iteration * prev)
 isobar kt_equations::iterate_isobar(iteration * prev, int bar_index)
 {
   // Dont forget to pass the pointer to the dispersion intergral!!
-  disp.pass_iteration(prev);
+  dispersion.pass_iteration(prev);
 
   // each isobar has n subtractions that need to be solved for independently
   // here lambda = 1 and I = 1 are fixed
@@ -64,12 +64,12 @@ isobar kt_equations::iterate_isobar(iteration * prev, int bar_index)
         s.push_back(s_i);
 
         // above unitarity cut (ieps = +1)
-        complex<double> ab = poly(sub_index, s_i, +1) + disp(bar_index, sub_index, s_i, +1);
+        complex<double> ab = polynomial(sub_index, s_i, +1) + dispersion(bar_index, sub_index, s_i, +1);
         ab *= prev->isobars[bar_index].omega(s_i, +1);
         above.push_back(ab);
 
         // below unitarity cut (ieps = -1)
-        complex<double> be = poly(sub_index, s_i, -1) + disp(bar_index, sub_index, s_i, -1);
+        complex<double> be = polynomial(sub_index, s_i, -1) + dispersion(bar_index, sub_index, s_i, -1);
         be *= prev->isobars[bar_index].omega(s_i, -1);
         below.push_back(be);
       }
@@ -80,11 +80,11 @@ isobar kt_equations::iterate_isobar(iteration * prev, int bar_index)
         double s_i = (a + exc) + double(i) * (options.interp_cutoff - (a + exc)) / double(interpolation::N_interp - num - 1);
         s.push_back(s_i);
 
-        complex<double> ab = poly(sub_index, s_i, +1) + disp(bar_index, sub_index, s_i, +1);
+        complex<double> ab = polynomial(sub_index, s_i, +1) + dispersion(bar_index, sub_index, s_i, +1);
         ab *= prev->isobars[bar_index].omega(s_i, +1);
         above.push_back(ab);
 
-        complex<double> be = poly(sub_index, s_i, -1) + disp(bar_index, sub_index, s_i, -1);
+        complex<double> be = polynomial(sub_index, s_i, -1) + dispersion(bar_index, sub_index, s_i, -1);
         be = prev->isobars[bar_index].omega(s_i, -1);
         below.push_back(be);
       }

@@ -1,8 +1,6 @@
 // These are methods for evaluating the KT angular (t) integral (i.e. the angular projection of cross subchannel
 // isobars). This is seperated to allow the possibility of testing different methods of evaluating dispersion (s) integral.
 //
-// Dependencies: kt_iteration.hpp, decay_kinematics.hpp, aux_math.hpp, omnes.hpp
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
@@ -97,7 +95,8 @@ complex<double> angular_integral::integ_sthPi_a0(int j, int n, double s)
     {
       for (int i = 1; i < N_angular + 1; i++)
       {
-        complex<double> temp = kernel(2*j+1, 1, 2*jp+1, 1, s, x[i]) * previous->isobars[jp].subtractions[n].interp_above(x[i]);
+        complex<double> temp = previous->isobars[jp].subtractions[n].interp_above(x[i]);
+        temp *= kernel(2*j+1, 1, 2*jp+1, 1, s, x[i]);
         sum += w[i] * temp;
       }
     }
@@ -124,7 +123,8 @@ complex<double> angular_integral::integ_a0_a(int j, int n, double s)
 
       for(int i = 1; i < N_angular + 1; i++)
       {
-        complex<double> tempM = kernel(2*j+1, 1, 2*jp+1, 1, s, xM[i]) * previous->isobars[jp].subtractions[n].interp_below(xM[i]);
+        complex<double> tempM = previous->isobars[jp].subtractions[n].interp_below(xM[i]);
+        tempM *= kernel(2*j+1, 1, 2*jp+1, 1, s, xM[i]);
         sumM += wM[i] * tempM;
       }
     }
@@ -136,7 +136,8 @@ complex<double> angular_integral::integ_a0_a(int j, int n, double s)
 
       for(int i = 1; i < N_angular + 1; i++)
       {
-        complex<double> tempP = kernel(2*j+1, 1, 2*jp+1, 1, s, xP[i]) * previous->isobars[jp].subtractions[n].interp_above(xP[i]);
+        complex<double> tempP = previous->isobars[jp].subtractions[n].interp_above(xP[i]);
+        tempP *= kernel(2*j+1, 1, 2*jp+1, 1, s, xP[i]);
         sumP += wP[i] * tempP;
       }
     }
@@ -165,9 +166,10 @@ complex<double> angular_integral::integ_a_b(int j, int n, double s)
     for(int i = 1; i < N_angular + 1; i++)
     {
       complex<double> z1_i = (1. - x[i]) * t_minus(s) + x[i] * (2. * t_minus(b));
-      complex<double> tempM = kernel(2*j+1, 1, 2*jp+1, 1, s, z1_i) * previous->isobars[jp].omega(z1_i, 0) * sub_poly(n, z1_i, 0);
+      complex<double> tempM = previous->isobars[jp].omega(z1_i, 0) * sub_poly(n, z1_i, 0);
+      tempM *= kernel(2*j+1, 1, 2*jp+1, 1, s, z1_i);
 
-      tempM *= 2. * t_minus(b) - t_minus(s); // Jacobian
+      tempM *= (2. * t_minus(b) - t_minus(s)); // Jacobian
       sumM +=  w[i] * tempM;
     }
 
@@ -175,9 +177,10 @@ complex<double> angular_integral::integ_a_b(int j, int n, double s)
     for(int i = 1; i < N_angular + 1; i++)
     {
       complex<double> z2_i = (1. - x[i]) *  (2. * t_plus(b)) + x[i] * t_plus(s);
-      complex<double> tempP = kernel(2*j+1, 1, 2*jp+1, 1, s, z2_i) * previous->isobars[jp].omega(z2_i, 0) * sub_poly(n, z2_i, 0);
+      complex<double> tempP = previous->isobars[jp].omega(z2_i, 0) * sub_poly(n, z2_i, 0);
+      tempP *= kernel(2*j+1, 1, 2*jp+1, 1, s, z2_i);
 
-      tempP *= t_plus(s) - 2. * t_plus(b);
+      tempP *= (t_plus(s) - 2. * t_plus(b));
       sumP +=  w[i] * tempP;
     }
   }
@@ -203,7 +206,8 @@ complex<double> angular_integral::integ_b(int j, int n, double s)
   {
     for (int i = 1; i < N_angular + 1; i++)
     {
-      complex<double> temp = kernel(2*j+1, 1, 2*jp+1, 1, s, x[i]) * previous->isobars[jp].omega(x[i], 0) * sub_poly(n, x[i], 0);
+      complex<double> temp = previous->isobars[jp].omega(x[i], 0) * sub_poly(n, x[i], 0);
+      temp *= kernel(2*j+1, 1, 2*jp+1, 1, s, x[i]);
       sum += w[i] * temp;
     }
   }

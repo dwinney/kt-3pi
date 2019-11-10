@@ -20,7 +20,7 @@ const double conv = (M_PI / 180.);
 const double EPS = 1.e-6;
 
 //Masses
-const double mPi = 0.1396;
+const double mPi = 0.13957061;
 const double mK = 0.496;
 const double mEta = 0.54753;
 
@@ -35,5 +35,6 @@ const double sthEta = 4.*mEta*mEta;
 //Unit imaginary and real
 const complex<double> xr(1., 0.);
 const complex<double> xi(0., 1.);
+const complex<double> ieps(0., EPS);
 
 #endif

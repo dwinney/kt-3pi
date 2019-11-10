@@ -2,9 +2,6 @@
 // This is seperated from the angular integral, and the total KT equations which combine everything
 // because of the delicate nature of handleing the singularities in the integrand near pseudo threshold.
 //
-// Dependencies: kt_iteration.hpp, decay_kinematics.hpp, aux_math.hpp, omnes.hpp
-//               angular_integral.hpp
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu
@@ -36,8 +33,6 @@ class dispersion_integral
 
     decay_kinematics kinematics;
     kt_options options;
-
-    // const double LamOmnes = previous->omega.LamOmnes; // Conformal dispersion cutoff
 
     angular_integral inhomogeneity;
     const double LamOmnes = 1.;

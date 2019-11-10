@@ -19,21 +19,21 @@ int main()
   // Set up the decay kinematics for the amplitude
   decay_kinematics vector_meson;
   vector_meson.set_decayJPC(1, -1, -1);
-  vector_meson.set_decayMass(.780);
+  vector_meson.set_decayMass(1.02);
   vector_meson.set_decayIsospin(0);
-  vector_meson.set_decayParticle("omega");
+  vector_meson.set_decayParticle("phi");
 
   // Options parameters for the KT euqations
   kt_options options;
   options.max_spin = 1;
-  options.max_iters = 3;
+  options.max_iters = 1;
   options.use_conformal = false;
   options.add_subtraction(1, 1, 1, 1);
 
   kt_amplitude kt_pwave(options, vector_meson);
   kt_pwave.iterate();
   kt_pwave.plot_inhomogeneity(0, 1);
-  // kt_pwave.sum_rule();
+  kt_pwave.sum_rule();
   //
   // kt_pwave.plot_isobar(0);
   // kt_pwave.plot_fundamentalSolutions(0);

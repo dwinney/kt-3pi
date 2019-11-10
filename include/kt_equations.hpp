@@ -46,18 +46,20 @@ private:
   kt_options options;
 
   // A method for evaluating the unitarity correction, i.e. the dispersion integral over the discontinuity.
-  dispersion_integral disp;
-  subtraction_polynomial poly;
+  dispersion_integral dispersion;
+  subtraction_polynomial polynomial;
 
   // In interpolalations exclude an interval around the pseudo_threshold
   double exc = 0.05;
-  isobar iterate_isobar(iteration * prev, int j);
+
+  // calculate the jth (isobar index not spin!)
+  isobar iterate_isobar(iteration * prev, int bar_index);
 
 public:
-  // TODO: KT equations depend on spin projection and helicity in general
   kt_equations(kt_options ops, decay_kinematics dec)
-  : kinematics(dec), options(ops), disp(ops, dec),
-    poly(options.use_conformal)
+  : kinematics(dec), options(ops),
+    dispersion(ops, dec),
+    polynomial(options.use_conformal)
   {};
 
   // Calculate the next iteration from the previous one

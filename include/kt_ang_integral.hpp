@@ -2,8 +2,6 @@
 // isobars).
 // This is seperated to allow the possibility of testing different methods of evaluating dispersion (s) integral.
 //
-// Dependencies: kt_iteration.hpp, decay_kinematics.hpp, aux_math.hpp, omnes.hpp
-//
 // Author:       Daniel Winney (2019)
 // Affiliation:  Joint Physics Analysis Center (JPAC)
 // Email:        dwinney@iu.edu

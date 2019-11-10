@@ -264,7 +264,7 @@ void kt_amplitude::sum_rule()
 
   cout << "Calculating sum rule value for subtraction constant..." << endl;
 
-  complex<double> b = kt.disp.sum_rule(&iters.back());
+  complex<double> b = kt.dispersion.sum_rule(&iters.back());
   cout << "Sum rule constant = " << abs(b) <<  " exp(" << arg(b) << "*I)" << endl;
 
   double bb[2] = {abs(b), arg(b)};
@@ -409,7 +409,7 @@ void kt_amplitude::plot_inhomogeneity(int j, int n)
   // Check if omnes functions are saved
   if (iters.size() == 0){start();}
 
-  dispersion_integral * dispersion = &kt.disp;
+  dispersion_integral * dispersion = &kt.dispersion;
   dispersion->pass_iteration(&iters.back());
 
   cout << endl;

@@ -69,12 +69,7 @@ void dalitz_fit::extract_params(int eN)
   minuit->SetFunction(fcn);
 
   cout << endl;
-  cout << "Starting fit";
-  if (dalitz::amp->kinematics.get_ampName() != "")
-  {
-    cout << " " + dalitz::amp->kinematics.get_ampName();
-  }
-   cout << " with " << n_params << " free parameters... \n";
+  cout << "Starting fit with " << n_params << " free parameters... \n";
 
   for (int a = 0; a < n_params ; a++)
   {

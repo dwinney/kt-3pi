@@ -13,7 +13,6 @@
 #include <complex>
 
 using std::complex;
-using std::abs;
 
 //-----------------------------------------------------------------------------
 const double conv = (M_PI / 180.);
@@ -35,6 +34,5 @@ const double sthEta = 4.*mEta*mEta;
 //Unit imaginary and real
 const complex<double> xr(1., 0.);
 const complex<double> xi(0., 1.);
-const complex<double> ieps(0., EPS);
 
 #endif

@@ -103,10 +103,6 @@ void breit_wigner::set_params(int n, const double * par)
 
 void breit_wigner::print_params()
 {
-  if (kinematics.get_ampName() != "")
-  {
-    cout << kinematics.get_ampName() + ":";
-  }
   cout << "Printing Breit-Wigner parameters... \n";
   cout << "---------------------------------------- \n";
   cout << std::left <<  setw(20) << "Mass:" << setw(20) << res_mass << "\n";

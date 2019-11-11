@@ -159,16 +159,12 @@ void dalitz::plot(string options)
   cout << "\n";
   cout << "Plotting ";
 
-  if (amp->kinematics.get_ampName() != "")
-  {
-    cout << "(" << amp->kinematics.get_ampName() << ")";
-  }
-  else
-  {
-    if (KSF == true) { cout << "KSF ";}
-    cout << "amplitude ";
-  }
+  if (KSF == true) { cout << "KSF ";}
+
+  cout << "amplitude ";
+
   if (NORMED == true) { cout << "normalized to center ";}
+  
   cout << "in Dalitz region... \n";
 
   // File name

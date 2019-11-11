@@ -52,12 +52,7 @@ public:
   breit_wigner(double mass, double width, decay_kinematics dec, const char * n = "")
     : res_mass(mass), res_width(width), amplitude(dec)
   {
-    dec.set_ampName(n);
     cout << endl;
-    if (dec.get_ampName() != "")
-        {
-      cout << dec.get_ampName()  + ": ";
-    }
     cout << "Breit-Wigner with M = " << mass << " and Gamma_0 = " << width << " created. \n";
   };
 

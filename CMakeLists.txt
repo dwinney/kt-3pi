@@ -58,8 +58,8 @@ endif()
 include_directories("include")
 include_directories("src")
 file(GLOB INC "include/*.hpp")
-file(GLOB SRC "src/*.cpp")
-add_library( KT3Pi ${INC} ${SRC} )
+file(GLOB_RECURSE SRC "src/*.cpp")
+add_library(KT3Pi ${INC} ${SRC} )
 
 # GRAB EXECUTABLES
 include_directories("executables")

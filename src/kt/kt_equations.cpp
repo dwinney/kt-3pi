@@ -5,7 +5,7 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "kt_equations.hpp"
+#include "kt/kt_equations.hpp"
 
 // ----------------------------------------------------------------------------
 // Take in a pointer to a previous iteration (because all previous isobars are required too get next one)

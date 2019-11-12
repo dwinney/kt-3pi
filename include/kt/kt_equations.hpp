@@ -21,7 +21,7 @@
 #include "kt_ang_integral.hpp"
 #include "kt_disp_integral.hpp"
 #include "utilities.hpp"
-#include "omnes.hpp"
+#include "pipi/omnes.hpp"
 
 // ---------------------------------------------------------------------------
 // Each isobar (i.e. each spin and isospin projected partial wave) will have its own

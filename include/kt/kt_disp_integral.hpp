@@ -13,7 +13,7 @@
 #include "kt_iteration.hpp"
 #include "kt_ang_integral.hpp"
 #include "decay_kinematics.hpp"
-#include "omnes.hpp"
+#include "pipi/omnes.hpp"
 
 // ---------------------------------------------------------------------------
 // Callable by operator() outputs the unitary correction to the omnes amplitude

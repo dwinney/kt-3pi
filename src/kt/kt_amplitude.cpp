@@ -5,7 +5,7 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "kt_amplitude.hpp"
+#include "kt/kt_amplitude.hpp"
 // ----------------------------------------------------------------------------
 // Display function for all the settings input from the stored kt_options
 void kt_amplitude::print_options()
@@ -327,11 +327,6 @@ void kt_amplitude::plot_fundamentalSolutions(int j)
     }
     name += "funSol_" + std::to_string(j) + "_" + std::to_string(m);
 
-    // Output to a datfile
-    std::ofstream output;
-    string namedat = name + ".dat";
-    output.open(namedat.c_str());
-
     vector<double> s;
     vector<complex<double>> fx;
     for (int i = 0; i < 60; i++)
@@ -341,14 +336,10 @@ void kt_amplitude::plot_fundamentalSolutions(int j)
 
       s.push_back(sqrt(s_i));
       fx.push_back(fx_i);
-
-      output << std::left << setw(15) << sqrt(s_i);
-      output << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
-      output << setw(15) << abs(fx_i) << endl;
     }
-    output.close();
 
     // Plot with ROOT
+    quick_print(s, fx, name);
     quick_plot(s, fx, name);
   }
 };
@@ -376,11 +367,6 @@ void kt_amplitude::plot_isobar(int n, string name)
   cout << endl;
   cout << "Plotting isobar with spin " << 2*n+1 << "...\n";
 
-  // Output to a datfile
-  std::ofstream output;
-  string namedat = name + ".dat";
-  output.open(namedat.c_str());
-
   vector<double> s;
   vector<complex<double>> fx;
   for (int i = 0; i < 60; i++)
@@ -390,15 +376,10 @@ void kt_amplitude::plot_isobar(int n, string name)
 
     s.push_back(sqrt(s_i));
     fx.push_back(fx_i);
-
-    output << std::left << setw(15) << sqrt(s_i) << setw(15) << real(fx_i) << setw(15) << imag(fx_i);
-    output << setw(15) << abs(fx_i) << endl;
   }
-  output.close();
-
-  cout << "Output to: " << namedat << "." << endl;
 
   // Plot with ROOT
+  quick_print(s, fx, name);
   quick_plot(s, fx, name);
 };
 
@@ -417,10 +398,6 @@ void kt_amplitude::plot_inhomogeneity(int j, int n)
 
   string name = kinematics.get_decayParticle() + "_";
   name += "inhomogeneity_" + std::to_string(j) + "_" + std::to_string(n);
-  string namedat = name + ".dat";
-
-  std::ofstream output;
-  output.open(namedat.c_str());
 
   vector<double> s;
   vector<complex<double>> fx;
@@ -431,13 +408,8 @@ void kt_amplitude::plot_inhomogeneity(int j, int n)
 
     s.push_back(s_i);
     fx.push_back(fx_i);
-
-    output << std::left << setw(15) << s_i;
-    output << setw(15) << real(fx_i) << setw(15) << imag(fx_i) << endl;
   }
-  output.close();
 
-  cout << "Output to: " << namedat << endl;
-
+  quick_print(s, fx, name);
   quick_plot(s, fx, name);
 };

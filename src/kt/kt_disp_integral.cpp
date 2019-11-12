@@ -10,7 +10,7 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "kt_disp_integral.hpp"
+#include "kt/kt_disp_integral.hpp"
 
 // ----------------------------------------------------------------------------
 // Evaluate the dispersion integral.

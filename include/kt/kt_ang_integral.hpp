@@ -14,7 +14,7 @@
 #include "kt_options.hpp"
 #include "kt_iteration.hpp"
 #include "decay_kinematics.hpp"
-#include "omnes.hpp"
+#include "pipi/omnes.hpp"
 
 #include <TCanvas.h>
 #include <TGraph.h>

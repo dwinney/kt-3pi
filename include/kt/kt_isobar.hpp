@@ -22,7 +22,7 @@
 #include "kt_options.hpp"
 #include "kt_sub_polynomial.hpp"
 #include "decay_kinematics.hpp"
-#include "omnes.hpp"
+#include "pipi/omnes.hpp"
 
 //-----------------------------------------------------------------------------
 // The subtraction object contains an interpolation of the current iteration of the

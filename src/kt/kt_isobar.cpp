@@ -7,7 +7,7 @@
 // Email:        dwinney@iu.edu
 // ---------------------------------------------------------------------------
 
-#include "kt_isobar.hpp"
+#include "kt/kt_isobar.hpp"
 
 // ----------------------------------------------------------------------------
   // Check how many subtractions this isobar has as specified in kt_options
@@ -83,7 +83,7 @@ complex<double> isobar::eval_isobar(double s)
     // the "Zeroth" subtraction constant is constrained by the overall Normalization
     // and thus we treat this one seperately
     result += subtractions[0].interp_above(s);
-    
+
     // then sum over fundamental solutions for each subtraction order and multiply by coefficient
     for (int i = 1; i <= options.max_subs; i++)
     {

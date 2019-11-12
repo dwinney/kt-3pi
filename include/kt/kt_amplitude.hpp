@@ -31,14 +31,15 @@ private:
 // The maximum number of iterations of the KT integral and the maximal spin_projection
 kt_options options;
 kt_equations kt;
-void print_options(); // print command line summary of all options recieved
+
+ // print command line summary of all options recieved
+void print_options();
 
 double normalization = 1.; // overall normalization
 
 // initialize with bare omnes solutions
 void start();
 
-//-----------------------------------------------------------------------------
 public:
 // Constructor
 kt_amplitude(kt_options ops,  decay_kinematics kine)
@@ -55,15 +56,18 @@ void iterate();
 
 // Normalize to some experimental value
 void normalize(double gamma_exp);
-
-// Set and print subtraction coeffs for fitting
-void set_params(int n, const double *par);
 void print_params();
 void sum_rule();
 
+//-----------------------------------------------------------------------------
+// amplitude.cpp function overrides
+
+// Set and print subtraction coeffs for fitting
+void set_params(int n, const double *par);
+
 // Evaluate the total amplitude at some energys s and t
 complex<double> eval(double s, double t);
-
+//-----------------------------------------------------------------------------
 
 // Printing to file
 void plot_inhomogeneity(int j, int n);

@@ -211,3 +211,33 @@ void quick_dplot(string file, bool DEV)
   delete c;
   delete g;
 }
+
+//-----------------------------------------------------------------------------
+// Print a complex function to a .dat file
+void quick_print(vector<double> s, vector<complex<double>> fx, string file)
+{
+  if (s.size() != fx.size())
+  {
+    cout << "ERROR: quick_print input vectors not of the same size" << std::endl;
+    return;
+  }
+
+  string namedat = file + ".dat";
+  std::ofstream output;
+  output.open(namedat.c_str());
+
+  for (int i = 0; i < s.size(); i++)
+  {
+    double s_i = s[i];
+    complex<double> fx_i = fx[i];
+
+    output << std::left;
+    output << std::setw(15) << s_i;
+    output << std::setw(15) << real(fx_i);
+    output << std::setw(15) << imag(fx_i);
+    output << std::setw(15) << abs(fx_i) << std::endl;
+  }
+  output.close();
+
+  cout << "Output to: " << namedat << std::endl;
+};

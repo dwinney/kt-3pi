@@ -13,6 +13,7 @@
 #include <iterator>
 #include <cmath>
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #include <Math/Interpolator.h>
@@ -52,6 +53,9 @@ void quick_plot(vector<double> s, vector<complex<double>> fx, string filename);
 // make a symmetric dalitz plot from a file
 // optional parameter is whether to plot using white color scheme to see % difference
 void quick_dplot(string file, bool DEV = false);
+
+// Print a complex function to a .dat file
+void quick_print(vector<double> s, vector<complex<double>> fx, string file);
 
 //-----------------------------------------------------------------------------
 // Wrapper class to better interface with ROOT's interpolation class
